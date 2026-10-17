@@ -1,5 +1,8 @@
 # Historique des versions
 
+## 17 octobre 2026 (11h35) — Carte de sortie neutre
+- La carte « Sortie en mer » n'est plus entièrement rouge quand c'est fermé : fond neutre, la couleur ne marque que l'état (Fermé / Ouvert, chrono, barre), pour ne pas la confondre avec la note des conditions de mer.
+
 ## 17 octobre 2026 (11h30) — Plages, décollage illustré, assurance, mot de passe
 ### Ajouté
 - **Mot de passe** à l'ouverture de l'app (demandé une fois par appareil). Seule l'empreinte SHA-256 est dans le code : c'est un verrou, pas une protection forte (site statique public).

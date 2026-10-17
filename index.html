@@ -203,7 +203,11 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   .tile .next b{font-weight:700;}
   .tile .count{font-size:1.6rem;font-weight:700;letter-spacing:-.03em;margin-top:2px;}
 
-  /* passage bassin Morny */
+  /* passage bassin Morny : fond neutre, la couleur ne marque que l'état (ouvert/fermé),
+     pour ne pas la confondre avec la note des conditions de mer */
+  .tile.pass,.tile.pass.good,.tile.pass.bad,.tile.pass.mid{background:var(--surface);}
+  .tile.pass::after{display:none;}
+  .tile.pass .part{background:var(--surface-2);}
   .parts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px;}
   .part{display:flex;flex-direction:column;gap:2px;background:color-mix(in srgb, var(--surface) 70%, transparent);border-radius:14px;padding:10px 12px;font-size:.92rem;line-height:1.35;}
   .part .pk{font-weight:600;font-size:.82rem;color:var(--ink-2);}
@@ -1495,7 +1499,7 @@ syncTab();
 // version.json est réécrit à chaque publication (tools/publier-version.sh). Si la
 // version en ligne diffère de celle de la page, on recharge : sur l'écran
 // d'accueil de l'iPhone, l'app reste ainsi à jour sans manipulation.
-const APP_VERSION = '20261017-112839';
+const APP_VERSION = '20261017-113320';
 async function checkUpdate(){
   try{
     const r = await fetch('version.json?t='+Date.now(), {cache:'no-store'});
