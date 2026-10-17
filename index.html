@@ -357,17 +357,17 @@
       <div class="chrono" id="pChrono" role="timer" aria-live="off">--:--</div>
       <div class="progress" aria-hidden="true"><i id="pProgress"></i></div>
       <div class="parts">
-        <div class="part"><span class="pk">Portes</span><span class="pv" id="pGates"></span></div>
+        <div class="part"><span class="pk">Portes du bassin Morny</span><span class="pv" id="pGates"></span></div>
         <div class="part"><span class="pk">Passerelle piétonne</span><span class="pv" id="pBridge"></span></div>
       </div>
       <div class="dayline" aria-hidden="true">
         <div class="dl-track" id="pDay"></div>
         <div class="dl-scale"><span>0h</span><span>6h</span><span>12h</span><span>18h</span><span>24h</span></div>
       </div>
-      <div class="dl-legend"><span class="free">Passage possible</span><span class="shut">Fermé</span></div>
+      <div class="dl-legend"><span class="free">Portes ouvertes</span><span class="shut">Portes fermées</span></div>
     </div>
     <div class="today">
-      <div class="today-title only-boat">Aujourd'hui · portes ouvertes et levées de la passerelle piétonne</div>
+      <div class="today-title only-boat">Aujourd'hui · ouverture des portes du bassin Morny</div>
       <div class="slots only-boat" id="todaySlots"></div>
       <div class="tides" id="todayTides"></div>
     </div>
@@ -482,7 +482,7 @@
       <button class="todaybtn" id="gotoToday">Aujourd'hui</button>
     </div>
     <div class="today" id="dayCard">
-      <div class="today-title only-boat">Portes ouvertes et levées de la passerelle piétonne</div>
+      <div class="today-title only-boat">Ouverture des portes du bassin Morny</div>
       <div class="slots only-boat" id="daySlots"></div>
       <div class="tides" id="dayTides"></div>
     </div>
@@ -656,23 +656,23 @@ function renderPassage(now, active, next){
   if(active && active.unknown){
     cls='mid'; state='Incertain'; label='Fermeture des portes au plus tard dans';
     gates='Ouverture absente du PDF<br>fermeture à '+at(active.e);
-    bridge='Inconnue<br>confirmer au VHF canal 9';
+    bridge='Levées à la demande<br>horaires non publiés · VHF 9';
     passTarget = active.e; passFrom = active.s;
   } else if(active){
-    cls='good'; state='Ouvert'; label='Dernière levée de la passerelle piétonne dans';
+    cls='good'; state='Ouvert'; label='Fermeture des portes dans';
     gates='Ouvertes<br>jusqu’à '+at(active.e);
-    bridge='Levées régulières<br>pour les bateaux · VHF 9';
+    bridge='Levées à la demande<br>horaires non publiés · VHF 9';
     passTarget = active.e; passFrom = active.s;
   } else if(next){
     const prev = [...epochIntervals].reverse().find(iv => iv.e<=now);
     const ndIdx = keyIndex[parisParts(next.s).key];
     const day = ndIdx===todayIdx ? '' : relDay(ndIdx,todayIdx)+' ';
-    cls='bad'; state='Fermé'; label='Première levée de la passerelle piétonne dans';
+    cls='bad'; state='Fermé'; label='Ouverture des portes dans';
     gates='Fermées<br>ouvrent '+day+'à '+at(next.s);
-    bridge='Baissée<br>1<sup>re</sup> levée '+day+'à '+at(next.s);
+    bridge='Levées à la demande<br>horaires non publiés · VHF 9';
     passTarget = next.s; passFrom = prev ? prev.e : null;
   } else {
-    cls='bad'; state='Fermé'; label=''; gates='Plus d’ouverture prévue en 2026'; bridge='Baissée';
+    cls='bad'; state='Fermé'; label=''; gates='Plus d’ouverture prévue en 2026'; bridge='Levées à la demande<br>horaires non publiés · VHF 9';
     passTarget = null; passFrom = null; $('pChrono').textContent = '—';
   }
   $('tilePass').className = 'tile pass only-boat '+cls;
@@ -1176,7 +1176,7 @@ syncTab();
 // version.json est réécrit à chaque publication (tools/publier-version.sh). Si la
 // version en ligne diffère de celle de la page, on recharge : sur l'écran
 // d'accueil de l'iPhone, l'app reste ainsi à jour sans manipulation.
-const APP_VERSION = '20261017-105844';
+const APP_VERSION = '20261017-110026';
 async function checkUpdate(){
   try{
     const r = await fetch('version.json?t='+Date.now(), {cache:'no-store'});
