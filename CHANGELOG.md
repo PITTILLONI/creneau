@@ -1,5 +1,11 @@
 # Historique des versions
 
+## 17 octobre 2026 (13h30) — Tutos kite illustrés et annotés
+- Retour au **style illustré**, rendu précis : 20 illustrations (Krea Nano Banana Pro et Krea 2) vérifiées une à une, avec des **annotations exactes superposées** : flèche de vent (ou « vent dans le dos »), bord d'attaque en orange, positions de l'aile (9 h / 12 h / 3 h) en vert, erreurs en rouge.
+- Étapes au sol vues de côté (mer à gauche, vent de gauche à droite), aile en l'air vue de derrière le rider.
+- Nouvelles illustrations : étaler, gonfler, connecter (dos vers le ciel, bord d'attaque face au vent), sécuriser, porter son aile, et les 6 étapes du water start.
+- Scripts : `tools/krea-generer.py` (génération via l'API Krea, jeton lu dans `~/.config/krea/token`, jamais dans le dépôt) et `tools/annotations-kite.py` (annotations et carrousels).
+
 ## 17 octobre 2026 (13h05) — Conseils bateau, menus homogènes
 - Mode Bateau : onglet **Conseils** avec sortir du bassin Morny (VHF 9, passerelle piétonne, portes), check-list avant de partir (dont l'heure de fermeture des portes pour rentrer), prendre un ris, réglages par allure, priorités en mer, homme à la mer et urgences.
 - Tous les menus dépliants (tutos, priorités, sécurité, règles locales, calcul des notes) ont le même style.

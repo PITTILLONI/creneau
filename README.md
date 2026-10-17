@@ -71,8 +71,9 @@ version.json            numéro de version en ligne, lu par la page pour se rech
 tools/
   extraire-horaires.mjs extraction du PDF officiel -> données JSON + contrôle des incohérences
   publier-version.sh    nouveau numéro de version avant chaque publication
-  schemas-kite.py       schémas SVG des tutos kite (vent, position de l'aile, rouge à gauche)
-tuto/                   deux illustrations Krea (gestes : pouce levé, main sur la tête)
+  krea-generer.py       génération des illustrations via l'API Krea (jeton dans ~/.config/krea/token)
+  annotations-kite.py   annotations précises (vent, bord d'attaque, positions) et carrousels
+tuto/                   illustrations des tutos kite (décollage, atterrissage, water start)
 docs/
   DESIGN.md             choix de design et d'ergonomie
   krea-prompts.md       prompts Krea des illustrations du tuto kite
