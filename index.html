@@ -236,7 +236,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   .dots button[aria-current="true"]{width:26px;background:var(--accent);}
   #conseils li{margin-bottom:6px;}
   #conseils li b{color:var(--ink);}
-  section{scroll-margin-top:calc(env(safe-area-inset-top) + 72px);margin-bottom:48px;}
+  section{scroll-margin-top:calc(env(safe-area-inset-top) + 116px);margin-bottom:48px;}
   a{color:inherit;}
   button{font:inherit;color:inherit;}
   :focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:6px;}
@@ -255,7 +255,15 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   .appname{flex:1;min-width:0;}
   .appname h1{font-size:1.15rem;line-height:1.15;font-weight:700;margin:0;letter-spacing:-.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
   .appname p{margin:0;font-size:.82rem;color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-  .appbar-in{display:flex;align-items:center;gap:12px;width:100%;max-width:720px;margin-inline:auto;}
+  .appbar-in{display:flex;flex-direction:column;gap:8px;width:100%;max-width:720px;margin-inline:auto;}
+  .appbar .seg{margin-bottom:0;}
+  .placebar{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:36px;}
+  .place{font-weight:700;font-size:1rem;letter-spacing:-.01em;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .place select{
+    border:0;background:transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239aa4b8' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") no-repeat right 0 center/16px;
+    color:var(--ink);font:inherit;font-weight:700;font-size:1rem;padding:6px 22px 6px 0;-webkit-appearance:none;appearance:none;cursor:pointer;max-width:100%;
+  }
+  .placebar .clock{padding:6px 12px;font-size:.92rem;}
   .clock{display:flex;align-items:center;gap:8px;background:var(--surface);border-radius:999px;padding:8px 14px;font-weight:700;font-size:1rem;flex:0 0 auto;}
   .appbar.scrolled .clock{background:var(--surface-2);}
   .live{position:relative;width:8px;height:8px;border-radius:50%;background:var(--good);}
@@ -519,33 +527,33 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   <p id="gateErr" role="alert"></p>
 </form>
 <header class="appbar" id="appbar"><div class="appbar-in">
-    <img class="appicon" src="icons/icon.svg" alt="" width="36" height="36">
-    <div class="appname">
-      <h1>Port de Deauville</h1>
-      <p id="appSub">Bassin Morny · marées · météo marine</p>
-    </div>
-    <div class="clock" aria-label="Heure de Paris"><span class="live" aria-hidden="true"></span><span id="clock">—</span></div>
-</div></header>
-<div class="wrap">
-
+  <h1 class="sr">Port de Deauville</h1>
   <div class="seg" role="group" aria-label="Profil">
     <span class="seg-ind" aria-hidden="true"></span>
     <button data-p="boat" aria-pressed="true">Bateau</button>
     <button data-p="kite" aria-pressed="false">Kitesurf</button>
   </div>
+  <div class="placebar">
+    <span class="place only-boat">Port de Deauville · bassin Morny</span>
+    <label class="place only-kite">
+      <span class="sr">Choisir la plage</span>
+      <select id="spotSel" aria-label="Choisir la plage">
+        <option value="deauville">Spot de Deauville</option>
+        <option value="trouville">Spot de Trouville-sur-Mer</option>
+        <option value="houlgate">Spot de Houlgate</option>
+        <option value="cabourg">Spot de Cabourg</option>
+      </select>
+    </label>
+    <div class="clock" aria-label="Heure de Paris"><span class="live" aria-hidden="true"></span><span id="clock">—</span></div>
+  </div>
+</div></header>
+<div class="wrap">
+
 
   <section id="maintenant" aria-labelledby="t-now">
     <h2 id="t-now" class="sr">Maintenant</h2>
     <div class="kite-now only-kite" id="kiteNow">
-      <label class="spot-pick">
-        <span class="what">Spot</span>
-        <select id="spotSel" aria-label="Choisir la plage">
-          <option value="deauville">Deauville</option>
-          <option value="trouville">Trouville-sur-Mer</option>
-          <option value="houlgate">Houlgate</option>
-          <option value="cabourg">Cabourg</option>
-        </select>
-      </label>
+      <div class="what">Maintenant</div>
       <div class="kn-main">
         <svg class="kn-arrow" id="knArrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l6 16-6-4-6 4z" fill="currentColor"/></svg>
         <span class="kn-speed" id="knSpeed">—</span><span class="kn-unit">nœuds</span>
@@ -1582,7 +1590,6 @@ function setSpot(v){
   document.querySelectorAll('.spotName').forEach(el => el.textContent = SPOTS[v].name);
   document.querySelectorAll('.spotFaces').forEach(el => el.textContent = SPOTS[v].faces);
   if(PROFILE==='kite'){
-    $('appSub').textContent = 'Spot kite · '+SPOTS[v].name;
     replay($('kiteNow'), 'enter');
     ensureForecast();
   }
@@ -1597,7 +1604,6 @@ function setProfile(p, animate){
   $('t-out').textContent = p==='kite' ? 'Ça navigue en kite ?' : 'Je sors en mer ?';
   document.querySelectorAll('[data-l]').forEach(el => el.textContent = LABELS[p][el.dataset.l]);
   document.querySelectorAll('[data-boat]').forEach(el => el.textContent = el.dataset[p]);
-  $('appSub').textContent = p==='kite' ? 'Spot kite · '+SPOTS[SPOT].name : 'Bassin Morny · marées · météo marine';
   $('slotsTitle').textContent = p==='kite' ? 'Sessions de kite à venir' : "Créneaux d'écluse à venir";
   $('slotsHelp').textContent = p==='kite'
     ? "Les heures de jour où ça navigue sur la plage choisie : vent assez fort et régulier, bien orienté par rapport à la plage (side-on ou side-shore), jamais offshore."
@@ -1675,7 +1681,7 @@ syncTab();
 // version.json est réécrit à chaque publication (tools/publier-version.sh). Si la
 // version en ligne diffère de celle de la page, on recharge : sur l'écran
 // d'accueil de l'iPhone, l'app reste ainsi à jour sans manipulation.
-const APP_VERSION = '20261017-124050';
+const APP_VERSION = '20261017-125959';
 async function checkUpdate(){
   try{
     const r = await fetch('version.json?t='+Date.now(), {cache:'no-store'});
