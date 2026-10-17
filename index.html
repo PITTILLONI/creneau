@@ -103,8 +103,13 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   .slide figcaption{font-size:.98rem;line-height:1.45;padding:10px 4px 0;min-height:6.2em;}
   .slide figcaption b{display:block;font-size:1.1rem;margin-bottom:2px;}
   .ill{width:100%;height:auto;display:block;}
-  .ill-img{width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:14px;display:block;background:var(--surface-2);}
-  .ill-img + .ill{display:none;}   /* l'illustration Krea remplace le dessin quand elle existe */
+  .ill-img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:14px;display:block;background:var(--surface-2);}
+  .ill-img + .ill{display:none;}
+  .slide{position:relative;}
+  .wind-chip{display:none;position:absolute;top:10px;left:10px;align-items:center;gap:6px;padding:5px 10px 5px 8px;border-radius:999px;
+    background:rgba(5,7,12,.72);color:#fff;font-size:.82rem;font-weight:700;}
+  .wind-chip svg{width:16px;height:16px;}
+  .ill-img ~ .wind-chip{display:flex;}   /* l'illustration Krea remplace le dessin quand elle existe */
   .ill-sand{fill:var(--surface-2);}
   .ill-wind path{fill:none;stroke:var(--accent);stroke-width:4;stroke-linecap:round;stroke-linejoin:round;}
   .ill-wind text{fill:var(--accent);font-weight:700;font-size:14px;}
@@ -562,6 +567,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
             <text x="210" y="128" class="ill-small" text-anchor="middle">libres sous le vent</text>
             <g class="ill-person" transform="translate(80 100)"><circle r="9" cy="-22"/><path d="M0-12v26M-11 0h22M0 14l-9 18M0 14l9 18"/></g>
           </svg>
+          <span class="wind-chip" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v15M6 13l6 6 6-6"/></svg>vent de la mer</span>
           <figcaption><b>1 · Vérifier la zone.</b> Sous le vent, au moins deux longueurs de lignes (environ 50 m) sans personne ni obstacle. Pas de vent de terre.</figcaption>
         </figure>
 
@@ -591,6 +597,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
             <text x="150" y="20" class="ill-small">assistant</text>
             <text x="122" y="184" class="ill-small">vous</text>
           </svg>
+          <span class="wind-chip" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v15M6 13l6 6 6-6"/></svg>vent de la mer</span>
           <figcaption><b>3 · Se placer en bord de fenêtre.</b> L'aile est sur le côté, à 90° du vent. L'assistant la tient debout par le bord d'attaque, jamais dans la zone de puissance.</figcaption>
         </figure>
 
@@ -607,6 +614,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
             <text x="150" y="50" class="ill-small">l'aile se remplit,</text>
             <text x="150" y="66" class="ill-small">elle ne bat pas</text>
           </svg>
+          <span class="wind-chip" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v15M6 13l6 6 6-6"/></svg>vent de la mer</span>
           <figcaption><b>4 · Tendre les lignes.</b> Reculez ou avancez d'un pas jusqu'à ce que l'aile se remplisse sans battre. Si elle tire fort, vous êtes trop dans le vent : revenez vers le bord.</figcaption>
         </figure>
 
@@ -622,6 +630,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
             <g class="ill-ok" transform="translate(214 92)"><circle r="40"/><path d="M-16 0l10 10 22-22"/></g>
             <text x="214" y="168" class="ill-small" text-anchor="middle">l'assistant lâche</text>
           </svg>
+          <span class="wind-chip" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v15M6 13l6 6 6-6"/></svg>vent de la mer</span>
           <figcaption><b>5 · Le signal.</b> Pouce levé = « lâche ». L'assistant ouvre simplement les mains, sans pousser ni lancer l'aile. Main sur la tête = « attrape et pose mon aile ».</figcaption>
         </figure>
 
@@ -639,6 +648,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
             <text x="212" y="112" class="ill-small">(au-dessus de vous)</text>
             <g class="ill-person" transform="translate(110 168)"><circle r="8" cy="-4"/></g>
           </svg>
+          <span class="wind-chip" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v15M6 13l6 6 6-6"/></svg>vent de la mer</span>
           <figcaption><b>6 · Monter au zénith.</b> Barre près de vous, montez doucement l'aile en restant au bord de la fenêtre, jusqu'au-dessus de votre tête. Puis direction l'eau, aile au zénith.</figcaption>
         </figure>
 
@@ -1434,6 +1444,7 @@ function setProfile(p, animate){
   document.querySelectorAll('[data-l]').forEach(el => el.textContent = LABELS[p][el.dataset.l]);
   document.querySelectorAll('[data-boat]').forEach(el => el.textContent = el.dataset[p]);
   $('appSub').textContent = p==='kite' ? 'Spot kite · '+SPOTS[SPOT].name : 'Bassin Morny · marées · météo marine';
+  $('slotsTitle').textContent = p==='kite' ? 'Sessions de kite à venir' : "Créneaux d'écluse à venir";
   $('t-cal').textContent = p==='kite' ? 'Marées d\u2019un autre jour' : 'Un autre jour';
   if(animate) replay($(p==='kite' ? 'kiteNow' : 'tilePass'), 'enter');
   if(tabsReady){ refreshTabs(); syncTab(); }
@@ -1507,7 +1518,7 @@ syncTab();
 // version.json est réécrit à chaque publication (tools/publier-version.sh). Si la
 // version en ligne diffère de celle de la page, on recharge : sur l'écran
 // d'accueil de l'iPhone, l'app reste ainsi à jour sans manipulation.
-const APP_VERSION = '20261017-114656';
+const APP_VERSION = '20261017-120145';
 async function checkUpdate(){
   try{
     const r = await fetch('version.json?t='+Date.now(), {cache:'no-store'});

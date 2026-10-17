@@ -52,3 +52,10 @@ Légende : *Monter doucement au zénith par le bord de la fenêtre, puis directi
 ## Vérifier avant d'intégrer
 
 Pour chaque image : lignes bien attachées (4 lignes, de la barre à l'aile), aile du bon côté (bord de fenêtre, pas devant le rider), vent cohérent (de gauche à droite), pas de texte parasite, personnages identiques d'une image à l'autre.
+
+## Ce qui a été utilisé (17 octobre 2026)
+
+- Modèle **Krea 2 Medium** (`krea/krea-2/medium`, 16:9, environ 9 crédits par image) : les modèles Nano Banana sont réservés aux offres payantes.
+- Composition finale : vue de derrière le rider, mer en haut, **vent venant de la mer vers le spectateur** (pas de drapeaux : ils partaient dans le mauvais sens et mettaient l'aile en zone de puissance). L'app ajoute une étiquette « vent de la mer ».
+- Référence de style commune (`image_style_references`, force 0,6) et graine fixe pour garder les mêmes personnages.
+- Étape 2 refaite une fois : sur le premier essai l'aile volait pendant le pré-vol.

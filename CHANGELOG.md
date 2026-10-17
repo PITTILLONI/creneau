@@ -1,5 +1,8 @@
 # Historique des versions
 
+## 17 octobre 2026 (12h) — Illustrations Krea du tuto kite
+- Les 6 étapes « Décoller son aile » sont illustrées avec Krea (Krea 2 Medium, mêmes personnages et même style), vérifiées une à une : aile en bord de fenêtre au bout des 4 lignes, pré-vol aile au sol, pouce levé, zénith. Étiquette « vent de la mer » sur les vues de plage. Les dessins SVG restent en secours si une image ne charge pas.
+
 ## 17 octobre 2026 (11h35) — Carte de sortie neutre
 - La carte « Sortie en mer » n'est plus entièrement rouge quand c'est fermé : fond neutre, la couleur ne marque que l'état (Fermé / Ouvert, chrono, barre), pour ne pas la confondre avec la note des conditions de mer.
 
