@@ -1,5 +1,6 @@
 import json, os, sys, time, urllib.request
 D=os.path.join(os.path.dirname(__file__), "..", "tuto-sources") + "/"
+os.makedirs(D, exist_ok=True)
 K=open(os.path.expanduser('~/.config/krea/token')).read().strip()
 REF="https://gen.krea.ai/images/180e3a77-bbea-4a02-9ca2-9cdb35272d7b.png"
 STYLE=("Use the attached image only as STYLE reference (clean modern flat vector illustration, soft natural colors; rider: man in black full wetsuit, blue waist harness, white helmet; partner: woman in red short-sleeve wetsuit top; kite: white canopy, thick orange leading-edge tube, orange struts; twin-tip board yellow). Technically precise kitesurfing instruction illustration. ")

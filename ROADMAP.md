@@ -1,7 +1,7 @@
 # Avancement
 
 Site : <https://pittilloni.github.io/deauville-passerelle-ecluse/>
-Dernière mise à jour de ce fichier : 17 octobre 2026.
+Dernière mise à jour de ce fichier : 17 octobre 2026 (13h15).
 
 ## Fait
 
@@ -26,18 +26,23 @@ Dernière mise à jour de ce fichier : 17 octobre 2026.
 - [x] Mode kite dédié : spot en direct, taille d'aile selon le poids, température de l'eau, conseils de bonnes pratiques
 - [x] En-tête façon app, rechargement automatique sans cache
 - [x] Mot de passe à l'ouverture
-- [x] Kite : choix de la plage (Deauville, Trouville, Houlgate, Cabourg), carrousel de décollage, assurance
+- [x] Kite : choix de la plage (Deauville, Trouville, Houlgate, Cabourg), assurance
+- [x] Correction du 25 octobre (heure d'été dans le PDF) d'après le Deauville Yacht Club
+- [x] Bateau : seuils de confort pour notre bateau de 13 m, voilure conseillée (ris, génois) et allures/réglages vers Le Havre, Honfleur, Dives, Ouistreham, le large
+- [x] Bateau : onglet Conseils (sortir du bassin Morny, check-list, prendre un ris, réglages par allure, priorités, homme à la mer)
+- [x] Kite : tutos illustrés et annotés en menus dépliants — décoller (10 étapes), atterrir et porter son aile (4), water start (6, « ne t'agrippe pas à la barre »)
+- [x] En-tête : sélecteur Bateau / Kitesurf en haut, port ou spot en dessous ; menus dépliants homogènes
 
 ## À faire / idées
 
 - [ ] **Rythme réel des levées de la passerelle piétonne** pendant l'ouverture des portes (à obtenir auprès de la capitainerie ou à relever sur place) pour afficher « prochaine levée dans X min » à chaque cycle
 - [ ] Vérifier l'**orientation de chaque plage** (Trouville, Houlgate, Cabourg) sur le terrain
-- [x] Illustrations Krea du tuto de décollage (`tuto/etape-1…6.webp`, Krea 2 Medium)
 - [ ] Vérifier les **seuils kite** sur le terrain (taille d'aile, niveau) et les rendre réglables dans la page
 - [ ] Rappeler les **zones et périodes de kite** autorisées par la mairie en saison
-- [ ] Vérifier les seuils bateau selon la taille et le type de bateau
+- [ ] Confirmer le gréement du bateau (sloop ? nombre de ris, trinquette, gennaker) pour affiner la voilure conseillée
+- [ ] Vérifier les caps des destinations et en ajouter (Cherbourg, Fécamp…) si utile
+- [ ] Révoquer le jeton Krea « Deauville tuto kite (Claude Code) » une fois les illustrations terminées
 - [ ] Horaires **2027** dès la publication du PDF par Ports du Calvados
 - [ ] Mode hors ligne (service worker) pour consulter les horaires sans réseau sur le ponton
-- [x] Correction du 25 octobre (heure d'été dans le PDF) d'après le Deauville Yacht Club
 - [ ] Vérifier si le 29 mars a le même défaut (non signalé)
 - [ ] Signaler à Ports du Calvados l'oubli du 4-5 juillet dans le PDF 2026

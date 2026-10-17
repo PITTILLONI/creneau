@@ -10,7 +10,8 @@ L'app est pensée pour un **marin** (profil Bateau) ou un **kitesurfeur** (profi
 1. **Passage du bassin Morny** : ouvert ou fermé aux bateaux, avec un chrono jusqu'à la première (ou la dernière) levée de la passerelle piétonne, l'état des portes et de la passerelle piétonne, et la frise de la journée ;
 2. **Voilure et allures** : voilure conseillée selon le vent et les rafales (ris, génois roulé), allure et réglages vers Le Havre, Honfleur, Dives, Ouistreham ou le large ;
 3. **Je sors en mer ?** : chaque créneau d'écluse noté *Favorable / Prudence / Déconseillé* avec la raison chiffrée (« Trop de vent : 19 nd, rafales 26 nd », « Mer agitée : vagues de 1,1 m »…) ;
-3. horaires des portes et marées de **n'importe quel jour de 2026**.
+4. **Conseils** : sortir du bassin Morny, check-list avant de partir, prendre un ris, réglages par allure, priorités en mer, homme à la mer ;
+5. horaires des portes et marées de **n'importe quel jour de 2026**.
 
 **Kitesurf**
 1. **Spot en direct** : vent (force, direction, orientation par rapport à la plage), **taille d'aile idéale** selon le **poids du rider** (réglable), **température de l'eau** et combinaison conseillée, rafales et régularité, marée montante/descendante, air, coucher du soleil ;
