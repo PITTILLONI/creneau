@@ -1,11 +1,11 @@
 {
-  "name": "Passerelle & écluse — Deauville-Trouville",
-  "short_name": "Passerelle",
+  "name": "Port de Deauville — passage Morny, marées, météo marine",
+  "short_name": "Port Deauville",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "background_color": "#f2f4f7",
-  "theme_color": "#0057ff",
+  "theme_color": "#05070c",
   "lang": "fr",
   "icons": [
     { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },

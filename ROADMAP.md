@@ -21,12 +21,15 @@ Dernière mise à jour de ce fichier : 17 octobre 2026.
 - [x] Rechargement automatique quand une nouvelle version est publiée
 - [x] Micro-interactions (transitions d'état, indicateur d'onglet, apparition des créneaux), désactivées si « Réduire les animations »
 - [x] Retrait des informations du bassin des Marinas
+- [x] Persona marin : carte « Passage du bassin Morny » avec chrono de levée de la passerelle piétonne
+- [x] Notes explicites avec leur raison (Favorable / Prudence / Déconseillé…)
+- [x] Mode kite dédié : spot en direct, taille d'aile selon le poids, température de l'eau, conseils de bonnes pratiques
+- [x] En-tête façon app, rechargement automatique sans cache
 
 ## À faire / idées
 
-- [ ] **Rythme réel des levées de la passerelle** pendant l'ouverture des portes (à obtenir auprès de la capitainerie ou à relever sur place) pour afficher « prochaine levée dans X min »
+- [ ] **Rythme réel des levées de la passerelle piétonne** pendant l'ouverture des portes (à obtenir auprès de la capitainerie ou à relever sur place) pour afficher « prochaine levée dans X min » à chaque cycle
 - [ ] Vérifier les **seuils kite** sur le terrain (taille d'aile, niveau) et les rendre réglables dans la page
-- [ ] Ajouter la **température de l'eau** et la météo (pluie, orages) aux prévisions
 - [ ] Rappeler les **zones et périodes de kite** autorisées par la mairie en saison
 - [ ] Vérifier les seuils bateau selon la taille et le type de bateau
 - [ ] Horaires **2027** dès la publication du PDF par Ports du Calvados
