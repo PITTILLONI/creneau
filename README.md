@@ -70,8 +70,10 @@ version.json            numéro de version en ligne, lu par la page pour se rech
 tools/
   extraire-horaires.mjs extraction du PDF officiel -> données JSON + contrôle des incohérences
   publier-version.sh    nouveau numéro de version avant chaque publication
+tuto/                   illustrations du carrousel kite (etape-1.webp … etape-6.webp, générées avec Krea)
 docs/
   DESIGN.md             choix de design et d'ergonomie
+  krea-prompts.md       prompts Krea des illustrations du tuto kite
 ```
 
 ## Mettre à jour les horaires (ex. PDF 2027)

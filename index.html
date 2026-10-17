@@ -103,6 +103,8 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   .slide figcaption{font-size:.98rem;line-height:1.45;padding:10px 4px 0;min-height:6.2em;}
   .slide figcaption b{display:block;font-size:1.1rem;margin-bottom:2px;}
   .ill{width:100%;height:auto;display:block;}
+  .ill-img{width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:14px;display:block;background:var(--surface-2);}
+  .ill-img + .ill{display:none;}   /* l'illustration Krea remplace le dessin quand elle existe */
   .ill-sand{fill:var(--surface-2);}
   .ill-wind path{fill:none;stroke:var(--accent);stroke-width:4;stroke-linecap:round;stroke-linejoin:round;}
   .ill-wind text{fill:var(--accent);font-weight:700;font-size:14px;}
@@ -551,6 +553,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
       <div class="slides" id="slides">
 
         <figure class="slide" aria-label="Étape 1 sur 6">
+          <img class="ill-img" src="tuto/etape-1.webp" alt="Rider sur la plage, zone libre de 50 mètres sous le vent" loading="lazy" decoding="async" onerror="this.remove()">
           <svg viewBox="0 0 320 190" class="ill" aria-hidden="true">
             <rect x="0" y="0" width="320" height="190" rx="14" class="ill-sand"/>
             <g class="ill-wind"><path d="M18 30h46"/><path d="M54 22l10 8-10 8"/><text x="18" y="54">vent</text></g>
@@ -563,6 +566,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
         </figure>
 
         <figure class="slide" aria-label="Étape 2 sur 6">
+          <img class="ill-img" src="tuto/etape-2.webp" alt="Barre et quatre lignes déroulées sans nœud vers l'aile" loading="lazy" decoding="async" onerror="this.remove()">
           <svg viewBox="0 0 320 190" class="ill" aria-hidden="true">
             <rect x="0" y="0" width="320" height="190" rx="14" class="ill-sand"/>
             <path class="ill-kite" d="M210 40c40 4 68 30 74 70-14-20-40-32-74-34-34 2-60 14-74 34 6-40 34-66 74-70z" transform="translate(-10 0)"/>
@@ -574,6 +578,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
         </figure>
 
         <figure class="slide" aria-label="Étape 3 sur 6">
+          <img class="ill-img" src="tuto/etape-3.webp" alt="L'assistant tient l'aile debout en bord de fenêtre, à 90 degrés du vent" loading="lazy" decoding="async" onerror="this.remove()">
           <svg viewBox="0 0 320 190" class="ill" aria-hidden="true">
             <rect x="0" y="0" width="320" height="190" rx="14" class="ill-sand"/>
             <g class="ill-wind"><path d="M18 30h46"/><path d="M54 22l10 8-10 8"/><text x="18" y="54">vent</text></g>
@@ -590,6 +595,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
         </figure>
 
         <figure class="slide" aria-label="Étape 4 sur 6">
+          <img class="ill-img" src="tuto/etape-4.webp" alt="L'aile se remplit sans battre pendant que le rider recule d'un pas" loading="lazy" decoding="async" onerror="this.remove()">
           <svg viewBox="0 0 320 190" class="ill" aria-hidden="true">
             <rect x="0" y="0" width="320" height="190" rx="14" class="ill-sand"/>
             <g class="ill-wind"><path d="M18 30h46"/><path d="M54 22l10 8-10 8"/><text x="18" y="54">vent</text></g>
@@ -605,6 +611,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
         </figure>
 
         <figure class="slide" aria-label="Étape 5 sur 6">
+          <img class="ill-img" src="tuto/etape-5.webp" alt="Le rider lève le pouce, l'assistant lâche l'aile" loading="lazy" decoding="async" onerror="this.remove()">
           <svg viewBox="0 0 320 190" class="ill" aria-hidden="true">
             <rect x="0" y="0" width="320" height="190" rx="14" class="ill-sand"/>
             <g class="ill-thumb" transform="translate(96 98)">
@@ -619,6 +626,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
         </figure>
 
         <figure class="slide" aria-label="Étape 6 sur 6">
+          <img class="ill-img" src="tuto/etape-6.webp" alt="L'aile monte au zénith au-dessus du rider" loading="lazy" decoding="async" onerror="this.remove()">
           <svg viewBox="0 0 320 190" class="ill" aria-hidden="true">
             <rect x="0" y="0" width="320" height="190" rx="14" class="ill-sand"/>
             <g class="ill-wind"><path d="M18 30h46"/><path d="M54 22l10 8-10 8"/><text x="18" y="54">vent</text></g>
@@ -1499,7 +1507,7 @@ syncTab();
 // version.json est réécrit à chaque publication (tools/publier-version.sh). Si la
 // version en ligne diffère de celle de la page, on recharge : sur l'écran
 // d'accueil de l'iPhone, l'app reste ainsi à jour sans manipulation.
-const APP_VERSION = '20261017-113320';
+const APP_VERSION = '20261017-114656';
 async function checkUpdate(){
   try{
     const r = await fetch('version.json?t='+Date.now(), {cache:'no-store'});

@@ -32,7 +32,7 @@ Dernière mise à jour de ce fichier : 17 octobre 2026.
 
 - [ ] **Rythme réel des levées de la passerelle piétonne** pendant l'ouverture des portes (à obtenir auprès de la capitainerie ou à relever sur place) pour afficher « prochaine levée dans X min » à chaque cycle
 - [ ] Vérifier l'**orientation de chaque plage** (Trouville, Houlgate, Cabourg) sur le terrain
-- [ ] Remplacer les illustrations SVG du carrousel par des visuels Krea si souhaité
+- [ ] Générer les 6 illustrations Krea du tuto de décollage (prompts prêts : `docs/krea-prompts.md`, emplacement : `tuto/etape-N.webp`)
 - [ ] Vérifier les **seuils kite** sur le terrain (taille d'aile, niveau) et les rendre réglables dans la page
 - [ ] Rappeler les **zones et périodes de kite** autorisées par la mairie en saison
 - [ ] Vérifier les seuils bateau selon la taille et le type de bateau
