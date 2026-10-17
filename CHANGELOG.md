@@ -1,5 +1,10 @@
 # Historique des versions
 
+## 17 octobre 2026 (13h05) — Conseils bateau, menus homogènes
+- Mode Bateau : onglet **Conseils** avec sortir du bassin Morny (VHF 9, passerelle piétonne, portes), check-list avant de partir (dont l'heure de fermeture des portes pour rentrer), prendre un ris, réglages par allure, priorités en mer, homme à la mer et urgences.
+- Tous les menus dépliants (tutos, priorités, sécurité, règles locales, calcul des notes) ont le même style.
+- Prévisions : nouvelle tentative automatique après un raté réseau.
+
 ## 17 octobre 2026 (13h) — En-tête : sélecteur de profil en haut
 - Le titre « Port de Deauville » laisse la place au **sélecteur Bateau / Kitesurf**, fixé en haut de l'écran. Juste en dessous : « Port de Deauville · bassin Morny » en mode Bateau, ou le **choix du spot** (Deauville, Trouville, Houlgate, Cabourg) en mode Kitesurf, avec l'heure en direct.
 

@@ -178,6 +178,10 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   .tuto > summary::after{content:"";position:absolute;right:18px;top:50%;width:10px;height:10px;border-right:2.5px solid var(--ink-2);border-bottom:2.5px solid var(--ink-2);transform:translateY(-70%) rotate(45deg);transition:transform .25s ease;}
   .tuto[open] > summary::after{transform:translateY(-30%) rotate(-135deg);}
   .tuto .carousel{border-radius:0;padding-top:0;}
+  .tuto-body{padding:0 16px 14px;}
+  .tuto-body ul,.tuto-body ol{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;font-size:.95rem;color:var(--ink-2);}
+  .tuto-body li b{color:var(--ink);}
+  .tuto-body p{font-size:.95rem;color:var(--ink-2);margin:0 0 8px;}
   .tuto[open] .carousel{animation:rise .35s cubic-bezier(.2,.8,.2,1) both;}
 
   /* carrousel de décollage */
@@ -618,8 +622,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
       </div>
     </div>
 
-    <details class="only-kite">
-      <summary>Comment est calculée la note kite ?</summary>
+    <details class="tuto only-kite"><summary><span>Comment est calculée la note kite ?</span><small>force, régularité et orientation du vent</small></summary><div class="tuto-body">
       <p>Pour la plage de <span class="spotName">Deauville</span>, orientée <span class="spotFaces">nord-nord-ouest</span>. Chaque heure de jour est notée sur :</p>
       <ul>
         <li><b>Vent moyen</b> : idéal de 14 à 25 nœuds, juste entre 12 et 14, trop faible en dessous, réservé aux confirmés au-delà de 25.</li>
@@ -629,9 +632,8 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
         <li>Une session est une suite d'heures notées « bon » (à défaut « moyen »).</li>
       </ul>
       <p>Vérifier aussi les zones et périodes autorisées par la mairie (règles de plage en saison) et l'heure de la marée : à marée haute la plage est étroite.</p>
-    </details>
-    <details class="only-boat">
-      <summary>Comment est calculé le confort ?</summary>
+    </div></details>
+    <details class="tuto only-boat"><summary><span>Comment est calculé le confort ?</span><small>vent, rafales et vagues pour notre bateau de 13 m</small></summary><div class="tuto-body">
       <p>Réglé pour notre bateau de 13 m. Chaque heure prend la note la plus basse entre le vent et l'état de la mer :</p>
       <ul>
         <li><b>Vent moyen</b> : favorable jusqu'à 17 nœuds (force 4-5), prudence jusqu'à 27 (force 6), déconseillé au-delà. Rafales au-delà de 34 nœuds : déconseillé.</li>
@@ -640,12 +642,13 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
         <li>Un créneau d'écluse prend la note de sa pire heure.</li>
       </ul>
       <p>Vent : modèles AROME/ARPEGE de Météo-France. Vagues et houle : modèle MFWAM de Météo-France. Données servies par Open-Meteo, mises à jour toutes les heures. Ces prévisions ne remplacent pas le bulletin météo marine officiel.</p>
-    </details>
+    </div></details>
     <div class="muted" id="fcSource" style="margin-top:10px;"></div>
   </section>
 
-  <section id="conseils" class="only-kite" aria-labelledby="t-tips">
-    <h2 id="t-tips">Bonnes pratiques kite</h2>
+  <section id="conseils" aria-labelledby="t-tips">
+    <h2 id="t-tips"><span class="only-kite">Bonnes pratiques kite</span><span class="only-boat">Bonnes pratiques bateau</span></h2>
+    <div class="only-kite">
     <div class="insur" id="insur">
       <div class="insur-head"><span class="h3" style="margin:0">Mon assurance kite</span><button class="todaybtn" id="insEdit">Modifier</button></div>
       <div id="insView"></div>
@@ -775,8 +778,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
         </div>
       </div>
     </details>
-    <details open>
-      <summary>Priorités sur l'eau</summary>
+    <details class="tuto"><summary><span>Priorités sur l'eau</span><small>7 règles à connaître</small></summary><div class="tuto-body">
       <ul>
         <li><b>Tribord amures prioritaire</b> : le rider qui navigue main droite devant a la priorité sur celui qui a la main gauche devant.</li>
         <li><b>Le rider qui part du bord est prioritaire</b> sur celui qui rentre.</li>
@@ -786,9 +788,8 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
         <li><b>Baigneurs, nageurs et bateaux</b> : toujours les éviter largement. Dans la bande des 300 m, sortir et rentrer par les chenaux balisés quand il y en a.</li>
         <li><b>Avant un saut</b> : au moins 50 m libres sous le vent et 30 m au vent.</li>
       </ul>
-    </details>
-    <details>
-      <summary>Sécurité</summary>
+    </div></details>
+    <details class="tuto"><summary><span>Sécurité</span><small>vent de terre, orage, largueur, urgences</small></summary><div class="tuto-body">
       <ul>
         <li><b>Jamais par vent de terre</b> (offshore ou side-off) : il éloigne du bord et on ne revient pas.</li>
         <li><b>Jamais seul</b> : prévenir quelqu'un de son heure de retour.</li>
@@ -797,14 +798,61 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
         <li><b>Rester loin des digues, de l'entrée du port et du chenal de la Touques</b> : trafic de bateaux.</li>
         <li><b>En difficulté</b> : auto-sauvetage avec l'aile, grands signes avec le bras. Urgence en mer : <a href="tel:196">196</a> depuis un téléphone (CROSS) ou VHF canal 16.</li>
       </ul>
-    </details>
-    <details>
-      <summary>Règles locales</summary>
+    </div></details>
+    <details class="tuto"><summary><span>Règles locales</span><small>zones et horaires de pratique</small></summary><div class="tuto-body">
       <ul>
         <li>En saison, les zones et horaires de pratique sur les plages sont fixés par <b>arrêté municipal</b> : se renseigner auprès de la mairie ou d'une école de kite locale.</li>
         <li>Respecter le balisage de la plage et les consignes des sauveteurs.</li>
       </ul>
-    </details>
+    </div></details>
+    </div>
+    <div class="only-boat">
+    <details class="tuto"><summary><span>Sortir du bassin Morny</span><small>VHF 9, passerelle piétonne, portes</small></summary><div class="tuto-body"><ol>
+      <li><b>Vérifie le créneau</b> d'ouverture des portes dans l'app, et surtout <b>l'heure de fermeture pour rentrer</b>.</li>
+      <li><b>Appelle la cabine au VHF canal 9</b> (ou au 06 98 71 83 92) avant de te présenter : annonce ton bateau et ta manœuvre.</li>
+      <li><b>Attends la levée de la passerelle piétonne</b> entre le bassin des Yachts et le bassin Morny, au large de la passerelle, sans gêner les autres bateaux.</li>
+      <li><b>Pare-battages et amarres prêts</b> des deux bords, un équipier à l'avant.</li>
+      <li><b>Passe les portes au moteur, à vitesse réduite et sans sillage</b>, au centre du passage, en suivant les consignes de la cabine.</li>
+    </ol></div></details>
+    <details class="tuto"><summary><span>Check-list avant de partir</span><small>à faire au ponton</small></summary><div class="tuto-body"><ul>
+      <li><b>Bulletin météo marine</b> du jour et du retour (Météo-France), vent et rafales.</li>
+      <li><b>Horaire de fermeture des portes</b> pour le retour, avec de la marge : sinon, prévois une nuit dehors ou un autre port.</li>
+      <li><b>Marée et coefficient</b> : hauteur d'eau dans le chenal de la Touques à l'heure du retour.</li>
+      <li><b>VHF</b> en veille canal 16, téléphone chargé, gilets ou harnais pour tout l'équipage.</li>
+      <li><b>Carburant</b>, moteur vérifié, feux de navigation si tu risques de rentrer de nuit.</li>
+      <li><b>Prends les ris au port</b> si la voilure conseillée en prévoit : c'est bien plus simple qu'en mer.</li>
+      <li><b>Préviens quelqu'un</b> à terre de ton programme et de ton heure de retour.</li>
+    </ul></div></details>
+    <details class="tuto"><summary><span>Prendre un ris</span><small>6 étapes</small></summary><div class="tuto-body"><ol>
+      <li>Mets le bateau au <b>près bon plein</b>, génois bordé : le bateau reste stable.</li>
+      <li><b>Choque l'écoute de grand-voile</b> et le hale-bas pour déventer la voile.</li>
+      <li><b>Affale la drisse</b> jusqu'au repère du ris.</li>
+      <li><b>Croche l'œillet d'amure</b> (ou reprends la bosse d'amure).</li>
+      <li><b>Reprends la drisse</b> bien étarquée, puis <b>borde la bosse de ris</b> (bordure tendue).</li>
+      <li><b>Reborde la grand-voile</b>, reprends le hale-bas, range le mou de toile.</li>
+    </ol></div></details>
+    <details class="tuto"><summary><span>Réglages par allure</span><small>du près au vent arrière</small></summary><div class="tuto-body"><ul>
+      <li><b>Vent debout</b> (moins de 40° du vent) : impossible en direct, tire des bords à 45° du vent.</li>
+      <li><b>Près</b> : voiles bordées, chariot de GV au centre, chariots de génois avancés, suis les penons.</li>
+      <li><b>Bon plein</b> : choque un peu les deux voiles, chariot de GV légèrement sous le vent.</li>
+      <li><b>Travers</b> : GV et génois choqués, chariots de génois reculés, hale-bas étarqué.</li>
+      <li><b>Largue</b> : choque largement, hale-bas repris pour limiter le vrillage de la GV.</li>
+      <li><b>Vent arrière</b> : retenue de bôme obligatoire, génois tangonné en ciseaux, ou lofe au grand largue pour éviter l'empannage.</li>
+    </ul></div></details>
+    <details class="tuto"><summary><span>Priorités en mer</span><small>les règles de barre essentielles</small></summary><div class="tuto-body"><ul>
+      <li><b>Deux voiliers, amures opposées</b> : celui qui reçoit le vent par bâbord s'écarte.</li>
+      <li><b>Même amure</b> : le voilier au vent s'écarte de celui sous le vent.</li>
+      <li><b>Celui qui rattrape s'écarte</b>, voile ou moteur.</li>
+      <li><b>Au moteur</b>, tu t'écartes des voiliers, mais dans un chenal étroit les navires qui ne peuvent manœuvrer qu'à l'intérieur sont prioritaires.</li>
+      <li><b>Bande des 300 m</b> : 5 nœuds maximum, entrées et sorties par les chenaux balisés.</li>
+    </ul></div></details>
+    <details class="tuto"><summary><span>Homme à la mer et urgences</span><small>les bons réflexes</small></summary><div class="tuto-body"><ol>
+      <li><b>Crie « Un homme à la mer ! »</b> et lance la bouée fer à cheval.</li>
+      <li><b>Désigne un équipier</b> qui ne quitte jamais la personne des yeux, et appuie sur MOB au GPS.</li>
+      <li><b>Reviens vers elle</b> à vitesse réduite, par sous le vent, moteur au point mort près de la personne.</li>
+      <li>Urgence : <b>VHF canal 16</b> (« Mayday » si danger de mort), ou le <a href="tel:196">196</a> depuis un téléphone (CROSS).</li>
+    </ol></div></details>
+    </div>
   </section>
 
   <section id="calendrier" aria-labelledby="t-cal">
@@ -850,7 +898,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 18c2 1.5 4 1.5 6 0s4-1.5 6 0 4 1.5 6 0"/><path d="M12 3v11"/><path d="M12 4l6 8h-6"/><path d="M5 14h14"/></svg>
     <span data-boat="Sortir" data-kite="Prévisions">Sortir</span>
   </a>
-  <a href="#conseils" class="only-kite">
+  <a href="#conseils">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 4v5c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V7z"/><path d="M9 12l2 2 4-4"/></svg>
     <span>Conseils</span>
   </a>
@@ -1217,10 +1265,13 @@ async function loadForecast(){
     });
     if(key!==fcKey()) return;   // l'utilisateur a changé de plage pendant le chargement
     FC = {hours, days, fetched:Date.now(), key};
+    loadForecast.retried = false;
     renderForecast();
     renderKiteNow();
   } catch(err){
     ERRORS.push('prévisions : '+(err && err.message));
+    // un raté réseau ponctuel : on retente une fois quelques secondes plus tard
+    if(!loadForecast.retried){ loadForecast.retried = true; setTimeout(()=>{ loadForecast(); }, 4000); return; }
     $('vLabel').textContent = 'Prévisions indisponibles pour le moment (connexion ?).';
     $('vWord').textContent = '—';
     $('windows').innerHTML = '<div class="muted">Impossible de charger les prévisions. Consulter le bulletin Météo-France ci-dessous.</div>';
@@ -1681,7 +1732,7 @@ syncTab();
 // version.json est réécrit à chaque publication (tools/publier-version.sh). Si la
 // version en ligne diffère de celle de la page, on recharge : sur l'écran
 // d'accueil de l'iPhone, l'app reste ainsi à jour sans manipulation.
-const APP_VERSION = '20261017-125959';
+const APP_VERSION = '20261017-130203';
 async function checkUpdate(){
   try{
     const r = await fetch('version.json?t='+Date.now(), {cache:'no-store'});
