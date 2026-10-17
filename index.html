@@ -115,6 +115,16 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   .ill-wind text{fill:var(--accent);font-weight:700;font-size:14px;}
   .ill text{font-family:inherit;}
   .ill-small{fill:var(--ink-2);font-size:13px;font-weight:600;}
+  .ill-sky{fill:var(--surface-2);}
+  .ill-sea{fill:color-mix(in srgb, var(--accent) 22%, var(--surface-2));}
+  .ill-body circle{fill:var(--ink);}
+  .ill-body path{fill:none;stroke:var(--ink);stroke-width:5;stroke-linecap:round;stroke-linejoin:round;}
+  .ill-board{fill:var(--mid);}
+  .ill-bad{fill:var(--bad);font-size:30px;font-weight:800;}
+  .ill-good{fill:var(--good);font-size:30px;font-weight:800;}
+  .ill-bar-bad{fill:var(--bad);}
+  .ill-bar-good{fill:var(--good);}
+  .slide figcaption strong{color:var(--bad);}
   .ill-big{fill:var(--good);font-size:30px;font-weight:800;}
   .ill-zone{fill:color-mix(in srgb, var(--good) 18%, transparent);stroke:var(--good);stroke-width:2.5;stroke-dasharray:8 6;}
   .ill-person circle{fill:var(--ink);}
@@ -135,7 +145,8 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   .car-nav{display:flex;align-items:center;justify-content:space-between;padding:8px 12px 0;}
   .car-btn{width:44px;height:44px;border-radius:12px;border:0;background:var(--surface-2);font-size:1.4rem;font-weight:700;cursor:pointer;}
   .car-btn:disabled{opacity:.35;}
-  .dots{display:flex;gap:8px;}
+  .dots{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;max-width:70%;}
+  .carousel + .h3{margin-top:26px;}
   .dots button{width:10px;height:10px;padding:0;border:0;border-radius:5px;background:var(--none);cursor:pointer;transition:width .3s cubic-bezier(.2,.8,.2,1),background-color .3s;}
   .dots button[aria-current="true"]{width:26px;background:var(--accent);}
   #conseils li{margin-bottom:6px;}
@@ -526,10 +537,10 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
     </details>
     <details class="only-boat">
       <summary>Comment est calculé le confort ?</summary>
-      <p>Réglé pour un bateau de plaisance de 5 à 8 m. Chaque heure prend la note la plus basse entre le vent et l'état de la mer :</p>
+      <p>Réglé pour notre bateau de 13 m. Chaque heure prend la note la plus basse entre le vent et l'état de la mer :</p>
       <ul>
-        <li><b>Vent moyen</b> : bon jusqu'à 12 nœuds, moyen jusqu'à 18, déconseillé au-delà. Rafales au-delà de 25 nœuds : déconseillé.</li>
-        <li><b>Hauteur des vagues</b> : bonne jusqu'à 0,6 m, moyenne jusqu'à 1,2 m, déconseillée au-delà.</li>
+        <li><b>Vent moyen</b> : favorable jusqu'à 17 nœuds (force 4-5), prudence jusqu'à 27 (force 6), déconseillé au-delà. Rafales au-delà de 34 nœuds : déconseillé.</li>
+        <li><b>Hauteur des vagues</b> : favorable jusqu'à 1,25 m, prudence jusqu'à 2,5 m, déconseillée au-delà.</li>
         <li><b>De nuit</b> : jamais mieux que « moyen ».</li>
         <li>Un créneau d'écluse prend la note de sa pire heure.</li>
       </ul>
@@ -553,110 +564,156 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
       </form>
     </div>
 
-    <div class="h3">Décoller son aile avec un assistant</div>
-    <div class="carousel" id="launch" aria-roledescription="carrousel" aria-label="Décoller son aile en 6 étapes">
-      <div class="slides" id="slides">
-
-        <figure class="slide" aria-label="Étape 1 sur 6">
-          <img class="ill-img" src="tuto/etape-1.webp" alt="Rider sur la plage, zone libre de 50 mètres sous le vent" loading="lazy" decoding="async" onerror="this.remove()">
-          <svg viewBox="0 0 320 190" class="ill" aria-hidden="true">
-            <rect x="0" y="0" width="320" height="190" rx="14" class="ill-sand"/>
-            <g class="ill-wind"><path d="M18 30h46"/><path d="M54 22l10 8-10 8"/><text x="18" y="54">vent</text></g>
-            <rect x="120" y="40" width="180" height="120" rx="10" class="ill-zone"/>
-            <text x="210" y="104" class="ill-big" text-anchor="middle">≥ 50 m</text>
-            <text x="210" y="128" class="ill-small" text-anchor="middle">libres sous le vent</text>
-            <g class="ill-person" transform="translate(80 100)"><circle r="9" cy="-22"/><path d="M0-12v26M-11 0h22M0 14l-9 18M0 14l9 18"/></g>
-          </svg>
+    <div class="h3">Décoller son aile avec un partenaire</div>
+    <div class="carousel" id="launch" aria-roledescription="carrousel" aria-label="Décoller son aile avec un partenaire en 10 étapes">
+      <div class="slides">
+        <figure class="slide" aria-label="Étape 1 sur 10">
+          <img class="ill-img" src="tuto/decollage-01.webp" alt="Rider sur la plage, grande zone dégagée sous le vent" loading="lazy" decoding="async" onerror="this.remove()">
+          <svg viewBox="0 0 320 180" class="ill" aria-hidden="true"><rect width="320" height="180" rx="14" class="ill-sand"/></svg>
           <span class="wind-chip" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v15M6 13l6 6 6-6"/></svg>vent de la mer</span>
-          <figcaption><b>1 · Vérifier la zone.</b> Sous le vent, au moins deux longueurs de lignes (environ 50 m) sans personne ni obstacle. Pas de vent de terre.</figcaption>
+          <figcaption><b>1 · Vérifier la zone.</b> Sous le vent, une zone dégagée d'au moins trois longueurs de lignes, sans personne ni obstacle. Jamais par vent de terre.</figcaption>
         </figure>
-
-        <figure class="slide" aria-label="Étape 2 sur 6">
-          <img class="ill-img" src="tuto/etape-2.webp" alt="Barre et quatre lignes déroulées sans nœud vers l'aile" loading="lazy" decoding="async" onerror="this.remove()">
-          <svg viewBox="0 0 320 190" class="ill" aria-hidden="true">
-            <rect x="0" y="0" width="320" height="190" rx="14" class="ill-sand"/>
-            <path class="ill-kite" d="M210 40c40 4 68 30 74 70-14-20-40-32-74-34-34 2-60 14-74 34 6-40 34-66 74-70z" transform="translate(-10 0)"/>
-            <g class="ill-lines"><path d="M60 150L140 100"/><path d="M60 156L150 112"/><path d="M60 162L250 112"/><path d="M60 168L262 100"/></g>
-            <rect x="40" y="148" width="40" height="24" rx="6" class="ill-bar"/>
-            <g class="ill-ok" transform="translate(270 160)"><circle r="16"/><path d="M-7 0l5 5 9-10"/></g>
-          </svg>
-          <figcaption><b>2 · Pré-vol.</b> Lignes déroulées sans nœud ni croisement, bien connectées (avant / arrière, gauche / droite). Largueur et leash testés.</figcaption>
-        </figure>
-
-        <figure class="slide" aria-label="Étape 3 sur 6">
-          <img class="ill-img" src="tuto/etape-3.webp" alt="L'assistant tient l'aile debout en bord de fenêtre, à 90 degrés du vent" loading="lazy" decoding="async" onerror="this.remove()">
-          <svg viewBox="0 0 320 190" class="ill" aria-hidden="true">
-            <rect x="0" y="0" width="320" height="190" rx="14" class="ill-sand"/>
-            <g class="ill-wind"><path d="M18 30h46"/><path d="M54 22l10 8-10 8"/><text x="18" y="54">vent</text></g>
-            <path class="ill-window" d="M110 22a78 78 0 0 1 0 156"/>
-            <text x="200" y="100" class="ill-small">fenêtre de vol</text>
-            <path class="ill-lines-one" d="M110 160V46"/>
-            <g class="ill-person" transform="translate(110 168)"><circle r="8" cy="-4"/></g>
-            <path class="ill-kite" d="M110 18c14 2 24 10 26 24-6-6-14-9-26-10-12 1-20 4-26 10 2-14 12-22 26-24z"/>
-            <g class="ill-person ill-helper" transform="translate(142 34)"><circle r="7"/></g>
-            <text x="150" y="20" class="ill-small">assistant</text>
-            <text x="122" y="184" class="ill-small">vous</text>
-          </svg>
+        <figure class="slide" aria-label="Étape 2 sur 10">
+          <img class="ill-img" src="tuto/decollage-02.webp" alt="Le rider marche vers la mer en déroulant les lignes" loading="lazy" decoding="async" onerror="this.remove()">
+          <svg viewBox="0 0 320 180" class="ill" aria-hidden="true"><rect width="320" height="180" rx="14" class="ill-sand"/></svg>
           <span class="wind-chip" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v15M6 13l6 6 6-6"/></svg>vent de la mer</span>
-          <figcaption><b>3 · Se placer en bord de fenêtre.</b> L'aile est sur le côté, à 90° du vent. L'assistant la tient debout par le bord d'attaque, jamais dans la zone de puissance.</figcaption>
+          <figcaption><b>2 · Dérouler les lignes.</b> Barre en main, déroule les lignes en marchant vers le vent : bien droites, sans nœud ni croisement.</figcaption>
         </figure>
-
-        <figure class="slide" aria-label="Étape 4 sur 6">
-          <img class="ill-img" src="tuto/etape-4.webp" alt="L'aile se remplit sans battre pendant que le rider recule d'un pas" loading="lazy" decoding="async" onerror="this.remove()">
-          <svg viewBox="0 0 320 190" class="ill" aria-hidden="true">
-            <rect x="0" y="0" width="320" height="190" rx="14" class="ill-sand"/>
-            <g class="ill-wind"><path d="M18 30h46"/><path d="M54 22l10 8-10 8"/><text x="18" y="54">vent</text></g>
-            <path class="ill-lines-one" d="M110 150V46"/>
-            <path class="ill-kite ill-kite-full" d="M110 16c16 2 28 12 30 28-7-7-16-11-30-12-14 1-23 5-30 12 2-16 14-26 30-28z"/>
-            <g class="ill-person" transform="translate(110 158)"><circle r="8" cy="-4"/></g>
-            <g class="ill-move"><path d="M128 160h40"/><path d="M160 152l8 8-8 8"/></g>
-            <text x="176" y="164" class="ill-small">petits pas</text>
-            <text x="150" y="50" class="ill-small">l'aile se remplit,</text>
-            <text x="150" y="66" class="ill-small">elle ne bat pas</text>
-          </svg>
+        <figure class="slide" aria-label="Étape 3 sur 10">
+          <img class="ill-img" src="tuto/decollage-03.webp" alt="L&#x27;aile dégonflée étalée sur le sable, valve vers le ciel" loading="lazy" decoding="async" onerror="this.remove()">
+          <svg viewBox="0 0 320 180" class="ill" aria-hidden="true"><rect width="320" height="180" rx="14" class="ill-sand"/></svg>
           <span class="wind-chip" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v15M6 13l6 6 6-6"/></svg>vent de la mer</span>
-          <figcaption><b>4 · Tendre les lignes.</b> Reculez ou avancez d'un pas jusqu'à ce que l'aile se remplisse sans battre. Si elle tire fort, vous êtes trop dans le vent : revenez vers le bord.</figcaption>
+          <figcaption><b>3 · Étaler l’aile.</b> Au bout des lignes, étale l'aile retournée : valve de gonflage vers le ciel, bord d'attaque face au vent.</figcaption>
         </figure>
-
-        <figure class="slide" aria-label="Étape 5 sur 6">
-          <img class="ill-img" src="tuto/etape-5.webp" alt="Le rider lève le pouce, l'assistant lâche l'aile" loading="lazy" decoding="async" onerror="this.remove()">
-          <svg viewBox="0 0 320 190" class="ill" aria-hidden="true">
-            <rect x="0" y="0" width="320" height="190" rx="14" class="ill-sand"/>
-            <g class="ill-thumb" transform="translate(96 98)">
-              <rect x="-26" y="-6" width="44" height="46" rx="12"/>
-              <rect x="-10" y="-46" width="18" height="46" rx="9"/>
-            </g>
-            <text x="96" y="168" class="ill-small" text-anchor="middle">pouce levé</text>
-            <g class="ill-ok" transform="translate(214 92)"><circle r="40"/><path d="M-16 0l10 10 22-22"/></g>
-            <text x="214" y="168" class="ill-small" text-anchor="middle">l'assistant lâche</text>
-          </svg>
+        <figure class="slide" aria-label="Étape 4 sur 10">
+          <img class="ill-img" src="tuto/decollage-04.webp" alt="Le rider gonfle l&#x27;aile avec une pompe" loading="lazy" decoding="async" onerror="this.remove()">
+          <svg viewBox="0 0 320 180" class="ill" aria-hidden="true"><rect width="320" height="180" rx="14" class="ill-sand"/></svg>
           <span class="wind-chip" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v15M6 13l6 6 6-6"/></svg>vent de la mer</span>
-          <figcaption><b>5 · Le signal.</b> Pouce levé = « lâche ». L'assistant ouvre simplement les mains, sans pousser ni lancer l'aile. Main sur la tête = « attrape et pose mon aile ».</figcaption>
+          <figcaption><b>4 · Gonfler.</b> Gonfle le boudin principal puis les lattes, et leste l'aile avec du sable pour qu'elle ne parte pas.</figcaption>
         </figure>
-
-        <figure class="slide" aria-label="Étape 6 sur 6">
-          <img class="ill-img" src="tuto/etape-6.webp" alt="L'aile monte au zénith au-dessus du rider" loading="lazy" decoding="async" onerror="this.remove()">
-          <svg viewBox="0 0 320 190" class="ill" aria-hidden="true">
-            <rect x="0" y="0" width="320" height="190" rx="14" class="ill-sand"/>
-            <g class="ill-wind"><path d="M18 30h46"/><path d="M54 22l10 8-10 8"/><text x="18" y="54">vent</text></g>
-            <path class="ill-window" d="M110 22a78 78 0 0 1 0 156"/>
-            <path class="ill-arc" d="M128 34C170 40 190 70 196 100"/>
-            <path class="ill-arrowhead" d="M188 92l8 10 4-12"/>
-            <path class="ill-kite" d="M110 18c14 2 24 10 26 24-6-6-14-9-26-10-12 1-20 4-26 10 2-14 12-22 26-24z" opacity=".35"/>
-            <circle cx="196" cy="100" r="10" class="ill-zenith"/>
-            <text x="212" y="96" class="ill-small">zénith</text>
-            <text x="212" y="112" class="ill-small">(au-dessus de vous)</text>
-            <g class="ill-person" transform="translate(110 168)"><circle r="8" cy="-4"/></g>
-          </svg>
+        <figure class="slide" aria-label="Étape 5 sur 10">
+          <img class="ill-img" src="tuto/decollage-05.webp" alt="Le rider connecte les lignes à l&#x27;aile" loading="lazy" decoding="async" onerror="this.remove()">
+          <svg viewBox="0 0 320 180" class="ill" aria-hidden="true"><rect width="320" height="180" rx="14" class="ill-sand"/></svg>
           <span class="wind-chip" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v15M6 13l6 6 6-6"/></svg>vent de la mer</span>
-          <figcaption><b>6 · Monter au zénith.</b> Barre près de vous, montez doucement l'aile en restant au bord de la fenêtre, jusqu'au-dessus de votre tête. Puis direction l'eau, aile au zénith.</figcaption>
+          <figcaption><b>5 · Connecter les lignes.</b> Retourne l'aile face vers le ciel et connecte les lignes : avants au bord d'attaque, arrières aux extrémités. Vérifie gauche et droite.</figcaption>
         </figure>
-
+        <figure class="slide" aria-label="Étape 6 sur 10">
+          <img class="ill-img" src="tuto/decollage-06.webp" alt="Le partenaire tient l&#x27;aile, le rider s&#x27;accroche au harnais" loading="lazy" decoding="async" onerror="this.remove()">
+          <svg viewBox="0 0 320 180" class="ill" aria-hidden="true"><rect width="320" height="180" rx="14" class="ill-sand"/></svg>
+          <span class="wind-chip" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v15M6 13l6 6 6-6"/></svg>vent de la mer</span>
+          <figcaption><b>6 · S’accrocher.</b> Ton partenaire tient l'aile pendant que tu t'accroches au harnais (chicken loop et leash). Ne tire pas sur les lignes. Teste ton largueur.</figcaption>
+        </figure>
+        <figure class="slide" aria-label="Étape 7 sur 10">
+          <img class="ill-img" src="tuto/decollage-07.webp" alt="Le rider marche lignes molles jusqu&#x27;au bord de fenêtre" loading="lazy" decoding="async" onerror="this.remove()">
+          <svg viewBox="0 0 320 180" class="ill" aria-hidden="true"><rect width="320" height="180" rx="14" class="ill-sand"/></svg>
+          <span class="wind-chip" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v15M6 13l6 6 6-6"/></svg>vent de la mer</span>
+          <figcaption><b>7 · Sortir de la zone de puissance.</b> Lignes encore molles, marche jusqu'à ce que l'aile soit en bord de fenêtre, vers 9 h ou 3 h, perpendiculaire au vent.</figcaption>
+        </figure>
+        <figure class="slide" aria-label="Étape 8 sur 10">
+          <img class="ill-img" src="tuto/decollage-08.webp" alt="Le rider tend les lignes, l&#x27;aile se remplit" loading="lazy" decoding="async" onerror="this.remove()">
+          <svg viewBox="0 0 320 180" class="ill" aria-hidden="true"><rect width="320" height="180" rx="14" class="ill-sand"/></svg>
+          <span class="wind-chip" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v15M6 13l6 6 6-6"/></svg>vent de la mer</span>
+          <figcaption><b>8 · Tendre doucement.</b> Tends doucement les lignes et reviens sur tes pas jusqu'à ce que le bas de l'aile arrête de faseyer : elle est prête à décoller.</figcaption>
+        </figure>
+        <figure class="slide" aria-label="Étape 9 sur 10">
+          <img class="ill-img" src="tuto/decollage-09.webp" alt="Pouce levé, le partenaire lâche l&#x27;aile" loading="lazy" decoding="async" onerror="this.remove()">
+          <svg viewBox="0 0 320 180" class="ill" aria-hidden="true"><rect width="320" height="180" rx="14" class="ill-sand"/></svg>
+          <span class="wind-chip" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v15M6 13l6 6 6-6"/></svg>vent de la mer</span>
+          <figcaption><b>9 · Le signal.</b> Pouce levé : ton partenaire lâche doucement l'aile, sans la pousser. Mains croisées au-dessus de la tête = « repose l'aile ».</figcaption>
+        </figure>
+        <figure class="slide" aria-label="Étape 10 sur 10">
+          <img class="ill-img" src="tuto/decollage-10.webp" alt="L&#x27;aile monte au zénith" loading="lazy" decoding="async" onerror="this.remove()">
+          <svg viewBox="0 0 320 180" class="ill" aria-hidden="true"><rect width="320" height="180" rx="14" class="ill-sand"/></svg>
+          <span class="wind-chip" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v15M6 13l6 6 6-6"/></svg>vent de la mer</span>
+          <figcaption><b>10 · Monter à midi.</b> Accompagne une montée douce par le bord de fenêtre jusqu'à midi (12 h). Par vent fort, n'y reste pas : ramène l'aile vers 11 h ou 1 h.</figcaption>
+        </figure>
       </div>
       <div class="car-nav">
-        <button class="car-btn" id="carPrev" aria-label="Étape précédente">‹</button>
-        <div class="dots" id="carDots"></div>
-        <button class="car-btn" id="carNext" aria-label="Étape suivante">›</button>
+        <button class="car-btn car-prev" aria-label="Étape précédente">‹</button>
+        <div class="dots"></div>
+        <button class="car-btn car-next" aria-label="Étape suivante">›</button>
+      </div>
+    </div>
+
+    <div class="h3">Atterrir et porter son aile</div>
+    <div class="carousel" id="landing" aria-roledescription="carrousel" aria-label="Atterrir et porter son aile en 4 étapes">
+      <div class="slides">
+        <figure class="slide" aria-label="Étape 1 sur 4">
+          <img class="ill-img" src="tuto/atterrissage-1.webp" alt="Le rider tape sur son casque, aile basse en bord de fenêtre" loading="lazy" decoding="async" onerror="this.remove()">
+          <svg viewBox="0 0 320 180" class="ill" aria-hidden="true"><rect width="320" height="180" rx="14" class="ill-sand"/></svg>
+          <span class="wind-chip" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v15M6 13l6 6 6-6"/></svg>vent de la mer</span>
+          <figcaption><b>1 · Le signal.</b> Aile en bord de fenêtre et assez basse, tape sur ta tête : ton partenaire vient se placer près de l'aile.</figcaption>
+        </figure>
+        <figure class="slide" aria-label="Étape 2 sur 4">
+          <img class="ill-img" src="tuto/atterrissage-2.webp" alt="Le partenaire tient l&#x27;aile par le bord d&#x27;attaque" loading="lazy" decoding="async" onerror="this.remove()">
+          <svg viewBox="0 0 320 180" class="ill" aria-hidden="true"><rect width="320" height="180" rx="14" class="ill-sand"/></svg>
+          <span class="wind-chip" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v15M6 13l6 6 6-6"/></svg>vent de la mer</span>
+          <figcaption><b>2 · L’attraper.</b> Descends l'aile doucement vers lui, une main sur la barre, l'autre sur le largueur. Il l'attrape par le milieu du bord d'attaque, jamais par les lignes.</figcaption>
+        </figure>
+        <figure class="slide" aria-label="Étape 3 sur 4">
+          <img class="ill-img" src="tuto/atterrissage-3.webp" alt="L&#x27;aile posée au sol et lestée de sable" loading="lazy" decoding="async" onerror="this.remove()">
+          <svg viewBox="0 0 320 180" class="ill" aria-hidden="true"><rect width="320" height="180" rx="14" class="ill-sand"/></svg>
+          <span class="wind-chip" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v15M6 13l6 6 6-6"/></svg>vent de la mer</span>
+          <figcaption><b>3 · Sécuriser.</b> Lâche la barre, rejoins l'aile, décroche chicken loop et leash. Aile retournée, bord d'attaque face au vent, lestée de sable. Enroule les lignes vers l'aile.</figcaption>
+        </figure>
+        <figure class="slide" aria-label="Étape 4 sur 4">
+          <img class="ill-img" src="tuto/atterrissage-4.webp" alt="Le rider porte l&#x27;aile par le bord d&#x27;attaque" loading="lazy" decoding="async" onerror="this.remove()">
+          <svg viewBox="0 0 320 180" class="ill" aria-hidden="true"><rect width="320" height="180" rx="14" class="ill-sand"/></svg>
+          <span class="wind-chip" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v15M6 13l6 6 6-6"/></svg>vent de la mer</span>
+          <figcaption><b>4 · Porter son aile.</b> Tiens-la par le milieu du bord d'attaque, face au vent, le dos de l'aile vers le sable : le vent la plaque au lieu de la soulever. Garde-la basse.</figcaption>
+        </figure>
+      </div>
+      <div class="car-nav">
+        <button class="car-btn car-prev" aria-label="Étape précédente">‹</button>
+        <div class="dots"></div>
+        <button class="car-btn car-next" aria-label="Étape suivante">›</button>
+      </div>
+    </div>
+
+    <div class="h3">Réussir son water start</div>
+    <div class="carousel" id="waterstart" aria-roledescription="carrousel" aria-label="Water start en 6 étapes">
+      <div class="slides">
+        <figure class="slide" aria-label="Étape 1 sur 6">
+          
+          <svg viewBox="0 0 320 180" class="ill" aria-hidden="true"><rect width="320" height="180" rx="14" class="ill-sky"/><path d="M0 118h320v48a14 14 0 0 1-14 14H14A14 14 0 0 1 0 166z" class="ill-sea"/><g class="ill-wind"><path d="M14 22h40"/><path d="M45 14l9 8-9 8"/><text x="14" y="46">vent</text></g><path class="ill-kite" transform="translate(170 30) rotate(0)" d="M0-12c16 1 28 9 31 22-8-6-18-9-31-9s-23 3-31 9c3-13 15-21 31-22z"/><path class="ill-lines-one" d="M168 108L170 40"/><g class="ill-body"><circle cx="150" cy="114" r="8"/><path d="M158 118l40 4M168 110l0 0"/><path d="M160 112l8-4"/></g><rect x="196" y="112" width="60" height="8" rx="4" class="ill-board"/></svg>
+          
+          <figcaption><b>1 · Flotter, aile à midi.</b> Sur le dos dans l'eau, aile stable au zénith (12 h). Une main au centre de la barre, l'autre ramène la planche vers toi.</figcaption>
+        </figure>
+        <figure class="slide" aria-label="Étape 2 sur 6">
+          
+          <svg viewBox="0 0 320 180" class="ill" aria-hidden="true"><rect width="320" height="180" rx="14" class="ill-sky"/><path d="M0 118h320v48a14 14 0 0 1-14 14H14A14 14 0 0 1 0 166z" class="ill-sea"/><g class="ill-wind"><path d="M14 22h40"/><path d="M45 14l9 8-9 8"/><text x="14" y="46">vent</text></g><path class="ill-kite" transform="translate(170 30) rotate(0)" d="M0-12c16 1 28 9 31 22-8-6-18-9-31-9s-23 3-31 9c3-13 15-21 31-22z"/><path class="ill-lines-one" d="M150 102L170 40"/><g class="ill-body"><circle cx="140" cy="108" r="8"/><path d="M144 116l14 10 18-8M150 104l2-2"/></g><rect x="176" y="96" width="9" height="46" rx="4" class="ill-board" transform="rotate(-20 180 119)"/></svg>
+          
+          <figcaption><b>2 · Chausser la planche.</b> Pieds dans les straps, genoux pliés vers la poitrine, planche en travers devant toi. Aile toujours à 12 h, sans bouger.</figcaption>
+        </figure>
+        <figure class="slide" aria-label="Étape 3 sur 6">
+          
+          <svg viewBox="0 0 320 180" class="ill" aria-hidden="true"><rect width="320" height="180" rx="14" class="ill-sky"/><path d="M0 118h320v48a14 14 0 0 1-14 14H14A14 14 0 0 1 0 166z" class="ill-sea"/><g class="ill-wind"><path d="M14 22h40"/><path d="M45 14l9 8-9 8"/><text x="14" y="46">vent</text></g><g transform="translate(0 0)"><text x="80" y="44" class="ill-bad" text-anchor="middle">✗</text><g class="ill-body"><circle cx="70" cy="96" r="8"/><path d="M74 104l10 14M76 100c8-6 10-14 4-18"/></g><rect x="74" y="76" width="22" height="5" rx="2" class="ill-bar-bad"/><path class="ill-lines-one" d="M85 76L120 30"/><text x="80" y="164" class="ill-small" text-anchor="middle">barre tirée</text></g><path d="M160 60v100" stroke="var(--none)" stroke-width="2"/><g><text x="240" y="44" class="ill-good" text-anchor="middle">✓</text><g class="ill-body"><circle cx="220" cy="100" r="8"/><path d="M224 108l10 12M226 104l22-20"/></g><rect x="244" y="80" width="22" height="5" rx="2" class="ill-bar-good"/><path class="ill-lines-one" d="M255 80L280 30"/><text x="240" y="164" class="ill-small" text-anchor="middle">bras tendus</text></g></svg>
+          
+          <figcaption><b>3 · Ne t’agrippe pas à la barre.</b> <strong>Bras tendus, barre loin de toi, mains souples.</strong> Si tu tires la barre vers toi, l'aile prend toute sa puissance d'un coup et te fait passer par-dessus la planche. La traction vient de l'aile, pas de tes bras.</figcaption>
+        </figure>
+        <figure class="slide" aria-label="Étape 4 sur 6">
+          
+          <svg viewBox="0 0 320 180" class="ill" aria-hidden="true"><rect width="320" height="180" rx="14" class="ill-sky"/><path d="M0 118h320v48a14 14 0 0 1-14 14H14A14 14 0 0 1 0 166z" class="ill-sea"/><g class="ill-wind"><path d="M14 22h40"/><path d="M45 14l9 8-9 8"/><text x="14" y="46">vent</text></g><path class="ill-kite" opacity=".3" transform="translate(170 30)" d="M0-12c16 1 28 9 31 22-8-6-18-9-31-9s-23 3-31 9c3-13 15-21 31-22z"/><path class="ill-arc" d="M190 40C240 50 262 70 270 92"/><path class="ill-arrowhead" d="M262 84l8 10 4-12"/><path class="ill-kite" transform="translate(276 98) rotate(60)" d="M0-12c16 1 28 9 31 22-8-6-18-9-31-9s-23 3-31 9c3-13 15-21 31-22z"/><path class="ill-lines-one" d="M150 104L262 100"/><g class="ill-body"><circle cx="140" cy="108" r="8"/><path d="M144 116l14 10 18-8M146 106l6-2"/></g><rect x="176" y="96" width="9" height="46" rx="4" class="ill-board" transform="rotate(-20 180 119)"/></svg>
+          
+          <figcaption><b>4 · Piquer l’aile.</b> Depuis 12 h, emmène l'aile un peu du côté opposé puis plonge-la franchement vers 10 h (ou 2 h) du côté où tu pars. C'est l'aile qui te sort de l'eau.</figcaption>
+        </figure>
+        <figure class="slide" aria-label="Étape 5 sur 6">
+          
+          <svg viewBox="0 0 320 180" class="ill" aria-hidden="true"><rect width="320" height="180" rx="14" class="ill-sky"/><path d="M0 118h320v48a14 14 0 0 1-14 14H14A14 14 0 0 1 0 166z" class="ill-sea"/><g class="ill-wind"><path d="M14 22h40"/><path d="M45 14l9 8-9 8"/><text x="14" y="46">vent</text></g><path class="ill-kite" transform="translate(262 52) rotate(40)" d="M0-12c16 1 28 9 31 22-8-6-18-9-31-9s-23 3-31 9c3-13 15-21 31-22z"/><path class="ill-lines-one" d="M150 92L252 62"/><g class="ill-body"><circle cx="140" cy="70" r="8"/><path d="M140 78v22M140 100l14 16M140 100l-10 8 2 8M142 84l12 6"/></g><rect x="118" y="114" width="56" height="7" rx="3" class="ill-board" transform="rotate(-6 146 118)"/><g class="ill-move"><path d="M186 140h34"/><path d="M212 132l8 8-8 8"/></g></svg>
+          
+          <figcaption><b>5 · Se laisser lever.</b> Laisse la traction te mettre debout : jambe avant tendue, poids sur le talon arrière, regard vers l'avant. Se lever est le dernier geste, pas le premier.</figcaption>
+        </figure>
+        <figure class="slide" aria-label="Étape 6 sur 6">
+          
+          <svg viewBox="0 0 320 180" class="ill" aria-hidden="true"><rect width="320" height="180" rx="14" class="ill-sky"/><path d="M0 118h320v48a14 14 0 0 1-14 14H14A14 14 0 0 1 0 166z" class="ill-sea"/><g class="ill-wind"><path d="M14 22h40"/><path d="M45 14l9 8-9 8"/><text x="14" y="46">vent</text></g><path class="ill-kite" transform="translate(236 38) rotate(20)" d="M0-12c16 1 28 9 31 22-8-6-18-9-31-9s-23 3-31 9c3-13 15-21 31-22z"/><path class="ill-lines-one" d="M150 92L230 48"/><path class="ill-arc" d="M210 70c10-14 20-14 30 0s20 14 30 0"/><g class="ill-body"><circle cx="140" cy="70" r="8"/><path d="M140 78v22M140 100l14 16M140 100l-10 8 2 8M142 84l14 4"/></g><rect x="118" y="114" width="56" height="7" rx="3" class="ill-board" transform="rotate(-6 146 118)"/></svg>
+          
+          <figcaption><b>6 · Stabiliser.</b> Remonte l'aile vers 11 h (ou 1 h) et garde-la stable. Tu ralentis : un sinus (l'aile monte puis redescend). Trop de puissance : éloigne la barre.</figcaption>
+        </figure>
+      </div>
+      <div class="car-nav">
+        <button class="car-btn car-prev" aria-label="Étape précédente">‹</button>
+        <div class="dots"></div>
+        <button class="car-btn car-next" aria-label="Étape suivante">›</button>
       </div>
     </div>
     <details open>
@@ -669,17 +726,6 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
         <li><b>Celui qui dépasse s'écarte</b> et laisse le passage.</li>
         <li><b>Baigneurs, nageurs et bateaux</b> : toujours les éviter largement. Dans la bande des 300 m, sortir et rentrer par les chenaux balisés quand il y en a.</li>
         <li><b>Avant un saut</b> : au moins 50 m libres sous le vent et 30 m au vent.</li>
-      </ul>
-    </details>
-    <details>
-      <summary>Décoller et poser l'aile</summary>
-      <ul>
-        <li><b>Toujours avec un assistant</b> qui sait faire, ou en auto-décollage parfaitement maîtrisé.</li>
-        <li><b>Zone libre sous le vent</b> : au moins deux longueurs de lignes (environ 50 m) sans personne ni obstacle.</li>
-        <li><b>Décoller en bord de fenêtre</b>, jamais dans la zone de puissance.</li>
-        <li><b>Les signes</b> : pouce levé = « lâche l'aile » ; main tapotant la tête = « attrape et pose mon aile ».</li>
-        <li><b>Aile posée</b> : bord d'attaque face au vent, lestée avec du sable, lignes enroulées si elle reste au sol.</li>
-        <li><b>Avant chaque session</b> : lignes sans nœud ni croisement, largueur et leash testés, aile bien gonflée.</li>
       </ul>
     </details>
     <details>
@@ -1041,13 +1087,13 @@ function windArrow(deg){
 }
 function num(x, d){ return x.toLocaleString('fr-FR',{minimumFractionDigits:d, maximumFractionDigits:d}); }
 
-// Bateau de plaisance 5-8 m : moins il y a de vent et de mer, mieux c'est.
+// Bateau de 13 m : à l'aise jusqu'à force 4-5, prudence en force 6, déconseillé au-delà.
 function scoreBoat(h){
   const kn = h.kn, m = h.wave;
-  let w = kn<=12 ? 100 - kn*2 : kn<=18 ? 69 - (kn-12)*4 : Math.max(0, 44 - (kn-18)*5);
-  if(h.gust>25) w = Math.min(w, 40);
-  if(h.gust>30) w = Math.min(w, 15);
-  const s = m<=0.6 ? 100 - m*40 : m<=1.2 ? 69 - (m-0.6)*40 : Math.max(0, 44 - (m-1.2)*50);
+  let w = kn<=17 ? 100 - kn*1.5 : kn<=27 ? 70 - (kn-17)*2.5 : Math.max(0, 44 - (kn-27)*6);
+  if(h.gust>34) w = Math.min(w, 40);
+  if(h.gust>40) w = Math.min(w, 15);
+  const s = m<=1.25 ? 100 - m*24 : m<=2.5 ? 69 - (m-1.25)*19.2 : Math.max(0, 44 - (m-2.5)*30);
   let score = Math.min(w, s), why = w<s ? 'vent' : 'mer';
   if(h.night && score>60){ score = 60; why = 'nuit'; }
   if(h.code>=95 && score>15){ score = 15; why = 'orage'; }
@@ -1213,8 +1259,8 @@ function renderForecast(){
   // Liste des créneaux / sessions
   $('slotsTitle').textContent = kite ? 'Sessions de kite à venir' : "Créneaux d'écluse à venir";
   $('slotsHelp').textContent = kite
-    ? "Périodes de jour où le vent prévu permet de naviguer à "+SPOTS[SPOT].name+". La note tient compte de la force du vent, de sa régularité et de son orientation par rapport à la plage."
-    : "Chaque créneau est une fenêtre pour sortir du port (ou y rentrer). La note indique les conditions en mer prévues pendant le créneau, pour un bateau de 5 à 8 m : vent et vagues (Météo-France).";
+    ? "Les heures de jour où ça navigue à "+SPOTS[SPOT].name+" : vent assez fort et régulier, bien orienté par rapport à la plage (side-on ou side-shore), jamais offshore."
+    : "Chaque créneau est une fenêtre pour sortir du port (ou y rentrer). La note indique les conditions en mer prévues pendant le créneau, pour notre bateau de 13 m : vent et vagues (Météo-France).";
   const list = $('windows');
   list.innerHTML = '';
   const bestScore = Math.max(...slots.map(w=>w.score));
@@ -1392,10 +1438,11 @@ $('insForm').addEventListener('submit', e=>{
 });
 renderIns();
 
-/* ---------- Carrousel de décollage ---------- */
-(function(){
-  const track = $('slides'), slides = [...track.children], dots = $('carDots');
-  let cur = 0;
+/* ---------- Carrousels (décollage, atterrissage, water start) ---------- */
+document.querySelectorAll('.carousel').forEach(root => {
+  const track = root.querySelector('.slides'), slides = [...track.children], dots = root.querySelector('.dots');
+  const prev = root.querySelector('.car-prev'), next = root.querySelector('.car-next');
+  let cur = -1;
   slides.forEach((_,i)=>{
     const b = document.createElement('button');
     b.setAttribute('aria-label', 'Étape '+(i+1));
@@ -1408,18 +1455,18 @@ renderIns();
   }
   function sync(){
     const i = Math.round(track.scrollLeft / (slides[0].offsetWidth + 12));
-    if(i===cur && dots.children[i].getAttribute('aria-current')==='true') return;
+    if(i===cur) return;
     cur = i;
     [...dots.children].forEach((d,j)=>d.setAttribute('aria-current', j===i ? 'true' : 'false'));
-    $('carPrev').disabled = i===0;
-    $('carNext').disabled = i===slides.length-1;
+    prev.disabled = i===0;
+    next.disabled = i===slides.length-1;
   }
   let raf = 0;
   track.addEventListener('scroll', ()=>{ cancelAnimationFrame(raf); raf = requestAnimationFrame(sync); }, {passive:true});
-  $('carPrev').addEventListener('click', ()=>go(cur-1));
-  $('carNext').addEventListener('click', ()=>go(cur+1));
+  prev.addEventListener('click', ()=>go(cur-1));
+  next.addEventListener('click', ()=>go(cur+1));
   sync();
-})();
+});
 
 function setSpot(v){
   SPOT = v;
@@ -1445,6 +1492,9 @@ function setProfile(p, animate){
   document.querySelectorAll('[data-boat]').forEach(el => el.textContent = el.dataset[p]);
   $('appSub').textContent = p==='kite' ? 'Spot kite · '+SPOTS[SPOT].name : 'Bassin Morny · marées · météo marine';
   $('slotsTitle').textContent = p==='kite' ? 'Sessions de kite à venir' : "Créneaux d'écluse à venir";
+  $('slotsHelp').textContent = p==='kite'
+    ? "Les heures de jour où ça navigue sur la plage choisie : vent assez fort et régulier, bien orienté par rapport à la plage (side-on ou side-shore), jamais offshore."
+    : "Chaque créneau est une fenêtre pour sortir du port (ou y rentrer). La note indique les conditions en mer prévues pendant le créneau, pour notre bateau de 13 m : vent et vagues (Météo-France).";
   $('t-cal').textContent = p==='kite' ? 'Marées d\u2019un autre jour' : 'Un autre jour';
   if(animate) replay($(p==='kite' ? 'kiteNow' : 'tilePass'), 'enter');
   if(tabsReady){ refreshTabs(); syncTab(); }
@@ -1518,7 +1568,7 @@ syncTab();
 // version.json est réécrit à chaque publication (tools/publier-version.sh). Si la
 // version en ligne diffère de celle de la page, on recharge : sur l'écran
 // d'accueil de l'iPhone, l'app reste ainsi à jour sans manipulation.
-const APP_VERSION = '20261017-120145';
+const APP_VERSION = '20261017-122106';
 async function checkUpdate(){
   try{
     const r = await fetch('version.json?t='+Date.now(), {cache:'no-store'});

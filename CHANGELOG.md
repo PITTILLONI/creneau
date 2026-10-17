@@ -1,5 +1,13 @@
 # Historique des versions
 
+## 17 octobre 2026 (12h30) — Tutos kite complets, bateau de 13 m
+- **Décoller** en 10 étapes (zone, dérouler les lignes, étaler, gonfler, connecter, s'accrocher, sortir de la zone de puissance, tendre, signal, monter à midi), relu avec des sources d'écoles (kiteinside, FQK, whenwherekite).
+- **Atterrir et porter son aile** en 4 étapes (signal main sur la tête, récupération par le bord d'attaque, sécuriser, porter dos au sable face au vent).
+- **Water start** en 6 schémas, dont « ne t'agrippe pas à la barre : bras tendus, barre loin ».
+- Illustrations Krea (Krea 2 Medium) avec étiquette de vent ; water start en schémas faute de crédits Krea.
+- **Seuils bateau recalés pour notre bateau de 13 m** : favorable jusqu'à 17 nd et 1,25 m, prudence jusqu'à 27 nd et 2,5 m.
+- Le texte sous « Sessions de kite à venir » parle de kite dès le changement de profil.
+
 ## 17 octobre 2026 (12h) — Illustrations Krea du tuto kite
 - Les 6 étapes « Décoller son aile » sont illustrées avec Krea (Krea 2 Medium, mêmes personnages et même style), vérifiées une à une : aile en bord de fenêtre au bout des 4 lignes, pré-vol aile au sol, pouce levé, zénith. Étiquette « vent de la mer » sur les vues de plage. Les dessins SVG restent en secours si une image ne charge pas.
 

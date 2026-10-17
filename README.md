@@ -15,7 +15,7 @@ L'app est pensée pour un **marin** (profil Bateau) ou un **kitesurfeur** (profi
 1. **Spot en direct** : vent (force, direction, orientation par rapport à la plage), **taille d'aile idéale** selon le **poids du rider** (réglable), **température de l'eau** et combinaison conseillée, rafales et régularité, marée montante/descendante, air, coucher du soleil ;
 2. **Choix de la plage** : Deauville, Trouville-sur-Mer, Houlgate, Cabourg (position et orientation propres à chaque plage, à affiner sur le terrain : `SPOTS` dans `index.html`) ;
 3. **Prévisions** : sessions *Navigable / Limite / Pas navigable* sur 3 jours, heure par heure ;
-4. **Conseils** : carrousel illustré pour décoller son aile avec un assistant, **mon assurance** (stockée seulement sur le téléphone), priorités sur l'eau, sécurité, règles locales ;
+4. **Conseils** : trois carrousels illustrés (décoller son aile en 10 étapes, atterrir et porter son aile, réussir son water start sans s'agripper à la barre), **mon assurance** (stockée seulement sur le téléphone), priorités sur l'eau, sécurité, règles locales ;
 4. marées de n'importe quel jour.
 
 > ⚠️ Horaires **théoriques**. Toujours confirmer avant une manœuvre via le **VHF canal 9** ou la cabine de l'écluse (06 98 71 83 92).
@@ -56,7 +56,7 @@ Liens de vérification affichés sur la page : [bulletin météo marine Météo-
 
 Les seuils sont expliqués sur la page (« Comment est calculé… ») et réglés dans `index.html` (`scoreBoat`, `scoreKite`, `BEACH_ONSHORE`) :
 
-- **Bateau** (plaisance 5–8 m) : bon jusqu'à 12 nœuds et 0,6 m de vagues, moyen jusqu'à 18 nœuds et 1,2 m, déconseillé au-delà ou avec des rafales de plus de 25 nœuds ; jamais mieux que « moyen » de nuit. Un créneau d'écluse prend la note de sa pire heure.
+- **Bateau** (notre bateau de 13 m) : favorable jusqu'à 17 nœuds et 1,25 m de vagues, prudence jusqu'à 27 nœuds et 2,5 m, déconseillé au-delà ou avec des rafales de plus de 34 nœuds ; jamais mieux que « prudence » de nuit. Un créneau d'écluse prend la note de sa pire heure.
 - **Kitesurf** (plage de Deauville, orientée NNO) : idéal 14–25 nœuds ; rafaleux si l'écart rafales/vent moyen dépasse 8 nœuds ; side-on / side-shore = bon, onshore = moyen, side-off = déconseillé, **offshore = dangereux** ; orage ou nuit = pas de session.
 - **Taille d'aile** indicative (twin-tip) : poids du rider (kg) × 2,2 / vent (nœuds), entre 5 et 17 m² ; en dessous de 12 nœuds, foil. **Combinaison** selon la température de l'eau (modèle de courants Météo-France).
 
