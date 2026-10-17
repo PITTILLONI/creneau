@@ -79,6 +79,26 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   #conseils details:first-of-type{margin-top:22px;}
   #conseils .h3{margin-top:0;}
 
+  /* voilure bateau */
+  .sail{background:var(--surface);border-radius:var(--radius);padding:16px;margin-top:12px;}
+  .sail-head .k{font-size:.85rem;font-weight:600;color:var(--ink-2);}
+  .sail-plan{font-size:1.5rem;font-weight:700;letter-spacing:-.03em;line-height:1.15;margin:4px 0 2px;}
+  .sail-sub{font-size:.92rem;color:var(--ink-2);}
+  .sail-notes{margin:12px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px;}
+  .sail-notes li{background:var(--mid-bg);border-radius:12px;padding:8px 12px;font-size:.9rem;}
+  .sail-dest-t{font-weight:700;margin:16px 0 8px;}
+  .sail-dest{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;}
+  .sail-dest li{background:var(--surface-2);border-radius:14px;padding:10px 12px;display:grid;grid-template-columns:1fr auto;gap:2px 10px;align-items:center;}
+  .sail-dest .dest b{display:block;font-size:1rem;}
+  .sail-dest .dest span{font-size:.82rem;color:var(--ink-2);}
+  .sail-dest p{grid-column:1/3;margin:4px 0 0;font-size:.88rem;color:var(--ink-2);}
+  .allure{font-weight:700;font-size:.85rem;padding:5px 10px;border-radius:999px;white-space:nowrap;background:var(--surface);}
+  .allure.a0{background:var(--bad-bg);color:var(--bad);}
+  .allure.a1,.allure.a2{background:var(--mid-bg);color:var(--mid);}
+  .allure.a3,.allure.a4{background:var(--good-bg);color:var(--good);}
+  .allure.a5{background:var(--mid-bg);color:var(--mid);}
+  .sail-foot{margin:12px 0 0;font-size:.82rem;}
+
   /* assurance */
   .insur{background:var(--surface);border-radius:var(--radius);padding:16px;margin-bottom:22px;}
   .insur-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px;}
@@ -571,6 +591,8 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
       <div class="gauge-scale" aria-hidden="true"><span data-l="bad">Déconseillé</span><span data-l="mid">Prudence</span><span data-l="good">Favorable</span></div>
       <div class="conds" id="vConds"></div>
     </div>
+
+    <div class="sail only-boat" id="sailCard"></div>
 
     <div class="h3" id="slotsTitle">Créneaux d'écluse à venir</div>
     <p class="muted slots-help" id="slotsHelp"></p>
@@ -1190,6 +1212,7 @@ async function loadForecast(){
     renderForecast();
     renderKiteNow();
   } catch(err){
+    ERRORS.push('prévisions : '+(err && err.message));
     $('vLabel').textContent = 'Prévisions indisponibles pour le moment (connexion ?).';
     $('vWord').textContent = '—';
     $('windows').innerHTML = '<div class="muted">Impossible de charger les prévisions. Consulter le bulletin Météo-France ci-dessous.</div>';
@@ -1284,6 +1307,7 @@ function renderForecast(){
     v.className = 'verdict only-boat-v';
     $('vWord').textContent = '—';
   }
+  if(!kite) renderSail(cur);
 
   // Liste des créneaux / sessions
   $('slotsTitle').textContent = kite ? 'Sessions de kite à venir' : "Créneaux d'écluse à venir";
@@ -1499,6 +1523,58 @@ document.querySelectorAll('.carousel').forEach(root => {
   sync();
 });
 
+/* ---------- Bateau : voilure et allures conseillées ---------- */
+// Voilier de 13 m gréé en sloop : grand-voile 3 ris, génois sur enrouleur.
+// On réduit pour les rafales, pas pour le vent moyen.
+function sailPlan(kn, gust){
+  const eff = Math.max(kn, gust - 6);
+  if(eff < 6)  return {plan:'Moteur', sub:'trop peu de vent pour avancer à la voile (ou toute la toile si tu as le temps)'};
+  if(eff < 15) return {plan:'Grand-voile haute + génois entier', sub: eff < 12 ? 'gennaker possible au portant' : 'toute la toile'};
+  if(eff < 20) return {plan:'1 ris + génois entier', sub:'roule un peu le génois au près si ça gîte trop'};
+  if(eff < 25) return {plan:'2 ris + génois roulé à 30 %', sub:'bateau plus droit, plus rapide et plus confortable'};
+  if(eff < 30) return {plan:'3 ris + génois roulé à 50 %', sub:'conditions fortes : équipage attaché, gilets'};
+  return {plan:'Rester au port', sub:'au-delà de 30 nœuds (rafales comprises), ce n\u2019est plus une sortie plaisir'};
+}
+// Destinations depuis l'entrée du port de Deauville (cap vrai approximatif).
+const DESTS = [
+  {name:'Le Havre', cap:6}, {name:'Honfleur', cap:61},
+  {name:'Dives · Port-Guillaume', cap:238}, {name:'Ouistreham', cap:251}, {name:'Le large (nord-ouest)', cap:315}
+];
+const ALLURES = [
+  {max:40,  name:'Vent debout', tip:'impossible en direct : tire des bords à 45° du vent, voiles bordées'},
+  {max:55,  name:'Près serré', tip:'voiles bordées, chariot de GV au centre, chariots de génois avancés, suis les penons'},
+  {max:75,  name:'Près bon plein', tip:'choque un peu les deux voiles, chariot de GV légèrement sous le vent'},
+  {max:105, name:'Travers', tip:'GV et génois choqués, chariots de génois reculés, hale-bas étarqué'},
+  {max:150, name:'Largue', tip:'choque largement, hale-bas repris pour limiter le vrillage de la GV'},
+  {max:181, name:'Vent arrière', tip:'retenue de bôme obligatoire, génois tangonné en ciseaux, ou lofe au grand largue pour éviter l\u2019empannage'}
+];
+function allureFor(cap, windFrom){
+  const twa = angDist(cap, windFrom);
+  return Object.assign({twa}, ALLURES.find(a => twa < a.max));
+}
+function renderSail(cur){
+  const el = $('sailCard');
+  if(!cur){ el.innerHTML = ''; return; }
+  const sp = sailPlan(cur.kn, cur.gust);
+  const notes = [];
+  if(cur.gust - cur.kn > 8) notes.push('Vent irrégulier (rafales à '+Math.round(cur.gust)+' nd) : la voilure est calculée sur les rafales.');
+  if(cur.wave > 1.5) notes.push('Mer formée ('+num(cur.wave,1)+' m) : réduis un cran plus tôt et privilégie les allures portantes.');
+  if(sp.plan.indexOf('ris') >= 0) notes.push('Prends les ris au port, avant la sortie : bien plus simple qu\u2019en mer.');
+  if(cur.night) notes.push('Sortie de nuit : feux de navigation, lampe frontale, gilets.');
+  const rows = DESTS.map(d => {
+    const a = allureFor(d.cap, cur.dir);
+    return '<li><div class="dest"><b>'+d.name+'</b><span>cap '+String(d.cap).padStart(3,'0')+'° · '+Math.round(a.twa)+'° du vent</span></div>'
+      + '<div class="allure a'+Math.min(5, ALLURES.indexOf(ALLURES.find(x=>x.name===a.name)))+'">'+a.name+'</div>'
+      + '<p>'+a.tip+'</p></li>';
+  }).join('');
+  el.innerHTML =
+    '<div class="sail-head"><div class="k">Voilure conseillée · vent '+Math.round(cur.kn)+' nd '+dirName(cur.dir)+', rafales '+Math.round(cur.gust)+' nd</div>'
+    + '<div class="sail-plan">'+sp.plan+'</div><div class="sail-sub">'+sp.sub+'</div></div>'
+    + (notes.length ? '<ul class="sail-notes">'+notes.map(n=>'<li>'+n+'</li>').join('')+'</ul>' : '')
+    + '<div class="sail-dest-t">Allure et réglages selon ta destination</div><ul class="sail-dest">'+rows+'</ul>'
+    + '<p class="muted sail-foot">Pour notre voilier de 13 m (sloop, grand-voile 3 ris, génois sur enrouleur). Repères de croisière : adapte à ton bateau et à ton équipage. Caps approximatifs depuis l\u2019entrée du port.</p>';
+}
+
 function setSpot(v){
   SPOT = v;
   try{ localStorage.setItem('spot', v); }catch(e){}
@@ -1599,7 +1675,7 @@ syncTab();
 // version.json est réécrit à chaque publication (tools/publier-version.sh). Si la
 // version en ligne diffère de celle de la page, on recharge : sur l'écran
 // d'accueil de l'iPhone, l'app reste ainsi à jour sans manipulation.
-const APP_VERSION = '20261017-123348';
+const APP_VERSION = '20261017-124050';
 async function checkUpdate(){
   try{
     const r = await fetch('version.json?t='+Date.now(), {cache:'no-store'});

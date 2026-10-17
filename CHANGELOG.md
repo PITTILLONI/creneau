@@ -1,5 +1,10 @@
 # Historique des versions
 
+## 17 octobre 2026 (12h45) — Voilure et allures pour le bateau
+- Mode Bateau : **voilure conseillée** pour le créneau d'écluse (grand-voile haute / 1, 2 ou 3 ris, génois entier ou roulé), calculée sur les rafales, avec alertes mer formée, nuit, « prends les ris au port ».
+- **Allure et réglages vers les destinations** (Le Havre, Honfleur, Dives, Ouistreham, le large) selon le vent prévu : vent debout, près, bon plein, travers, largue, vent arrière, avec les réglages de chaque allure.
+- Hypothèse : voilier de 13 m gréé en sloop, grand-voile 3 ris, génois sur enrouleur.
+
 ## 17 octobre 2026 (12h35) — Schémas techniques précis pour les tutos kite
 - Les illustrations générées plaçaient mal l'aile (bord d'attaque, valve, sens du vent). Elles sont remplacées par des **schémas techniques annotés** :
   - au sol (zone, dérouler, étaler, gonfler, connecter, sécuriser) : vue de dessus, mer et vent toujours en bas, rider face à son aile donc **rouge toujours à gauche**, encart « vu de côté » pour la position de l'aile ;
