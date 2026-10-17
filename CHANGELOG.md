@@ -1,5 +1,14 @@
 # Historique des versions
 
+## 17 octobre 2026 (11h30) — Plages, décollage illustré, assurance, mot de passe
+### Ajouté
+- **Mot de passe** à l'ouverture de l'app (demandé une fois par appareil). Seule l'empreinte SHA-256 est dans le code : c'est un verrou, pas une protection forte (site statique public).
+- Kite : **choix de la plage** (Deauville, Trouville-sur-Mer, Houlgate, Cabourg), avec prévisions et orientation propres à chaque plage.
+- Kite : **carrousel illustré en 6 étapes** pour décoller son aile avec un assistant.
+- Kite : **mon assurance** (assureur ou licence, n°, téléphone d'assistance, échéance), enregistrée uniquement sur le téléphone, avec alerte d'expiration et bouton d'appel.
+### Corrigé
+- Le bandeau d'erreur affichait les erreurs de scripts extérieurs (extensions Safari) : il ne s'affiche plus que si l'app elle-même ne démarre pas.
+
 ## 17 octobre 2026 (11h15) — Trajet de sortie et correction du 25 octobre
 - **25 octobre corrigé** : le PDF officiel donne ce jour-là les horaires des portes à l'heure d'été (une heure trop tard). Correction du Deauville Yacht Club appliquée (`CORRECTIONS` dans `index.html`) et signalée dans le calendrier.
 - La carte suit le trajet d'un bateau du bassin des Yachts : 1 · passerelle piétonne (entre bassin des Yachts et bassin Morny), 2 · portes du bassin Morny, puis la mer.

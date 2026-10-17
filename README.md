@@ -13,11 +13,16 @@ L'app est pensée pour un **marin** (profil Bateau) ou un **kitesurfeur** (profi
 
 **Kitesurf**
 1. **Spot en direct** : vent (force, direction, orientation par rapport à la plage), **taille d'aile idéale** selon le **poids du rider** (réglable), **température de l'eau** et combinaison conseillée, rafales et régularité, marée montante/descendante, air, coucher du soleil ;
-2. **Prévisions** : sessions *Navigable / Limite / Pas navigable* sur 3 jours, heure par heure ;
-3. **Conseils** : priorités sur l'eau, décoller et poser l'aile, sécurité, règles locales ;
+2. **Choix de la plage** : Deauville, Trouville-sur-Mer, Houlgate, Cabourg (position et orientation propres à chaque plage, à affiner sur le terrain : `SPOTS` dans `index.html`) ;
+3. **Prévisions** : sessions *Navigable / Limite / Pas navigable* sur 3 jours, heure par heure ;
+4. **Conseils** : carrousel illustré pour décoller son aile avec un assistant, **mon assurance** (stockée seulement sur le téléphone), priorités sur l'eau, sécurité, règles locales ;
 4. marées de n'importe quel jour.
 
 > ⚠️ Horaires **théoriques**. Toujours confirmer avant une manœuvre via le **VHF canal 9** ou la cabine de l'écluse (06 98 71 83 92).
+
+## Accès
+
+L'app demande un **mot de passe** à la première ouverture sur chaque appareil (à demander au propriétaire du projet). Le code ne contient que son empreinte SHA-256 (`PASS_HASH` dans `index.html`). Pour le changer : `printf '%s' 'nouveau-mot-de-passe' | shasum -a 256`, puis remplacer `PASS_HASH`. Attention : c'est un verrou d'interface, pas une vraie sécurité, le dépôt et les données restent publics.
 
 ## L'installer sur l'iPhone
 

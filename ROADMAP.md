@@ -25,10 +25,14 @@ Dernière mise à jour de ce fichier : 17 octobre 2026.
 - [x] Notes explicites avec leur raison (Favorable / Prudence / Déconseillé…)
 - [x] Mode kite dédié : spot en direct, taille d'aile selon le poids, température de l'eau, conseils de bonnes pratiques
 - [x] En-tête façon app, rechargement automatique sans cache
+- [x] Mot de passe à l'ouverture
+- [x] Kite : choix de la plage (Deauville, Trouville, Houlgate, Cabourg), carrousel de décollage, assurance
 
 ## À faire / idées
 
 - [ ] **Rythme réel des levées de la passerelle piétonne** pendant l'ouverture des portes (à obtenir auprès de la capitainerie ou à relever sur place) pour afficher « prochaine levée dans X min » à chaque cycle
+- [ ] Vérifier l'**orientation de chaque plage** (Trouville, Houlgate, Cabourg) sur le terrain
+- [ ] Remplacer les illustrations SVG du carrousel par des visuels Krea si souhaité
 - [ ] Vérifier les **seuils kite** sur le terrain (taille d'aile, niveau) et les rendre réglables dans la page
 - [ ] Rappeler les **zones et périodes de kite** autorisées par la mairie en saison
 - [ ] Vérifier les seuils bateau selon la taille et le type de bateau
