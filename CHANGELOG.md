@@ -1,5 +1,9 @@
 # Historique des versions
 
+## 17 octobre 2026 (11h15) — Trajet de sortie et correction du 25 octobre
+- **25 octobre corrigé** : le PDF officiel donne ce jour-là les horaires des portes à l'heure d'été (une heure trop tard). Correction du Deauville Yacht Club appliquée (`CORRECTIONS` dans `index.html`) et signalée dans le calendrier.
+- La carte suit le trajet d'un bateau du bassin des Yachts : 1 · passerelle piétonne (entre bassin des Yachts et bassin Morny), 2 · portes du bassin Morny, puis la mer.
+
 ## 17 octobre 2026 (11h) — Correction passerelle piétonne
 - Retrait des heures de levée de la passerelle piétonne : elles étaient déduites des horaires des portes du bassin Morny, alors qu'elle se lève aussi portes fermées (observé sur place). Le chrono compte désormais l'ouverture / la fermeture des portes, la passerelle piétonne est indiquée « horaires de levée non publiés · VHF 9 » en attendant une source fiable.
 

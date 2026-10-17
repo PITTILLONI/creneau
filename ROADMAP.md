@@ -34,4 +34,6 @@ Dernière mise à jour de ce fichier : 17 octobre 2026.
 - [ ] Vérifier les seuils bateau selon la taille et le type de bateau
 - [ ] Horaires **2027** dès la publication du PDF par Ports du Calvados
 - [ ] Mode hors ligne (service worker) pour consulter les horaires sans réseau sur le ponton
+- [x] Correction du 25 octobre (heure d'été dans le PDF) d'après le Deauville Yacht Club
+- [ ] Vérifier si le 29 mars a le même défaut (non signalé)
 - [ ] Signaler à Ports du Calvados l'oubli du 4-5 juillet dans le PDF 2026

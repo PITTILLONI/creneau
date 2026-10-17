@@ -351,14 +351,14 @@
     </div>
 
     <div class="tile pass only-boat" id="tilePass">
-      <div class="what">Passage du bassin Morny</div>
+      <div class="what">Sortie en mer · bassins Morny et des Yachts</div>
       <div class="state" id="pState">…</div>
       <div class="chrono-label" id="pChronoLabel"></div>
       <div class="chrono" id="pChrono" role="timer" aria-live="off">--:--</div>
       <div class="progress" aria-hidden="true"><i id="pProgress"></i></div>
       <div class="parts">
-        <div class="part"><span class="pk">Portes du bassin Morny</span><span class="pv" id="pGates"></span></div>
-        <div class="part"><span class="pk">Passerelle piétonne</span><span class="pv" id="pBridge"></span></div>
+        <div class="part"><span class="pk">1 · Passerelle piétonne</span><span class="pv" id="pBridge"></span></div>
+        <div class="part"><span class="pk">2 · Portes du bassin Morny</span><span class="pv" id="pGates"></span></div>
       </div>
       <div class="dayline" aria-hidden="true">
         <div class="dl-track" id="pDay"></div>
@@ -543,6 +543,15 @@ function stagger(container){
   [...container.children].forEach((el,i)=>{ el.style.setProperty('--i', i); el.classList.add('enter'); });
 }
 
+// Corrections d'erreurs connues du PDF officiel (les données ci-dessus restent
+// fidèles au PDF). 25 octobre : horaires des portes calculés à l'heure d'été au lieu
+// de l'heure d'hiver — correction publiée par le Deauville Yacht Club
+// (deauvilleyachtclub.org/ouvertures-des-portes). 00h31 UTC+1 = 01h31 à l'horloge.
+const CORRECTIONS = {
+  '10-25': {w:[[null,'01:31'],['07:08','12:54'],['19:23',null]]}
+};
+Object.entries(CORRECTIONS).forEach(([k,c]) => Object.assign(DATA[k], c));
+
 const keys = Object.keys(DATA);
 const keyIndex = {};
 keys.forEach((k,i)=>keyIndex[k]=i);
@@ -623,6 +632,7 @@ function epochHHMM(ts){ const p=parisParts(ts); return String(p.hour).padStart(2
 
 // Known mistakes in the official 2026 PDF, shown when browsing those days.
 const ANOMALIES = {
+  '10-25': "Horaires corrigés : le PDF officiel donne ce jour-là les portes à l'heure d'été (ouverture 08:08, fermeture 13:53, ouverture 20:23), soit une heure trop tard. Correction publiée par le Deauville Yacht Club. Confirmer au VHF canal 9.",
   '07-04': "Le PDF officiel n'indique pas l'ouverture des portes de la nuit du 4 au 5 juillet (seule la fermeture du 5 à 05:32 y figure). Confirmer au VHF canal 9.",
   '07-05': "Le PDF officiel n'indique pas l'heure d'ouverture des portes de la nuit du 4 au 5 juillet. Confirmer au VHF canal 9."
 };
@@ -656,12 +666,12 @@ function renderPassage(now, active, next){
   if(active && active.unknown){
     cls='mid'; state='Incertain'; label='Fermeture des portes au plus tard dans';
     gates='Ouverture absente du PDF<br>fermeture à '+at(active.e);
-    bridge='Horaires de levée<br>non publiés · VHF 9';
+    bridge='Entre bassin des Yachts et Morny<br>horaires de levée non publiés';
     passTarget = active.e; passFrom = active.s;
   } else if(active){
     cls='good'; state='Ouvert'; label='Fermeture des portes dans';
     gates='Ouvertes<br>jusqu’à '+at(active.e);
-    bridge='Horaires de levée<br>non publiés · VHF 9';
+    bridge='Entre bassin des Yachts et Morny<br>horaires de levée non publiés';
     passTarget = active.e; passFrom = active.s;
   } else if(next){
     const prev = [...epochIntervals].reverse().find(iv => iv.e<=now);
@@ -669,10 +679,10 @@ function renderPassage(now, active, next){
     const day = ndIdx===todayIdx ? '' : relDay(ndIdx,todayIdx)+' ';
     cls='bad'; state='Fermé'; label='Ouverture des portes dans';
     gates='Fermées<br>ouvrent '+day+'à '+at(next.s);
-    bridge='Horaires de levée<br>non publiés · VHF 9';
+    bridge='Entre bassin des Yachts et Morny<br>horaires de levée non publiés';
     passTarget = next.s; passFrom = prev ? prev.e : null;
   } else {
-    cls='bad'; state='Fermé'; label=''; gates='Plus d’ouverture prévue en 2026'; bridge='Horaires de levée<br>non publiés · VHF 9';
+    cls='bad'; state='Fermé'; label=''; gates='Plus d’ouverture prévue en 2026'; bridge='Entre bassin des Yachts et Morny<br>horaires de levée non publiés';
     passTarget = null; passFrom = null; $('pChrono').textContent = '—';
   }
   $('tilePass').className = 'tile pass only-boat '+cls;
@@ -681,7 +691,7 @@ function renderPassage(now, active, next){
   $('pChronoLabel').textContent = label;
   $('pGates').innerHTML = gates;
   $('pBridge').innerHTML = bridge;
-  $('tilePass').setAttribute('aria-label', 'Passage du bassin Morny : '+state+'. '+label+' '+(passTarget ? fmtIn(passTarget-now).replace('dans ','') : ''));
+  $('tilePass').setAttribute('aria-label', 'Sortie en mer : '+state+'. '+label+' '+(passTarget ? fmtIn(passTarget-now).replace('dans ','') : ''));
   tickChrono();
 
   // frise 0h-24h du jour : vert = passage possible
@@ -1176,7 +1186,7 @@ syncTab();
 // version.json est réécrit à chaque publication (tools/publier-version.sh). Si la
 // version en ligne diffère de celle de la page, on recharge : sur l'écran
 // d'accueil de l'iPhone, l'app reste ainsi à jour sans manipulation.
-const APP_VERSION = '20261017-110034';
+const APP_VERSION = '20261017-110645';
 async function checkUpdate(){
   try{
     const r = await fetch('version.json?t='+Date.now(), {cache:'no-store'});
