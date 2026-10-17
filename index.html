@@ -656,12 +656,12 @@ function renderPassage(now, active, next){
   if(active && active.unknown){
     cls='mid'; state='Incertain'; label='Fermeture des portes au plus tard dans';
     gates='Ouverture absente du PDF<br>fermeture à '+at(active.e);
-    bridge='Levées à la demande<br>horaires non publiés · VHF 9';
+    bridge='Horaires de levée<br>non publiés · VHF 9';
     passTarget = active.e; passFrom = active.s;
   } else if(active){
     cls='good'; state='Ouvert'; label='Fermeture des portes dans';
     gates='Ouvertes<br>jusqu’à '+at(active.e);
-    bridge='Levées à la demande<br>horaires non publiés · VHF 9';
+    bridge='Horaires de levée<br>non publiés · VHF 9';
     passTarget = active.e; passFrom = active.s;
   } else if(next){
     const prev = [...epochIntervals].reverse().find(iv => iv.e<=now);
@@ -669,10 +669,10 @@ function renderPassage(now, active, next){
     const day = ndIdx===todayIdx ? '' : relDay(ndIdx,todayIdx)+' ';
     cls='bad'; state='Fermé'; label='Ouverture des portes dans';
     gates='Fermées<br>ouvrent '+day+'à '+at(next.s);
-    bridge='Levées à la demande<br>horaires non publiés · VHF 9';
+    bridge='Horaires de levée<br>non publiés · VHF 9';
     passTarget = next.s; passFrom = prev ? prev.e : null;
   } else {
-    cls='bad'; state='Fermé'; label=''; gates='Plus d’ouverture prévue en 2026'; bridge='Levées à la demande<br>horaires non publiés · VHF 9';
+    cls='bad'; state='Fermé'; label=''; gates='Plus d’ouverture prévue en 2026'; bridge='Horaires de levée<br>non publiés · VHF 9';
     passTarget = null; passFrom = null; $('pChrono').textContent = '—';
   }
   $('tilePass').className = 'tile pass only-boat '+cls;
@@ -1176,7 +1176,7 @@ syncTab();
 // version.json est réécrit à chaque publication (tools/publier-version.sh). Si la
 // version en ligne diffère de celle de la page, on recharge : sur l'écran
 // d'accueil de l'iPhone, l'app reste ainsi à jour sans manipulation.
-const APP_VERSION = '20261017-110026';
+const APP_VERSION = '20261017-110034';
 async function checkUpdate(){
   try{
     const r = await fetch('version.json?t='+Date.now(), {cache:'no-store'});

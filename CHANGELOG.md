@@ -1,7 +1,7 @@
 # Historique des versions
 
 ## 17 octobre 2026 (11h) — Correction passerelle piétonne
-- Retrait des heures de levée de la passerelle piétonne : elles étaient déduites des horaires des portes du bassin Morny, alors qu'elle se lève aussi portes fermées (observé sur place). Le chrono compte désormais l'ouverture / la fermeture des portes, la passerelle piétonne est indiquée « levées à la demande, horaires non publiés · VHF 9 » en attendant une source fiable.
+- Retrait des heures de levée de la passerelle piétonne : elles étaient déduites des horaires des portes du bassin Morny, alors qu'elle se lève aussi portes fermées (observé sur place). Le chrono compte désormais l'ouverture / la fermeture des portes, la passerelle piétonne est indiquée « horaires de levée non publiés · VHF 9 » en attendant une source fiable.
 
 ## 17 octobre 2026 (après-midi) — Persona marin, chrono de levée, vrai mode kite
 

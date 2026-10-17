@@ -40,7 +40,7 @@ Liens de vérification affichés sur la page : [bulletin météo marine Météo-
 
 ### Ce qu'il faut savoir sur les données
 
-- Les horaires du PDF sont ceux des **portes du bassin Morny** (porte à la cote 5,50 m). Ce sont des **portes à flot**, pas une écluse à sas (l'écluse du port est celle du bassin des Marinas). La **passerelle piétonne** ne suit pas ces horaires : elle se lève aussi portes fermées (observé sur place) et aucun document public ne donne ses heures de levée. La page l'indique donc « levées à la demande · VHF canal 9 » en attendant une source fiable.
+- Les horaires du PDF sont ceux des **portes du bassin Morny** (porte à la cote 5,50 m). Ce sont des **portes à flot**, pas une écluse à sas (l'écluse du port est celle du bassin des Marinas). La **passerelle piétonne** ne suit pas ces horaires : elle se lève aussi portes fermées (observé sur place) et aucun document public ne donne ses heures de levée. La page l'indique donc « horaires de levée non publiés · VHF canal 9 » en attendant une source fiable.
 - Le PDF 2026 contient un **oubli** : l'ouverture des portes de la nuit du **4 au 5 juillet** n'y figure pas (seule la fermeture du 5 à 05h32 est indiquée). La page affiche « Incertain » sur cette période. Le script d'extraction détecte ce genre d'erreur automatiquement.
 - Les comptes à rebours tiennent compte des **changements d'heure** (29 mars, 25 octobre).
 - Les données ne couvrent que **2026**. Il faudra relancer l'extraction quand Ports du Calvados publiera le PDF 2027.
