@@ -1,5 +1,12 @@
 # Historique des versions
 
+## 17 octobre 2026 (15h30) — Navigation par onglets, conditions dans le calendrier
+- **Un onglet = un écran** : la barre du bas n'est plus un raccourci vers une longue page, chaque onglet (Maintenant, Sortir, Conseils, Calendrier) affiche uniquement sa section. L'onglet ouvert est gardé dans l'adresse (`#sortir`…), chaque onglet retrouve sa position, toucher l'onglet déjà ouvert remonte en haut. Le pied de page (sources, liens) n'apparaît plus que sur Maintenant (et l'avertissement sur Calendrier).
+- Onglet Sortir allégé : les **allures et réglages par destination** sont dans un menu dépliant sous la voilure conseillée.
+- **Calendrier : conditions du jour choisi** (bateau et kite) : note de chaque créneau d'écluse directement sous son horaire, meilleur créneau (ou meilleure session kite) avec sa raison chiffrée, vent, mer, soleil (+ aile et eau en kite), bande heure par heure du jour. Les 3 premiers jours reprennent les prévisions Météo-France ; au-delà, tendance des modèles mondiaux jusqu'à J+15 (vagues jusqu'à J+7 environ, sinon note sur le vent seul) ; jours passés : archives Météo-France. Au-delà de J+15, la page indique à partir de quand la prévision arrivera.
+- Si Open-Meteo est saturé (« service is overloaded »), le calendrier essaie automatiquement un autre modèle.
+- L'onglet s'appelle « Calendrier » dans les deux profils.
+
 ## 17 octobre 2026 (13h30) — Tutos kite illustrés et annotés
 - Retour au **style illustré**, rendu précis : 20 illustrations (Krea Nano Banana Pro et Krea 2) vérifiées une à une, avec des **annotations exactes superposées** : flèche de vent (ou « vent dans le dos »), bord d'attaque en orange, positions de l'aile (9 h / 12 h / 3 h) en vert, erreurs en rouge.
 - Étapes au sol vues de côté (mer à gauche, vent de gauche à droite), aile en l'air vue de derrière le rider.

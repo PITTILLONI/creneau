@@ -538,7 +538,29 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
     .progress i{transition:none;}
     .tabbar .ind,.gauge i{transition:none;}
     button:active,.win:active,.links a:active,.tabbar a:active,summary:active{transform:none;}
+    .wrap > section.on{animation:none;}
   }
+
+  /* onglets : une seule section affichée à la fois */
+  .wrap > section{display:none;}
+  .wrap > section.on{display:block;animation:rise .3s cubic-bezier(.2,.8,.2,1) both;}
+  html:not([data-tab="maintenant"]):not([data-tab="calendrier"]) footer{display:none;}
+  html[data-tab="calendrier"] footer .links, html[data-tab="calendrier"] footer > div:not(.warn){display:none;}
+
+  /* calendrier : conditions du jour choisi */
+  .daycond{margin-top:12px;background:var(--surface);border-radius:var(--radius);padding:16px 18px;}
+  .daycond .dc-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+  .daycond .dc-head .badge{grid-row:auto;grid-column:auto;}
+  .daycond .dc-when{font-weight:700;font-size:1.05rem;}
+  .daycond .dc-why{margin:6px 0 0;font-weight:600;}
+  .daycond .conds{margin-top:14px;}
+  .daycond .cond{background:var(--surface-2);}
+  .daycond .strip{padding:0 0 6px;margin-top:14px;}
+  .daycond .strip-detail{padding:8px 0 0;font-size:.92rem;color:var(--ink-2);min-height:2.6em;}
+  .daycond .dc-src{margin-top:10px;font-size:.82rem;}
+  .slot .lv{display:block;font-style:normal;font-weight:700;font-size:.8rem;margin-top:2px;}
+  .slot .lv.good{color:var(--good);} .slot .lv.mid{color:var(--mid);} .slot .lv.bad{color:var(--bad);}
+  .slot.now .lv{color:inherit;}
 </style>
 </head>
 <body>
@@ -625,6 +647,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
     </div>
 
     <div class="sail only-boat" id="sailCard"></div>
+    <details class="tuto only-boat" id="sailDest" hidden><summary><span>Allure et réglages selon ta destination</span><small>Le Havre, Honfleur, Dives, Ouistreham, le large</small></summary><div class="tuto-body" id="sailDestBody"></div></details>
 
     <div class="h3" id="slotsTitle">Créneaux d'écluse à venir</div>
     <p class="muted slots-help" id="slotsHelp"></p>
@@ -892,6 +915,10 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
       <div class="tides" id="dayTides"></div>
     </div>
     <div class="note only-boat" id="dayNote" hidden></div>
+    <div class="daycond" id="dayCond" aria-live="polite">
+      <div class="h3" id="dayCondT" style="margin-top:0">Conditions prévues</div>
+      <div id="dayCondBody"><div class="muted">Chargement…</div></div>
+    </div>
   </section>
 
   <footer>
@@ -924,7 +951,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   </a>
   <a href="#calendrier">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
-    <span data-boat="Calendrier" data-kite="Marées">Calendrier</span>
+    <span>Calendrier</span>
   </a>
 </nav>
 
@@ -1131,7 +1158,8 @@ function windowsOfDay(dayIdx){
   return epochIntervals.filter(iv => iv.eAbs>start && iv.sAbs<end);
 }
 
-function renderSlots(container, dayIdx, now){
+// rate(iv) : note du créneau (calendrier), affichée sous l'horaire quand elle est connue.
+function renderSlots(container, dayIdx, now, rate){
   const wins = windowsOfDay(dayIdx);
   if(!wins.length){ container.innerHTML = '<div class="muted">Aucune ouverture des portes ce jour-là.</div>'; return; }
   container.innerHTML = '';
@@ -1142,7 +1170,8 @@ function renderSlots(container, dayIdx, now){
     let sub = iv.unknown ? 'ouverture absente du PDF' : fmtDur(iv.e-iv.s);
     if(!iv.unknown && iv.sAbs < dayIdx*1440) sub = 'depuis la veille · '+sub;
     if(iv.eAbs >= (dayIdx+1)*1440) sub += ' · finit le lendemain';
-    d.innerHTML = s+' – '+e+'<small>'+sub+'</small>';
+    const r = rate && !iv.unknown ? rate(iv) : null;
+    d.innerHTML = s+' – '+e+'<small>'+sub+'</small>'+(r ? '<em class="lv '+r.level+'">'+LEVELS[r.level]+'</em>' : '');
     container.appendChild(d);
   });
 }
@@ -1255,8 +1284,30 @@ function scoreHour(h){
   return Object.assign(h, r, {level: levelOf(r.score)});
 }
 
+// Réponses Open-Meteo (vent, vagues, température de l'eau) -> heures prêtes à noter.
+// noWave = true : on garde les heures sans prévision de vagues (au-delà de J+7 environ).
+function buildHours(w, s, sst, noWave){
+  const sstAt = {};
+  if(sst && sst.hourly) sst.hourly.time.forEach((t,i)=>sstAt[t]=sst.hourly.sea_surface_temperature[i]);
+  const waveAt = {};
+  if(s && s.hourly) s.hourly.time.forEach((t,i)=>waveAt[t]={h:s.hourly.wave_height[i], sw:s.hourly.swell_wave_height[i], sp:s.hourly.swell_wave_period[i]});
+  const days = w.daily.sunrise.map((r,i)=>[r*1000, w.daily.sunset[i]*1000]);
+  const hours = [];
+  w.hourly.time.forEach((t,i)=>{
+    const kn = w.hourly.wind_speed_10m[i], gust = w.hourly.wind_gusts_10m[i], wv = waveAt[t];
+    const hasWave = wv && wv.h!=null;
+    if(kn==null || (!hasWave && !noWave)) return;
+    const ts = t*1000;
+    hours.push({ts, kn, gust: gust ?? kn, dir:w.hourly.wind_direction_10m[i], wave: hasWave ? wv.h : 0, swell: hasWave ? wv.sw : 0, period: hasWave ? wv.sp : 0,
+      noWave: !hasWave, temp:w.hourly.temperature_2m[i], code:w.hourly.weather_code[i], sst:sstAt[t] ?? null,
+      night: !days.some(([a,b]) => ts>=a && ts<b)});
+  });
+  return {hours, days};
+}
+
 async function loadForecast(){
   const P = fcPlace(), key = fcKey();
+  loadForecast.pending = true;
   const common = '&timeformat=unixtime&timezone=Europe%2FParis&forecast_days=3';
   const wUrl = 'https://api.open-meteo.com/v1/forecast?latitude='+P.lat+'&longitude='+P.lon
     + '&hourly=wind_speed_10m,wind_gusts_10m,wind_direction_10m,temperature_2m,weather_code&daily=sunrise,sunset'
@@ -1269,29 +1320,20 @@ async function loadForecast(){
       + '&hourly=sea_surface_temperature&models=meteofrance_currents'+common;
     const [w, s, sst] = await Promise.all([fetch(wUrl).then(r=>r.json()), fetch(sUrl).then(r=>r.json()),
       fetch(tUrl).then(r=>r.json()).catch(()=>null)]);
-    const sstAt = {};
-    if(sst && sst.hourly) sst.hourly.time.forEach((t,i)=>sstAt[t]=sst.hourly.sea_surface_temperature[i]);
-    const waveAt = {};
-    s.hourly.time.forEach((t,i)=>waveAt[t]={h:s.hourly.wave_height[i], sw:s.hourly.swell_wave_height[i], sp:s.hourly.swell_wave_period[i]});
-    const days = w.daily.sunrise.map((r,i)=>[r*1000, w.daily.sunset[i]*1000]);
-    const hours = [];
-    w.hourly.time.forEach((t,i)=>{
-      const kn = w.hourly.wind_speed_10m[i], gust = w.hourly.wind_gusts_10m[i], wv = waveAt[t];
-      if(kn==null || !wv || wv.h==null) return;
-      const ts = t*1000;
-      hours.push({ts, kn, gust, dir:w.hourly.wind_direction_10m[i], wave:wv.h, swell:wv.sw, period:wv.sp,
-        temp:w.hourly.temperature_2m[i], code:w.hourly.weather_code[i], sst:sstAt[t] ?? null,
-        night: !days.some(([a,b]) => ts>=a && ts<b)});
-    });
+    const {hours, days} = buildHours(w, s, sst, false);
     if(key!==fcKey()) return;   // l'utilisateur a changé de plage pendant le chargement
     FC = {hours, days, fetched:Date.now(), key};
+    loadForecast.pending = false;
     loadForecast.retried = false;
     renderForecast();
     renderKiteNow();
+    if(browseIdx-(todayIdx ?? 0)<=2) renderDayCond();
   } catch(err){
     ERRORS.push('prévisions : '+(err && err.message));
     // un raté réseau ponctuel : on retente une fois quelques secondes plus tard
     if(!loadForecast.retried){ loadForecast.retried = true; setTimeout(()=>{ loadForecast(); }, 4000); return; }
+    loadForecast.pending = false;
+    renderDayCond();   // le calendrier charge alors le jour seul
     $('vLabel').textContent = 'Prévisions indisponibles pour le moment (connexion ?).';
     $('vWord').textContent = '—';
     $('windows').innerHTML = '<div class="muted">Impossible de charger les prévisions. Consulter le bulletin Météo-France ci-dessous.</div>';
@@ -1305,7 +1347,7 @@ function summarize(hs){
     score: worst.score, level: worst.level, why: worst.why,
     kn: Math.max(...hs.map(h=>h.kn)), knMin: Math.min(...hs.map(h=>h.kn)), gust: Math.max(...hs.map(h=>h.gust)),
     dir: worst.dir, wave: Math.max(...hs.map(h=>h.wave)),
-    swell: Math.max(...hs.map(h=>h.swell||0)), period: worst.period, night: hs.some(h=>h.night)
+    swell: Math.max(...hs.map(h=>h.swell||0)), period: worst.period, night: hs.some(h=>h.night), noWave: hs.some(h=>h.noWave)
   };
 }
 function whenLabel(ts){ return cap(relDay(keyIndex[parisParts(ts).key], todayIdx)); }
@@ -1319,8 +1361,8 @@ function boatSlots(now, horizon){
     .map(x => Object.assign(x, summarize(x.hs)));
 }
 // Kite : les sessions sont les heures consécutives de jour notées « bon » (à défaut « moyen »).
-function kiteSlots(now){
-  const hs = FC.hours.filter(h => h.ts+3600000>now && !h.night);
+function kiteSlots(now){ return kiteSessions(FC.hours.filter(h => h.ts+3600000>now && !h.night)); }
+function kiteSessions(hs){
   const group = min => {
     const out = []; let cur = null;
     hs.forEach(h=>{
@@ -1633,7 +1675,7 @@ function allureFor(cap, windFrom){
 }
 function renderSail(cur){
   const el = $('sailCard');
-  if(!cur){ el.innerHTML = ''; return; }
+  if(!cur){ el.innerHTML = ''; $('sailDest').hidden = true; return; }
   const sp = sailPlan(cur.kn, cur.gust);
   const notes = [];
   if(cur.gust - cur.kn > 8) notes.push('Vent irrégulier (rafales à '+Math.round(cur.gust)+' nd) : la voilure est calculée sur les rafales.');
@@ -1649,8 +1691,10 @@ function renderSail(cur){
   el.innerHTML =
     '<div class="sail-head"><div class="k">Voilure conseillée · vent '+Math.round(cur.kn)+' nd '+dirName(cur.dir)+', rafales '+Math.round(cur.gust)+' nd</div>'
     + '<div class="sail-plan">'+sp.plan+'</div><div class="sail-sub">'+sp.sub+'</div></div>'
-    + (notes.length ? '<ul class="sail-notes">'+notes.map(n=>'<li>'+n+'</li>').join('')+'</ul>' : '')
-    + '<div class="sail-dest-t">Allure et réglages selon ta destination</div><ul class="sail-dest">'+rows+'</ul>'
+    + (notes.length ? '<ul class="sail-notes">'+notes.map(n=>'<li>'+n+'</li>').join('')+'</ul>' : '');
+  // les allures par destination sont repliées : on les ouvre seulement si besoin
+  $('sailDest').hidden = false;
+  $('sailDestBody').innerHTML = '<ul class="sail-dest">'+rows+'</ul>'
     + '<p class="muted sail-foot">Pour notre voilier de 13 m (sloop, grand-voile 3 ris, génois sur enrouleur). Repères de croisière : adapte à ton bateau et à ton équipage. Caps approximatifs depuis l\u2019entrée du port.</p>';
 }
 
@@ -1663,6 +1707,7 @@ function setSpot(v){
   if(PROFILE==='kite'){
     replay($('kiteNow'), 'enter');
     ensureForecast();
+    renderDayCond();
   }
 }
 $('spotSel').addEventListener('change', e => setSpot(e.target.value));
@@ -1679,10 +1724,10 @@ function setProfile(p, animate){
   $('slotsHelp').textContent = p==='kite'
     ? "Les heures de jour où ça navigue sur la plage choisie : vent assez fort et régulier, bien orienté par rapport à la plage (side-on ou side-shore), jamais offshore."
     : "Chaque créneau est une fenêtre pour sortir du port (ou y rentrer). La note indique les conditions en mer prévues pendant le créneau, pour notre bateau de 13 m : vent et vagues (Météo-France).";
-  $('t-cal').textContent = p==='kite' ? 'Marées d\u2019un autre jour' : 'Un autre jour';
   if(animate) replay($(p==='kite' ? 'kiteNow' : 'tilePass'), 'enter');
   if(tabsReady){ refreshTabs(); syncTab(); }
   ensureForecast();
+  if(animate) renderDayCond();
 }
 document.querySelectorAll('.seg button').forEach(b=>b.addEventListener('click', ()=>setProfile(b.dataset.p, true)));
 
@@ -1699,6 +1744,170 @@ function renderBrowse(i, dir){
   renderTides($('dayTides'), browseIdx);
   $('dayNote').textContent = ANOMALIES[key] || '';
   $('dayNote').hidden = !ANOMALIES[key];
+  if(dir && browseIdx!==before) replay($('dayCond'), dir>0 ? 'slide-l' : 'slide-r');
+  renderDayCond();
+}
+
+/* ---------- Calendrier : conditions du jour choisi ---------- */
+// Les 3 premiers jours reprennent les prévisions déjà chargées (Météo-France).
+// Au-delà : tendance des modèles mondiaux (vent jusqu'à J+15, vagues jusqu'à J+7 environ).
+// Jours passés : archives des prévisions Météo-France.
+const FC_MAX_AHEAD = 15;
+const DAYFC = {};
+function isoDay(idx){ return idx < keys.length ? '2026-'+keys[idx] : '2027-01-01'; }
+function hoursOfDay(hs, idx){ return hs.filter(h => parisParts(h.ts).key===keys[idx]); }
+// Open-Meteo répond parfois « service is overloaded » (503) sur un modèle :
+// on essaie chaque adresse deux fois, puis la suivante (autre modèle).
+async function getJSON(urls){
+  for(const url of [].concat(urls)) for(let i=0; i<2; i++){
+    try{
+      const j = await fetch(url).then(r=>r.json());
+      if(!j.error) return j;
+    } catch(e){}
+    await new Promise(r=>setTimeout(r, 800));
+  }
+  throw new Error('prévisions du jour indisponibles');
+}
+function fetchDay(idx){
+  const ck = fcKey()+':'+idx;
+  if(DAYFC[ck]) return DAYFC[ck];
+  const P = fcPlace(), past = idx < (todayIdx ?? 0);
+  // jusqu'au lendemain : un créneau d'écluse du soir peut finir après minuit
+  const range = '&timeformat=unixtime&timezone=Europe%2FParis&start_date='+isoDay(idx)+'&end_date='+isoDay(idx+1);
+  const wBase = 'https://api.open-meteo.com/v1/forecast?latitude='+P.lat+'&longitude='+P.lon
+    + '&hourly=wind_speed_10m,wind_gusts_10m,wind_direction_10m,temperature_2m,weather_code&daily=sunrise,sunset'
+    + '&wind_speed_unit=kn'+range;
+  const wUrls = (past ? ['meteofrance_seamless', ''] : ['', 'ecmwf_ifs025', 'gfs_seamless']).map(m => wBase+(m ? '&models='+m : ''));
+  const sBase = 'https://marine-api.open-meteo.com/v1/marine?latitude='+P.seaLat+'&longitude='+P.seaLon
+    + '&hourly=wave_height,swell_wave_height,swell_wave_period'+range;
+  const sUrls = past ? [sBase+'&models=meteofrance_wave', sBase] : [sBase];
+  const tUrl = 'https://marine-api.open-meteo.com/v1/marine?latitude='+P.seaLat+'&longitude='+P.seaLon
+    + '&hourly=sea_surface_temperature'+range;
+  const p = Promise.all([getJSON(wUrls), getJSON(sUrls).catch(()=>null), PROFILE==='kite' ? getJSON(tUrl).catch(()=>null) : null])
+    .then(([w, s, t]) => Object.assign(buildHours(w, s, t, true), {past}));
+  DAYFC[ck] = p;
+  p.catch(()=>{ delete DAYFC[ck]; });
+  return p;
+}
+// Pourquoi, en tenant compte des jours où les vagues ne sont pas encore prévues.
+function dayReason(x){
+  if(PROFILE==='boat' && x.noWave && x.level==='good') return 'Vent modéré ('+Math.round(x.kn)+' nd)';
+  return reason(x);
+}
+let dayReq = 0;
+async function renderDayCond(){
+  const body = $('dayCondBody'), idx = browseIdx, req = ++dayReq, kite = PROFILE==='kite';
+  const ahead = idx - (todayIdx ?? 0);
+  const nowArg = idx===todayIdx ? Date.now() : undefined;
+  $('dayCondT').textContent = ahead<0 ? 'Conditions ce jour-là' : 'Conditions prévues';
+  if(ahead > FC_MAX_AHEAD){
+    body.innerHTML = '<p class="muted" style="margin:0">Pas encore de prévision pour ce jour : elles arrivent environ 15 jours avant (à partir du '
+      + dayName(idx-FC_MAX_AHEAD)+'). '+(kite ? 'Les marées ci-dessus' : 'Les horaires des portes et les marées ci-dessus')+' restent valables.</p>';
+    return;
+  }
+  let src = null, fromFC = false;
+  if(FC && FC.key===fcKey() && hoursOfDay(FC.hours, idx).length>=20){ src = FC; fromFC = true; }
+  else if(ahead>=0 && ahead<=2 && loadForecast.pending){
+    // les prévisions des 3 jours arrivent : loadForecast rappellera cette fonction
+    body.innerHTML = '<div class="muted">Chargement des prévisions…</div>';
+    return;
+  }
+  if(!src){
+    body.innerHTML = '<div class="muted">Chargement des prévisions du '+dayName(idx)+'…</div>';
+    try{ src = await fetchDay(idx); }
+    catch(e){
+      if(req!==dayReq) return;
+      ERRORS.push('jour : '+(e && e.message));
+      body.innerHTML = '<div class="muted">Prévisions indisponibles pour ce jour (connexion ?). Réessayez dans un instant.</div>';
+      return;
+    }
+  }
+  if(req!==dayReq) return;
+  src.hours.forEach(scoreHour);
+  const dayHs = hoursOfDay(src.hours, idx);
+  if(!dayHs.length){ body.innerHTML = '<div class="muted">Pas de prévision disponible pour ce jour.</div>'; return; }
+  const noWave = dayHs.some(h => h.noWave);
+  const rateIv = iv => { const hs = src.hours.filter(h => h.ts+3600000>iv.s && h.ts<iv.e); return hs.length ? summarize(hs) : null; };
+  if(!kite) renderSlots($('daySlots'), idx, nowArg, rateIv);
+
+  // En-tête : meilleur créneau (bateau) ou meilleure session (kite) de la journée.
+  let head;
+  if(kite){
+    const ss = kiteSessions(dayHs.filter(h => !h.night));
+    const best = ss.length ? ss.reduce((m,w)=>w.score>m.score?w:m, ss[0]) : null;
+    head = best
+      ? {level:best.level, when:'Session '+epochHHMM(best.s)+' – '+epochHHMM(best.e), why:dayReason(best)}
+      : (()=>{ const x = summarize(dayHs.filter(h=>!h.night).length ? dayHs.filter(h=>!h.night) : dayHs);
+          return {level:'bad', when:'Pas de session navigable de jour', why:dayReason(x)}; })();
+  } else {
+    const ivs = windowsOfDay(idx).filter(iv => !iv.unknown).map(iv => Object.assign({iv}, rateIv(iv) || {})).filter(x => x.level);
+    const best = ivs.length ? ivs.reduce((m,w)=>w.score>m.score?w:m, ivs[0]) : null;
+    head = best
+      ? {level:best.level, when:(ivs.length>1 ? 'Meilleur créneau ' : 'Créneau ')+epochHHMM(best.iv.s)+' – '+epochHHMM(best.iv.e), why:dayReason(best)}
+      : {level:null, when:"Pas d'ouverture des portes ce jour-là", why:''};
+  }
+
+  // Résumé de la journée (heures de jour en priorité).
+  const light = dayHs.filter(h => !h.night), base = light.length ? light : dayHs;
+  const sm = summarize(base);
+  const top = base.reduce((m,h)=>h.kn>m.kn?h:m, base[0]);
+  const sun = src.days.find(([a]) => parisParts(a).key===keys[idx]) || [];
+  const cells = [
+    ['Vent', windArrow(top.dir)+Math.round(sm.knMin)+'–'+Math.round(sm.kn)+' nd', dirName(top.dir)+' · rafales '+Math.round(sm.gust)+' nd'+(kite ? ' · '+orientation(top.dir) : '')],
+    ['Mer', noWave ? '—' : 'jusqu’à '+num(sm.wave,1)+' m', noWave ? 'vagues pas encore prévues' : 'houle '+num(sm.swell,1)+' m']
+  ];
+  if(kite){
+    const sz = kiteSize(top.kn);
+    const ssts = base.map(h=>h.sst).filter(v=>v!=null);
+    const sst = ssts.length ? ssts.reduce((a,b)=>a+b,0)/ssts.length : null;
+    cells.push(['Aile au plus fort', sz.val, sz.sub]);
+    cells.push(['Eau', sst!=null ? num(sst,1)+'°' : '—', wetsuit(sst)]);
+  }
+  if(sun[0]) cells.push(['Soleil', epochHHMM(sun[0])+' – '+epochHHMM(sun[1]), kite ? 'sortir de l’eau avant '+epochHHMM(sun[1]-30*60000) : 'lever et coucher']);
+
+  body.innerHTML =
+    '<div class="dc-head">'+(head.level ? '<span class="badge '+head.level+'">'+LEVELS[head.level]+'</span>' : '')+'<span class="dc-when">'+head.when+'</span></div>'
+    + (head.why ? '<p class="dc-why">'+head.why+'</p>' : '')
+    + '<div class="conds">'+cells.map(([k,v,s]) => '<div class="cond"><div class="k">'+k+'</div><div class="val">'+v+'</div><div class="sub">'+s+'</div></div>').join('')+'</div>'
+    + '<div class="strip" id="dayStrip" role="list"></div>'
+    + '<div class="strip-detail" id="dayStripDetail">Touchez une heure pour le détail.</div>'
+    + '<div class="muted dc-src">'+(fromFC ? 'Prévisions Météo-France (AROME/ARPEGE, MFWAM) via Open-Meteo.'
+        : src.past ? 'Archives des prévisions Météo-France via Open-Meteo.'
+        : 'Tendance à J+'+ahead+' (modèles météo via Open-Meteo) : moins fiable que les 3 premiers jours, à revérifier la veille.')
+      + (noWave ? ' Vagues pas encore prévues : note sur le vent seul.' : '')+'</div>';
+
+  // Bande heure par heure de la journée
+  const strip = $('dayStrip');
+  dayHs.forEach(h=>{
+    const p = parisParts(h.ts);
+    const open = epochIntervals.some(iv => !iv.unknown && h.ts+3600000>iv.s && h.ts<iv.e);
+    const b = document.createElement('button');
+    b.className = 'hour '+h.level+(h.night?' night':'')+(open && !kite?' open':'');
+    b.setAttribute('role','listitem');
+    b.innerHTML = '<span class="lock"></span><span class="bar"></span><span class="t">'+(p.hour%3===0 ? String(p.hour).padStart(2,'0')+'h' : '')+'</span>';
+    const why = dayReason(h);
+    const detail = String(p.hour).padStart(2,'0')+'h : <b>'+LEVELS[h.level]+'</b> — '+why.charAt(0).toLowerCase()+why.slice(1)
+      + ' — vent '+Math.round(h.kn)+' nd '+dirName(h.dir)+', rafales '+Math.round(h.gust)+' nd'
+      + (kite ? ', '+orientation(h.dir) : '')+(h.noWave ? '' : ', vagues '+num(h.wave,1)+' m')
+      + (open && !kite ? ' · portes ouvertes' : '')+(h.night ? ' · nuit' : '');
+    b.setAttribute('aria-label', detail.replace(/<[^>]+>/g,''));
+    b.addEventListener('click', ()=>{
+      strip.querySelectorAll('.sel').forEach(x=>x.classList.remove('sel'));
+      b.classList.add('sel');
+      $('dayStripDetail').innerHTML = detail;
+    });
+    strip.appendChild(b);
+  });
+  // on cale la bande sur le matin (ou l'heure en cours aujourd'hui)
+  strip.dataset.first = idx===todayIdx ? dayHs.findIndex(h=>h.ts+3600000>Date.now()) : dayHs.findIndex(h=>parisParts(h.ts).hour>=7);
+  alignDayStrip();
+}
+// cale la bande sur le matin (ou l'heure en cours aujourd'hui) ; l'onglet doit être affiché
+function alignDayStrip(){
+  const strip = $('dayStrip');
+  if(!strip || !strip.offsetParent) return;
+  const c = strip.children[+strip.dataset.first];
+  if(c) strip.scrollLeft = c.offsetLeft - strip.offsetLeft;
 }
 $('prevDay').addEventListener('click', ()=>renderBrowse(browseIdx-1, -1));
 $('nextDay').addEventListener('click', ()=>renderBrowse(browseIdx+1, 1));
@@ -1709,50 +1918,69 @@ $('datePick').addEventListener('change', e=>{
 });
 // glisser à gauche / à droite sur la carte du jour pour changer de jour
 let touchX = null, touchY = null;
-$('dayCard').addEventListener('touchstart', e=>{ touchX = e.touches[0].clientX; touchY = e.touches[0].clientY; }, {passive:true});
-$('dayCard').addEventListener('touchend', e=>{
-  if(touchX===null) return;
-  const dx = e.changedTouches[0].clientX - touchX, dy = e.changedTouches[0].clientY - touchY;
-  touchX = null;
-  if(Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)*1.5) renderBrowse(browseIdx + (dx<0 ? 1 : -1), dx<0 ? 1 : -1);
-}, {passive:true});
+['dayCard','dayCond'].forEach(id=>{
+  $(id).addEventListener('touchstart', e=>{
+    // pas de changement de jour quand on fait défiler la bande horaire
+    touchX = e.target.closest('.strip') ? null : e.touches[0].clientX; touchY = e.touches[0].clientY;
+  }, {passive:true});
+  $(id).addEventListener('touchend', e=>{
+    if(touchX===null) return;
+    const dx = e.changedTouches[0].clientX - touchX, dy = e.changedTouches[0].clientY - touchY;
+    touchX = null;
+    if(Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)*1.5) renderBrowse(browseIdx + (dx<0 ? 1 : -1), dx<0 ? 1 : -1);
+  }, {passive:true});
+});
 
 /* ---------- Barre d'onglets ---------- */
+// Une seule section affichée à la fois (au lieu d'une longue page), comme une app.
+// L'onglet est gardé dans l'adresse (#sortir…) et chaque onglet retrouve sa position.
 let tabs = [], sections = [];
 tabsReady = true;
 const ind = document.querySelector('.tabbar .ind');
-let activeTab = -1, ticking = false;
-// onglets visibles selon le profil (Conseils seulement en kite)
+let activeTab = -1, ticking = false, tabId = '';
+const tabScroll = {};
 function refreshTabs(){
   tabs = [...document.querySelectorAll('.tabbar a')].filter(a => getComputedStyle(a).display!=='none');
   sections = tabs.map(a => $(a.getAttribute('href').slice(1)));
   document.querySelector('.tabbar').style.setProperty('--n', tabs.length);
   activeTab = -1;
+  const i = sections.findIndex(s => s.id===tabId);
+  setTab(i<0 ? 0 : i, true);
 }
-function setTab(i){
+function setTab(i, keepScroll){
   if(i===activeTab) return;
+  if(tabId) tabScroll[tabId] = scrollY;
   activeTab = i;
+  tabId = sections[i].id;
+  sections.forEach((s,j)=>s.classList.toggle('on', j===i));
+  document.documentElement.dataset.tab = tabId;
   tabs.forEach((a,j)=>a.setAttribute('aria-current', j===i ? 'true' : 'false'));
   ind.style.transform = 'translateX('+(i*100)+'%)';
+  try{ history.replaceState(null, '', location.pathname+location.search+'#'+tabId); }catch(e){}
+  if(!keepScroll) scrollTo(0, tabScroll[tabId] || 0);
+  if(tabId==='calendrier') alignDayStrip();
+  syncTab();
 }
 function syncTab(){
   ticking = false;
   $('appbar').classList.toggle('scrolled', scrollY > 4);
-  const atBottom = innerHeight + scrollY >= document.documentElement.scrollHeight - 4;
-  let i = 0;
-  sections.forEach((s,j)=>{ if(s.getBoundingClientRect().top < innerHeight*0.4) i = j; });
-  setTab(atBottom ? sections.length-1 : i);
 }
 addEventListener('scroll', ()=>{ if(!ticking){ ticking = true; requestAnimationFrame(syncTab); } }, {passive:true});
-document.querySelectorAll('.tabbar a').forEach(a=>a.addEventListener('click', ()=>setTab(tabs.indexOf(a))));
+document.querySelectorAll('.tabbar a').forEach(a=>a.addEventListener('click', e=>{
+  e.preventDefault();
+  const i = tabs.indexOf(a);
+  // toucher l'onglet déjà ouvert remonte en haut
+  if(i===activeTab) scrollTo({top:0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'});
+  else setTab(i);
+}));
+tabId = (location.hash || '').slice(1);
 refreshTabs();
-syncTab();
 
 /* ---------- Mise à jour automatique ---------- */
 // version.json est réécrit à chaque publication (tools/publier-version.sh). Si la
 // version en ligne diffère de celle de la page, on recharge : sur l'écran
 // d'accueil de l'iPhone, l'app reste ainsi à jour sans manipulation.
-const APP_VERSION = '20261017-131029';
+const APP_VERSION = '20261017-150923';
 async function checkUpdate(){
   try{
     const r = await fetch('version.json?t='+Date.now(), {cache:'no-store'});

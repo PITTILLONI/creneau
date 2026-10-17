@@ -4,21 +4,21 @@
 
 Savoir en un coup d'œil, depuis son téléphone :
 
-L'app est pensée pour un **marin** (profil Bateau) ou un **kitesurfeur** (profil Kitesurf).
+L'app est pensée pour un **marin** (profil Bateau) ou un **kitesurfeur** (profil Kitesurf). Chaque onglet de la barre du bas (Maintenant, Sortir, Conseils, Calendrier) est un écran à part.
 
 **Bateau**
 1. **Sortie en mer (bassins Morny et des Yachts)** : ouvert ou fermé aux bateaux, chrono jusqu'à l'ouverture ou la fermeture des portes, état de la passerelle piétonne (horaires de levée non publiés, VHF 9) et des portes, frise de la journée ;
 2. **Voilure et allures** : voilure conseillée selon le vent et les rafales (ris, génois roulé), allure et réglages vers Le Havre, Honfleur, Dives, Ouistreham ou le large ;
 3. **Je sors en mer ?** : chaque créneau d'écluse noté *Favorable / Prudence / Déconseillé* avec la raison chiffrée (« Trop de vent : 19 nd, rafales 26 nd », « Mer agitée : vagues de 1,1 m »…) ;
 4. **Conseils** : sortir du bassin Morny, check-list avant de partir, prendre un ris, réglages par allure, priorités en mer, homme à la mer ;
-5. horaires des portes et marées de **n'importe quel jour de 2026**.
+5. **Calendrier** : horaires des portes et marées de **n'importe quel jour de 2026**, avec les **conditions prévues** ce jour-là (note de chaque créneau, meilleur créneau et sa raison, heure par heure) jusqu'à J+15, et les conditions passées.
 
 **Kitesurf**
 1. **Spot en direct** : vent (force, direction, orientation par rapport à la plage), **taille d'aile idéale** selon le **poids du rider** (réglable), **température de l'eau** et combinaison conseillée, rafales et régularité, marée montante/descendante, air, coucher du soleil ;
 2. **Choix de la plage** : Deauville, Trouville-sur-Mer, Houlgate, Cabourg (position et orientation propres à chaque plage, à affiner sur le terrain : `SPOTS` dans `index.html`) ;
 3. **Prévisions** : sessions *Navigable / Limite / Pas navigable* sur 3 jours, heure par heure ;
 4. **Conseils** : trois carrousels illustrés (décoller son aile en 10 étapes, atterrir et porter son aile, réussir son water start sans s'agripper à la barre), **mon assurance** (stockée seulement sur le téléphone), priorités sur l'eau, sécurité, règles locales ;
-4. marées de n'importe quel jour.
+5. **Calendrier** : marées de n'importe quel jour, avec les conditions prévues (meilleure session, aile, eau, heure par heure) jusqu'à J+15.
 
 > ⚠️ Horaires **théoriques**. Toujours confirmer avant une manœuvre via le **VHF canal 9** ou la cabine de l'écluse (06 98 71 83 92).
 

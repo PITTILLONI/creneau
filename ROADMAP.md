@@ -1,7 +1,7 @@
 # Avancement
 
 Site : <https://pittilloni.github.io/deauville-passerelle-ecluse/>
-Dernière mise à jour de ce fichier : 17 octobre 2026 (13h15).
+Dernière mise à jour de ce fichier : 17 octobre 2026 (15h30).
 
 ## Fait
 
@@ -16,6 +16,8 @@ Dernière mise à jour de ce fichier : 17 octobre 2026 (13h15).
 - [x] Profil **Kitesurf** : note par heure, orientation par rapport à la plage, sessions à venir
 - [x] Bande heure par heure sur 48 h
 - [x] Consultation de n'importe quel jour de 2026 (boutons, calendrier, glisser gauche/droite)
+- [x] Calendrier : conditions météo du jour choisi (note des créneaux, meilleur créneau/session, heure par heure), jusqu'à J+15 et jours passés
+- [x] Navigation par vrais onglets (une section à l'écran à la fois)
 - [x] Interface mobile d'abord : barre d'onglets, grandes zones tactiles, mode sombre automatique
 - [x] Icône et mode plein écran pour l'écran d'accueil iPhone
 - [x] Rechargement automatique quand une nouvelle version est publiée
