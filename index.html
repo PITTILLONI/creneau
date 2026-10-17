@@ -2,427 +2,415 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Quand ouvre la passerelle ?</title>
-</head>
-<body>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Passerelle &amp; écluse — Deauville-Trouville</title>
+<meta name="description" content="Passerelle piétonne et écluse du bassin Morny en direct, marées et conditions de sortie en mer à Deauville-Trouville.">
+<meta name="theme-color" content="#f2f4f7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#05070c" media="(prefers-color-scheme: dark)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Passerelle">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
-
   :root{
-    --ink:#16262d;
-    --paper:#f5f1e6;
-    --raised:#fffdf8;
-    --line:#d8cfba;
-    --muted:#6b6355;
-    --accent:#1c7c8c;
+    --ground:#f2f4f7;
+    --surface:#ffffff;
+    --surface-2:#e8ecf1;
+    --ink:#0a0f1a;
+    --ink-2:#4a5468;
+    --accent:#0057ff;
     --accent-ink:#ffffff;
-    --open:#2f8f5b;
-    --open-bg:#e3f3e9;
-    --closed:#b23b2e;
-    --closed-bg:#f7e6e1;
-    --amber:#b8791f;
-    --amber-bg:#f5ecd8;
-    --shadow: 0 1px 0 rgba(22,38,45,.05), 0 8px 20px -12px rgba(22,38,45,.25);
+    --good:#0a7d45;  --good-bg:#dcf7e8;
+    --mid:#a15c00;   --mid-bg:#ffefd2;
+    --bad:#c4221a;   --bad-bg:#ffe1de;
+    --none:#d3d9e2;
+    --radius:24px;
+    --tab-h:64px;
   }
   @media (prefers-color-scheme: dark){
     :root:not([data-theme="light"]){
-      --ink:#eee7d8;
-      --paper:#0f1b20;
-      --raised:#16262b;
-      --line:#2c3a3e;
-      --muted:#9aa6a2;
-      --accent:#5fc7d6;
-      --accent-ink:#08171a;
-      --open:#6fd39a;
-      --open-bg:#143324;
-      --closed:#ef8a7a;
-      --closed-bg:#3a1c17;
-      --amber:#e8b563;
-      --amber-bg:#3a2c11;
-      --shadow: 0 1px 0 rgba(0,0,0,.2), 0 8px 24px -12px rgba(0,0,0,.6);
+      --ground:#05070c; --surface:#11151f; --surface-2:#1c2230;
+      --ink:#f5f7fb; --ink-2:#9aa4b8; --accent:#5b9dff; --accent-ink:#05070c;
+      --good:#6fdba0; --good-bg:#123726;
+      --mid:#f2bf5e;  --mid-bg:#3b2b0c;
+      --bad:#ff8f84;  --bad-bg:#43191a;
+      --none:#262d3d;
     }
   }
   :root[data-theme="dark"]{
-    --ink:#eee7d8;
-    --paper:#0f1b20;
-    --raised:#16262b;
-    --line:#2c3a3e;
-    --muted:#9aa6a2;
-    --accent:#5fc7d6;
-    --accent-ink:#08171a;
-    --open:#6fd39a;
-    --open-bg:#143324;
-    --closed:#ef8a7a;
-    --closed-bg:#3a1c17;
-    --amber:#e8b563;
-    --amber-bg:#3a2c11;
-    --shadow: 0 1px 0 rgba(0,0,0,.2), 0 8px 24px -12px rgba(0,0,0,.6);
+    --ground:#05070c; --surface:#11151f; --surface-2:#1c2230;
+    --ink:#f5f7fb; --ink-2:#9aa4b8; --accent:#5b9dff; --accent-ink:#05070c;
+    --good:#6fdba0; --good-bg:#123726;
+    --mid:#f2bf5e;  --mid-bg:#3b2b0c;
+    --bad:#ff8f84;  --bad-bg:#43191a;
+    --none:#262d3d;
   }
 
   *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
+  @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto;} *{transition:none !important;} }
   body{
-    background:var(--paper);
+    margin:0;
+    background:var(--ground);
     color:var(--ink);
-    font-family:'Archivo',system-ui,sans-serif;
-    padding-inline:16px;
-    padding-block:32px 56px;
+    font-family:'Geist',system-ui,-apple-system,sans-serif;
+    font-size:17px;
     line-height:1.45;
+    font-variant-numeric:tabular-nums;
+    padding:calc(env(safe-area-inset-top) + 20px) 16px calc(var(--tab-h) + env(safe-area-inset-bottom) + 28px);
   }
-  .wrap{max-width:640px;margin-inline:auto;display:flex;flex-direction:column;gap:28px;}
-
-  .mono{font-family:'IBM Plex Mono',ui-monospace,monospace;font-variant-numeric:tabular-nums;}
+  .wrap{max-width:720px;margin-inline:auto;}
+  section{scroll-margin-top:calc(env(safe-area-inset-top) + 12px);margin-bottom:48px;}
+  a{color:inherit;}
+  button{font:inherit;color:inherit;}
+  :focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:6px;}
 
   /* header */
-  header{display:flex;flex-direction:column;gap:6px;}
-  .eyebrow{
-    font-family:'IBM Plex Mono',monospace;
-    font-size:.72rem;
-    letter-spacing:.14em;
-    text-transform:uppercase;
-    color:var(--accent);
-    font-weight:600;
-  }
-  h1{
-    font-family:'Fraunces',serif;
-    font-weight:600;
-    font-size:clamp(1.6rem,5vw,2.1rem);
-    margin:0;
-    text-wrap:balance;
-  }
-  .sub{color:var(--muted);font-size:.92rem;max-width:52ch;}
-  .clock{
-    color:var(--muted);
-    font-size:.8rem;
-    margin-top:2px;
-  }
+  .top{margin-bottom:22px;display:flex;justify-content:space-between;align-items:flex-start;gap:12px;}
+  .clock{display:flex;align-items:center;gap:8px;background:var(--surface);border-radius:999px;padding:8px 14px;font-weight:700;font-size:1rem;flex:0 0 auto;margin-top:2px;}
+  .live{position:relative;width:8px;height:8px;border-radius:50%;background:var(--good);}
+  .live::after{content:"";position:absolute;inset:-4px;border-radius:50%;background:var(--good);opacity:.35;animation:ping 2s cubic-bezier(0,0,.2,1) infinite;}
+  @keyframes ping{75%,100%{transform:scale(2.2);opacity:0;}}
+  .top h1{font-size:2rem;line-height:1.05;font-weight:700;margin:0;letter-spacing:-.035em;}
+  .top p{margin:4px 0 0;color:var(--ink-2);font-size:1rem;}
 
-  /* card base */
-  .card{
-    background:var(--raised);
-    border:1px solid var(--line);
-    border-radius:14px;
-    box-shadow:var(--shadow);
-    padding:20px;
-    min-width:0;
-  }
+  h2{font-size:1.6rem;font-weight:700;margin:0 0 14px;letter-spacing:-.03em;}
 
-  /* status hero */
-  .status{
-    display:flex;
-    flex-direction:column;
-    gap:14px;
-  }
-  .status-top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
-  .structure-name{font-weight:600;font-size:.98rem;}
-  .pill{
-    display:inline-flex;align-items:center;gap:7px;
-    padding:6px 14px;border-radius:999px;
-    font-family:'IBM Plex Mono',monospace;
-    font-weight:600;font-size:.82rem;letter-spacing:.03em;
-    white-space:nowrap;
-  }
-  .pill::before{content:"";width:8px;height:8px;border-radius:50%;background:currentColor;}
-  .pill.open{background:var(--open-bg);color:var(--open);}
-  .pill.closed{background:var(--closed-bg);color:var(--closed);}
-  .status-detail{font-size:.95rem;color:var(--muted);}
-  .status-detail b{color:var(--ink);font-weight:600;}
-  .status-detail .mono{color:var(--ink);}
+  /* profile switch */
+  .seg{position:relative;display:grid;grid-template-columns:1fr 1fr;background:var(--surface);border-radius:16px;padding:4px;margin-bottom:16px;}
+  .seg button{position:relative;z-index:1;border:0;background:none;height:44px;border-radius:12px;font-weight:700;font-size:1rem;color:var(--ink-2);cursor:pointer;transition:color .25s ease,transform .18s cubic-bezier(.2,.8,.2,1);}
+  .seg button[aria-pressed="true"]{color:var(--accent-ink);}
+  .seg-ind{position:absolute;z-index:0;top:4px;left:4px;width:calc(50% - 4px);height:44px;border-radius:12px;background:var(--accent);transition:transform .35s cubic-bezier(.2,.8,.2,1);}
+  [data-profile="kite"] .seg-ind{transform:translateX(100%);}
+  [data-profile="kite"] .only-boat,[data-profile="boat"] .only-kite,html:not([data-profile]) .only-kite{display:none;}
 
-  .countdown{
-    display:flex;flex-direction:column;gap:4px;min-width:0;
-    align-items:center;text-align:center;
-    padding:18px 14px;
-    border-radius:12px;
-    border:1px solid var(--line);
-    background:var(--paper);
+  /* live tiles */
+  .tiles{display:grid;gap:12px;}
+  @media (min-width:600px){ .tiles{grid-template-columns:1fr 1fr;} }
+  .tile{
+    background:var(--surface);
+    border-radius:var(--radius);
+    padding:18px 18px 20px;
+    display:flex;flex-direction:column;gap:2px;
   }
-  .countdown .cd-value{
-    font-size:clamp(1.7rem,8.5vw,3rem);
-    font-weight:600;
-    letter-spacing:.01em;
-    line-height:1.15;
-    overflow-wrap:anywhere;
-  }
-  .countdown .cd-label{
-    font-family:'Archivo',sans-serif;
-    font-size:.76rem;
-    text-transform:uppercase;
-    letter-spacing:.08em;
-    color:var(--muted);
-    font-weight:700;
-  }
-  .countdown.open{background:var(--open-bg);border-color:var(--open);}
-  .countdown.open .cd-value{color:var(--open);}
-  .countdown.closed{background:var(--closed-bg);border-color:var(--closed);}
-  .countdown.closed .cd-value{color:var(--closed);}
-  .countdown.soon{background:var(--amber-bg);border-color:var(--amber);}
-  .countdown.soon .cd-value{color:var(--amber);}
+  .tile .what{font-size:1rem;font-weight:600;color:var(--ink-2);display:flex;align-items:center;gap:8px;}
+  .tile .what::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--none);transition:background-color .45s ease;}
+  .tile.good .what::before{background:var(--good);} .tile.bad .what::before{background:var(--bad);} .tile.mid .what::before{background:var(--mid);}
+  .tile{position:relative;overflow:hidden;}
+  .tile::after{content:"";position:absolute;right:-40px;bottom:-60px;width:180px;height:180px;border-radius:50%;background:currentColor;opacity:.05;pointer-events:none;}
+  .tile.good::after{color:var(--good);} .tile.bad::after{color:var(--bad);} .tile.mid::after{color:var(--mid);}
+  .tile .state{font-size:clamp(2.4rem,11vw,3.2rem);font-weight:700;line-height:1;letter-spacing:-.045em;margin-top:6px;}
+  .tile .next{font-size:1.05rem;margin-top:8px;}
+  .tile .next b{font-weight:700;}
+  .tile .count{font-size:1.6rem;font-weight:700;letter-spacing:-.03em;margin-top:2px;}
+  .tile.good{background:var(--good-bg);} .tile.good .state{color:var(--good);}
+  .tile.bad{background:var(--bad-bg);}   .tile.bad .state{color:var(--bad);}
+  .tile.mid{background:var(--mid-bg);}   .tile.mid .state{color:var(--mid);}
 
-  .windows{display:flex;flex-wrap:wrap;gap:8px;margin-top:2px;}
-  .window{
-    border:1px solid var(--line);
-    border-radius:9px;
-    padding:8px 12px;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    min-width:112px;
-    background:var(--paper);
+  .today{margin-top:14px;background:var(--surface);border-radius:var(--radius);padding:16px 18px;}
+  .today-title{font-size:.95rem;font-weight:600;color:var(--ink-2);margin-bottom:10px;}
+  .slots{display:flex;flex-wrap:wrap;gap:8px;}
+  .slot{
+    background:var(--surface-2);border-radius:12px;padding:8px 12px;
+    font-weight:700;font-size:1.05rem;white-space:nowrap;
   }
-  .window.active{border-color:var(--open);background:var(--open-bg);}
-  .window .range{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:.98rem;letter-spacing:.01em;text-align:center;overflow-wrap:anywhere;}
-  .window .label{font-size:.66rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-top:2px;text-align:center;}
+  .slot small{display:block;font-weight:500;font-size:.8rem;color:var(--ink-2);}
+  .slot.now{background:var(--accent);color:var(--accent-ink);}
+  .slot.now small{color:inherit;opacity:.85;}
+  .tides{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:14px;font-size:.95rem;color:var(--ink-2);}
+  .tides b{color:var(--ink);font-weight:700;}
 
-  .browse-group-label{
-    font-family:'IBM Plex Mono',monospace;
-    font-size:.7rem;
-    letter-spacing:.1em;
-    text-transform:uppercase;
-    color:var(--accent);
-    font-weight:600;
-    margin-bottom:10px;
-  }
-  .postes{display:flex;flex-wrap:wrap;gap:10px;}
-  .poste{
-    flex:1 1 200px;
-    min-width:0;
-    border:1px solid var(--line);
-    border-radius:10px;
-    padding:10px 12px;
-    background:var(--paper);
-  }
-  .poste .poste-label{
-    font-size:.66rem;text-transform:uppercase;letter-spacing:.08em;
-    color:var(--muted);margin-bottom:4px;font-weight:600;
-  }
-  .poste .poste-value{font-size:.92rem;font-weight:600;line-height:1.5;overflow-wrap:anywhere;}
-  .poste .poste-value .po{color:var(--accent);}
-  .poste .poste-note{font-size:.72rem;color:var(--muted);margin-top:2px;font-family:'Archivo',sans-serif;}
+  /* go out */
+  .verdict{background:var(--surface);border-radius:var(--radius);padding:18px;}
+  .verdict.good{background:var(--good-bg);} .verdict.mid{background:var(--mid-bg);} .verdict.bad{background:var(--bad-bg);}
+  .verdict .v-label{font-size:1rem;font-weight:600;color:var(--ink-2);}
+  .verdict .v-word{font-size:clamp(2.4rem,11vw,3.2rem);font-weight:700;line-height:1;letter-spacing:-.045em;margin:6px 0 6px;}
+  .verdict.good .v-word{color:var(--good);} .verdict.mid .v-word{color:var(--mid);} .verdict.bad .v-word{color:var(--bad);}
+  .gauge{position:relative;height:12px;margin:16px 0 8px;display:grid;grid-template-columns:45fr 25fr 30fr;gap:4px;}
+  .gauge b{border-radius:6px;opacity:.35;}
+  .gauge b:nth-child(1){background:var(--bad);} .gauge b:nth-child(2){background:var(--mid);} .gauge b:nth-child(3){background:var(--good);}
+  .verdict.bad .gauge b:nth-child(1),.verdict.mid .gauge b:nth-child(2),.verdict.good .gauge b:nth-child(3){opacity:1;}
+  .gauge i{position:absolute;top:50%;width:24px;height:24px;border-radius:50%;background:var(--surface);
+    border:5px solid var(--ink);transform:translate(-50%,-50%);transition:left .7s cubic-bezier(.2,.8,.2,1);}
+  .gauge-scale{display:flex;justify-content:space-between;font-size:.8rem;color:var(--ink-2);}
+  .conds{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px;}
+  .cond{background:var(--surface);border-radius:14px;padding:10px 12px;}
+  .verdict:not(.good):not(.mid):not(.bad) .cond{background:var(--surface-2);}
+  .cond .k{font-size:.85rem;color:var(--ink-2);}
+  .cond .val{font-size:1.25rem;font-weight:800;display:flex;align-items:center;gap:6px;}
+  .arrow{width:18px;height:18px;flex:0 0 18px;transition:transform .6s cubic-bezier(.2,.8,.2,1);}
+  .cond .sub{font-size:.85rem;color:var(--ink-2);}
 
-  .coefrow{display:flex;gap:8px;align-items:center;font-size:.8rem;color:var(--muted);}
-  .coef-badge{
-    font-family:'IBM Plex Mono',monospace;
-    background:var(--paper);
-    border:1px solid var(--line);
-    border-radius:6px;
-    padding:1px 7px;
-    font-weight:600;
-    color:var(--ink);
+  .h3{font-size:1.1rem;font-weight:700;margin:26px 0 10px;}
+  .windows{display:flex;flex-direction:column;gap:8px;}
+  .win{
+    display:grid;grid-template-columns:auto 1fr auto;gap:4px 12px;align-items:center;
+    background:var(--surface);border-radius:14px;padding:12px 14px;
   }
+  .win .when{font-weight:700;font-size:1.05rem;white-space:nowrap;}
+  .win .day{font-size:.85rem;color:var(--ink-2);}
+  .win .meta{font-size:.9rem;color:var(--ink-2);grid-column:1 / 3;}
+  .badge{font-weight:700;font-size:.9rem;padding:5px 10px;border-radius:999px;white-space:nowrap;grid-row:1 / 3;grid-column:3;}
+  .badge.good{background:var(--good-bg);color:var(--good);}
+  .badge.mid{background:var(--mid-bg);color:var(--mid);}
+  .badge.bad{background:var(--bad-bg);color:var(--bad);}
+  .win.best{outline:3px solid var(--good);outline-offset:-3px;}
+
+  .strip-wrap{background:var(--surface);border-radius:var(--radius);padding:14px 0 12px;}
+  .strip{display:flex;gap:3px;overflow-x:auto;padding:0 14px 6px;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+  .strip::-webkit-scrollbar{display:none;}
+  .hour{flex:0 0 30px;display:flex;flex-direction:column;align-items:center;gap:4px;scroll-snap-align:start;
+    background:none;border:0;padding:0;cursor:pointer;}
+  .hour .lock{height:6px;width:100%;border-radius:3px;background:transparent;}
+  .hour.open .lock{background:var(--accent);}
+  .hour .bar{width:100%;height:44px;border-radius:9px;background:var(--none);transform-origin:bottom;}
+  .hour.good .bar{background:var(--good);} .hour.mid .bar{background:var(--mid);} .hour.bad .bar{background:var(--bad);}
+  .hour.night .bar{opacity:.55;}
+  .hour .t{font-size:.72rem;color:var(--ink-2);height:1em;}
+  .hour.sel .bar{outline:3px solid var(--ink);outline-offset:1px;}
+  .hour.daystart{margin-left:10px;}
+  .strip-detail{padding:8px 14px 0;font-size:.95rem;min-height:2.9em;}
+  .legend{display:flex;flex-wrap:wrap;gap:6px 14px;padding:8px 14px 0;font-size:.85rem;color:var(--ink-2);}
+  .legend span::before{content:"";display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px;background:var(--c);}
+
+  details{margin-top:14px;background:var(--surface);border-radius:14px;padding:12px 14px;}
+  summary{font-weight:700;cursor:pointer;min-height:28px;}
+  details p, details li{font-size:.95rem;color:var(--ink-2);}
+  details ul{padding-left:18px;margin:8px 0;}
+
+  .note{background:var(--mid-bg);color:var(--ink);border-radius:14px;padding:12px 14px;font-size:.95rem;margin-top:12px;}
+  .muted{color:var(--ink-2);font-size:.95rem;}
 
   /* day browser */
-  .browser-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:14px;}
-  .browser-title{font-weight:600;font-size:.98rem;}
-  .nav{display:flex;align-items:center;gap:8px;flex-wrap:wrap;width:100%;}
-  .nav button{
-    border:1px solid var(--line);
-    background:var(--paper);
-    color:var(--ink);
-    border-radius:8px;
-    width:30px;height:30px;
-    flex:0 0 30px;
-    font-size:1rem;
-    cursor:pointer;
-    display:flex;align-items:center;justify-content:center;
+  .daynav{display:grid;grid-template-columns:48px 1fr 48px;gap:8px;align-items:center;margin-bottom:10px;}
+  .daynav button,.daynav input{
+    height:48px;border-radius:14px;border:0;background:var(--surface);color:var(--ink);
+    font:inherit;font-weight:700;
   }
-  .nav button:hover{border-color:var(--accent);color:var(--accent);}
-  .nav input[type="date"]{
-    font-family:'IBM Plex Mono',monospace;
-    border:1px solid var(--line);
-    background:var(--paper);
-    color:var(--ink);
-    border-radius:8px;
-    padding:5px 8px;
-    font-size:.85rem;
-    flex:1 1 130px;
-    min-width:0;
-    max-width:170px;
+  .daynav button{font-size:1.4rem;cursor:pointer;}
+  .daynav input{width:100%;padding:0 12px;text-align:center;-webkit-appearance:none;appearance:none;min-width:0;}
+  .daylabel{font-size:1.15rem;font-weight:700;margin:6px 0 10px;}
+  .todaybtn{border:0;background:var(--surface-2);border-radius:999px;padding:8px 14px;font-weight:600;font-size:.9rem;cursor:pointer;min-height:40px;}
+
+  footer{font-size:.9rem;color:var(--ink-2);display:flex;flex-direction:column;gap:10px;}
+  footer .warn{background:var(--surface);border-radius:14px;padding:12px 14px;color:var(--ink);}
+  footer a{color:var(--ink);font-weight:600;}
+  .links{display:flex;flex-direction:column;gap:8px;}
+  .links a{display:flex;align-items:center;min-height:44px;background:var(--surface);border-radius:14px;padding:0 14px;text-decoration:none;}
+
+  /* tab bar */
+  .tabbar{
+    position:fixed;left:0;right:0;bottom:0;z-index:10;
+    display:grid;grid-template-columns:repeat(3,1fr);
+    padding:6px 8px calc(env(safe-area-inset-bottom) + 6px);
+    background:color-mix(in srgb, var(--surface) 92%, transparent);
+    border-top:1px solid var(--surface-2);
   }
-  .nav button.today{
-    width:auto;flex:0 0 auto;padding:0 10px;font-family:'Archivo',sans-serif;font-size:.78rem;font-weight:600;
+  .tabbar a{
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+    min-height:52px;text-decoration:none;color:var(--ink-2);font-size:.8rem;font-weight:600;border-radius:12px;
+  }
+  .tabbar a svg{width:24px;height:24px;}
+  .tabbar a{position:relative;z-index:1;transition:color .25s ease;}
+  .tabbar a[aria-current="true"]{color:var(--accent);}
+  .tabbar .ind{
+    position:absolute;z-index:0;top:6px;left:8px;height:52px;width:calc((100% - 16px)/3);
+    border-radius:12px;background:var(--surface-2);
+    transition:transform .35s cubic-bezier(.2,.8,.2,1);
   }
 
-  /* ecluse card */
-  .rule{
-    display:flex; gap:10px; padding:10px 0;
-    border-top:1px solid var(--line);
-    font-size:.88rem;
-  }
-  .rule:first-of-type{border-top:none;padding-top:0;}
-  .rule .k{
-    font-family:'IBM Plex Mono',monospace;
-    color:var(--accent);
-    font-weight:600;
-    flex:0 0 auto;
-    font-size:.78rem;
-    padding-top:2px;
-  }
-  .rule .v{color:var(--ink);}
-  .rule .v .muted{color:var(--muted);}
-
-  .links{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px;}
-  .btn{
-    display:inline-flex;align-items:center;gap:6px;
-    border-radius:9px;
-    padding:9px 14px;
-    font-size:.85rem;
-    font-weight:600;
-    text-decoration:none;
-    border:1px solid var(--line);
-    color:var(--ink);
-    background:var(--paper);
-  }
-  .btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);}
-  .btn:hover{border-color:var(--accent);}
-
-  .contact{
-    display:flex;gap:18px;flex-wrap:wrap;
-    margin-top:14px;
-    font-size:.85rem;
-    color:var(--muted);
-  }
-  .contact b{color:var(--ink);}
-
-  h2.card-title{
-    font-family:'Fraunces',serif;
-    font-weight:600;
-    font-size:1.15rem;
-    margin:0 0 4px;
-  }
-  .card-sub{color:var(--muted);font-size:.85rem;margin-bottom:16px;}
-
-  footer{
-    border-top:1px solid var(--line);
-    padding-top:16px;
-    font-size:.76rem;
-    color:var(--muted);
-    display:flex;
-    flex-direction:column;
-    gap:6px;
-  }
-  footer a{color:var(--muted);}
-  .disclaimer{
-    background:var(--amber-bg);
-    color:var(--amber);
-    border-radius:10px;
-    padding:10px 14px;
-    font-size:.8rem;
-    font-weight:500;
-    display:flex;
-    gap:8px;
-  }
-  .disclaimer b{font-weight:700;}
-
-  @media (max-width:480px){
-    .card{padding:16px;}
-    .window{min-width:0;flex:1 1 47%;}
-    .poste{flex-basis:100%;}
-    .rule{flex-direction:column;gap:4px;}
-    .rule .k{padding-top:0;}
-    .links{flex-direction:column;}
-    .links .btn{justify-content:center;}
-    .contact{flex-direction:column;gap:8px;}
-    h1{font-size:1.5rem;}
+  /* micro-interactions */
+  .tile,.verdict{transition:background-color .45s ease;}
+  .tile .state,.tile .state *,.verdict .v-word{transition:color .45s ease;}
+  @keyframes rise{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+  @keyframes slideL{from{opacity:0;transform:translateX(28px);}to{opacity:1;transform:none;}}
+  @keyframes slideR{from{opacity:0;transform:translateX(-28px);}to{opacity:1;transform:none;}}
+  @keyframes pulse{50%{opacity:.45;}}
+  .enter{animation:rise .4s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--i,0) * 45ms);}
+  .slide-l{animation:slideL .3s cubic-bezier(.2,.8,.2,1) both;}
+  .slide-r{animation:slideR .3s cubic-bezier(.2,.8,.2,1) both;}
+  .count.soon{animation:pulse 1.6s ease-in-out infinite;}
+  button,.win,.slot,.links a,.tabbar a,summary{transition:transform .18s cubic-bezier(.2,.8,.2,1);-webkit-tap-highlight-color:transparent;}
+  button:active,.win:active,.links a:active,.tabbar a:active,summary:active{transform:scale(.96);}
+  .hour .bar{transition:transform .2s cubic-bezier(.2,.8,.2,1),outline-color .2s;}
+  .hour.sel .bar{transform:scaleY(1.12);}
+  .strip-detail{transition:opacity .2s ease;}
+  .strip-detail.fade{opacity:0;}
+  #dayCard{touch-action:pan-y;}
+  @media (prefers-reduced-motion: reduce){
+    .enter,.slide-l,.slide-r,.count.soon{animation:none;}
+    .tabbar .ind,.gauge i{transition:none;}
+    button:active,.win:active,.links a:active,.tabbar a:active,summary:active{transform:none;}
   }
 </style>
-
+</head>
+<body>
 <div class="wrap">
 
-  <header>
-    <div class="eyebrow">Port de Deauville-Trouville · Bassin Morny</div>
-    <h1>Quand ouvre la passerelle&nbsp;?</h1>
-    <div class="sub">Horaires théoriques de la porte du bassin Morny (qui porte la passerelle piétonne vers Trouville) et rappel des règles de l'écluse du bassin des Marinas — calculés sur la marée.</div>
-    <div class="clock mono" id="clock">—</div>
-  </header>
-
-  <section class="card status" id="statusCard">
-    <div class="status-top">
-      <div class="structure-name">Passerelle · porte du bassin Morny</div>
-      <div class="pill" id="statusPill">…</div>
+  <header class="top">
+    <div>
+      <h1>Passerelle &amp; écluse</h1>
+      <p>Deauville-Trouville · bassin Morny</p>
     </div>
-    <div class="status-detail" id="statusDetail">Calcul en cours…</div>
-    <div class="countdown mono" id="countdown">—</div>
-    <div class="windows" id="statusWindows"></div>
-    <div class="coefrow" id="statusCoef"></div>
-  </section>
+    <div class="clock"><span class="live" aria-hidden="true"></span><span id="clock">—</span></div>
+  </header>
+  <div class="seg" role="group" aria-label="Profil">
+    <span class="seg-ind" aria-hidden="true"></span>
+    <button data-p="boat" aria-pressed="true">Bateau</button>
+    <button data-p="kite" aria-pressed="false">Kitesurf</button>
+  </div>
 
-  <section class="card">
-    <div class="browser-head">
-      <div class="browser-title">Consulter un autre jour (2026)</div>
-      <div class="nav">
-        <button id="prevDay" aria-label="Jour précédent">‹</button>
-        <input type="date" id="datePick" min="2026-01-01" max="2026-12-31">
-        <button id="nextDay" aria-label="Jour suivant">›</button>
-        <button class="today" id="gotoToday">Aujourd'hui</button>
+  <section id="maintenant" aria-labelledby="t-now">
+    <h2 id="t-now" class="sr">Maintenant</h2>
+    <div class="tiles">
+      <div class="tile" id="tilePasserelle" aria-live="polite">
+        <div class="what">Passerelle piétonne</div>
+        <div class="state" id="pState">…</div>
+        <div class="next" id="pNext"></div>
+        <div class="count" id="pCount"></div>
+      </div>
+      <div class="tile" id="tileEcluse" aria-live="polite">
+        <div class="what">Écluse · portes Morny (bateaux)</div>
+        <div class="state" id="eState">…</div>
+        <div class="next" id="eNext"></div>
+        <div class="count" id="eCount"></div>
       </div>
     </div>
-    <div class="browse-group-label">Passerelle · bassin Morny</div>
-    <div class="windows" id="browseWindows"></div>
-    <div class="coefrow" id="browseCoef" style="margin-top:12px;"></div>
-
-    <div class="browse-group-label" style="margin-top:20px;">Écluse · bassin des Marinas</div>
-    <div class="postes" id="browsePostes"></div>
+    <div class="today">
+      <div class="today-title">Aujourd'hui, portes ouvertes · passerelle intermittente</div>
+      <div class="slots" id="todaySlots"></div>
+      <div class="tides" id="todayTides"></div>
+    </div>
   </section>
 
-  <section class="card">
-    <h2 class="card-title">Écluse · bassin des Marinas — règles</h2>
-    <div class="card-sub">Les horaires du jour sélectionné ci-dessus viennent du même document officiel. Rappel des règles générales du sas :</div>
-
-    <div class="rule">
-      <div class="k">POSTE</div>
-      <div class="v">Chaque marée haute ouvre un <b>poste jour</b> ou <b>poste soir</b> : ouverture progressive du sas, une plage centrale à <b>portes grandes ouvertes (PO*)</b>, puis fermeture progressive.</div>
-    </div>
-    <div class="rule">
-      <div class="k">DERNIER SASSAGE</div>
-      <div class="v">30 minutes avant la fin du poste.</div>
-    </div>
-    <div class="rule">
-      <div class="k">PETITS COEF.</div>
-      <div class="v">SAS réduit par petit coefficient — <span class="muted">appeler la cabine de l'écluse pour confirmer.</span></div>
+  <section id="sortir" aria-labelledby="t-out">
+    <h2 id="t-out">Je sors en mer ?</h2>
+    <div class="verdict" id="verdict">
+      <div class="v-label" id="vLabel">Prévisions en cours de chargement…</div>
+      <div class="v-word" id="vWord">—</div>
+      <div class="gauge" aria-hidden="true"><b></b><b></b><b></b><i id="vNeedle" style="left:0%"></i></div>
+      <div class="gauge-scale" aria-hidden="true"><span>Déconseillé</span><span>Moyen</span><span>Bon</span></div>
+      <div class="conds" id="vConds"></div>
     </div>
 
-    <div class="links">
-      <a class="btn primary" href="https://www.portsducalvados.fr/wp-content/uploads/2023/08/06-DEAUVILLE-TROUVILLE-Horaires-de-manoeuvres-2026.pdf" target="_blank" rel="noopener">PDF horaires 2026 (Ports du Calvados) ↗</a>
-      <a class="btn" href="https://www.portsducalvados.fr/sas-ecluse-de-deauville-marinas/" target="_blank" rel="noopener">Fiche écluse Marinas ↗</a>
+    <div class="h3" id="slotsTitle">Créneaux d'écluse à venir</div>
+    <div class="windows" id="windows"><div class="muted">Chargement…</div></div>
+
+    <div class="h3">Heure par heure</div>
+    <div class="strip-wrap">
+      <div class="strip" id="strip" role="list"></div>
+      <div class="strip-detail" id="stripDetail">Touchez une heure pour le détail.</div>
+      <div class="legend">
+        <span style="--c:var(--good)">Bon</span>
+        <span style="--c:var(--mid)">Moyen</span>
+        <span style="--c:var(--bad)">Déconseillé</span>
+        <span style="--c:var(--accent)" class="only-boat">Écluse ouverte</span>
+      </div>
     </div>
 
-    <div class="contact">
-      <div>VHF <b>canal 9</b></div>
-      <div>Cabine écluse <b>06 98 71 83 92</b></div>
-      <div>Capitainerie Marinas <b>02 31 98 30 01</b></div>
+    <details class="only-kite">
+      <summary>Comment est calculée la note kite ?</summary>
+      <p>Pour la plage de Deauville, orientée nord-nord-ouest. Chaque heure de jour est notée sur :</p>
+      <ul>
+        <li><b>Vent moyen</b> : idéal de 14 à 25 nœuds, juste entre 12 et 14, trop faible en dessous, réservé aux confirmés au-delà de 25.</li>
+        <li><b>Rafales</b> : écart avec le vent moyen de plus de 8 nœuds = moyen, plus de 12 = déconseillé.</li>
+        <li><b>Orientation</b> : side-on et side-shore = bon ; onshore pur = moyen ; side-off = déconseillé ; <b>offshore = dangereux</b>, jamais conseillé.</li>
+        <li><b>Mer</b> : vagues de plus de 2 m = moyen au mieux. <b>De nuit</b> : pas de session.</li>
+        <li>Une session est une suite d'heures notées « bon » (à défaut « moyen »).</li>
+      </ul>
+      <p>Vérifier aussi les zones et périodes autorisées par la mairie (règles de plage en saison) et l'heure de la marée : à marée haute la plage est étroite.</p>
+    </details>
+    <details class="only-boat">
+      <summary>Comment est calculé le confort ?</summary>
+      <p>Réglé pour un bateau de plaisance de 5 à 8 m. Chaque heure prend la note la plus basse entre le vent et l'état de la mer :</p>
+      <ul>
+        <li><b>Vent moyen</b> : bon jusqu'à 12 nœuds, moyen jusqu'à 18, déconseillé au-delà. Rafales au-delà de 25 nœuds : déconseillé.</li>
+        <li><b>Hauteur des vagues</b> : bonne jusqu'à 0,6 m, moyenne jusqu'à 1,2 m, déconseillée au-delà.</li>
+        <li><b>De nuit</b> : jamais mieux que « moyen ».</li>
+        <li>Un créneau d'écluse prend la note de sa pire heure.</li>
+      </ul>
+      <p>Vent : modèles AROME/ARPEGE de Météo-France. Vagues et houle : modèle MFWAM de Météo-France. Données servies par Open-Meteo, mises à jour toutes les heures. Ces prévisions ne remplacent pas le bulletin météo marine officiel.</p>
+    </details>
+    <div class="muted" id="fcSource" style="margin-top:10px;"></div>
+  </section>
+
+  <section id="calendrier" aria-labelledby="t-cal">
+    <h2 id="t-cal">Un autre jour</h2>
+    <div class="daynav">
+      <button id="prevDay" aria-label="Jour précédent">‹</button>
+      <input type="date" id="datePick" min="2026-01-01" max="2026-12-31" aria-label="Choisir une date">
+      <button id="nextDay" aria-label="Jour suivant">›</button>
     </div>
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;">
+      <div class="daylabel" id="dayLabel">—</div>
+      <button class="todaybtn" id="gotoToday">Aujourd'hui</button>
+    </div>
+    <div class="today" id="dayCard">
+      <div class="today-title">Portes ouvertes · passerelle intermittente</div>
+      <div class="slots" id="daySlots"></div>
+      <div class="tides" id="dayTides"></div>
+    </div>
+    <div class="note" id="dayNote" hidden></div>
   </section>
 
   <footer>
-    <div class="disclaimer">⚠️ <span><b>Horaires théoriques</b> calculés par Ports du Calvados avec le concours du SHOM (autorisation n°2024-282). Toujours confirmer avant une manœuvre réelle via le <b>VHF canal 9</b> ou la cabine de l'écluse.</span></div>
-    <div>Bassin Morny — porte à la côte 5,50&nbsp;m — <a href="https://www.portsducalvados.fr/wp-content/uploads/2023/08/06-DEAUVILLE-TROUVILLE-Horaires-de-manoeuvres-2026.pdf" target="_blank" rel="noopener">source PDF Ports du Calvados 2026 ↗</a></div>
-    <div>Données couvrant l'année 2026. Les horaires de 2027 ne sont pas encore publiés.</div>
+    <div class="warn"><b>Horaires théoriques.</b> Toujours confirmer avant une manœuvre via le <b>VHF canal 9</b> ou la cabine de l'écluse au <a href="tel:+33698718392">06 98 71 83 92</a>.</div>
+    <div class="links">
+      <a href="https://meteofrance.com/meteo-marine" target="_blank" rel="noopener">Bulletin météo marine officiel — Météo-France ↗</a>
+      <a href="https://maree.shom.fr/harbor/DEAUVILLE" target="_blank" rel="noopener">Marées de Deauville — SHOM ↗</a>
+      <a href="https://www.portsducalvados.fr/wp-content/uploads/2023/08/06-DEAUVILLE-TROUVILLE-Horaires-de-manoeuvres-2026.pdf" target="_blank" rel="noopener">Horaires des portes 2026 — Ports du Calvados (PDF) ↗</a>
+      <a href="tel:+33231983001">Capitainerie · 02 31 98 30 01</a>
+    </div>
+    <div>Horaires des portes et marées : document officiel Ports du Calvados, calculé avec le SHOM (autorisation n° 2024-282). Porte à la cote 5,50 m. Données 2026 uniquement. Projet indépendant, non affilié à Ports du Calvados, à la mairie de Deauville, au SHOM ni à Météo-France.</div>
   </footer>
-
 </div>
 
-<script>
-const DATA = {"01-01":{"c":["69","74"],"w":[["05:44","11:30"],["18:16","23:58"],[null,null]]},"01-02":{"c":["79","84"],"w":[["06:42","12:31"],["19:13",null],[null,null]]},"01-03":{"c":["88","91"],"w":[[null,"01:03"],["07:36","13:26"],["20:06",null]]},"01-04":{"c":["94","95"],"w":[[null,"01:58"],["08:26","14:18"],["20:56",null]]},"01-05":{"c":["96",null],"w":[[null,"02:48"],["09:14","15:06"],["21:44",null]]},"01-06":{"c":["95","93"],"w":[[null,"03:35"],["10:00","15:51"],["22:30",null]]},"01-07":{"c":["91","87"],"w":[[null,"04:18"],["10:45","16:32"],["23:14",null]]},"01-08":{"c":["82","77"],"w":[[null,"04:57"],["11:28","17:11"],["23:57",null]]},"01-09":{"c":["72","66"],"w":[[null,"05:35"],["12:13","17:48"],[null,null]]},"01-10":{"c":["60","54"],"w":[["00:44","06:12"],["13:01","18:24"],[null,null]]},"01-11":{"c":["49","44"],"w":[["01:34","06:52"],["13:59","19:05"],[null,null]]},"01-12":{"c":["39","36"],"w":[["02:35","07:41"],["15:12","19:57"],[null,null]]},"01-13":{"c":["35","35"],"w":[["03:47","08:44"],["16:33","21:08"],[null,null]]},"01-14":{"c":["36","39"],"w":[["04:57","09:58"],["17:38","22:27"],[null,null]]},"01-15":{"c":["43","47"],"w":[["05:54","11:07"],["18:27","23:35"],[null,null]]},"01-16":{"c":["52","56"],"w":[["06:40","12:03"],["19:08",null],[null,null]]},"01-17":{"c":["61","65"],"w":[[null,"00:30"],["07:19","12:49"],["19:44",null]]},"01-18":{"c":["69","73"],"w":[[null,"01:14"],["07:55","13:30"],["20:19",null]]},"01-19":{"c":["76","79"],"w":[[null,"01:54"],["08:30","14:09"],["20:54",null]]},"01-20":{"c":["81",null],"w":[[null,"02:32"],["09:05","14:46"],["21:28",null]]},"01-21":{"c":["83","84"],"w":[[null,"03:08"],["09:39","15:23"],["22:04",null]]},"01-22":{"c":["85","85"],"w":[[null,"03:44"],["10:15","15:59"],["22:39",null]]},"01-23":{"c":["84","82"],"w":[[null,"04:20"],["10:51","16:35"],["23:16",null]]},"01-24":{"c":["80","76"],"w":[[null,"04:58"],["11:30","17:13"],["23:57",null]]},"01-25":{"c":["73","68"],"w":[[null,"05:37"],["12:15","17:53"],[null,null]]},"01-26":{"c":["64","59"],"w":[["00:46","06:22"],["13:09","18:40"],[null,null]]},"01-27":{"c":["54","50"],"w":[["01:46","07:16"],["14:19","19:40"],[null,null]]},"01-28":{"c":["47","47"],"w":[["03:03","08:27"],["15:46","21:00"],[null,null]]},"01-29":{"c":["49","52"],"w":[["04:27","09:52"],["17:12","22:31"],[null,null]]},"01-30":{"c":["58","65"],"w":[["05:42","11:14"],["18:21","23:51"],[null,null]]},"01-31":{"c":["72","78"],"w":[["06:43","12:23"],["19:15",null],[null,null]]},"02-01":{"c":["84","89"],"w":[[null,"00:58"],["07:34","13:19"],["20:03",null]]},"02-02":{"c":["94","97"],"w":[[null,"01:50"],["08:20","14:08"],["20:46",null]]},"02-03":{"c":["99",null],"w":[[null,"02:36"],["09:02","14:52"],["21:28",null]]},"02-04":{"c":["99","99"],"w":[[null,"03:16"],["09:42","15:32"],["22:06",null]]},"02-05":{"c":["97","94"],"w":[[null,"03:53"],["10:20","16:07"],["22:43",null]]},"02-06":{"c":["90","84"],"w":[[null,"04:26"],["10:56","16:39"],["23:19",null]]},"02-07":{"c":["79","73"],"w":[[null,"04:57"],["11:33","17:09"],["23:54",null]]},"02-08":{"c":["66","59"],"w":[[null,"05:26"],["12:12","17:37"],[null,null]]},"02-09":{"c":["52","46"],"w":[["00:35","05:55"],["12:58","18:05"],[null,null]]},"02-10":{"c":["39","33"],"w":[["01:26","06:27"],["14:05","18:36"],[null,null]]},"02-11":{"c":["28","25"],"w":[["02:43","07:09"],["15:54","19:31"],[null,null]]},"02-12":{"c":["25","28"],"w":[["04:30","08:26"],["17:29","21:21"],[null,null]]},"02-13":{"c":["33","39"],"w":[["05:42","10:14"],["18:17","23:02"],[null,null]]},"02-14":{"c":["45","52"],"w":[["06:28","11:31"],["18:53",null],[null,null]]},"02-15":{"c":["59","65"],"w":[[null,"00:07"],["07:04","12:26"],["19:27",null]]},"02-16":{"c":["71","77"],"w":[[null,"00:54"],["07:38","13:10"],["20:00",null]]},"02-17":{"c":["82","87"],"w":[[null,"01:35"],["08:12","13:50"],["20:33",null]]},"02-18":{"c":["91","94"],"w":[[null,"02:13"],["08:45","14:28"],["21:06",null]]},"02-19":{"c":["96",null],"w":[[null,"02:49"],["09:18","15:05"],["21:40",null]]},"02-20":{"c":["97","97"],"w":[[null,"03:25"],["09:53","15:40"],["22:15",null]]},"02-21":{"c":["96","94"],"w":[[null,"04:00"],["10:29","16:16"],["22:50",null]]},"02-22":{"c":["91","86"],"w":[[null,"04:36"],["11:07","16:52"],["23:29",null]]},"02-23":{"c":["81","74"],"w":[[null,"05:13"],["11:51","17:30"],[null,null]]},"02-24":{"c":["67","60"],"w":[["00:19","05:54"],["12:46","18:14"],[null,null]]},"02-25":{"c":["52","46"],"w":[["01:20","06:43"],["14:03","19:12"],[null,null]]},"02-26":{"c":["41","39"],"w":[["02:49","07:54"],["15:52","20:42"],[null,null]]},"02-27":{"c":["42","47"],"w":[["04:34","09:34"],["17:25","22:28"],[null,null]]},"02-28":{"c":["55","62"],"w":[["05:49","11:08"],["18:23","23:50"],[null,null]]},"03-01":{"c":["70","78"],"w":[["06:42","12:16"],["19:09",null],[null,null]]},"03-02":{"c":["84","90"],"w":[[null,"00:50"],["07:26","13:08"],["19:50",null]]},"03-03":{"c":["94","97"],"w":[[null,"01:35"],["08:06","13:52"],["20:28",null]]},"03-04":{"c":["99","99"],"w":[[null,"02:15"],["08:43","14:30"],["21:04",null]]},"03-05":{"c":["99",null],"w":[[null,"02:50"],["09:18","15:05"],["21:38",null]]},"03-06":{"c":["97","94"],"w":[[null,"03:22"],["09:51","15:37"],["22:10",null]]},"03-07":{"c":["91","86"],"w":[[null,"03:52"],["10:24","16:05"],["22:41",null]]},"03-08":{"c":["81","75"],"w":[[null,"04:20"],["10:57","16:32"],["23:13",null]]},"03-09":{"c":["69","62"],"w":[[null,"04:46"],["11:32","16:56"],["23:47",null]]},"03-10":{"c":["55","48"],"w":[[null,"05:09"],["12:13","17:18"],[null,null]]},"03-11":{"c":["41","34"],"w":[["00:31","05:31"],["13:11","17:41"],[null,null]]},"03-12":{"c":["28","23"],"w":[["01:42","05:57"],["15:12","18:17"],[null,null]]},"03-13":{"c":["21","23"],"w":[["04:00","06:52"],["17:10","20:06"],[null,null]]},"03-14":{"c":["28","35"],"w":[["05:23","09:05"],["17:53","22:20"],[null,null]]},"03-15":{"c":["42","50"],"w":[["06:04","10:51"],["18:26","23:33"],[null,null]]},"03-16":{"c":["58","66"],"w":[["06:38","11:53"],["18:58",null],[null,null]]},"03-17":{"c":["73","80"],"w":[[null,"00:25"],["07:11","12:41"],["19:31",null]]},"03-18":{"c":["87","92"],"w":[[null,"01:07"],["07:45","13:23"],["20:05",null]]},"03-19":{"c":["97","101"],"w":[[null,"01:46"],["08:18","14:02"],["20:39",null]]},"03-20":{"c":["103",null],"w":[[null,"02:23"],["08:53","14:40"],["21:13",null]]},"03-21":{"c":["104","104"],"w":[[null,"03:00"],["09:29","15:17"],["21:49",null]]},"03-22":{"c":["103","100"],"w":[[null,"03:38"],["10:08","15:55"],["22:27",null]]},"03-23":{"c":["95","89"],"w":[[null,"04:15"],["10:50","16:33"],["23:09",null]]},"03-24":{"c":["82","74"],"w":[[null,"04:54"],["11:38","17:14"],["23:59",null]]},"03-25":{"c":["66","57"],"w":[[null,"05:36"],["12:39","18:01"],[null,null]]},"03-26":{"c":["49","43"],"w":[["01:12","06:26"],["14:08","19:06"],[null,null]]},"03-27":{"c":["39","39"],"w":[["02:54","07:42"],["16:00","20:44"],[null,null]]},"03-28":{"c":["43","49"],"w":[["05:34","10:27"],["18:17","23:25"],[null,null]]},"03-29":{"c":["56","63"],"w":[["06:39","11:56"],["19:08",null],[null,null]]},"03-30":{"c":["70","77"],"w":[[null,"00:40"],["07:26","12:58"],["19:49",null]]},"03-31":{"c":["82","86"],"w":[[null,"01:30"],["08:07","13:46"],["20:27",null]]},"04-01":{"c":["89","92"],"w":[[null,"02:11"],["08:44","14:26"],["21:03",null]]},"04-02":{"c":["93",null],"w":[[null,"02:47"],["09:18","15:01"],["21:36",null]]},"04-03":{"c":["93","93"],"w":[[null,"03:20"],["09:51","15:34"],["22:07",null]]},"04-04":{"c":["91","89"],"w":[[null,"03:50"],["10:23","16:04"],["22:38",null]]},"04-05":{"c":["86","82"],"w":[[null,"04:20"],["10:55","16:33"],["23:08",null]]},"04-06":{"c":["78","73"],"w":[[null,"04:47"],["11:28","16:59"],["23:39",null]]},"04-07":{"c":["68","62"],"w":[[null,"05:12"],["12:02","17:24"],[null,null]]},"04-08":{"c":["56","50"],"w":[["00:14","05:35"],["12:43","17:48"],[null,null]]},"04-09":{"c":["43","37"],"w":[["00:57","05:58"],["13:39","18:15"],[null,null]]},"04-10":{"c":["32","27"],"w":[["02:02","06:26"],["15:17","18:58"],[null,null]]},"04-11":{"c":["25","26"],"w":[["03:59","07:19"],["17:09","20:32"],[null,null]]},"04-12":{"c":["29","35"],"w":[["05:32","09:13"],["18:05","22:30"],[null,null]]},"04-13":{"c":["42","50"],"w":[["06:20","11:00"],["18:43","23:48"],[null,null]]},"04-14":{"c":["58","66"],"w":[["06:58","12:10"],["19:19",null],[null,null]]},"04-15":{"c":["73","81"],"w":[[null,"00:46"],["07:35","13:03"],["19:55",null]]},"04-16":{"c":["87","93"],"w":[[null,"01:32"],["08:11","13:49"],["20:31",null]]},"04-17":{"c":["97","101"],"w":[[null,"02:15"],["08:48","14:32"],["21:08",null]]},"04-18":{"c":["104",null],"w":[[null,"02:55"],["09:27","15:13"],["21:46",null]]},"04-19":{"c":["105","104"],"w":[[null,"03:36"],["10:08","15:55"],["22:26",null]]},"04-20":{"c":["102","99"],"w":[[null,"04:17"],["10:51","16:37"],["23:10",null]]},"04-21":{"c":["94","88"],"w":[[null,"04:59"],["11:39","17:21"],["23:57",null]]},"04-22":{"c":["81","73"],"w":[[null,"05:42"],["12:34","18:08"],[null,null]]},"04-23":{"c":["65","58"],"w":[["00:59","06:29"],["13:42","19:02"],[null,null]]},"04-24":{"c":["51","46"],"w":[["02:12","07:26"],["15:06","20:11"],[null,null]]},"04-25":{"c":["44","44"],"w":[["03:43","08:41"],["16:37","21:38"],[null,null]]},"04-26":{"c":["47","51"],"w":[["05:09","10:09"],["17:48","23:01"],[null,null]]},"04-27":{"c":["56","61"],"w":[["06:12","11:27"],["18:38",null],[null,null]]},"04-28":{"c":["66","71"],"w":[[null,"00:09"],["07:00","12:27"],["19:21",null]]},"04-29":{"c":["74","77"],"w":[[null,"00:58"],["07:41","13:14"],["19:59",null]]},"04-30":{"c":["80","81"],"w":[[null,"01:39"],["08:18","13:53"],["20:34",null]]},"05-01":{"c":["82","82"],"w":[[null,"02:14"],["08:53","14:29"],["21:07",null]]},"05-02":{"c":["82",null],"w":[[null,"02:48"],["09:26","15:03"],["21:38",null]]},"05-03":{"c":["82","80"],"w":[[null,"03:20"],["09:58","15:35"],["22:10",null]]},"05-04":{"c":["78","76"],"w":[[null,"03:51"],["10:32","16:06"],["22:42",null]]},"05-05":{"c":["73","69"],"w":[[null,"04:19"],["11:06","16:35"],["23:16",null]]},"05-06":{"c":["66","62"],"w":[[null,"04:47"],["11:44","17:03"],["23:53",null]]},"05-07":{"c":["57","53"],"w":[[null,"05:14"],["12:26","17:33"],[null,null]]},"05-08":{"c":["48","44"],"w":[["00:39","05:44"],["13:19","18:09"],[null,null]]},"05-09":{"c":["40","37"],"w":[["01:37","06:22"],["14:28","19:00"],[null,null]]},"05-10":{"c":["35","35"],"w":[["02:56","07:18"],["15:48","20:14"],[null,null]]},"05-11":{"c":["36","40"],"w":[["04:15","08:41"],["16:55","21:40"],[null,null]]},"05-12":{"c":["45","51"],"w":[["05:17","10:08"],["17:46","22:56"],[null,null]]},"05-13":{"c":["57","64"],"w":[["06:07","11:20"],["18:31","23:58"],[null,null]]},"05-14":{"c":["70","77"],"w":[["06:52","12:20"],["19:14",null],[null,null]]},"05-15":{"c":["83","88"],"w":[[null,"00:54"],["07:36","13:13"],["19:56",null]]},"05-16":{"c":["92","96"],"w":[[null,"01:42"],["08:20","14:02"],["20:39",null]]},"05-17":{"c":["98",null],"w":[[null,"02:29"],["09:05","14:50"],["21:24",null]]},"05-18":{"c":["99","99"],"w":[[null,"03:16"],["09:52","15:38"],["22:10",null]]},"05-19":{"c":["97","95"],"w":[[null,"04:02"],["10:42","16:27"],["22:59",null]]},"05-20":{"c":["91","87"],"w":[[null,"04:49"],["11:35","17:16"],["23:52",null]]},"05-21":{"c":["81","76"],"w":[[null,"05:38"],["12:32","18:07"],[null,null]]},"05-22":{"c":["70","64"],"w":[["00:54","06:29"],["13:34","19:02"],[null,null]]},"05-23":{"c":["59","55"],"w":[["01:58","07:23"],["14:42","20:02"],[null,null]]},"05-24":{"c":["52","51"],"w":[["03:10","08:25"],["15:54","21:08"],[null,null]]},"05-25":{"c":["50","51"],"w":[["04:25","09:32"],["17:02","22:17"],[null,null]]},"05-26":{"c":["53","55"],"w":[["05:31","10:40"],["17:59","23:20"],[null,null]]},"05-27":{"c":["57","60"],"w":[["06:26","11:41"],["18:46",null],[null,null]]},"05-28":{"c":["62","65"],"w":[[null,"00:16"],["07:12","12:33"],["19:28",null]]},"05-29":{"c":["67","68"],"w":[[null,"01:01"],["07:53","13:18"],["20:06",null]]},"05-30":{"c":["70","70"],"w":[[null,"01:41"],["08:30","13:58"],["20:42",null]]},"05-31":{"c":["71","71"],"w":[[null,"02:19"],["09:06","14:36"],["21:16",null]]},"06-01":{"c":["71",null],"w":[[null,"02:54"],["09:41","15:11"],["21:50",null]]},"06-02":{"c":["71","70"],"w":[[null,"03:27"],["10:16","15:46"],["22:25",null]]},"06-03":{"c":["69","68"],"w":[[null,"04:00"],["10:53","16:19"],["23:01",null]]},"06-04":{"c":["66","64"],"w":[[null,"04:31"],["11:31","16:52"],["23:40",null]]},"06-05":{"c":["62","59"],"w":[[null,"05:04"],["12:12","17:28"],[null,null]]},"06-06":{"c":["57","54"],"w":[["00:23","05:40"],["12:56","18:07"],[null,null]]},"06-07":{"c":["52","50"],"w":[["01:11","06:21"],["13:47","18:53"],[null,null]]},"06-08":{"c":["48","47"],"w":[["02:06","07:10"],["14:44","19:49"],[null,null]]},"06-09":{"c":["47","47"],"w":[["03:08","08:10"],["15:45","20:54"],[null,null]]},"06-10":{"c":["49","52"],"w":[["04:13","09:19"],["16:45","22:04"],[null,null]]},"06-11":{"c":["55","60"],"w":[["05:14","10:31"],["17:41","23:11"],[null,null]]},"06-12":{"c":["64","69"],"w":[["06:11","11:39"],["18:35",null],[null,null]]},"06-13":{"c":["74","79"],"w":[[null,"00:17"],["07:06","12:41"],["19:27",null]]},"06-14":{"c":["83","87"],"w":[[null,"01:15"],["07:59","13:39"],["20:19",null]]},"06-15":{"c":["90","93"],"w":[[null,"02:09"],["08:52","14:35"],["21:10",null]]},"06-16":{"c":["94",null],"w":[[null,"03:02"],["09:44","15:28"],["22:01",null]]},"06-17":{"c":["95","94"],"w":[[null,"03:53"],["10:36","16:20"],["22:52",null]]},"06-18":{"c":["93","90"],"w":[[null,"04:43"],["11:28","17:11"],["23:43",null]]},"06-19":{"c":["87","83"],"w":[[null,"05:31"],["12:20","18:00"],[null,null]]},"06-20":{"c":["79","74"],"w":[["00:38","06:19"],["13:12","18:47"],[null,null]]},"06-21":{"c":["69","64"],"w":[["01:31","07:05"],["14:05","19:35"],[null,null]]},"06-22":{"c":["59","55"],"w":[["02:28","07:52"],["15:03","20:25"],[null,null]]},"06-23":{"c":["51","48"],"w":[["03:31","08:43"],["16:05","21:20"],[null,null]]},"06-24":{"c":["47","46"],"w":[["04:40","09:40"],["17:09","22:20"],[null,null]]},"06-25":{"c":["46","47"],"w":[["05:47","10:44"],["18:08","23:22"],[null,null]]},"06-26":{"c":["49","51"],"w":[["06:45","11:47"],["19:00",null],[null,null]]},"06-27":{"c":["54","56"],"w":[[null,"00:21"],["07:33","12:44"],["19:45",null]]},"06-28":{"c":["59","61"],"w":[[null,"01:11"],["08:15","13:33"],["20:25",null]]},"06-29":{"c":["63","65"],"w":[[null,"01:54"],["08:53","14:16"],["21:02",null]]},"06-30":{"c":["67",null],"w":[[null,"02:34"],["09:28","14:55"],["21:37",null]]},"07-01":{"c":["69","70"],"w":[[null,"03:11"],["10:03","15:32"],["22:12",null]]},"07-02":{"c":["71","71"],"w":[[null,"03:46"],["10:38","16:08"],["22:47",null]]},"07-03":{"c":["72","72"],"w":[[null,"04:21"],["11:14","16:43"],["23:23",null]]},"07-04":{"c":["71","70"],"w":[[null,"04:56"],["11:50","17:18"],[null,null]]},"07-05":{"c":["69","68"],"w":[[null,"05:32"],["12:28","17:55"],[null,null]]},"07-06":{"c":["66","64"],"w":[["00:41","06:10"],["13:08","18:35"],[null,null]]},"07-07":{"c":["61","59"],"w":[["01:25","06:51"],["13:54","19:19"],[null,null]]},"07-08":{"c":["56","54"],"w":[["02:17","07:38"],["14:48","20:12"],[null,null]]},"07-09":{"c":["52","52"],"w":[["03:20","08:36"],["15:52","21:17"],[null,null]]},"07-10":{"c":["52","53"],"w":[["04:31","09:48"],["17:01","22:30"],[null,null]]},"07-11":{"c":["56","60"],"w":[["05:43","11:06"],["18:09","23:44"],[null,null]]},"07-12":{"c":["65","70"],"w":[["06:50","12:20"],["19:12",null],[null,null]]},"07-13":{"c":["76","81"],"w":[[null,"00:56"],["07:51","13:28"],["20:10",null]]},"07-14":{"c":["86","90"],"w":[[null,"01:58"],["08:46","14:28"],["21:03",null]]},"07-15":{"c":["94",null],"w":[[null,"02:53"],["09:37","15:22"],["21:53",null]]},"07-16":{"c":["96","98"],"w":[[null,"03:45"],["10:26","16:11"],["22:40",null]]},"07-17":{"c":["98","97"],"w":[[null,"04:32"],["11:12","16:57"],["23:25",null]]},"07-18":{"c":["94","91"],"w":[[null,"05:16"],["11:56","17:40"],[null,null]]},"07-19":{"c":["86","81"],"w":[["00:12","05:57"],["12:40","18:19"],[null,null]]},"07-20":{"c":["75","69"],"w":[["00:56","06:34"],["13:23","18:57"],[null,null]]},"07-21":{"c":["63","57"],"w":[["01:43","07:11"],["14:10","19:36"],[null,null]]},"07-22":{"c":["50","45"],"w":[["02:37","07:49"],["15:05","20:19"],[null,null]]},"07-23":{"c":["40","37"],"w":[["03:45","08:35"],["16:14","21:15"],[null,null]]},"07-24":{"c":["35","35"],"w":[["05:09","09:39"],["17:33","22:25"],[null,null]]},"07-25":{"c":["37","40"],"w":[["06:27","11:00"],["18:41","23:40"],[null,null]]},"07-26":{"c":["44","48"],"w":[["07:21","12:16"],["19:31",null],[null,null]]},"07-27":{"c":["53","57"],"w":[[null,"00:45"],["08:03","13:15"],["20:12",null]]},"07-28":{"c":["61","65"],"w":[[null,"01:35"],["08:38","14:01"],["20:47",null]]},"07-29":{"c":["69","72"],"w":[[null,"02:17"],["09:12","14:40"],["21:21",null]]},"07-30":{"c":["75",null],"w":[[null,"02:55"],["09:44","15:17"],["21:53",null]]},"07-31":{"c":["78","80"],"w":[[null,"03:32"],["10:17","15:52"],["22:26",null]]},"08-01":{"c":["82","83"],"w":[[null,"04:07"],["10:50","16:27"],["22:59",null]]},"08-02":{"c":["83","83"],"w":[[null,"04:41"],["11:23","17:00"],["23:33",null]]},"08-03":{"c":["82","80"],"w":[[null,"05:15"],["11:57","17:34"],[null,null]]},"08-04":{"c":["77","74"],"w":[["00:10","05:50"],["12:33","18:10"],[null,null]]},"08-05":{"c":["70","66"],"w":[["00:50","06:27"],["13:14","18:50"],[null,null]]},"08-06":{"c":["61","57"],"w":[["01:39","07:09"],["14:06","19:37"],[null,null]]},"08-07":{"c":["52","48"],"w":[["02:43","08:01"],["15:15","20:39"],[null,null]]},"08-08":{"c":["46","46"],"w":[["04:07","09:16"],["16:39","22:01"],[null,null]]},"08-09":{"c":["48","53"],"w":[["05:37","10:49"],["18:03","23:28"],[null,null]]},"08-10":{"c":["59","66"],"w":[["06:51","12:15"],["19:11",null],[null,null]]},"08-11":{"c":["74","81"],"w":[[null,"00:50"],["07:50","13:25"],["20:06",null]]},"08-12":{"c":["87","93"],"w":[[null,"01:52"],["08:39","14:22"],["20:54",null]]},"08-13":{"c":["97",null],"w":[[null,"02:45"],["09:25","15:11"],["21:38",null]]},"08-14":{"c":["100","102"],"w":[[null,"03:31"],["10:07","15:55"],["22:20",null]]},"08-15":{"c":["102","101"],"w":[[null,"04:13"],["10:48","16:34"],["23:00",null]]},"08-16":{"c":["98","95"],"w":[[null,"04:51"],["11:26","17:11"],["23:38",null]]},"08-17":{"c":["90","84"],"w":[[null,"05:26"],["12:03","17:44"],[null,null]]},"08-18":{"c":["78","71"],"w":[["00:19","05:58"],["12:40","18:16"],[null,null]]},"08-19":{"c":["64","57"],"w":[["00:59","06:28"],["13:20","18:47"],[null,null]]},"08-20":{"c":["49","42"],"w":[["01:46","06:57"],["14:08","19:20"],[null,null]]},"08-21":{"c":["36","30"],"w":[["02:52","07:29"],["15:20","20:04"],[null,null]]},"08-22":{"c":["27","26"],"w":[["04:37","08:24"],["17:07","21:18"],[null,null]]},"08-23":{"c":["28","32"],"w":[["06:17","10:11"],["18:29","22:58"],[null,null]]},"08-24":{"c":["38","44"],"w":[["07:07","11:51"],["19:16",null],[null,null]]},"08-25":{"c":["51","57"],"w":[[null,"00:19"],["07:42","12:54"],["19:51",null]]},"08-26":{"c":["63","68"],"w":[[null,"01:13"],["08:14","13:40"],["20:24",null]]},"08-27":{"c":["74","78"],"w":[[null,"01:56"],["08:46","14:19"],["20:56",null]]},"08-28":{"c":["83",null],"w":[[null,"02:34"],["09:18","14:55"],["21:27",null]]},"08-29":{"c":["86","89"],"w":[[null,"03:10"],["09:49","15:30"],["21:59",null]]},"08-30":{"c":["91","93"],"w":[[null,"03:45"],["10:21","16:03"],["22:31",null]]},"08-31":{"c":["93","93"],"w":[[null,"04:19"],["10:53","16:37"],["23:05",null]]},"09-01":{"c":["91","89"],"w":[[null,"04:53"],["11:26","17:11"],["23:41",null]]},"09-02":{"c":["85","81"],"w":[[null,"05:28"],["12:02","17:46"],[null,null]]},"09-03":{"c":["75","69"],"w":[["00:24","06:05"],["12:45","18:25"],[null,null]]},"09-04":{"c":["62","55"],"w":[["01:15","06:46"],["13:39","19:11"],[null,null]]},"09-05":{"c":["48","43"],"w":[["02:26","07:39"],["14:57","20:16"],[null,null]]},"09-06":{"c":["40","41"],"w":[["04:09","09:04"],["16:43","21:49"],[null,null]]},"09-07":{"c":["45","52"],"w":[["05:45","10:51"],["18:09","23:27"],[null,null]]},"09-08":{"c":["60","68"],"w":[["06:50","12:18"],["19:08",null],[null,null]]},"09-09":{"c":["76","83"],"w":[[null,"00:47"],["07:40","13:20"],["19:55",null]]},"09-10":{"c":["90","95"],"w":[[null,"01:42"],["08:24","14:09"],["20:37",null]]},"09-11":{"c":["98","101"],"w":[[null,"02:29"],["09:04","14:52"],["21:17",null]]},"09-12":{"c":["102",null],"w":[[null,"03:10"],["09:42","15:30"],["21:54",null]]},"09-13":{"c":["101","100"],"w":[[null,"03:47"],["10:18","16:06"],["22:31",null]]},"09-14":{"c":["97","93"],"w":[[null,"04:22"],["10:52","16:38"],["23:06",null]]},"09-15":{"c":["89","83"],"w":[[null,"04:53"],["11:25","17:08"],["23:41",null]]},"09-16":{"c":["77","70"],"w":[[null,"05:22"],["11:58","17:37"],[null,null]]},"09-17":{"c":["63","56"],"w":[["00:19","05:48"],["12:34","18:04"],[null,null]]},"09-18":{"c":["49","41"],"w":[["01:02","06:13"],["13:18","18:30"],[null,null]]},"09-19":{"c":["35","28"],"w":[["02:04","06:38"],["14:27","19:01"],[null,null]]},"09-20":{"c":["24","22"],"w":[["04:00","07:20"],["16:37","20:04"],[null,null]]},"09-21":{"c":["24","29"],"w":[["05:49","09:20"],["18:05","22:08"],[null,null]]},"09-22":{"c":["35","42"],"w":[["06:35","11:16"],["18:46","23:40"],[null,null]]},"09-23":{"c":["50","57"],"w":[["07:08","12:22"],["19:19",null],[null,null]]},"09-24":{"c":["64","71"],"w":[[null,"00:41"],["07:40","13:09"],["19:51",null]]},"09-25":{"c":["77","82"],"w":[[null,"01:26"],["08:12","13:50"],["20:24",null]]},"09-26":{"c":["87","92"],"w":[[null,"02:06"],["08:45","14:26"],["20:56",null]]},"09-27":{"c":["95",null],"w":[[null,"02:43"],["09:17","15:02"],["21:29",null]]},"09-28":{"c":["97","99"],"w":[[null,"03:19"],["09:50","15:37"],["22:03",null]]},"09-29":{"c":["99","98"],"w":[[null,"03:55"],["10:24","16:12"],["22:40",null]]},"09-30":{"c":["96","92"],"w":[[null,"04:31"],["11:00","16:49"],["23:19",null]]},"10-01":{"c":["88","82"],"w":[[null,"05:09"],["11:40","17:27"],[null,null]]},"10-02":{"c":["75","68"],"w":[["00:07","05:49"],["12:27","18:09"],[null,null]]},"10-03":{"c":["60","53"],"w":[["01:06","06:35"],["13:29","18:59"],[null,null]]},"10-04":{"c":["46","41"],"w":[["02:29","07:38"],["15:00","20:11"],[null,null]]},"10-05":{"c":["40","43"],"w":[["04:13","09:14"],["16:43","21:50"],[null,null]]},"10-06":{"c":["48","55"],"w":[["05:36","10:54"],["17:58","23:21"],[null,null]]},"10-07":{"c":["62","70"],"w":[["06:33","12:08"],["18:51",null],[null,null]]},"10-08":{"c":["77","83"],"w":[[null,"00:32"],["07:19","13:03"],["19:35",null]]},"10-09":{"c":["87","91"],"w":[[null,"01:23"],["08:00","13:48"],["20:14",null]]},"10-10":{"c":["94","95"],"w":[[null,"02:06"],["08:38","14:27"],["20:52",null]]},"10-11":{"c":["95",null],"w":[[null,"02:43"],["09:13","15:02"],["21:27",null]]},"10-12":{"c":["95","93"],"w":[[null,"03:18"],["09:47","15:35"],["22:02",null]]},"10-13":{"c":["91","88"],"w":[[null,"03:51"],["10:19","16:07"],["22:36",null]]},"10-14":{"c":["83","79"],"w":[[null,"04:22"],["10:51","16:37"],["23:10",null]]},"10-15":{"c":["74","68"],"w":[[null,"04:51"],["11:24","17:04"],["23:47",null]]},"10-16":{"c":["62","56"],"w":[[null,"05:18"],["11:59","17:31"],[null,null]]},"10-17":{"c":["50","43"],"w":[["00:30","05:45"],["12:42","17:57"],[null,null]]},"10-18":{"c":["37","32"],"w":[["01:26","06:14"],["13:44","18:28"],[null,null]]},"10-19":{"c":["28","25"],"w":[["02:58","06:59"],["15:32","19:23"],[null,null]]},"10-20":{"c":["26","29"],"w":[["04:40","08:36"],["17:06","21:10"],[null,null]]},"10-21":{"c":["34","41"],"w":[["05:39","10:24"],["17:58","22:48"],[null,null]]},"10-22":{"c":["48","55"],"w":[["06:21","11:36"],["18:36","23:54"],[null,null]]},"10-23":{"c":["62","69"],"w":[["06:57","12:28"],["19:12",null],[null,null]]},"10-24":{"c":["76","82"],"w":[[null,"00:47"],["07:33","13:13"],["19:47",null]]},"10-25":{"c":["87","92"],"w":[[null,"01:31"],["08:08","13:53"],["20:23",null]]},"10-26":{"c":["95","98"],"w":[[null,"01:12"],["07:44","13:33"],["20:00",null]]},"10-27":{"c":["99","100"],"w":[[null,"01:52"],["08:21","14:12"],["20:39",null]]},"10-28":{"c":["99",null],"w":[[null,"02:33"],["09:00","14:52"],["21:21",null]]},"10-29":{"c":["96","93"],"w":[[null,"03:15"],["09:42","15:33"],["22:07",null]]},"10-30":{"c":["88","82"],"w":[[null,"03:59"],["10:29","16:17"],["23:00",null]]},"10-31":{"c":["76","69"],"w":[[null,"04:46"],["11:23","17:05"],[null,null]]},"11-01":{"c":["62","56"],"w":[["00:06","05:40"],["12:29","18:02"],[null,null]]},"11-02":{"c":["51","47"],"w":[["01:26","06:49"],["13:52","19:14"],[null,null]]},"11-03":{"c":["47","48"],"w":[["02:52","08:12"],["15:18","20:38"],[null,null]]},"11-04":{"c":["52","56"],"w":[["04:06","09:34"],["16:29","21:57"],[null,null]]},"11-05":{"c":["61","66"],"w":[["05:04","10:42"],["17:24","23:01"],[null,null]]},"11-06":{"c":["71","75"],"w":[["05:51","11:35"],["18:09","23:52"],[null,null]]},"11-07":{"c":["78","81"],"w":[["06:32","12:19"],["18:50",null],[null,null]]},"11-08":{"c":["83","84"],"w":[[null,"00:37"],["07:10","12:58"],["19:28",null]]},"11-09":{"c":["84","84"],"w":[[null,"01:15"],["07:46","13:34"],["20:04",null]]},"11-10":{"c":["83","82"],"w":[[null,"01:51"],["08:19","14:08"],["20:39",null]]},"11-11":{"c":["80","77"],"w":[[null,"02:25"],["08:52","14:40"],["21:14",null]]},"11-12":{"c":["74",null],"w":[[null,"02:58"],["09:26","15:11"],["21:49",null]]},"11-13":{"c":["71","67"],"w":[[null,"03:29"],["10:00","15:41"],["22:27",null]]},"11-14":{"c":["63","58"],"w":[[null,"03:59"],["10:38","16:10"],["23:08",null]]},"11-15":{"c":["54","49"],"w":[[null,"04:30"],["11:20","16:40"],["23:56",null]]},"11-16":{"c":["45","41"],"w":[[null,"05:05"],["12:12","17:17"],[null,null]]},"11-17":{"c":["38","35"],"w":[["01:00","05:52"],["13:22","18:07"],[null,null]]},"11-18":{"c":["34","35"],"w":[["02:16","06:59"],["14:42","19:20"],[null,null]]},"11-19":{"c":["37","41"],"w":[["03:25","08:21"],["15:49","20:44"],[null,null]]},"11-20":{"c":["46","51"],"w":[["04:20","09:37"],["16:42","21:57"],[null,null]]},"11-21":{"c":["57","64"],"w":[["05:07","10:39"],["17:27","22:58"],[null,null]]},"11-22":{"c":["70","76"],"w":[["05:50","11:32"],["18:10","23:51"],[null,null]]},"11-23":{"c":["81","86"],"w":[["06:32","12:20"],["18:53",null],[null,null]]},"11-24":{"c":["90","93"],"w":[[null,"00:42"],["07:14","13:06"],["19:37",null]]},"11-25":{"c":["96","97"],"w":[[null,"01:30"],["07:58","13:51"],["20:23",null]]},"11-26":{"c":["97",null],"w":[[null,"02:17"],["08:44","14:37"],["21:12",null]]},"11-27":{"c":["96","94"],"w":[[null,"03:06"],["09:33","15:25"],["22:03",null]]},"11-28":{"c":["90","86"],"w":[[null,"03:55"],["10:24","16:14"],["22:57",null]]},"11-29":{"c":["82","76"],"w":[[null,"04:47"],["11:18","17:05"],["23:56",null]]},"11-30":{"c":["71","66"],"w":[[null,"05:41"],["12:18","17:59"],[null,null]]},"12-01":{"c":["62","58"],"w":[["01:04","06:40"],["13:24","18:59"],[null,null]]},"12-02":{"c":["55","53"],"w":[["02:13","07:44"],["14:36","20:04"],[null,null]]},"12-03":{"c":["52","53"],"w":[["03:22","08:52"],["15:48","21:13"],[null,null]]},"12-04":{"c":["54","57"],"w":[["04:25","09:58"],["16:50","22:18"],[null,null]]},"12-05":{"c":["59","62"],"w":[["05:18","10:56"],["17:43","23:15"],[null,null]]},"12-06":{"c":["64","66"],"w":[["06:05","11:46"],["18:29",null],[null,null]]},"12-07":{"c":["69","70"],"w":[[null,"00:05"],["06:47","12:29"],["19:10",null]]},"12-08":{"c":["72","73"],"w":[[null,"00:49"],["07:25","13:09"],["19:49",null]]},"12-09":{"c":["74","74"],"w":[[null,"01:29"],["08:01","13:46"],["20:25",null]]},"12-10":{"c":["74","73"],"w":[[null,"02:06"],["08:36","14:20"],["21:00",null]]},"12-11":{"c":["72",null],"w":[[null,"02:41"],["09:10","14:53"],["21:36",null]]},"12-12":{"c":["71","69"],"w":[[null,"03:14"],["09:46","15:26"],["22:12",null]]},"12-13":{"c":["67","65"],"w":[[null,"03:47"],["10:23","15:58"],["22:50",null]]},"12-14":{"c":["63","60"],"w":[[null,"04:20"],["11:01","16:31"],["23:30",null]]},"12-15":{"c":["57","55"],"w":[[null,"04:56"],["11:42","17:07"],[null,null]]},"12-16":{"c":["52","49"],"w":[["00:16","05:36"],["12:30","17:48"],[null,null]]},"12-17":{"c":["47","45"],"w":[["01:07","06:23"],["13:26","18:38"],[null,null]]},"12-18":{"c":["44","44"],"w":[["02:07","07:21"],["14:32","19:40"],[null,null]]},"12-19":{"c":["45","48"],"w":[["03:12","08:31"],["15:40","20:53"],[null,null]]},"12-20":{"c":["51","55"],"w":[["04:13","09:43"],["16:42","22:07"],[null,null]]},"12-21":{"c":["61","66"],"w":[["05:10","10:49"],["17:38","23:14"],[null,null]]},"12-22":{"c":["72","77"],"w":[["06:03","11:49"],["18:32",null],[null,null]]},"12-23":{"c":["83","87"],"w":[[null,"00:19"],["06:55","12:45"],["19:24",null]]},"12-24":{"c":["91","95"],"w":[[null,"01:15"],["07:46","13:38"],["20:16",null]]},"12-25":{"c":["97","99"],"w":[[null,"02:09"],["08:36","14:29"],["21:06",null]]},"12-26":{"c":["99",null],"w":[[null,"03:00"],["09:26","15:19"],["21:57",null]]},"12-27":{"c":["98","96"],"w":[[null,"03:50"],["10:16","16:08"],["22:47",null]]},"12-28":{"c":["93","89"],"w":[[null,"04:39"],["11:05","16:55"],["23:37",null]]},"12-29":{"c":["84","78"],"w":[[null,"05:26"],["11:55","17:42"],[null,null]]},"12-30":{"c":["73","67"],"w":[["00:31","06:12"],["12:48","18:28"],[null,null]]},"12-31":{"c":["61","55"],"w":[["01:26","07:01"],["13:48","19:17"],[null,null]]}};
+<nav class="tabbar" aria-label="Sections">
+  <span class="ind" aria-hidden="true"></span>
+  <a href="#maintenant" aria-current="true">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+    Maintenant
+  </a>
+  <a href="#sortir">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 18c2 1.5 4 1.5 6 0s4-1.5 6 0 4 1.5 6 0"/><path d="M12 3v11"/><path d="M12 4l6 8h-6"/><path d="M5 14h14"/></svg>
+    Sortir
+  </a>
+  <a href="#calendrier">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+    Calendrier
+  </a>
+</nav>
 
-const MARINAS = {"01-01":{"j":["05:00","07:00","10:00","12:00"],"s":["18:00","19:30","22:30","01:00"]},"01-02":{"j":["06:00","07:30","11:30","13:00"],"s":["19:00","20:30","00:00","02:00"]},"01-03":{"j":["07:00","08:30","12:30","14:00"],"s":["20:00","21:00","01:00","03:00"]},"01-04":{"j":["08:00","09:00","13:30","15:00"],"s":["21:00","21:30","02:00","04:00"]},"01-05":{"j":["09:00","09:30","14:30","16:00"],"s":["21:00","22:30","02:30","04:00"]},"01-06":{"j":["09:00","10:30","15:00","16:00"],"s":["22:00","23:30","03:30","05:00"]},"01-07":{"j":["10:00","11:30","15:30","17:00"],"s":["23:00","00:30","04:00","06:00"]},"01-08":{"j":["11:00","12:30","16:00","18:00"],"s":["23:00","01:30","04:30","06:00"]},"01-09":{"j":["11:00","13:30","10:00","18:00"],"s":[null,null,null,null]},"01-10":{"j":["00:00","03:00","04:00","07:00"],"s":["12:00",null,null,"19:00"]},"01-11":{"j":["01:00",null,null,"08:00"],"s":["13:00",null,null,"20:00"]},"01-12":{"j":["01:00",null,null,"08:00"],"s":["14:00",null,null,"21:00"]},"01-13":{"j":["02:00",null,null,"09:00"],"s":["15:00",null,null,"22:00"]},"01-14":{"j":["03:00",null,null,"10:00"],"s":["16:00",null,null,"23:00"]},"01-15":{"j":["04:00",null,null,"11:00"],"s":["17:00",null,null,"00:00"]},"01-16":{"j":["05:00",null,null,"12:00"],"s":["18:00",null,null,"01:00"]},"01-17":{"j":["06:00","09:00","11:00","13:00"],"s":["19:00","21:00","23:30","02:00"]},"01-18":{"j":["07:00","08:30","12:00","14:00"],"s":["20:00","21:30","00:30","03:00"]},"01-19":{"j":["08:00","09:30","13:00","15:00"],"s":["20:00","21:30","01:30","03:00"]},"01-20":{"j":["08:00","09:30","13:30","15:00"],"s":["21:00","22:30","02:00","04:00"]},"01-21":{"j":["09:00","10:30","14:30","16:00"],"s":["22:00","23:00","02:30","05:00"]},"01-22":{"j":["10:00","11:00","15:00","17:00"],"s":["22:00","23:30","03:30","05:00"]},"01-23":{"j":["10:00","11:30","15:30","17:00"],"s":["23:00","00:30","03:30","06:00"]},"01-24":{"j":["11:00","12:30","16:00","18:00"],"s":["23:00","01:00","04:00","06:00"]},"01-25":{"j":["12:00","13:30","16:00","19:00"],"s":[null,null,null,null]},"01-26":{"j":["00:00","03:00","04:00","07:00"],"s":["12:00","15:00","16:00","19:00"]},"01-27":{"j":["01:00",null,null,"08:00"],"s":["13:00",null,null,"20:00"]},"01-28":{"j":["02:00",null,null,"09:00"],"s":["15:00",null,null,"22:00"]},"01-29":{"j":["03:00",null,null,"10:00"],"s":["16:00",null,null,"23:00"]},"01-30":{"j":["05:00","08:00","09:00","12:00"],"s":["17:00","20:00","22:00","00:00"]},"01-31":{"j":["06:00","08:00","11:00","13:00"],"s":["19:00","20:30","23:30","02:00"]},"02-01":{"j":["07:00","08:30","12:30","14:00"],"s":["19:00","21:00","01:00","02:00"]},"02-02":{"j":["08:00","09:00","13:30","15:00"],"s":["20:00","21:30","01:30","03:00"]},"02-03":{"j":["09:00","09:30","14:00","16:00"],"s":["21:00","22:30","02:30","04:00"]},"02-04":{"j":["09:00","10:30","14:30","16:00"],"s":["22:00","22:30","03:00","05:00"]},"02-05":{"j":["10:00","11:00","13:30","17:00"],"s":["22:00","23:30","03:30","05:00"]},"02-06":{"j":["11:00","11:30","13:30","18:00"],"s":["23:00","01:00","04:00","06:00"]},"02-07":{"j":["11:00","14:00","15:00","18:00"],"s":["23:00",null,null,"06:00"]},"02-08":{"j":["11:00",null,null,"18:00"],"s":[null,null,null,null]},"02-09":{"j":["00:00",null,null,"07:00"],"s":["12:00",null,null,"19:00"]},"02-10":{"j":["01:00",null,null,"08:00"],"s":["13:00",null,null,"20:00"]},"02-11":{"j":["01:00",null,null,"08:00"],"s":["14:00",null,null,"21:00"]},"02-12":{"j":["02:00",null,null,"09:00"],"s":["15:00",null,null,"22:00"]},"02-13":{"j":["04:00",null,null,"11:00"],"s":["17:00",null,null,"00:00"]},"02-14":{"j":["05:00",null,null,"12:00"],"s":["18:00",null,null,"01:00"]},"02-15":{"j":["06:00",null,null,"13:00"],"s":["19:00",null,null,"02:00"]},"02-16":{"j":["07:00","09:00","10:00","14:00"],"s":["20:00","21:00","23:00","03:00"]},"02-17":{"j":["08:00","08:30","12:00","15:00"],"s":["20:00","21:00","00:30","03:00"]},"02-18":{"j":["08:00","09:00","12:30","15:00"],"s":["21:00","21:30","01:30","04:00"]},"02-19":{"j":["09:00","09:30","13:30","16:00"],"s":["21:00","21:30","01:30","04:00"]},"02-20":{"j":["09:00","10:30","14:30","17:00"],"s":["22:00","22:30","02:30","05:00"]},"02-21":{"j":["10:00","10:30","16:30","17:00"],"s":["23:00","23:30","03:30","06:00"]},"02-22":{"j":["11:00","11:30","15:30","18:00"],"s":["23:00","00:30","04:00","06:00"]},"02-23":{"j":["11:00","12:30","16:00","18:00"],"s":[null,null,null,null]},"02-24":{"j":["00:00","01:30","04:00","07:00"],"s":["12:00","15:00","16:00","19:00"]},"02-25":{"j":["01:00",null,null,"08:00"],"s":["13:00",null,null,"20:00"]},"02-26":{"j":["02:00",null,null,"09:00"],"s":["14:00",null,null,"21:00"]},"02-27":{"j":["03:00",null,null,"10:00"],"s":["16:00",null,null,"23:00"]},"02-28":{"j":["05:00",null,null,"12:00"],"s":["18:00","21:00","22:00","01:00"]},"03-01":{"j":["06:00","08:00","11:00","13:00"],"s":["19:00","20:30","23:30","02:00"]},"03-02":{"j":["07:00","08:30","12:00","14:00"],"s":["19:00","20:30","00:30","02:00"]},"03-03":{"j":["08:00","08:30","13:00","15:00"],"s":["20:00","21:30","01:30","03:00"]},"03-04":{"j":["08:00","09:30","13:30","15:00"],"s":["21:00","21:30","02:00","04:00"]},"03-05":{"j":["09:00","09:30","14:00","16:00"],"s":["21:00","22:30","02:30","04:00"]},"03-06":{"j":["09:00","10:30","14:30","16:00"],"s":["22:00","23:00","03:00","05:00"]},"03-07":{"j":["10:00","11:30","15:00","17:00"],"s":["22:00","23:30","03:30","05:00"]},"03-08":{"j":["10:00","11:30","15:00","17:00"],"s":["23:00","00:30","03:00","06:00"]},"03-09":{"j":["11:00","13:00","14:00","18:00"],"s":["23:00","02:00","03:00","06:00"]},"03-10":{"j":["12:00",null,null,"19:00"],"s":[null,null,null,null]},"03-11":{"j":["00:00",null,null,"07:00"],"s":["12:00",null,null,"19:00"]},"03-12":{"j":["00:00",null,null,"07:00"],"s":["12:00",null,null,"19:00"]},"03-13":{"j":["01:00",null,null,"08:00"],"s":["13:00",null,null,"20:00"]},"03-14":{"j":["02:00",null,null,"09:00"],"s":["15:00",null,null,"22:00"]},"03-15":{"j":["04:00",null,null,"11:00"],"s":["17:00",null,null,"00:00"]},"03-16":{"j":["05:00","09:00","10:00","12:00"],"s":["18:00","21:00","23:00","01:00"]},"03-17":{"j":["07:00","08:30","11:30","14:00"],"s":["19:00","20:30","00:00","02:00"]},"03-18":{"j":["07:00","08:30","12:30","14:00"],"s":["20:00","20:30","00:30","03:00"]},"03-19":{"j":["08:00","08:30","13:00","15:00"],"s":["20:00","21:30","02:00","03:00"]},"03-20":{"j":["08:00","09:30","13:30","15:00"],"s":["21:00","21:30","02:30","04:00"]},"03-21":{"j":["09:00","10:00","14:30","16:00"],"s":["21:00","22:30","02:30","04:00"]},"03-22":{"j":["09:00","10:30","15:00","16:00"],"s":["22:00","23:00","03:30","05:00"]},"03-23":{"j":["10:00","11:30","15:30","17:00"],"s":["22:00","23:30","03:30","05:00"]},"03-24":{"j":["11:00","12:30","16:00","16:00"],"s":["23:00","01:00","03:00","06:00"]},"03-25":{"j":["12:00",null,null,"19:00"],"s":[null,null,null,null]},"03-26":{"j":["00:00",null,null,"07:00"],"s":["13:00",null,null,"20:00"]},"03-27":{"j":["01:00",null,null,"08:00"],"s":["14:00",null,null,"21:00"]},"03-28":{"j":["03:00",null,null,"10:00"],"s":["16:00",null,null,"00:00"]},"03-29":{"j":["04:00",null,null,"11:00"],"s":["17:00","20:00","22:00","02:00"]},"03-30":{"j":["07:00","09:00","10:00","14:00"],"s":["19:00","20:00","23:30","02:00"]},"03-31":{"j":["07:00","08:00","11:30","14:00"],"s":["19:00","20:30","01:30","03:00"]},"04-01":{"j":["08:00","09:30","13:30","15:00"],"s":["21:00","21:30","01:30","04:00"]},"04-02":{"j":["09:00","10:00","14:00","16:00"],"s":["21:00","22:30","02:30","04:00"]},"04-03":{"j":["09:00","10:30","14:30","16:00"],"s":["22:00","22:30","03:00","05:00"]},"04-04":{"j":["10:00","11:00","15:00","17:00"],"s":["22:00","23:30","03:30","05:00"]},"04-05":{"j":["10:00","11:30","13:30","17:00"],"s":["23:00","00:00","03:30","06:00"]},"04-06":{"j":["11:00","12:30","15:00","18:00"],"s":["23:00","00:30","03:30","06:00"]},"04-07":{"j":["12:00","14:00","15:00","19:00"],"s":[null,null,null,null]},"04-08":{"j":["00:00","02:00","03:00","07:00"],"s":["12:00",null,null,"19:00"]},"04-09":{"j":["00:00",null,null,"07:00"],"s":["13:00",null,null,"20:00"]},"04-10":{"j":["01:00",null,null,"08:00"],"s":["13:00",null,null,"20:00"]},"04-11":{"j":["02:00",null,null,"09:00"],"s":["14:00",null,null,"21:00"]},"04-12":{"j":["03:00",null,null,"10:00"],"s":["15:00",null,null,"22:00"]},"04-13":{"j":["04:00",null,null,"11:00"],"s":["17:00",null,null,"00:00"]},"04-14":{"j":["06:00",null,null,"13:00"],"s":["19:00","21:00","23:00","02:00"]},"04-15":{"j":["07:00","08:30","11:30","14:00"],"s":["19:00","20:30","00:30","02:00"]},"04-16":{"j":["08:00","09:00","12:30","15:00"],"s":["20:00","21:30","01:30","03:00"]},"04-17":{"j":["08:00","09:30","13:30","15:00"],"s":["21:00","21:30","02:00","04:00"]},"04-18":{"j":["09:00","10:00","14:30","16:00"],"s":["21:00","22:30","02:30","04:00"]},"04-19":{"j":["10:00","10:30","15:00","17:00"],"s":["22:00","23:00","03:30","05:00"]},"04-20":{"j":["10:00","11:30","15:30","17:00"],"s":["23:00","23:30","04:00","06:00"]},"04-21":{"j":["11:00","12:30","16:30","18:00"],"s":["23:00","00:30","04:30","06:00"]},"04-22":{"j":["12:00","14:00","16:30","19:00"],"s":[null,null,null,null]},"04-23":{"j":["00:00",null,null,"07:00"],"s":["13:00",null,null,"20:00"]},"04-24":{"j":["01:00",null,null,"08:00"],"s":["14:00",null,null,"21:00"]},"04-25":{"j":["02:00",null,null,"09:00"],"s":["15:00",null,null,"22:00"]},"04-26":{"j":["04:00",null,null,"11:00"],"s":["17:00",null,null,"00:00"]},"04-27":{"j":["05:00",null,null,"12:00"],"s":["18:00","21:00","22:00","01:00"]},"04-28":{"j":["06:00","08:30","10:00","13:00"],"s":["19:00","20:30","23:30","02:00"]},"04-29":{"j":["07:00","08:30","12:00","14:00"],"s":["20:00","21:00","00:30","03:00"]},"04-30":{"j":["08:00","09:00","12:30","15:00"],"s":["20:00","21:30","01:00","03:00"]},"05-01":{"j":["08:00","09:30","13:30","15:00"],"s":["21:00","22:00","01:30","04:00"]},"05-02":{"j":["09:00","10:30","13:30","16:00"],"s":["21:00","22:30","02:00","04:00"]},"05-03":{"j":["09:00","10:30","14:30","16:00"],"s":["22:00","23:00","02:30","05:00"]},"05-04":{"j":["10:00","11:30","14:30","17:00"],"s":["22:00","23:30","03:00","05:00"]},"05-05":{"j":["11:00","12:30","15:00","18:00"],"s":["23:00","00:30","03:00","06:00"]},"05-06":{"j":["11:00","14:00","17:00","18:00"],"s":["23:00","02:00","03:00","06:00"]},"05-07":{"j":["12:00",null,null,"19:00"],"s":[null,null,null,null]},"05-08":{"j":["00:00",null,null,"07:00"],"s":["12:00",null,null,"19:00"]},"05-09":{"j":["01:00",null,null,"08:00"],"s":["13:00",null,null,"20:00"]},"05-10":{"j":["02:00",null,null,"09:00"],"s":["14:00",null,null,"21:00"]},"05-11":{"j":["03:00",null,null,"10:00"],"s":["15:00",null,null,"22:00"]},"05-12":{"j":["04:00",null,null,"11:00"],"s":["17:00",null,null,"00:00"]},"05-13":{"j":["05:00",null,null,"12:00"],"s":["18:00","20:00","22:00","01:00"]},"05-14":{"j":["06:00","08:00","10:30","13:00"],"s":["19:00","20:30","23:30","02:00"]},"05-15":{"j":["07:00","08:30","12:00","14:00"],"s":["19:00","20:30","00:30","02:00"]},"05-16":{"j":["08:00","09:00","13:00","15:00"],"s":["20:00","21:30","01:30","03:00"]},"05-17":{"j":["09:00","09:30","14:00","16:00"],"s":["21:00","22:00","02:30","04:00"]},"05-18":{"j":["09:00","10:30","14:30","16:00"],"s":["22:00","22:30","03:30","05:00"]},"05-19":{"j":["10:00","11:30","15:30","17:00"],"s":["23:00","23:30","03:30","06:00"]},"05-20":{"j":["11:00","12:30","16:30","18:00"],"s":["23:00","00:30","04:30","06:00"]},"05-21":{"j":["12:00","13:30","17:00","19:00"],"s":[null,null,null,null]},"05-22":{"j":["00:00","02:00","05:00","07:00"],"s":["13:00","16:00","17:00","20:00"]},"05-23":{"j":["01:00","04:00","05:00","08:00"],"s":["14:00",null,null,"21:00"]},"05-24":{"j":["02:00",null,null,"09:00"],"s":["15:00",null,null,"22:00"]},"05-25":{"j":["03:00",null,null,"10:00"],"s":["16:00",null,null,"23:00"]},"05-26":{"j":["05:00",null,null,"12:00"],"s":["17:00",null,null,"00:00"]},"05-27":{"j":["06:00",null,null,"13:00"],"s":["18:00","21:00","22:00","01:00"]},"05-28":{"j":["07:00","09:00","10:00","14:00"],"s":["19:00","20:30","23:00","02:00"]},"05-29":{"j":["07:00","10:00","11:00","15:00"],"s":["20:00","21:30","00:00","03:00"]},"05-30":{"j":["08:00","09:30","12:00","15:00"],"s":["20:00","21:30","01:00","03:00"]},"05-31":{"j":["09:00","10:30","13:00","16:00"],"s":["21:00","22:30","01:30","04:00"]},"06-01":{"j":["09:00","11:00","13:30","16:00"],"s":["21:00","22:30","02:00","04:00"]},"06-02":{"j":["10:00","11:30","14:00","17:00"],"s":["22:00","23:30","02:30","05:00"]},"06-03":{"j":["10:00","12:00","14:00","17:00"],"s":["22:00","00:00","03:00","05:00"]},"06-04":{"j":["11:00","13:00","15:00","18:00"],"s":["23:00","01:00","03:00","06:00"]},"06-05":{"j":["11:00","14:00","15:00","18:00"],"s":[null,null,null,null]},"06-06":{"j":["00:00","02:00","03:00","07:00"],"s":["12:00",null,null,"19:00"]},"06-07":{"j":["00:00",null,null,"07:00"],"s":["13:00",null,null,"20:00"]},"06-08":{"j":["01:00",null,null,"08:00"],"s":["14:00",null,null,"21:00"]},"06-09":{"j":["02:00",null,null,"09:00"],"s":["15:00",null,null,"22:00"]},"06-10":{"j":["03:00",null,null,"10:00"],"s":["16:00",null,null,"23:00"]},"06-11":{"j":["04:00",null,null,"11:00"],"s":["17:00","20:00","21:00","00:00"]},"06-12":{"j":["06:00","08:00","09:00","13:00"],"s":["18:00","19:30","22:30","01:00"]},"06-13":{"j":["06:00","08:30","11:00","13:00"],"s":["19:00","20:30","00:00","02:00"]},"06-14":{"j":["08:00","08:30","12:30","15:00"],"s":["20:00","21:00","01:00","03:00"]},"06-15":{"j":["08:00","09:30","13:30","15:00"],"s":["21:00","21:30","02:00","04:00"]},"06-16":{"j":["09:00","10:30","14:30","16:00"],"s":["22:00","22:30","03:00","05:00"]},"06-17":{"j":["10:00","11:30","15:30","17:00"],"s":["22:00","23:30","03:30","05:00"]},"06-18":{"j":["11:00","12:30","16:30","18:00"],"s":["23:00","00:30","04:00","06:00"]},"06-19":{"j":["12:00","13:30","17:00","19:00"],"s":[null,null,null,null]},"06-20":{"j":["00:00","01:30","05:00","07:00"],"s":["13:00","14:30","17:30","20:00"]},"06-21":{"j":["01:00","02:30","05:00","08:00"],"s":["13:00","16:00","18:00","20:00"]},"06-22":{"j":["02:00",null,null,"09:00"],"s":["14:00",null,null,"21:00"]},"06-23":{"j":["03:00",null,null,"10:00"],"s":["15:00",null,null,"22:00"]},"06-24":{"j":["04:00",null,null,"11:00"],"s":["16:00",null,null,"23:00"]},"06-25":{"j":["05:00",null,null,"12:00"],"s":["17:00",null,null,"00:00"]},"06-26":{"j":["06:00",null,null,"13:00"],"s":["18:00",null,null,"01:00"]},"06-27":{"j":["07:00",null,null,"14:00"],"s":["19:00","22:00","23:00","02:00"]},"06-28":{"j":["08:00","10:00","11:00","15:00"],"s":["20:00","21:30","00:00","03:00"]},"06-29":{"j":["08:00","10:30","12:00","15:00"],"s":["21:00","22:00","00:30","04:00"]},"06-30":{"j":["09:00","10:30","13:00","16:00"],"s":["21:00","22:30","01:30","04:00"]},"07-01":{"j":["09:00","11:30","14:00","17:00"],"s":["22:00","23:00","02:00","06:00"]},"07-02":{"j":["10:00","11:30","14:30","18:00"],"s":["22:00","23:30","03:00","06:00"]},"07-03":{"j":["11:00","12:30","15:00","19:00"],"s":["23:00","00:30","03:30","07:00"]},"07-04":{"j":["11:00","13:00","16:00","19:00"],"s":["23:00","01:00","04:00","07:00"]},"07-05":{"j":["12:00","14:00","16:00","20:00"],"s":[null,null,null,null]},"07-06":{"j":["00:00","02:00","04:00","08:00"],"s":["12:00","15:00","16:00","20:00"]},"07-07":{"j":["01:00","03:00","05:00","09:00"],"s":["13:00","16:00","17:00","21:00"]},"07-08":{"j":["01:00",null,null,"09:00"],"s":["13:00",null,null,"21:00"]},"07-09":{"j":["02:00",null,null,"10:00"],"s":["14:00",null,null,"22:00"]},"07-10":{"j":["03:00",null,null,"11:00"],"s":["15:00",null,null,"23:00"]},"07-11":{"j":["04:00",null,null,"12:00"],"s":["17:00","20:00","22:00","01:00"]},"07-12":{"j":["06:00","09:00","10:00","14:00"],"s":["18:00","20:30","23:30","02:00"]},"07-13":{"j":["07:00","09:00","12:00","15:00"],"s":["19:00","21:00","00:30","03:00"]},"07-14":{"j":["08:00","09:30","13:30","16:00"],"s":["20:00","21:30","01:30","04:00"]},"07-15":{"j":["09:00","10:30","14:30","17:00"],"s":["21:00","22:30","02:30","05:00"]},"07-16":{"j":["10:00","11:30","15:30","18:00"],"s":["22:00","23:30","03:30","06:00"]},"07-17":{"j":["10:00","12:00","16:30","18:00"],"s":["23:00","00:00","04:30","07:00"]},"07-18":{"j":["11:00","12:30","16:30","19:00"],"s":["23:00","00:30","04:30","07:00"]},"07-19":{"j":["12:00","13:30","17:30","20:00"],"s":[null,null,null,null]},"07-20":{"j":["00:00","01:30","05:00","08:00"],"s":["13:00","14:30","17:30","21:00"]},"07-21":{"j":["01:00","03:00","05:00","09:00"],"s":["13:00","16:00","17:00","21:00"]},"07-22":{"j":["01:00",null,null,"09:00"],"s":["13:00",null,null,"21:00"]},"07-23":{"j":["02:00",null,null,"10:00"],"s":["14:00",null,null,"22:00"]},"07-24":{"j":["03:00",null,null,"11:00"],"s":["15:00",null,null,"23:00"]},"07-25":{"j":["05:00",null,null,"13:00"],"s":["17:00",null,null,"01:00"]},"07-26":{"j":["05:00",null,null,"13:00"],"s":["18:00",null,null,"02:00"]},"07-27":{"j":["07:00",null,null,"15:00"],"s":["19:00","22:00","23:00","03:00"]},"07-28":{"j":["08:00","11:00","12:00","16:00"],"s":["20:00","22:00","00:00","04:00"]},"07-29":{"j":["08:00","10:30","13:00","16:00"],"s":["20:00","22:30","01:30","04:00"]},"07-30":{"j":["09:00","10:30","14:00","17:00"],"s":["21:00","22:30","02:30","05:00"]},"07-31":{"j":["09:00","11:30","14:30","17:00"],"s":["22:00","23:30","03:00","06:00"]},"08-01":{"j":["10:00","11:30","15:30","18:00"],"s":["22:00","23:30","03:30","06:00"]},"08-02":{"j":["11:00","12:30","16:00","19:00"],"s":["23:00","00:30","04:30","07:00"]},"08-03":{"j":["11:00","12:30","16:30","19:00"],"s":["23:00","01:00","04:30","07:00"]},"08-04":{"j":["12:00","13:30","17:00","20:00"],"s":[null,null,null,null]},"08-05":{"j":["00:00","01:30","05:00","08:00"],"s":["12:00","14:30","17:00","20:00"]},"08-06":{"j":["00:00","03:00","05:00","08:00"],"s":["13:00","16:00","17:00","21:00"]},"08-07":{"j":["01:00",null,null,"09:00"],"s":["14:00",null,null,"22:00"]},"08-08":{"j":["02:00",null,null,"10:00"],"s":["15:00",null,null,"23:00"]},"08-09":{"j":["04:00",null,null,"12:00"],"s":["16:00",null,null,"00:00"]},"08-10":{"j":["05:00","09:00","10:00","13:00"],"s":["18:00","20:30","23:00","02:00"]},"08-11":{"j":["07:00","09:00","12:00","15:00"],"s":["19:00","20:30","00:30","03:00"]},"08-12":{"j":["08:00","09:30","13:30","16:00"],"s":["20:00","21:30","01:30","04:00"]},"08-13":{"j":["09:00","10:00","14:30","17:00"],"s":["21:00","22:30","02:30","05:00"]},"08-14":{"j":["09:00","10:30","15:00","17:00"],"s":["22:00","22:30","03:30","06:00"]},"08-15":{"j":["10:00","11:30","15:30","18:00"],"s":["22:00","23:30","04:00","06:00"]},"08-16":{"j":["11:00","12:30","16:30","19:00"],"s":["23:00","00:30","04:30","07:00"]},"08-17":{"j":["11:00","12:30","16:30","19:00"],"s":[null,null,null,null]},"08-18":{"j":["00:00","01:30","04:30","08:00"],"s":["12:00","13:30","17:00","20:00"]},"08-19":{"j":["00:00","02:00","04:00","08:00"],"s":["12:00","15:00","16:00","20:00"]},"08-20":{"j":["01:00",null,null,"09:00"],"s":["13:00",null,null,"21:00"]},"08-21":{"j":["02:00",null,null,"10:00"],"s":["14:00",null,null,"22:00"]},"08-22":{"j":["03:00",null,null,"11:00"],"s":["15:00",null,null,"23:00"]},"08-23":{"j":["04:00",null,null,"12:00"],"s":["16:00",null,null,"00:00"]},"08-24":{"j":["05:00",null,null,"13:00"],"s":["18:00",null,null,"02:00"]},"08-25":{"j":["06:00",null,null,"14:00"],"s":["19:00","22:00","23:00","03:00"]},"08-26":{"j":["07:00","10:00","12:00","15:00"],"s":["19:00","21:30","00:30","03:00"]},"08-27":{"j":["08:00","09:30","13:00","16:00"],"s":["20:00","21:30","01:30","04:00"]},"08-28":{"j":["09:00","10:00","13:30","17:00"],"s":["21:00","22:30","02:00","05:00"]},"08-29":{"j":["09:00","10:30","14:30","17:00"],"s":["21:00","22:30","02:30","05:00"]},"08-30":{"j":["10:00","11:00","15:00","18:00"],"s":["22:00","23:30","03:30","06:00"]},"08-31":{"j":["10:00","11:30","15:30","18:00"],"s":["22:00","23:30","03:30","06:00"]},"09-01":{"j":["11:00","12:30","16:30","18:00"],"s":["23:00","00:30","04:30","06:00"]},"09-02":{"j":["11:00","12:30","16:30","18:00"],"s":[null,null,null,null]},"09-03":{"j":["00:00","01:30","04:30","07:00"],"s":["12:00","13:30","17:00","19:00"]},"09-04":{"j":["00:00","02:30","05:00","07:00"],"s":["13:00","15:00","16:00","20:00"]},"09-05":{"j":["01:00",null,null,"08:00"],"s":["13:00",null,null,"20:00"]},"09-06":{"j":["02:00",null,null,"09:00"],"s":["14:00",null,null,"21:00"]},"09-07":{"j":["04:00",null,null,"11:00"],"s":["16:00",null,null,"23:00"]},"09-08":{"j":["06:00","09:00","10:00","13:00"],"s":["18:00","20:30","23:00","01:00"]},"09-09":{"j":["07:00","08:30","12:00","14:00"],"s":["19:00","20:30","00:30","02:00"]},"09-10":{"j":["08:00","09:30","13:30","15:00"],"s":["20:00","21:30","01:30","03:00"]},"09-11":{"j":["09:00","09:30","14:00","16:00"],"s":["21:00","21:30","02:30","04:00"]},"09-12":{"j":["09:00","10:30","14:30","16:00"],"s":["21:00","22:30","03:00","04:00"]},"09-13":{"j":["10:00","10:30","15:30","17:00"],"s":["22:00","23:00","03:30","05:00"]},"09-14":{"j":["10:00","11:30","15:30","17:00"],"s":["22:00","23:30","03:30","05:00"]},"09-15":{"j":["11:00","12:30","16:00","18:00"],"s":["23:00","00:30","04:00","06:00"]},"09-16":{"j":["12:00","12:30","16:00","19:00"],"s":[null,null,null,null]},"09-17":{"j":["00:00","01:30","04:00","07:00"],"s":["12:00","14:00","16:00","19:00"]},"09-18":{"j":["00:00",null,null,"07:00"],"s":["13:00",null,null,"20:00"]},"09-19":{"j":["01:00",null,null,"08:00"],"s":["14:00",null,null,"21:00"]},"09-20":{"j":["02:00",null,null,"09:00"],"s":["15:00",null,null,"22:00"]},"09-21":{"j":["04:00",null,null,"11:00"],"s":["16:00",null,null,"23:00"]},"09-22":{"j":["05:00",null,null,"12:00"],"s":["18:00",null,null,"01:00"]},"09-23":{"j":["06:00",null,null,"13:00"],"s":["19:00","21:00","22:00","02:00"]},"09-24":{"j":["07:00","09:00","11:00","14:00"],"s":["20:00","20:30","00:00","03:00"]},"09-25":{"j":["08:00","09:00","12:30","15:00"],"s":["20:00","21:30","01:00","03:00"]},"09-26":{"j":["08:00","09:30","13:30","15:00"],"s":["21:00","21:30","01:30","04:00"]},"09-27":{"j":["09:00","09:30","14:00","16:00"],"s":["21:00","22:00","02:30","04:00"]},"09-28":{"j":["09:00","10:30","14:30","16:00"],"s":["22:00","22:30","03:00","05:00"]},"09-29":{"j":["10:00","10:30","15:30","17:00"],"s":["22:00","23:30","03:30","05:00"]},"09-30":{"j":["11:00","11:30","15:30","18:00"],"s":["23:00","23:30","04:00","06:00"]},"10-01":{"j":["11:00","12:30","16:30","18:00"],"s":["23:00","01:00","04:30","06:00"]},"10-02":{"j":["12:00","13:30","16:30","19:00"],"s":[null,null,null,null]},"10-03":{"j":["00:00","03:00","04:00","07:00"],"s":["13:00","15:00","16:00","20:00"]},"10-04":{"j":["01:00",null,null,"08:00"],"s":["14:00",null,null,"21:00"]},"10-05":{"j":["02:00",null,null,"09:00"],"s":["16:00",null,null,"23:00"]},"10-06":{"j":["04:00",null,null,"11:00"],"s":["17:00",null,null,"00:00"]},"10-07":{"j":["05:00","08:00","10:00","12:00"],"s":["18:00","20:00","23:00","01:00"]},"10-08":{"j":["06:00","08:30","12:00","13:00"],"s":["19:00","20:30","00:30","02:00"]},"10-09":{"j":["07:00","08:30","12:30","14:00"],"s":["20:00","20:30","01:30","03:00"]},"10-10":{"j":["08:00","09:30","13:30","15:00"],"s":["20:00","21:30","01:30","03:00"]},"10-11":{"j":["09:00","09:30","14:00","16:00"],"s":["21:00","22:00","02:30","04:00"]},"10-12":{"j":["09:00","10:30","14:30","16:00"],"s":["21:00","22:30","02:30","04:00"]},"10-13":{"j":["10:00","11:00","15:00","17:00"],"s":["22:00","23:30","03:30","05:00"]},"10-14":{"j":["10:00","11:30","15:30","17:00"],"s":["22:00","00:00","03:30","05:00"]},"10-15":{"j":["11:00","12:30","15:30","18:00"],"s":["23:00","01:00","03:00","06:00"]},"10-16":{"j":["12:00","13:30","15:00","19:00"],"s":[null,null,null,null]},"10-17":{"j":["00:00",null,null,"07:00"],"s":["12:00",null,null,"19:00"]},"10-18":{"j":["00:00",null,null,"07:00"],"s":["13:00",null,null,"20:00"]},"10-19":{"j":["01:00",null,null,"08:00"],"s":["14:00",null,null,"21:00"]},"10-20":{"j":["02:00",null,null,"09:00"],"s":["15:00",null,null,"22:00"]},"10-21":{"j":["03:00",null,null,"10:00"],"s":["16:00",null,null,"23:00"]},"10-22":{"j":["05:00",null,null,"12:00"],"s":["18:00","21:00","22:00","01:00"]},"10-23":{"j":["06:00","08:30","11:00","13:00"],"s":["19:00","20:30","23:00","02:00"]},"10-24":{"j":["07:00","08:30","12:00","14:00"],"s":["19:00","20:30","00:30","02:00"]},"10-25":{"j":["08:00","08:30","12:30","15:00"],"s":["20:00","21:00","00:00","03:00"]},"10-26":{"j":["07:00","08:30","12:30","14:00"],"s":["20:00","20:30","01:00","03:00"]},"10-27":{"j":["08:00","08:30","13:30","15:00"],"s":["20:00","21:30","01:30","03:00"]},"10-28":{"j":["09:00","09:30","14:00","16:00"],"s":["21:00","21:30","02:30","04:00"]},"10-29":{"j":["09:00","10:30","14:30","16:00"],"s":["22:00","22:30","03:00","05:00"]},"10-30":{"j":["10:00","11:30","15:00","17:00"],"s":["23:00","23:30","03:30","06:00"]},"10-31":{"j":["11:00","12:30","15:30","18:00"],"s":["23:00","01:30","04:00","06:00"]},"11-01":{"j":["11:00","14:00","15:00","18:00"],"s":[null,null,null,null]},"11-02":{"j":["00:00",null,null,"07:00"],"s":["12:00",null,null,"19:00"]},"11-03":{"j":["02:00",null,null,"09:00"],"s":["14:00",null,null,"21:00"]},"11-04":{"j":["03:00",null,null,"10:00"],"s":["15:00","19:00","20:00","22:00"]},"11-05":{"j":["04:00","07:00","09:00","11:00"],"s":["16:00","18:30","21:00","23:00"]},"11-06":{"j":["05:00","07:00","10:30","12:00"],"s":["17:00","19:00","22:30","00:00"]},"11-07":{"j":["06:00","07:30","11:00","13:00"],"s":["18:00","19:30","23:30","01:00"]},"11-08":{"j":["07:00","07:30","12:00","14:00"],"s":["19:00","20:30","00:00","02:00"]},"11-09":{"j":["07:00","08:30","12:30","14:00"],"s":["20:00","20:30","00:30","03:00"]},"11-10":{"j":["08:00","09:00","13:00","15:00"],"s":["20:00","21:30","01:30","03:00"]},"11-11":{"j":["08:00","09:30","13:30","15:00"],"s":["21:00","22:30","01:30","04:00"]},"11-12":{"j":["09:00","10:30","14:00","16:00"],"s":["22:00","23:00","02:00","06:00"]},"11-13":{"j":["10:00","11:00","14:00","17:00"],"s":["22:00","23:30","02:00","05:00"]},"11-14":{"j":["10:00",null,null,"17:00"],"s":["23:00",null,null,"06:00"]},"11-15":{"j":["11:00",null,null,"18:00"],"s":[null,null,null,null]},"11-16":{"j":["00:00",null,null,"07:00"],"s":["12:00",null,null,"19:00"]},"11-17":{"j":["01:00",null,null,"08:00"],"s":["13:00",null,null,"20:00"]},"11-18":{"j":["02:00",null,null,"09:00"],"s":["14:00",null,null,"21:00"]},"11-19":{"j":["03:00",null,null,"10:00"],"s":["15:00",null,null,"22:00"]},"11-20":{"j":["04:00",null,null,"11:00"],"s":["16:00",null,null,"23:00"]},"11-21":{"j":["05:00","07:00","09:00","12:00"],"s":["17:00","18:30","21:00","00:00"]},"11-22":{"j":["05:00","06:30","10:00","12:00"],"s":["18:00","19:00","22:30","01:00"]},"11-23":{"j":["06:00","07:30","11:30","13:00"],"s":["19:00","19:30","23:30","02:00"]},"11-24":{"j":["07:00","07:30","12:00","14:00"],"s":["19:00","20:30","00:30","02:00"]},"11-25":{"j":["07:00","08:30","13:00","14:00"],"s":["20:00","21:00","01:30","03:00"]},"11-26":{"j":["08:00","09:30","13:30","15:00"],"s":["21:00","21:30","02:30","04:00"]},"11-27":{"j":["09:00","10:00","14:30","16:00"],"s":["22:00","22:30","03:00","05:00"]},"11-28":{"j":["10:00","11:00","13:30","17:00"],"s":["23:00","23:30","03:30","06:00"]},"11-29":{"j":["11:00","12:00","16:00","18:00"],"s":["23:00","01:00","04:00","06:00"]},"11-30":{"j":["12:00","13:30","16:00","19:00"],"s":[null,null,null,null]},"12-01":{"j":["00:00","03:00","05:00","07:00"],"s":["12:00","15:00","17:00","19:00"]},"12-02":{"j":["01:00","05:00","06:00","08:00"],"s":["13:00",null,null,"20:00"]},"12-03":{"j":["02:00",null,null,"09:00"],"s":["14:00",null,null,"21:00"]},"12-04":{"j":["03:00","07:00","08:00","10:00"],"s":["15:00","19:00","20:00","22:00"]},"12-05":{"j":["04:00","06:30","09:00","11:00"],"s":["17:00","19:30","21:00","00:00"]},"12-06":{"j":["05:00","07:30","10:00","12:00"],"s":["18:00","19:30","22:00","01:00"]},"12-07":{"j":["06:00","07:30","11:00","13:00"],"s":["19:00","20:30","23:30","02:00"]},"12-08":{"j":["07:00","08:30","12:00","14:00"],"s":["19:00","21:00","00:00","02:00"]},"12-09":{"j":["07:00","08:30","12:30","14:00"],"s":["20:00","21:30","00:30","03:00"]},"12-10":{"j":["08:00","09:30","13:00","15:00"],"s":["21:00","22:00","01:30","04:00"]},"12-11":{"j":["09:00","10:00","13:30","16:00"],"s":["21:00","22:30","02:00","04:00"]},"12-12":{"j":["09:00","10:30","14:00","16:00"],"s":["22:00","23:30","02:00","05:00"]},"12-13":{"j":["10:00","11:30","14:30","17:00"],"s":["23:00","00:30","02:30","06:00"]},"12-14":{"j":["11:00","12:30","14:30","18:00"],"s":["23:00","02:00","03:00","06:00"]},"12-15":{"j":["11:00","14:00","15:00","18:00"],"s":[null,null,null,null]},"12-16":{"j":["00:00",null,null,"07:00"],"s":["12:00",null,null,"19:00"]},"12-17":{"j":["01:00",null,null,"08:00"],"s":["13:00",null,null,"20:00"]},"12-18":{"j":["02:00",null,null,"09:00"],"s":["14:00",null,null,"21:00"]},"12-19":{"j":["03:00",null,null,"10:00"],"s":["15:00",null,null,"22:00"]},"12-20":{"j":["04:00",null,null,"11:00"],"s":["16:00",null,null,"23:00"]},"12-21":{"j":["05:00","06:30","09:00","12:00"],"s":["17:00","19:00","21:00","00:00"]},"12-22":{"j":["06:00","07:00","10:30","13:00"],"s":["18:00","19:30","23:00","01:00"]},"12-23":{"j":["06:00","07:30","11:30","13:00"],"s":["19:00","20:30","00:30","02:00"]},"12-24":{"j":["07:00","08:30","12:30","14:00"],"s":["20:00","21:00","01:30","03:00"]},"12-25":{"j":["08:00","09:30","13:30","15:00"],"s":["21:00","21:30","02:30","04:00"]},"12-26":{"j":["09:00","10:00","14:30","16:00"],"s":["22:00","22:30","03:00","05:00"]},"12-27":{"j":["10:00","10:30","15:30","17:00"],"s":["22:00","23:30","03:30","05:00"]},"12-28":{"j":["11:00","11:30","16:00","18:00"],"s":["23:00","00:30","04:30","06:00"]},"12-29":{"j":["11:00","12:30","16:30",null],"s":[null,null,null,null]},"12-30":{"j":["00:00","02:00","05:00","07:00"],"s":["12:00","14:00","17:00","19:00"]},"12-31":{"j":["01:00","04:00","05:00","08:00"],"s":["13:00",null,null,"20:00"]}};
+<style>.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}</style>
+
+<script>
+// Horaires des portes Morny + marées 2026, extraits du PDF officiel par tools/extraire-horaires.mjs
+const DATA = {"01-01":{"c":["69","74"],"bm":["02:57","15:35"],"pm":["11:32","21:06"],"w":[["05:44","11:30"],["18:16","23:58"],[null,null]]},"01-02":{"c":["79","84"],"bm":["04:01","16:36"],"pm":["09:29","22:03"],"w":[["06:42","12:31"],["19:13",null],[null,null]]},"01-03":{"c":["88","91"],"bm":["05:00","17:34"],"pm":["10:21","22:54"],"w":[[null,"01:03"],["07:36","13:26"],["20:06",null]]},"01-04":{"c":["94","95"],"bm":["05:57","18:29"],"pm":["11:10","23:44"],"w":[[null,"01:58"],["08:26","14:18"],["20:56",null]]},"01-05":{"c":["96",null],"bm":["06:50","19:19"],"pm":["11:57",null],"w":[[null,"02:48"],["09:14","15:06"],["21:44",null]]},"01-06":{"c":["95","93"],"bm":["07:37","20:03"],"pm":["00:31","12:43"],"w":[[null,"03:35"],["10:00","15:51"],["22:30",null]]},"01-07":{"c":["91","87"],"bm":["08:19","20:43"],"pm":["01:16","13:27"],"w":[[null,"04:18"],["10:45","16:32"],["23:14",null]]},"01-08":{"c":["82","77"],"bm":["08:57","21:19"],"pm":["01:59","14:09"],"w":[[null,"04:57"],["11:28","17:11"],["23:57",null]]},"01-09":{"c":["72","66"],"bm":["09:33","21:53"],"pm":["02:41","14:50"],"w":[[null,"05:35"],["12:13","17:48"],[null,null]]},"01-10":{"c":["60","54"],"bm":["10:09","22:29"],"pm":["03:23","15:35"],"w":[["00:44","06:12"],["13:01","18:24"],[null,null]]},"01-11":{"c":["49","44"],"bm":["10:50","23:11"],"pm":["04:10","16:28"],"w":[["01:34","06:52"],["13:59","19:05"],[null,null]]},"01-12":{"c":["39","36"],"bm":["11:41",null],"pm":["05:06","17:32"],"w":[["02:35","07:41"],["15:12","19:57"],[null,null]]},"01-13":{"c":["35","35"],"bm":["00:07","12:49"],"pm":["06:10","18:46"],"w":[["03:47","08:44"],["16:33","21:08"],[null,null]]},"01-14":{"c":["36","39"],"bm":["01:26","14:15"],"pm":["07:22","20:06"],"w":[["04:57","09:58"],["17:38","22:27"],[null,null]]},"01-15":{"c":["43","47"],"bm":["02:46","15:20"],"pm":["08:29","21:05"],"w":[["05:54","11:07"],["18:27","23:35"],[null,null]]},"01-16":{"c":["52","56"],"bm":["03:44","16:11"],"pm":["09:18","21:48"],"w":[["06:40","12:03"],["19:08",null],[null,null]]},"01-17":{"c":["61","65"],"bm":["04:32","16:56"],"pm":["09:59","22:26"],"w":[[null,"00:30"],["07:19","12:49"],["19:44",null]]},"01-18":{"c":["69","73"],"bm":["05:15","17:37"],"pm":["10:35","23:01"],"w":[[null,"01:14"],["07:55","13:30"],["20:19",null]]},"01-19":{"c":["76","79"],"bm":["05:54","18:16"],"pm":["11:10","23:36"],"w":[[null,"01:54"],["08:30","14:09"],["20:54",null]]},"01-20":{"c":["81",null],"bm":["06:32","18:54"],"pm":["11:45",null],"w":[[null,"02:32"],["09:05","14:46"],["21:28",null]]},"01-21":{"c":["83","84"],"bm":["07:10","19:31"],"pm":["00:11","12:21"],"w":[[null,"03:08"],["09:39","15:23"],["22:04",null]]},"01-22":{"c":["85","85"],"bm":["07:47","20:06"],"pm":["00:47","12:58"],"w":[[null,"03:44"],["10:15","15:59"],["22:39",null]]},"01-23":{"c":["84","82"],"bm":["08:23","20:40"],"pm":["01:25","13:37"],"w":[[null,"04:20"],["10:51","16:35"],["23:16",null]]},"01-24":{"c":["80","76"],"bm":["08:58","21:17"],"pm":["02:04","14:17"],"w":[[null,"04:58"],["11:30","17:13"],["23:57",null]]},"01-25":{"c":["73","68"],"bm":["09:35","21:53"],"pm":["02:43","14:58"],"w":[[null,"05:37"],["12:15","17:53"],[null,null]]},"01-26":{"c":["64","59"],"bm":["10:18","22:39"],"pm":["03:25","15:46"],"w":[["00:46","06:22"],["13:09","18:40"],[null,null]]},"01-27":{"c":["54","50"],"bm":["11:12","23:39"],"pm":["04:18","16:51"],"w":[["01:46","07:16"],["14:19","19:40"],[null,null]]},"01-28":{"c":["47","47"],"bm":["12:29",null],"pm":["05:35","18:26"],"w":[["03:03","08:27"],["15:46","21:00"],[null,null]]},"01-29":{"c":["49","52"],"bm":["01:13","14:06"],"pm":["07:08","19:55"],"w":[["04:27","09:52"],["17:12","22:31"],[null,null]]},"01-30":{"c":["58","65"],"bm":["02:40","15:22"],"pm":["08:24","21:04"],"w":[["05:42","11:14"],["18:21","23:51"],[null,null]]},"01-31":{"c":["72","78"],"bm":["03:51","16:31"],"pm":["09:24","22:00"],"w":[["06:43","12:23"],["19:15",null],[null,null]]},"02-01":{"c":["84","89"],"bm":["04:59","17:35"],"pm":["10:15","22:48"],"w":[[null,"00:58"],["07:34","13:19"],["20:03",null]]},"02-02":{"c":["94","97"],"bm":["05:58","18:26"],"pm":["11:01","23:32"],"w":[[null,"01:50"],["08:20","14:08"],["20:46",null]]},"02-03":{"c":["99",null],"bm":["06:45","19:09"],"pm":["11:44",null],"w":[[null,"02:36"],["09:02","14:52"],["21:28",null]]},"02-04":{"c":["99","99"],"bm":["07:24","19:45"],"pm":["00:13","12:24"],"w":[[null,"03:16"],["09:42","15:32"],["22:06",null]]},"02-05":{"c":["97","94"],"bm":["07:58","20:17"],"pm":["00:52","13:01"],"w":[[null,"03:53"],["10:20","16:07"],["22:43",null]]},"02-06":{"c":["90","84"],"bm":["08:28","20:45"],"pm":["01:28","13:37"],"w":[[null,"04:26"],["10:56","16:39"],["23:19",null]]},"02-07":{"c":["79","73"],"bm":["08:56","21:11"],"pm":["02:01","14:10"],"w":[[null,"04:57"],["11:33","17:09"],["23:54",null]]},"02-08":{"c":["66","59"],"bm":["09:21","21:35"],"pm":["02:33","14:42"],"w":[[null,"05:26"],["12:12","17:37"],[null,null]]},"02-09":{"c":["52","46"],"bm":["09:51","22:07"],"pm":["03:06","15:19"],"w":[["00:35","05:55"],["12:58","18:05"],[null,null]]},"02-10":{"c":["39","33"],"bm":["10:30","22:56"],"pm":["03:48","16:15"],"w":[["01:26","06:27"],["14:05","18:36"],[null,null]]},"02-11":{"c":["28","25"],"bm":["11:34",null],"pm":["04:57","17:47"],"w":[["02:43","07:09"],["15:54","19:31"],[null,null]]},"02-12":{"c":["25","28"],"bm":["00:12","13:11"],"pm":["06:31","19:34"],"w":[["04:30","08:26"],["17:29","21:21"],[null,null]]},"02-13":{"c":["33","39"],"bm":["02:10","14:50"],"pm":["08:01","20:46"],"w":[["05:42","10:14"],["18:17","23:02"],[null,null]]},"02-14":{"c":["45","52"],"bm":["03:23","15:50"],"pm":["08:59","21:30"],"w":[["06:28","11:31"],["18:53",null],[null,null]]},"02-15":{"c":["59","65"],"bm":["04:15","16:39"],"pm":["09:41","22:07"],"w":[[null,"00:07"],["07:04","12:26"],["19:27",null]]},"02-16":{"c":["71","77"],"bm":["05:00","17:23"],"pm":["10:17","22:42"],"w":[[null,"00:54"],["07:38","13:10"],["20:00",null]]},"02-17":{"c":["82","87"],"bm":["05:41","18:03"],"pm":["10:52","23:16"],"w":[[null,"01:35"],["08:12","13:50"],["20:33",null]]},"02-18":{"c":["91","94"],"bm":["06:20","18:40"],"pm":["11:27","23:51"],"w":[[null,"02:13"],["08:45","14:28"],["21:06",null]]},"02-19":{"c":["96",null],"bm":["06:56","19:15"],"pm":["12:03",null],"w":[[null,"02:49"],["09:18","15:05"],["21:40",null]]},"02-20":{"c":["97","97"],"bm":["07:31","19:49"],"pm":["00:27","12:39"],"w":[[null,"03:25"],["09:53","15:40"],["22:15",null]]},"02-21":{"c":["96","94"],"bm":["08:06","20:23"],"pm":["01:03","13:17"],"w":[[null,"04:00"],["10:29","16:16"],["22:50",null]]},"02-22":{"c":["91","86"],"bm":["08:39","20:54"],"pm":["01:40","13:55"],"w":[[null,"04:36"],["11:07","16:52"],["23:29",null]]},"02-23":{"c":["81","74"],"bm":["09:14","21:29"],"pm":["02:16","14:35"],"w":[[null,"05:13"],["11:51","17:30"],[null,null]]},"02-24":{"c":["67","60"],"bm":["09:53","22:11"],"pm":["02:55","15:22"],"w":[["00:19","05:54"],["12:46","18:14"],[null,null]]},"02-25":{"c":["52","46"],"bm":["10:45","23:12"],"pm":["03:47","16:32"],"w":[["01:20","06:43"],["14:03","19:12"],[null,null]]},"02-26":{"c":["41","39"],"bm":["12:08",null],"pm":["05:13","18:25"],"w":[["02:49","07:54"],["15:52","20:42"],[null,null]]},"02-27":{"c":["42","47"],"bm":["00:59","13:56"],"pm":["07:03","19:56"],"w":[["04:34","09:34"],["17:25","22:28"],[null,null]]},"02-28":{"c":["55","62"],"bm":["02:35","15:21"],"pm":["08:21","21:02"],"w":[["05:49","11:08"],["18:23","23:50"],[null,null]]},"03-01":{"c":["70","78"],"bm":["03:57","16:35"],"pm":["09:19","21:52"],"w":[["06:42","12:16"],["19:09",null],[null,null]]},"03-02":{"c":["84","90"],"bm":["05:02","17:30"],"pm":["10:05","22:34"],"w":[[null,"00:50"],["07:26","13:08"],["19:50",null]]},"03-03":{"c":["94","97"],"bm":["05:49","18:12"],"pm":["10:45","23:12"],"w":[[null,"01:35"],["08:06","13:52"],["20:28",null]]},"03-04":{"c":["99","99"],"bm":["06:27","18:47"],"pm":["11:23","23:48"],"w":[[null,"02:15"],["08:43","14:30"],["21:04",null]]},"03-05":{"c":["99",null],"bm":["07:00","19:17"],"pm":["11:58",null],"w":[[null,"02:50"],["09:18","15:05"],["21:38",null]]},"03-06":{"c":["97","94"],"bm":["07:29","19:44"],"pm":["00:21","12:32"],"w":[[null,"03:22"],["09:51","15:37"],["22:10",null]]},"03-07":{"c":["91","86"],"bm":["07:55","20:09"],"pm":["00:53","13:03"],"w":[[null,"03:52"],["10:24","16:05"],["22:41",null]]},"03-08":{"c":["81","75"],"bm":["08:19","20:31"],"pm":["01:22","13:33"],"w":[[null,"04:20"],["10:57","16:32"],["23:13",null]]},"03-09":{"c":["69","62"],"bm":["08:41","20:51"],"pm":["01:49","14:00"],"w":[[null,"04:46"],["11:32","16:56"],["23:47",null]]},"03-10":{"c":["55","48"],"bm":["09:05","21:17"],"pm":["02:15","14:30"],"w":[[null,"05:09"],["12:13","17:18"],[null,null]]},"03-11":{"c":["41","34"],"bm":["09:39","21:59"],"pm":["02:47","15:14"],"w":[["00:31","05:31"],["13:11","17:41"],[null,null]]},"03-12":{"c":["28","23"],"bm":["10:36","23:16"],"pm":["03:41","16:39"],"w":[["01:42","05:57"],["15:12","18:17"],[null,null]]},"03-13":{"c":["21","23"],"bm":["12:10",null],"pm":["05:31","18:51"],"w":[["04:00","06:52"],["17:10","20:06"],[null,null]]},"03-14":{"c":["28","35"],"bm":["01:19","14:08"],"pm":["07:22","20:12"],"w":[["05:23","09:05"],["17:53","22:20"],[null,null]]},"03-15":{"c":["42","50"],"bm":["02:50","15:16"],"pm":["08:27","21:00"],"w":[["06:04","10:51"],["18:26","23:33"],[null,null]]},"03-16":{"c":["58","66"],"bm":["03:45","16:08"],"pm":["09:11","21:38"],"w":[["06:38","11:53"],["18:58",null],[null,null]]},"03-17":{"c":["73","80"],"bm":["04:31","16:54"],"pm":["09:49","22:13"],"w":[[null,"00:25"],["07:11","12:41"],["19:31",null]]},"03-18":{"c":["87","92"],"bm":["05:14","17:36"],"pm":["10:25","22:48"],"w":[[null,"01:07"],["07:45","13:23"],["20:05",null]]},"03-19":{"c":["97","101"],"bm":["05:55","18:15"],"pm":["11:02","23:24"],"w":[[null,"01:46"],["08:18","14:02"],["20:39",null]]},"03-20":{"c":["103",null],"bm":["06:33","18:52"],"pm":["11:39",null],"w":[[null,"02:23"],["08:53","14:40"],["21:13",null]]},"03-21":{"c":["104","104"],"bm":["07:09","19:27"],"pm":["00:01","12:17"],"w":[[null,"03:00"],["09:29","15:17"],["21:49",null]]},"03-22":{"c":["103","100"],"bm":["07:45","20:01"],"pm":["00:38","12:57"],"w":[[null,"03:38"],["10:08","15:55"],["22:27",null]]},"03-23":{"c":["95","89"],"bm":["08:21","20:33"],"pm":["01:16","13:37"],"w":[[null,"04:15"],["10:50","16:33"],["23:09",null]]},"03-24":{"c":["82","74"],"bm":["08:55","21:10"],"pm":["01:54","14:20"],"w":[[null,"04:54"],["11:38","17:14"],["23:59",null]]},"03-25":{"c":["66","57"],"bm":["09:35","21:52"],"pm":["02:37","15:13"],"w":[[null,"05:36"],["12:39","18:01"],[null,null]]},"03-26":{"c":["49","43"],"bm":["10:31","23:05"],"pm":["03:34","16:34"],"w":[["01:12","06:26"],["14:08","19:06"],[null,null]]},"03-27":{"c":["39","39"],"bm":["12:07",null],"pm":["05:12","18:26"],"w":[["02:54","07:42"],["16:00","20:44"],[null,null]]},"03-28":{"c":["43","49"],"bm":["00:59","13:52"],"pm":["06:55","19:48"],"w":[["05:34","10:27"],["18:17","23:25"],[null,null]]},"03-29":{"c":["56","63"],"bm":["03:34","16:16"],"pm":["09:09","21:48"],"w":[["06:39","11:56"],["19:08",null],[null,null]]},"03-30":{"c":["70","77"],"bm":["04:49","17:20"],"pm":["10:02","22:32"],"w":[[null,"00:40"],["07:26","12:58"],["19:49",null]]},"03-31":{"c":["82","86"],"bm":["05:43","18:07"],"pm":["10:44","23:10"],"w":[[null,"01:30"],["08:07","13:46"],["20:27",null]]},"04-01":{"c":["89","92"],"bm":["06:25","18:44"],"pm":["11:22","23:45"],"w":[[null,"02:11"],["08:44","14:26"],["21:03",null]]},"04-02":{"c":["93",null],"bm":["06:59","19:15"],"pm":["11:57",null],"w":[[null,"02:47"],["09:18","15:01"],["21:36",null]]},"04-03":{"c":["93","93"],"bm":["07:28","19:43"],"pm":["00:18","12:30"],"w":[[null,"03:20"],["09:51","15:34"],["22:07",null]]},"04-04":{"c":["91","89"],"bm":["07:56","20:10"],"pm":["00:49","13:02"],"w":[[null,"03:50"],["10:23","16:04"],["22:38",null]]},"04-05":{"c":["86","82"],"bm":["08:23","20:35"],"pm":["01:18","13:33"],"w":[[null,"04:20"],["10:55","16:33"],["23:08",null]]},"04-06":{"c":["78","73"],"bm":["08:47","20:58"],"pm":["01:47","14:02"],"w":[[null,"04:47"],["11:28","16:59"],["23:39",null]]},"04-07":{"c":["68","62"],"bm":["09:10","21:20"],"pm":["02:14","14:31"],"w":[[null,"05:12"],["12:02","17:24"],[null,null]]},"04-08":{"c":["56","50"],"bm":["09:35","21:46"],"pm":["02:41","15:03"],"w":[["00:14","05:35"],["12:43","17:48"],[null,null]]},"04-09":{"c":["43","37"],"bm":["10:07","22:27"],"pm":["03:16","15:47"],"w":[["00:57","05:58"],["13:39","18:15"],[null,null]]},"04-10":{"c":["32","27"],"bm":["10:58","23:35"],"pm":["04:07","16:56"],"w":[["02:02","06:26"],["15:17","18:58"],[null,null]]},"04-11":{"c":["25","26"],"bm":["12:22",null],"pm":["05:32","18:56"],"w":[["03:59","07:19"],["17:09","20:32"],[null,null]]},"04-12":{"c":["29","35"],"bm":["01:24","14:10"],"pm":["07:26","20:20"],"w":[["05:32","09:13"],["18:05","22:30"],[null,null]]},"04-13":{"c":["42","50"],"bm":["02:57","15:24"],"pm":["08:38","21:15"],"w":[["06:20","11:00"],["18:43","23:48"],[null,null]]},"04-14":{"c":["58","66"],"bm":["03:57","16:21"],"pm":["09:29","21:58"],"w":[["06:58","12:10"],["19:19",null],[null,null]]},"04-15":{"c":["73","81"],"bm":["04:48","17:12"],"pm":["10:12","22:37"],"w":[[null,"00:46"],["07:35","13:03"],["19:55",null]]},"04-16":{"c":["87","93"],"bm":["05:36","17:59"],"pm":["10:52","23:16"],"w":[[null,"01:32"],["08:11","13:49"],["20:31",null]]},"04-17":{"c":["97","101"],"bm":["06:22","18:43"],"pm":["11:32","23:55"],"w":[[null,"02:15"],["08:48","14:32"],["21:08",null]]},"04-18":{"c":["104",null],"bm":["07:05","19:24"],"pm":["12:14",null],"w":[[null,"02:55"],["09:27","15:13"],["21:46",null]]},"04-19":{"c":["105","104"],"bm":["07:46","20:04"],"pm":["00:34","12:56"],"w":[[null,"03:36"],["10:08","15:55"],["22:26",null]]},"04-20":{"c":["102","99"],"bm":["08:26","20:42"],"pm":["01:15","13:40"],"w":[[null,"04:17"],["10:51","16:37"],["23:10",null]]},"04-21":{"c":["94","88"],"bm":["09:05","21:20"],"pm":["01:57","14:25"],"w":[[null,"04:59"],["11:39","17:21"],["23:57",null]]},"04-22":{"c":["81","73"],"bm":["09:44","21:58"],"pm":["02:40","15:14"],"w":[[null,"05:42"],["12:34","18:08"],[null,null]]},"04-23":{"c":["65","58"],"bm":["10:30","22:51"],"pm":["03:29","16:13"],"w":[["00:59","06:29"],["13:42","19:02"],[null,null]]},"04-24":{"c":["51","46"],"bm":["11:35",null],"pm":["04:32","17:39"],"w":[["02:12","07:26"],["15:06","20:11"],[null,null]]},"04-25":{"c":["44","44"],"bm":["00:16","13:05"],"pm":["06:05","19:07"],"w":[["03:43","08:41"],["16:37","21:38"],[null,null]]},"04-26":{"c":["47","51"],"bm":["01:47","14:29"],"pm":["07:30","20:20"],"w":[["05:09","10:09"],["17:48","23:01"],[null,null]]},"04-27":{"c":["56","61"],"bm":["03:04","15:41"],"pm":["08:39","21:18"],"w":[["06:12","11:27"],["18:38",null],[null,null]]},"04-28":{"c":["66","71"],"bm":["04:12","16:41"],"pm":["09:33","22:02"],"w":[[null,"00:09"],["07:00","12:27"],["19:21",null]]},"04-29":{"c":["74","77"],"bm":["05:06","17:28"],"pm":["10:16","22:40"],"w":[[null,"00:58"],["07:41","13:14"],["19:59",null]]},"04-30":{"c":["80","81"],"bm":["05:48","18:05"],"pm":["10:54","23:15"],"w":[[null,"01:39"],["08:18","13:53"],["20:34",null]]},"05-01":{"c":["82","82"],"bm":["06:22","18:38"],"pm":["11:30","23:47"],"w":[[null,"02:14"],["08:53","14:29"],["21:07",null]]},"05-02":{"c":["82",null],"bm":["06:54","19:09"],"pm":["12:03",null],"w":[[null,"02:48"],["09:26","15:03"],["21:38",null]]},"05-03":{"c":["82","80"],"bm":["07:25","19:38"],"pm":["00:18","12:36"],"w":[[null,"03:20"],["09:58","15:35"],["22:10",null]]},"05-04":{"c":["78","76"],"bm":["07:53","20:06"],"pm":["00:48","13:08"],"w":[[null,"03:51"],["10:32","16:06"],["22:42",null]]},"05-05":{"c":["73","69"],"bm":["08:20","20:32"],"pm":["01:19","13:40"],"w":[[null,"04:19"],["11:06","16:35"],["23:16",null]]},"05-06":{"c":["66","62"],"bm":["08:47","21:00"],"pm":["01:49","14:13"],"w":[[null,"04:47"],["11:44","17:03"],["23:53",null]]},"05-07":{"c":["57","53"],"bm":["09:16","21:31"],"pm":["02:22","14:49"],"w":[[null,"05:14"],["12:26","17:33"],[null,null]]},"05-08":{"c":["48","44"],"bm":["09:52","22:12"],"pm":["03:01","15:34"],"w":[["00:39","05:44"],["13:19","18:09"],[null,null]]},"05-09":{"c":["40","37"],"bm":["10:38","23:11"],"pm":["03:51","16:33"],"w":[["01:37","06:22"],["14:28","19:00"],[null,null]]},"05-10":{"c":["35","35"],"bm":["11:46",null],"pm":["04:56","17:54"],"w":[["02:56","07:18"],["15:48","20:14"],[null,null]]},"05-11":{"c":["36","40"],"bm":["00:34","13:12"],"pm":["06:20","19:17"],"w":[["04:15","08:41"],["16:55","21:40"],[null,null]]},"05-12":{"c":["45","51"],"bm":["01:55","14:25"],"pm":["07:36","20:19"],"w":[["05:17","10:08"],["17:46","22:56"],[null,null]]},"05-13":{"c":["57","64"],"bm":["03:01","15:27"],"pm":["08:36","21:11"],"w":[["06:07","11:20"],["18:31","23:58"],[null,null]]},"05-14":{"c":["70","77"],"bm":["04:00","16:25"],"pm":["09:29","21:58"],"w":[["06:52","12:20"],["19:14",null],[null,null]]},"05-15":{"c":["83","88"],"bm":["04:55","17:20"],"pm":["10:17","22:42"],"w":[[null,"00:54"],["07:36","13:13"],["19:56",null]]},"05-16":{"c":["92","96"],"bm":["05:48","18:11"],"pm":["11:04","23:26"],"w":[[null,"01:42"],["08:20","14:02"],["20:39",null]]},"05-17":{"c":["98",null],"bm":["06:38","18:59"],"pm":["11:52",null],"w":[[null,"02:29"],["09:05","14:50"],["21:24",null]]},"05-18":{"c":["99","99"],"bm":["07:25","19:45"],"pm":["00:11","12:39"],"w":[[null,"03:16"],["09:52","15:38"],["22:10",null]]},"05-19":{"c":["97","95"],"bm":["08:11","20:30"],"pm":["00:57","13:28"],"w":[[null,"04:02"],["10:42","16:27"],["22:59",null]]},"05-20":{"c":["91","87"],"bm":["08:57","21:15"],"pm":["01:44","14:18"],"w":[[null,"04:49"],["11:35","17:16"],["23:52",null]]},"05-21":{"c":["81","76"],"bm":["09:44","22:04"],"pm":["02:32","15:11"],"w":[[null,"05:38"],["12:32","18:07"],[null,null]]},"05-22":{"c":["70","64"],"bm":["10:37","23:02"],"pm":["03:25","16:11"],"w":[["00:54","06:29"],["13:34","19:02"],[null,null]]},"05-23":{"c":["59","55"],"bm":["11:38",null],"pm":["04:26","17:20"],"w":[["01:58","07:23"],["14:42","20:02"],[null,null]]},"05-24":{"c":["52","51"],"bm":["00:08","12:42"],"pm":["05:38","18:29"],"w":[["03:10","08:25"],["15:54","21:08"],[null,null]]},"05-25":{"c":["50","51"],"bm":["01:13","13:45"],"pm":["06:47","19:34"],"w":[["04:25","09:32"],["17:02","22:17"],[null,null]]},"05-26":{"c":["53","55"],"bm":["02:15","14:46"],"pm":["07:53","20:34"],"w":[["05:31","10:40"],["17:59","23:20"],[null,null]]},"05-27":{"c":["57","60"],"bm":["03:16","15:44"],"pm":["08:53","21:25"],"w":[["06:26","11:41"],["18:46",null],[null,null]]},"05-28":{"c":["62","65"],"bm":["04:13","16:37"],"pm":["09:44","22:07"],"w":[[null,"00:16"],["07:12","12:33"],["19:28",null]]},"05-29":{"c":["67","68"],"bm":["05:02","17:22"],"pm":["10:27","22:45"],"w":[[null,"01:01"],["07:53","13:18"],["20:06",null]]},"05-30":{"c":["70","70"],"bm":["05:44","18:02"],"pm":["11:06","23:20"],"w":[[null,"01:41"],["08:30","13:58"],["20:42",null]]},"05-31":{"c":["71","71"],"bm":["06:22","18:38"],"pm":["11:42","23:54"],"w":[[null,"02:19"],["09:06","14:36"],["21:16",null]]},"06-01":{"c":["71",null],"bm":["06:57","19:12"],"pm":["12:17",null],"w":[[null,"02:54"],["09:41","15:11"],["21:50",null]]},"06-02":{"c":["71","70"],"bm":["07:30","19:45"],"pm":["00:27","12:51"],"w":[[null,"03:27"],["10:16","15:46"],["22:25",null]]},"06-03":{"c":["69","68"],"bm":["08:02","20:16"],"pm":["01:00","13:25"],"w":[[null,"04:00"],["10:53","16:19"],["23:01",null]]},"06-04":{"c":["66","64"],"bm":["08:33","20:49"],"pm":["01:33","14:00"],"w":[[null,"04:31"],["11:31","16:52"],["23:40",null]]},"06-05":{"c":["62","59"],"bm":["09:07","21:24"],"pm":["02:09","14:39"],"w":[[null,"05:04"],["12:12","17:28"],[null,null]]},"06-06":{"c":["57","54"],"bm":["09:43","22:05"],"pm":["02:50","15:22"],"w":[["00:23","05:40"],["12:56","18:07"],[null,null]]},"06-07":{"c":["52","50"],"bm":["10:27","22:53"],"pm":["03:35","16:10"],"w":[["01:11","06:21"],["13:47","18:53"],[null,null]]},"06-08":{"c":["48","47"],"bm":["11:18","23:52"],"pm":["04:27","17:07"],"w":[["02:06","07:10"],["14:44","19:49"],[null,null]]},"06-09":{"c":["47","47"],"bm":["12:19",null],"pm":["05:26","18:11"],"w":[["03:08","08:10"],["15:45","20:54"],[null,null]]},"06-10":{"c":["49","52"],"bm":["00:57","13:25"],"pm":["06:32","19:17"],"w":[["04:13","09:19"],["16:45","22:04"],[null,null]]},"06-11":{"c":["55","60"],"bm":["02:05","14:35"],"pm":["07:40","20:20"],"w":[["05:14","10:31"],["17:41","23:11"],[null,null]]},"06-12":{"c":["64","69"],"bm":["03:14","15:44"],"pm":["08:45","21:19"],"w":[["06:11","11:39"],["18:35",null],[null,null]]},"06-13":{"c":["74","79"],"bm":["04:20","16:46"],"pm":["09:47","22:14"],"w":[[null,"00:17"],["07:06","12:41"],["19:27",null]]},"06-14":{"c":["83","87"],"bm":["05:19","17:44"],"pm":["10:44","23:06"],"w":[[null,"01:15"],["07:59","13:39"],["20:19",null]]},"06-15":{"c":["90","93"],"bm":["06:16","18:39"],"pm":["11:37","23:56"],"w":[[null,"02:09"],["08:52","14:35"],["21:10",null]]},"06-16":{"c":["94",null],"bm":["07:10","19:33"],"pm":["12:29",null],"w":[[null,"03:02"],["09:44","15:28"],["22:01",null]]},"06-17":{"c":["95","94"],"bm":["08:04","20:25"],"pm":["00:45","13:20"],"w":[[null,"03:53"],["10:36","16:20"],["22:52",null]]},"06-18":{"c":["93","90"],"bm":["08:55","21:16"],"pm":["01:35","14:11"],"w":[[null,"04:43"],["11:28","17:11"],["23:43",null]]},"06-19":{"c":["87","83"],"bm":["09:44","22:04"],"pm":["02:24","15:01"],"w":[[null,"05:31"],["12:20","18:00"],[null,null]]},"06-20":{"c":["79","74"],"bm":["10:31","22:51"],"pm":["03:13","15:52"],"w":[["00:38","06:19"],["13:12","18:47"],[null,null]]},"06-21":{"c":["69","64"],"bm":["11:17","23:37"],"pm":["04:04","16:44"],"w":[["01:31","07:05"],["14:05","19:35"],[null,null]]},"06-22":{"c":["59","55"],"bm":["12:02",null],"pm":["04:57","17:39"],"w":[["02:28","07:52"],["15:03","20:25"],[null,null]]},"06-23":{"c":["51","48"],"bm":["00:26","12:51"],"pm":["05:55","18:36"],"w":[["03:31","08:43"],["16:05","21:20"],[null,null]]},"06-24":{"c":["47","46"],"bm":["01:21","13:47"],"pm":["06:57","19:37"],"w":[["04:40","09:40"],["17:09","22:20"],[null,null]]},"06-25":{"c":["46","47"],"bm":["02:22","14:50"],"pm":["08:03","20:40"],"w":[["05:47","10:44"],["18:08","23:22"],[null,null]]},"06-26":{"c":["49","51"],"bm":["03:25","15:52"],"pm":["09:11","21:36"],"w":[["06:45","11:47"],["19:00",null],[null,null]]},"06-27":{"c":["54","56"],"bm":["04:22","16:46"],"pm":["10:06","22:22"],"w":[[null,"00:21"],["07:33","12:44"],["19:45",null]]},"06-28":{"c":["59","61"],"bm":["05:12","17:33"],"pm":["10:50","23:02"],"w":[[null,"01:11"],["08:15","13:33"],["20:25",null]]},"06-29":{"c":["63","65"],"bm":["05:56","18:16"],"pm":["11:29","23:38"],"w":[[null,"01:54"],["08:53","14:16"],["21:02",null]]},"06-30":{"c":["67",null],"bm":["06:37","18:55"],"pm":["12:04",null],"w":[[null,"02:34"],["09:28","14:55"],["21:37",null]]},"07-01":{"c":["69","70"],"bm":["07:14","19:31"],"pm":["00:12","12:38"],"w":[[null,"03:11"],["10:03","15:32"],["22:12",null]]},"07-02":{"c":["71","71"],"bm":["07:50","20:06"],"pm":["00:46","13:13"],"w":[[null,"03:46"],["10:38","16:08"],["22:47",null]]},"07-03":{"c":["72","72"],"bm":["08:25","20:42"],"pm":["01:21","13:48"],"w":[[null,"04:21"],["11:14","16:43"],["23:23",null]]},"07-04":{"c":["71","70"],"bm":["09:00","21:18"],"pm":["01:57","14:25"],"w":[[null,"04:56"],["11:50","17:18"],[null,null]]},"07-05":{"c":["69","68"],"bm":["09:36","21:55"],"pm":["02:35","15:04"],"w":[[null,"05:32"],["12:28","17:55"],[null,null]]},"07-06":{"c":["66","64"],"bm":["10:12","22:34"],"pm":["03:15","15:45"],"w":[["00:41","06:10"],["13:08","18:35"],[null,null]]},"07-07":{"c":["61","59"],"bm":["10:52","23:17"],"pm":["03:58","16:28"],"w":[["01:25","06:51"],["13:54","19:19"],[null,null]]},"07-08":{"c":["56","54"],"bm":["11:37",null],"pm":["04:45","17:19"],"w":[["02:17","07:38"],["14:48","20:12"],[null,null]]},"07-09":{"c":["52","52"],"bm":["00:10","12:34"],"pm":["05:42","18:21"],"w":[["03:20","08:36"],["15:52","21:17"],[null,null]]},"07-10":{"c":["52","53"],"bm":["01:15","13:47"],"pm":["06:53","19:37"],"w":[["04:31","09:48"],["17:01","22:30"],[null,null]]},"07-11":{"c":["56","60"],"bm":["02:37","15:13"],"pm":["08:15","20:52"],"w":[["05:43","11:06"],["18:09","23:44"],[null,null]]},"07-12":{"c":["65","70"],"bm":["03:54","16:24"],"pm":["09:31","21:57"],"w":[["06:50","12:20"],["19:12",null],[null,null]]},"07-13":{"c":["76","81"],"bm":["04:59","17:27"],"pm":["10:34","22:54"],"w":[[null,"00:56"],["07:51","13:28"],["20:10",null]]},"07-14":{"c":["86","90"],"bm":["06:02","18:29"],"pm":["11:29","23:46"],"w":[[null,"01:58"],["08:46","14:28"],["21:03",null]]},"07-15":{"c":["94",null],"bm":["07:04","19:29"],"pm":["12:20",null],"w":[[null,"02:53"],["09:37","15:22"],["21:53",null]]},"07-16":{"c":["96","98"],"bm":["08:00","20:21"],"pm":["00:35","13:09"],"w":[[null,"03:45"],["10:26","16:11"],["22:40",null]]},"07-17":{"c":["98","97"],"bm":["08:48","21:06"],"pm":["01:22","13:55"],"w":[[null,"04:32"],["11:12","16:57"],["23:25",null]]},"07-18":{"c":["94","91"],"bm":["09:30","21:46"],"pm":["02:07","14:39"],"w":[[null,"05:16"],["11:56","17:40"],[null,null]]},"07-19":{"c":["86","81"],"bm":["10:07","22:22"],"pm":["02:50","15:21"],"w":[["00:12","05:57"],["12:40","18:19"],[null,null]]},"07-20":{"c":["75","69"],"bm":["10:41","22:56"],"pm":["03:31","16:02"],"w":[["00:56","06:34"],["13:23","18:57"],[null,null]]},"07-21":{"c":["63","57"],"bm":["11:13","23:33"],"pm":["04:12","16:44"],"w":[["01:43","07:11"],["14:10","19:36"],[null,null]]},"07-22":{"c":["50","45"],"bm":["11:50",null],"pm":["04:59","17:33"],"w":[["02:37","07:49"],["15:05","20:19"],[null,null]]},"07-23":{"c":["40","37"],"bm":["00:19","12:41"],"pm":["05:58","18:36"],"w":[["03:45","08:35"],["16:14","21:15"],[null,null]]},"07-24":{"c":["35","35"],"bm":["01:22","13:54"],"pm":["07:11","19:51"],"w":[["05:09","09:39"],["17:33","22:25"],[null,null]]},"07-25":{"c":["37","40"],"bm":["02:42","15:17"],"pm":["08:40","21:08"],"w":[["06:27","11:00"],["18:41","23:40"],[null,null]]},"07-26":{"c":["44","48"],"bm":["03:52","16:21"],"pm":["09:50","22:05"],"w":[["07:21","12:16"],["19:31",null],[null,null]]},"07-27":{"c":["53","57"],"bm":["04:48","17:14"],"pm":["10:37","22:46"],"w":[[null,"00:45"],["08:03","13:15"],["20:12",null]]},"07-28":{"c":["61","65"],"bm":["05:38","18:00"],"pm":["11:14","23:22"],"w":[[null,"01:35"],["08:38","14:01"],["20:47",null]]},"07-29":{"c":["69","72"],"bm":["06:22","18:42"],"pm":["11:48","23:56"],"w":[[null,"02:17"],["09:12","14:40"],["21:21",null]]},"07-30":{"c":["75",null],"bm":["07:02","19:19"],"pm":["12:21",null],"w":[[null,"02:55"],["09:44","15:17"],["21:53",null]]},"07-31":{"c":["78","80"],"bm":["07:38","19:55"],"pm":["00:30","12:55"],"w":[[null,"03:32"],["10:17","15:52"],["22:26",null]]},"08-01":{"c":["82","83"],"bm":["08:13","20:29"],"pm":["01:04","13:29"],"w":[[null,"04:07"],["10:50","16:27"],["22:59",null]]},"08-02":{"c":["83","83"],"bm":["08:46","21:03"],"pm":["01:39","14:04"],"w":[[null,"04:41"],["11:23","17:00"],["23:33",null]]},"08-03":{"c":["82","80"],"bm":["09:18","21:36"],"pm":["02:15","14:40"],"w":[[null,"05:15"],["11:57","17:34"],[null,null]]},"08-04":{"c":["77","74"],"bm":["09:53","22:11"],"pm":["02:52","15:16"],"w":[["00:10","05:50"],["12:33","18:10"],[null,null]]},"08-05":{"c":["70","66"],"bm":["10:26","22:48"],"pm":["03:30","15:54"],"w":[["00:50","06:27"],["13:14","18:50"],[null,null]]},"08-06":{"c":["61","57"],"bm":["11:05","23:35"],"pm":["04:13","16:39"],"w":[["01:39","07:09"],["14:06","19:37"],[null,null]]},"08-07":{"c":["52","48"],"bm":["11:56",null],"pm":["05:07","17:42"],"w":[["02:43","08:01"],["15:15","20:39"],[null,null]]},"08-08":{"c":["46","46"],"bm":["00:38","13:13"],"pm":["06:27","19:14"],"w":[["04:07","09:16"],["16:39","22:01"],[null,null]]},"08-09":{"c":["48","53"],"bm":["02:15","14:57"],"pm":["08:08","20:44"],"w":[["05:37","10:49"],["18:03","23:28"],[null,null]]},"08-10":{"c":["59","66"],"bm":["03:41","16:13"],"pm":["09:28","21:52"],"w":[["06:51","12:15"],["19:11",null],[null,null]]},"08-11":{"c":["74","81"],"bm":["04:50","17:21"],"pm":["10:30","22:47"],"w":[[null,"00:50"],["07:50","13:25"],["20:06",null]]},"08-12":{"c":["87","93"],"bm":["05:59","18:28"],"pm":["11:21","23:35"],"w":[[null,"01:52"],["08:39","14:22"],["20:54",null]]},"08-13":{"c":["97",null],"bm":["07:00","19:22"],"pm":["12:07",null],"w":[[null,"02:45"],["09:25","15:11"],["21:38",null]]},"08-14":{"c":["100","102"],"bm":["07:48","20:06"],"pm":["00:20","12:50"],"w":[[null,"03:31"],["10:07","15:55"],["22:20",null]]},"08-15":{"c":["102","101"],"bm":["08:29","20:43"],"pm":["01:01","13:30"],"w":[[null,"04:13"],["10:48","16:34"],["23:00",null]]},"08-16":{"c":["98","95"],"bm":["09:03","21:15"],"pm":["01:41","14:08"],"w":[[null,"04:51"],["11:26","17:11"],["23:38",null]]},"08-17":{"c":["90","84"],"bm":["09:32","21:44"],"pm":["02:19","14:44"],"w":[[null,"05:26"],["12:03","17:44"],[null,null]]},"08-18":{"c":["78","71"],"bm":["09:58","22:10"],"pm":["02:54","15:17"],"w":[["00:19","05:58"],["12:40","18:16"],[null,null]]},"08-19":{"c":["64","57"],"bm":["10:21","22:36"],"pm":["03:28","15:51"],"w":[["00:59","06:28"],["13:20","18:47"],[null,null]]},"08-20":{"c":["49","42"],"bm":["10:49","23:12"],"pm":["04:05","16:30"],"w":[["01:46","06:57"],["14:08","19:20"],[null,null]]},"08-21":{"c":["36","30"],"bm":["11:34",null],"pm":["04:57","17:32"],"w":[["02:52","07:29"],["15:20","20:04"],[null,null]]},"08-22":{"c":["27","26"],"bm":["00:15","12:52"],"pm":["06:22","19:06"],"w":[["04:37","08:24"],["17:07","21:18"],[null,null]]},"08-23":{"c":["28","32"],"bm":["01:54","14:46"],"pm":["08:10","20:41"],"w":[["06:17","10:11"],["18:29","22:58"],[null,null]]},"08-24":{"c":["38","44"],"bm":["03:26","16:01"],"pm":["09:29","21:43"],"w":[["07:07","11:51"],["19:16",null],[null,null]]},"08-25":{"c":["51","57"],"bm":["04:27","16:55"],"pm":["10:15","22:25"],"w":[[null,"00:19"],["07:42","12:54"],["19:51",null]]},"08-26":{"c":["63","68"],"bm":["05:17","17:41"],"pm":["10:50","23:00"],"w":[[null,"01:13"],["08:14","13:40"],["20:24",null]]},"08-27":{"c":["74","78"],"bm":["06:02","18:22"],"pm":["11:23","23:33"],"w":[[null,"01:56"],["08:46","14:19"],["20:56",null]]},"08-28":{"c":["83",null],"bm":["06:41","18:59"],"pm":["11:56",null],"w":[[null,"02:34"],["09:18","14:55"],["21:27",null]]},"08-29":{"c":["86","89"],"bm":["07:17","19:33"],"pm":["00:06","12:30"],"w":[[null,"03:10"],["09:49","15:30"],["21:59",null]]},"08-30":{"c":["91","93"],"bm":["07:51","20:07"],"pm":["00:40","13:03"],"w":[[null,"03:45"],["10:21","16:03"],["22:31",null]]},"08-31":{"c":["93","93"],"bm":["08:24","20:41"],"pm":["01:15","13:38"],"w":[[null,"04:19"],["10:53","16:37"],["23:05",null]]},"09-01":{"c":["91","89"],"bm":["08:56","21:15"],"pm":["01:51","14:13"],"w":[[null,"04:53"],["11:26","17:11"],["23:41",null]]},"09-02":{"c":["85","81"],"bm":["09:29","21:48"],"pm":["02:29","14:49"],"w":[[null,"05:28"],["12:02","17:46"],[null,null]]},"09-03":{"c":["75","69"],"bm":["10:01","22:24"],"pm":["03:07","15:26"],"w":[["00:24","06:05"],["12:45","18:25"],[null,null]]},"09-04":{"c":["62","55"],"bm":["10:40","23:10"],"pm":["03:51","16:13"],"w":[["01:15","06:46"],["13:39","19:11"],[null,null]]},"09-05":{"c":["48","43"],"bm":["11:33",null],"pm":["04:51","17:24"],"w":[["02:26","07:39"],["14:57","20:16"],[null,null]]},"09-06":{"c":["40","41"],"bm":["00:18","13:03"],"pm":["06:28","19:13"],"w":[["04:09","09:04"],["16:43","21:49"],[null,null]]},"09-07":{"c":["45","52"],"bm":["02:11","14:54"],"pm":["08:12","20:42"],"w":[["05:45","10:51"],["18:09","23:27"],[null,null]]},"09-08":{"c":["60","68"],"bm":["03:37","16:11"],"pm":["09:26","21:45"],"w":[["06:50","12:18"],["19:08",null],[null,null]]},"09-09":{"c":["76","83"],"bm":["04:49","17:21"],"pm":["10:20","22:35"],"w":[[null,"00:47"],["07:40","13:20"],["19:55",null]]},"09-10":{"c":["90","95"],"bm":["05:54","18:18"],"pm":["11:05","23:18"],"w":[[null,"01:42"],["08:24","14:09"],["20:37",null]]},"09-11":{"c":["98","101"],"bm":["06:44","19:03"],"pm":["11:46","23:58"],"w":[[null,"02:29"],["09:04","14:52"],["21:17",null]]},"09-12":{"c":["102",null],"bm":["07:25","19:40"],"pm":["12:24",null],"w":[[null,"03:10"],["09:42","15:30"],["21:54",null]]},"09-13":{"c":["101","100"],"bm":["07:58","20:11"],"pm":["00:36","13:00"],"w":[[null,"03:47"],["10:18","16:06"],["22:31",null]]},"09-14":{"c":["97","93"],"bm":["08:28","20:40"],"pm":["01:11","13:34"],"w":[[null,"04:22"],["10:52","16:38"],["23:06",null]]},"09-15":{"c":["89","83"],"bm":["08:54","21:06"],"pm":["01:46","14:05"],"w":[[null,"04:53"],["11:25","17:08"],["23:41",null]]},"09-16":{"c":["77","70"],"bm":["09:17","21:28"],"pm":["02:18","14:35"],"w":[[null,"05:22"],["11:58","17:37"],[null,null]]},"09-17":{"c":["63","56"],"bm":["09:37","21:51"],"pm":["02:49","15:04"],"w":[["00:19","05:48"],["12:34","18:04"],[null,null]]},"09-18":{"c":["49","41"],"bm":["10:02","22:26"],"pm":["03:22","15:38"],"w":[["01:02","06:13"],["13:18","18:30"],[null,null]]},"09-19":{"c":["35","28"],"bm":["10:42","23:20"],"pm":["04:06","16:31"],"w":[["02:04","06:38"],["14:27","19:01"],[null,null]]},"09-20":{"c":["24","22"],"bm":["11:58",null],"pm":["05:29","18:17"],"w":[["04:00","07:20"],["16:37","20:04"],[null,null]]},"09-21":{"c":["24","29"],"bm":["00:59","14:05"],"pm":["07:29","20:01"],"w":[["05:49","09:20"],["18:05","22:08"],[null,null]]},"09-22":{"c":["35","42"],"bm":["02:50","15:31"],"pm":["08:50","21:07"],"w":[["06:35","11:16"],["18:46","23:40"],[null,null]]},"09-23":{"c":["50","57"],"bm":["03:54","16:24"],"pm":["09:39","21:51"],"w":[["07:08","12:22"],["19:19",null],[null,null]]},"09-24":{"c":["64","71"],"bm":["04:44","17:08"],"pm":["10:17","22:28"],"w":[[null,"00:41"],["07:40","13:09"],["19:51",null]]},"09-25":{"c":["77","82"],"bm":["05:28","17:50"],"pm":["10:51","23:03"],"w":[[null,"01:26"],["08:12","13:50"],["20:24",null]]},"09-26":{"c":["87","92"],"bm":["06:09","18:28"],"pm":["11:25","23:38"],"w":[[null,"02:06"],["08:45","14:26"],["20:56",null]]},"09-27":{"c":["95",null],"bm":["06:46","19:05"],"pm":["11:59",null],"w":[[null,"02:43"],["09:17","15:02"],["21:29",null]]},"09-28":{"c":["97","99"],"bm":["07:22","19:42"],"pm":["00:13","12:34"],"w":[[null,"03:19"],["09:50","15:37"],["22:03",null]]},"09-29":{"c":["99","98"],"bm":["07:58","20:18"],"pm":["00:50","13:10"],"w":[[null,"03:55"],["10:24","16:12"],["22:40",null]]},"09-30":{"c":["96","92"],"bm":["08:33","20:53"],"pm":["01:29","13:48"],"w":[[null,"04:31"],["11:00","16:49"],["23:19",null]]},"10-01":{"c":["88","82"],"bm":["09:06","21:29"],"pm":["02:09","14:26"],"w":[[null,"05:09"],["11:40","17:27"],[null,null]]},"10-02":{"c":["75","68"],"bm":["09:42","22:07"],"pm":["02:52","15:08"],"w":[["00:07","05:49"],["12:27","18:09"],[null,null]]},"10-03":{"c":["60","53"],"bm":["10:23","22:56"],"pm":["03:43","16:02"],"w":[["01:06","06:35"],["13:29","18:59"],[null,null]]},"10-04":{"c":["46","41"],"bm":["11:20",null],"pm":["04:51","17:23"],"w":[["02:29","07:38"],["15:00","20:11"],[null,null]]},"10-05":{"c":["40","43"],"bm":["00:15","13:12"],"pm":["06:37","19:11"],"w":[["04:13","09:14"],["16:43","21:50"],[null,null]]},"10-06":{"c":["48","55"],"bm":["02:11","14:51"],"pm":["08:05","20:29"],"w":[["05:36","10:54"],["17:58","23:21"],[null,null]]},"10-07":{"c":["62","70"],"bm":["03:30","16:03"],"pm":["09:11","21:28"],"w":[["06:33","12:08"],["18:51",null],[null,null]]},"10-08":{"c":["77","83"],"bm":["04:36","17:04"],"pm":["10:00","22:15"],"w":[[null,"00:32"],["07:19","13:03"],["19:35",null]]},"10-09":{"c":["87","91"],"bm":["05:31","17:54"],"pm":["10:42","22:55"],"w":[[null,"01:23"],["08:00","13:48"],["20:14",null]]},"10-10":{"c":["94","95"],"bm":["06:15","18:33"],"pm":["11:19","23:33"],"w":[[null,"02:06"],["08:38","14:27"],["20:52",null]]},"10-11":{"c":["95",null],"bm":["06:51","19:07"],"pm":["11:55",null],"w":[[null,"02:43"],["09:13","15:02"],["21:27",null]]},"10-12":{"c":["95","93"],"bm":["07:22","19:38"],"pm":["00:08","12:28"],"w":[[null,"03:18"],["09:47","15:35"],["22:02",null]]},"10-13":{"c":["91","88"],"bm":["07:51","20:06"],"pm":["00:43","13:00"],"w":[[null,"03:51"],["10:19","16:07"],["22:36",null]]},"10-14":{"c":["83","79"],"bm":["08:18","20:33"],"pm":["01:16","13:30"],"w":[[null,"04:22"],["10:51","16:37"],["23:10",null]]},"10-15":{"c":["74","68"],"bm":["08:43","20:56"],"pm":["01:48","14:00"],"w":[[null,"04:51"],["11:24","17:04"],["23:47",null]]},"10-16":{"c":["62","56"],"bm":["09:07","21:22"],"pm":["02:20","14:30"],"w":[[null,"05:18"],["11:59","17:31"],[null,null]]},"10-17":{"c":["50","43"],"bm":["09:34","21:56"],"pm":["02:53","15:05"],"w":[["00:30","05:45"],["12:42","17:57"],[null,null]]},"10-18":{"c":["37","32"],"bm":["10:12","22:44"],"pm":["03:36","15:54"],"w":[["01:26","06:14"],["13:44","18:28"],[null,null]]},"10-19":{"c":["28","25"],"bm":["11:17",null],"pm":["04:43","17:17"],"w":[["02:58","06:59"],["15:32","19:23"],[null,null]]},"10-20":{"c":["26","29"],"bm":["00:06","13:03"],"pm":["06:36","19:06"],"w":[["04:40","08:36"],["17:06","21:10"],[null,null]]},"10-21":{"c":["34","41"],"bm":["01:48","14:35"],"pm":["07:54","20:15"],"w":[["05:39","10:24"],["17:58","22:48"],[null,null]]},"10-22":{"c":["48","55"],"bm":["03:02","15:35"],"pm":["08:50","21:07"],"w":[["06:21","11:36"],["18:36","23:54"],[null,null]]},"10-23":{"c":["62","69"],"bm":["03:57","16:24"],"pm":["09:34","21:49"],"w":[["06:57","12:28"],["19:12",null],[null,null]]},"10-24":{"c":["76","82"],"bm":["04:45","17:10"],"pm":["10:13","22:29"],"w":[[null,"00:47"],["07:33","13:13"],["19:47",null]]},"10-25":{"c":["87","92"],"bm":["04:30","16:53"],"pm":["09:50","22:07"],"w":[[null,"01:31"],["08:08","13:53"],["20:23",null]]},"10-26":{"c":["95","98"],"bm":["05:12","17:36"],"pm":["10:28","22:47"],"w":[[null,"01:12"],["07:44","13:33"],["20:00",null]]},"10-27":{"c":["99","100"],"bm":["05:54","18:17"],"pm":["11:06","23:29"],"w":[[null,"01:52"],["08:21","14:12"],["20:39",null]]},"10-28":{"c":["99",null],"bm":["06:34","18:58"],"pm":["11:46",null],"w":[[null,"02:33"],["09:00","14:52"],["21:21",null]]},"10-29":{"c":["96","93"],"bm":["07:13","19:37"],"pm":["00:11","12:28"],"w":[[null,"03:15"],["09:42","15:33"],["22:07",null]]},"10-30":{"c":["88","82"],"bm":["07:51","20:17"],"pm":["00:57","13:12"],"w":[[null,"03:59"],["10:29","16:17"],["23:00",null]]},"10-31":{"c":["76","69"],"bm":["08:31","21:01"],"pm":["01:46","14:01"],"w":[[null,"04:46"],["11:23","17:05"],[null,null]]},"11-01":{"c":["62","56"],"bm":["09:19","21:57"],"pm":["02:41","15:00"],"w":[["00:06","05:40"],["12:29","18:02"],[null,null]]},"11-02":{"c":["51","47"],"bm":["10:31","23:25"],"pm":["03:55","16:21"],"w":[["01:26","06:49"],["13:52","19:14"],[null,null]]},"11-03":{"c":["47","48"],"bm":["12:09",null],"pm":["05:24","17:49"],"w":[["02:52","08:12"],["15:18","20:38"],[null,null]]},"11-04":{"c":["52","56"],"bm":["00:53","13:28"],"pm":["06:39","19:01"],"w":[["04:06","09:34"],["16:29","21:57"],[null,null]]},"11-05":{"c":["61","66"],"bm":["02:02","14:34"],"pm":["07:42","20:00"],"w":[["05:04","10:42"],["17:24","23:01"],[null,null]]},"11-06":{"c":["71","75"],"bm":["03:03","15:31"],"pm":["08:32","20:48"],"w":[["05:51","11:35"],["18:09","23:52"],[null,null]]},"11-07":{"c":["78","81"],"bm":["03:55","16:19"],"pm":["09:14","21:31"],"w":[["06:32","12:19"],["18:50",null],[null,null]]},"11-08":{"c":["83","84"],"bm":["04:39","16:59"],"pm":["09:52","22:09"],"w":[[null,"00:37"],["07:10","12:58"],["19:28",null]]},"11-09":{"c":["84","84"],"bm":["05:15","17:34"],"pm":["10:27","22:45"],"w":[[null,"01:15"],["07:46","13:34"],["20:04",null]]},"11-10":{"c":["83","82"],"bm":["05:48","18:07"],"pm":["11:00","23:20"],"w":[[null,"01:51"],["08:19","14:08"],["20:39",null]]},"11-11":{"c":["80","77"],"bm":["06:20","18:39"],"pm":["11:32","23:54"],"w":[[null,"02:25"],["08:52","14:40"],["21:14",null]]},"11-12":{"c":["74",null],"bm":["06:51","19:08"],"pm":["12:04",null],"w":[[null,"02:58"],["09:26","15:11"],["21:49",null]]},"11-13":{"c":["71","67"],"bm":["07:20","19:36"],"pm":["00:27","12:36"],"w":[[null,"03:29"],["10:00","15:41"],["22:27",null]]},"11-14":{"c":["63","58"],"bm":["07:49","20:06"],"pm":["01:01","13:09"],"w":[[null,"03:59"],["10:38","16:10"],["23:08",null]]},"11-15":{"c":["54","49"],"bm":["08:20","20:40"],"pm":["01:36","13:47"],"w":[[null,"04:30"],["11:20","16:40"],["23:56",null]]},"11-16":{"c":["45","41"],"bm":["08:58","21:23"],"pm":["02:18","14:33"],"w":[[null,"05:05"],["12:12","17:17"],[null,null]]},"11-17":{"c":["38","35"],"bm":["09:51","22:24"],"pm":["03:12","15:33"],"w":[["01:00","05:52"],["13:22","18:07"],[null,null]]},"11-18":{"c":["34","35"],"bm":["11:06","23:41"],"pm":["04:27","16:54"],"w":[["02:16","06:59"],["14:42","19:20"],[null,null]]},"11-19":{"c":["37","41"],"bm":["12:22",null],"pm":["05:48","18:11"],"w":[["03:25","08:21"],["15:49","20:44"],[null,null]]},"11-20":{"c":["46","51"],"bm":["00:53","13:31"],"pm":["06:52","19:12"],"w":[["04:20","09:37"],["16:42","21:57"],[null,null]]},"11-21":{"c":["57","64"],"bm":["01:58","14:33"],"pm":["07:44","20:04"],"w":[["05:07","10:39"],["17:27","22:58"],[null,null]]},"11-22":{"c":["70","76"],"bm":["02:57","15:28"],"pm":["08:32","20:53"],"w":[["05:50","11:32"],["18:10","23:51"],[null,null]]},"11-23":{"c":["81","86"],"bm":["03:51","16:20"],"pm":["09:16","21:40"],"w":[["06:32","12:20"],["18:53",null],[null,null]]},"11-24":{"c":["90","93"],"bm":["04:41","17:10"],"pm":["10:00","22:26"],"w":[[null,"00:42"],["07:14","13:06"],["19:37",null]]},"11-25":{"c":["96","97"],"bm":["05:29","17:57"],"pm":["10:44","23:13"],"w":[[null,"01:30"],["07:58","13:51"],["20:23",null]]},"11-26":{"c":["97",null],"bm":["06:16","18:44"],"pm":["11:30",null],"w":[[null,"02:17"],["08:44","14:37"],["21:12",null]]},"11-27":{"c":["96","94"],"bm":["07:02","19:30"],"pm":["00:02","12:17"],"w":[[null,"03:06"],["09:33","15:25"],["22:03",null]]},"11-28":{"c":["90","86"],"bm":["07:48","20:18"],"pm":["00:51","13:06"],"w":[[null,"03:55"],["10:24","16:14"],["22:57",null]]},"11-29":{"c":["82","76"],"bm":["08:36","21:08"],"pm":["01:43","13:58"],"w":[[null,"04:47"],["11:18","17:05"],["23:56",null]]},"11-30":{"c":["71","66"],"bm":["09:30","22:06"],"pm":["02:39","14:55"],"w":[[null,"05:41"],["12:18","17:59"],[null,null]]},"12-01":{"c":["62","58"],"bm":["10:33","23:09"],"pm":["03:42","16:01"],"w":[["01:04","06:40"],["13:24","18:59"],[null,null]]},"12-02":{"c":["55","53"],"bm":["11:39",null],"pm":["04:51","17:11"],"w":[["02:13","07:44"],["14:36","20:04"],[null,null]]},"12-03":{"c":["52","53"],"bm":["00:13","12:44"],"pm":["05:57","18:18"],"w":[["03:22","08:52"],["15:48","21:13"],[null,null]]},"12-04":{"c":["54","57"],"bm":["01:16","13:49"],"pm":["07:00","19:23"],"w":[["04:25","09:58"],["16:50","22:18"],[null,null]]},"12-05":{"c":["59","62"],"bm":["02:18","14:49"],"pm":["07:57","20:20"],"w":[["05:18","10:56"],["17:43","23:15"],[null,null]]},"12-06":{"c":["64","66"],"bm":["03:14","15:42"],"pm":["08:45","21:09"],"w":[["06:05","11:46"],["18:29",null],[null,null]]},"12-07":{"c":["69","70"],"bm":["04:02","16:27"],"pm":["09:28","21:52"],"w":[[null,"00:05"],["06:47","12:29"],["19:10",null]]},"12-08":{"c":["72","73"],"bm":["04:44","17:07"],"pm":["10:06","22:30"],"w":[[null,"00:49"],["07:25","13:09"],["19:49",null]]},"12-09":{"c":["74","74"],"bm":["05:22","17:44"],"pm":["10:41","23:06"],"w":[[null,"01:29"],["08:01","13:46"],["20:25",null]]},"12-10":{"c":["74","73"],"bm":["05:59","18:19"],"pm":["11:15","23:40"],"w":[[null,"02:06"],["08:36","14:20"],["21:00",null]]},"12-11":{"c":["72",null],"bm":["06:33","18:53"],"pm":["11:49",null],"w":[[null,"02:41"],["09:10","14:53"],["21:36",null]]},"12-12":{"c":["71","69"],"bm":["07:07","19:25"],"pm":["00:14","12:22"],"w":[[null,"03:14"],["09:46","15:26"],["22:12",null]]},"12-13":{"c":["67","65"],"bm":["07:39","19:57"],"pm":["00:48","12:56"],"w":[[null,"03:47"],["10:23","15:58"],["22:50",null]]},"12-14":{"c":["63","60"],"bm":["08:13","20:32"],"pm":["01:23","13:33"],"w":[[null,"04:20"],["11:01","16:31"],["23:30",null]]},"12-15":{"c":["57","55"],"bm":["08:49","21:10"],"pm":["02:02","14:13"],"w":[[null,"04:56"],["11:42","17:07"],[null,null]]},"12-16":{"c":["52","49"],"bm":["09:31","21:54"],"pm":["02:45","15:00"],"w":[["00:16","05:36"],["12:30","17:48"],[null,null]]},"12-17":{"c":["47","45"],"bm":["10:21","22:47"],"pm":["03:36","15:54"],"w":[["01:07","06:23"],["13:26","18:38"],[null,null]]},"12-18":{"c":["44","44"],"bm":["11:19","23:47"],"pm":["04:36","16:58"],"w":[["02:07","07:21"],["14:32","19:40"],[null,null]]},"12-19":{"c":["45","48"],"bm":["12:24",null],"pm":["05:43","18:09"],"w":[["03:12","08:31"],["15:40","20:53"],[null,null]]},"12-20":{"c":["51","55"],"bm":["00:55","13:37"],"pm":["06:49","19:18"],"w":[["04:13","09:43"],["16:42","22:07"],[null,null]]},"12-21":{"c":["61","66"],"bm":["02:10","14:51"],"pm":["07:51","20:22"],"w":[["05:10","10:49"],["17:38","23:14"],[null,null]]},"12-22":{"c":["72","77"],"bm":["03:18","15:53"],"pm":["08:48","21:20"],"w":[["06:03","11:49"],["18:32",null],[null,null]]},"12-23":{"c":["83","87"],"bm":["04:17","16:50"],"pm":["09:41","22:14"],"w":[[null,"00:19"],["06:55","12:45"],["19:24",null]]},"12-24":{"c":["91","95"],"bm":["05:12","17:45"],"pm":["10:32","23:05"],"w":[[null,"01:15"],["07:46","13:38"],["20:16",null]]},"12-25":{"c":["97","99"],"bm":["06:07","18:39"],"pm":["11:21","23:55"],"w":[[null,"02:09"],["08:36","14:29"],["21:06",null]]},"12-26":{"c":["99",null],"bm":["07:00","19:31"],"pm":["12:11",null],"w":[[null,"03:00"],["09:26","15:19"],["21:57",null]]},"12-27":{"c":["98","96"],"bm":["07:51","20:21"],"pm":["00:45","12:59"],"w":[[null,"03:50"],["10:16","16:08"],["22:47",null]]},"12-28":{"c":["93","89"],"bm":["08:40","21:07"],"pm":["01:34","13:48"],"w":[[null,"04:39"],["11:05","16:55"],["23:37",null]]},"12-29":{"c":["84","78"],"bm":["09:25","21:51"],"pm":["02:23","14:37"],"w":[[null,"05:26"],["11:55","17:42"],[null,null]]},"12-30":{"c":["73","67"],"bm":["10:10","22:34"],"pm":["03:13","15:27"],"w":[["00:31","06:12"],["12:48","18:28"],[null,null]]},"12-31":{"c":["61","55"],"bm":["10:56","23:21"],"pm":["04:06","16:22"],"w":[["01:26","07:01"],["13:48","19:17"],[null,null]]}};
+
+/* ---------- Micro-interactions ---------- */
+function replay(el, cls){ el.classList.remove(cls); void el.offsetWidth; el.classList.add(cls); }
+function stagger(container){
+  [...container.children].forEach((el,i)=>{ el.style.setProperty('--i', i); el.classList.add('enter'); });
+}
 
 const keys = Object.keys(DATA);
 const keyIndex = {};
 keys.forEach((k,i)=>keyIndex[k]=i);
+const $ = id => document.getElementById(id);
 
 function toMin(t){ const [h,m]=t.split(':').map(Number); return h*60+m; }
-function fromAbs(abs){
-  const dayIdx = Math.floor(abs/1440);
-  const min = ((abs%1440)+1440)%1440;
-  const h = Math.floor(min/60), m = min%60;
-  const key = keys[Math.min(Math.max(dayIdx,0),keys.length-1)];
-  return {key, dayIdx, time: String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')};
-}
+function hhmm(min){ min=((min%1440)+1440)%1440; return String(Math.floor(min/60)).padStart(2,'0')+':'+String(min%60).padStart(2,'0'); }
 
-// build continuous intervals across the whole year, stitching windows that
-// span midnight (an entry with a null "ferm" closes on the next day's entry
-// whose "ouv" is null).
+// Ouvertures des portes Morny sur toute l'année, en minutes "murales" de Paris
+// depuis le 1er janvier 2026. Une fenêtre qui passe minuit est recousue avec la
+// fermeture du lendemain. Une fermeture sans ouverture (oubli du PDF, 5 juillet)
+// devient une période "unknown" depuis la fermeture précédente.
 const intervals = [];
 let carry = null;
 keys.forEach((key,dayIdx)=>{
@@ -430,230 +418,469 @@ keys.forEach((key,dayIdx)=>{
     if(ouv===null && ferm===null) return;
     if(ouv!==null && ferm!==null){
       intervals.push([dayIdx*1440+toMin(ouv), dayIdx*1440+toMin(ferm)]);
-    } else if(ouv!==null && ferm===null){
+    } else if(ouv!==null){
       carry = dayIdx*1440+toMin(ouv);
-    } else if(ouv===null && ferm!==null){
+    } else {
       const end = dayIdx*1440+toMin(ferm);
-      intervals.push([carry===null?0:carry, end]);
+      if(carry===null){
+        const prev = intervals.length ? intervals[intervals.length-1][1] : 0;
+        intervals.push([prev, end, 'unknown']);
+      } else {
+        intervals.push([carry, end]);
+      }
       carry = null;
     }
   });
 });
 
-function parisNow(){
-  const parts = new Intl.DateTimeFormat('en-CA',{
-    timeZone:'Europe/Paris', year:'numeric', month:'2-digit', day:'2-digit',
-    hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:false
-  }).formatToParts(new Date());
-  const g = t => parts.find(p=>p.type===t).value;
-  return {year:+g('year'), month:g('month'), day:g('day'), hour:+g('hour'), minute:+g('minute'), second:+g('second')};
+// Minutes murales -> timestamp réel (gère les changements d'heure du 29 mars et du 25 octobre).
+function parisOffsetMin(ts){
+  const p = new Intl.DateTimeFormat('en-US',{
+    timeZone:'Europe/Paris', year:'numeric', month:'numeric', day:'numeric',
+    hour:'numeric', minute:'numeric', hourCycle:'h23'
+  }).formatToParts(new Date(ts));
+  const g = t => +p.find(x=>x.type===t).value;
+  return (Date.UTC(g('year'), g('month')-1, g('day'), g('hour'), g('minute')) - Math.floor(ts/60000)*60000)/60000;
 }
+function absToEpoch(abs){
+  const naive = Date.UTC(2026, 0, 1, 0, abs);
+  const guess = naive - parisOffsetMin(naive)*60000;
+  return naive - parisOffsetMin(guess)*60000;
+}
+function parisParts(ts){
+  const p = new Intl.DateTimeFormat('fr-FR',{timeZone:'Europe/Paris', year:'numeric', month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit', hourCycle:'h23'}).formatToParts(new Date(ts));
+  const g = t => p.find(x=>x.type===t).value;
+  return {year:+g('year'), key:g('month')+'-'+g('day'), hour:+g('hour'), minute:+g('minute')};
+}
+const epochIntervals = intervals.map(([s,e,f])=>({s:absToEpoch(s), e:absToEpoch(e), sAbs:s, eAbs:e, unknown:f==='unknown'}));
 
-function fmtDay(dayIdx){
-  const key = keys[dayIdx];
-  const [mm,dd] = key.split('-').map(Number);
+function dayName(dayIdx, style){
+  const [mm,dd] = keys[dayIdx].split('-').map(Number);
   const d = new Date(Date.UTC(2026, mm-1, dd));
-  const weekday = d.toLocaleDateString('fr-FR',{weekday:'long',timeZone:'UTC'});
-  const long = d.toLocaleDateString('fr-FR',{day:'numeric',month:'long',timeZone:'UTC'});
-  return {weekday: weekday.charAt(0).toUpperCase()+weekday.slice(1), long};
+  return d.toLocaleDateString('fr-FR', Object.assign({timeZone:'UTC'}, style||{weekday:'long', day:'numeric', month:'long'}));
 }
-
-function neighborOpenTime(dayIdx){
-  if(dayIdx<=0) return null;
-  const w = DATA[keys[dayIdx-1]].w.find(([o,f])=>o!==null&&f===null);
-  return w ? w[0] : null;
+function cap(s){ return s.charAt(0).toUpperCase()+s.slice(1); }
+function relDay(dayIdx, todayIdx){
+  if(dayIdx===todayIdx) return "aujourd'hui";
+  if(dayIdx===todayIdx+1) return 'demain';
+  return dayName(dayIdx);
 }
-function neighborCloseTime(dayIdx){
-  if(dayIdx>=keys.length-1) return null;
-  const w = DATA[keys[dayIdx+1]].w.find(([o,f])=>o===null&&f!==null);
-  return w ? w[1] : null;
+function fmtIn(ms){
+  const min = Math.max(0, Math.ceil(ms/60000));
+  const h = Math.floor(min/60), m = min%60;
+  if(h===0) return 'dans '+m+' min';
+  return 'dans '+h+' h '+String(m).padStart(2,'0');
 }
+function fmtDur(ms){
+  const min = Math.round(ms/60000);
+  return Math.floor(min/60)+' h '+String(min%60).padStart(2,'0');
+}
+function epochHHMM(ts){ const p=parisParts(ts); return String(p.hour).padStart(2,'0')+':'+String(p.minute).padStart(2,'0'); }
 
-function renderWindows(container, dayIdx, highlightAbs){
-  container.innerHTML='';
-  const key = keys[dayIdx];
-  const wins = DATA[key].w;
-  let any=false;
-  wins.forEach(([ouv,ferm])=>{
-    if(ouv===null && ferm===null) return;
-    any=true;
-    const div=document.createElement('div');
-    div.className='window';
+// Known mistakes in the official 2026 PDF, shown when browsing those days.
+const ANOMALIES = {
+  '07-04': "Le PDF officiel n'indique pas l'ouverture des portes de la nuit du 4 au 5 juillet (seule la fermeture du 5 à 05:32 y figure). Confirmer au VHF canal 9.",
+  '07-05': "Le PDF officiel n'indique pas l'heure d'ouverture des portes de la nuit du 4 au 5 juillet. Confirmer au VHF canal 9."
+};
 
-    let startAbs, ouvHtml, crossedFromVeille=false;
-    if(ouv!==null){
-      startAbs = dayIdx*1440+toMin(ouv);
-      ouvHtml = ouv;
-    } else {
-      const t = neighborOpenTime(dayIdx);
-      startAbs = t!==null ? (dayIdx-1)*1440+toMin(t) : null;
-      ouvHtml = t!==null ? t : '…';
-      crossedFromVeille = t!==null;
-    }
-    let endAbs, fermHtml, crossesToLendemain=false;
-    if(ferm!==null){
-      endAbs = dayIdx*1440+toMin(ferm);
-      fermHtml = ferm;
-    } else {
-      const t = neighborCloseTime(dayIdx);
-      endAbs = t!==null ? (dayIdx+1)*1440+toMin(t) : null;
-      fermHtml = t!==null ? t : '…';
-      crossesToLendemain = t!==null;
-    }
+/* ---------- Maintenant ---------- */
+let todayIdx = null;
 
-    if(highlightAbs!==undefined && startAbs!==null && endAbs!==null && highlightAbs>=startAbs && highlightAbs<endAbs){
-      div.classList.add('active');
-    }
-    const range=document.createElement('div');
-    range.className='range mono';
-    range.textContent=ouvHtml+' – '+fermHtml;
-    const label=document.createElement('div');
-    label.className='label';
-    if(startAbs!==null && endAbs!==null){
-      const durMin = endAbs-startAbs;
-      let txt = 'ouverte '+Math.floor(durMin/60)+' h '+String(durMin%60).padStart(2,'0');
-      if(crossedFromVeille) txt = 'depuis la veille · '+txt;
-      if(crossesToLendemain) txt += ' · finit le lendemain';
-      label.textContent = txt;
-    } else {
-      label.textContent = 'fenêtre';
-    }
-    div.appendChild(range); div.appendChild(label);
-    container.appendChild(div);
-  });
-  if(!any){
-    container.innerHTML='<div class="window"><div class="range mono">—</div><div class="label">aucune manœuvre</div></div>';
+function setTile(id, cls, state, next, count){
+  const t = $(id);
+  t.className = 'tile '+cls;
+  const st = t.querySelector('.state');
+  if(st.textContent!==state){
+    st.textContent = state;
+    replay(st, 'enter');
   }
+  t.querySelector('.next').innerHTML = next;
+  const c = t.querySelector('.count');
+  c.textContent = count;
+  // la dernière ligne droite avant un changement d'état pulse doucement
+  const soon = /^dans \d+\u00a0min$/.test(count) && parseInt(count.slice(5))<=15;
+  c.classList.toggle('soon', soon);
 }
 
-function renderCoef(container, dayIdx, prefix){
-  const c = DATA[keys[dayIdx]].c;
-  container.innerHTML = (prefix||'Coefficient')+' : '
-    + '<span class="coef-badge">'+(c[0]||'—')+'</span> matin&nbsp;·&nbsp;'
-    + '<span class="coef-badge">'+(c[1]||'—')+'</span> soir';
-}
-
-let liveDayIdx = null, nowAbs = null, outOfRange=false;
-
-function fmtCountdown(totalSeconds){
-  const sec = Math.max(0, Math.floor(totalSeconds));
-  const h = Math.floor(sec/3600);
-  const m = Math.floor((sec%3600)/60);
-  const s = sec%60;
-  const mm = String(m).padStart(2,'0'), ss = String(s).padStart(2,'0');
-  return h>0 ? (h+' h '+mm+' min '+ss+' s') : (m+' min '+ss+' s');
-}
-
-function updateStatus(){
-  const now = parisNow();
-  const key = String(now.month)+'-'+String(now.day);
-  const cd = document.getElementById('countdown');
-  if(now.year!==2026 || !(key in keyIndex)){
-    outOfRange = true;
-    document.getElementById('statusPill').className='pill closed';
-    document.getElementById('statusPill').textContent='Hors période';
-    document.getElementById('statusDetail').innerHTML="Les horaires 2026 ne couvrent pas la date du jour sur cet appareil. Consultez le PDF officiel ci-dessous pour l'année en cours.";
-    cd.className='countdown';
-    cd.innerHTML='';
-    document.getElementById('statusWindows').innerHTML='';
-    document.getElementById('statusCoef').innerHTML='';
+function updateNow(){
+  const now = Date.now();
+  const p = parisParts(now);
+  $('clock').textContent = String(p.hour).padStart(2,'0')+':'+String(p.minute).padStart(2,'0');
+  if(p.year!==2026 || !(p.key in keyIndex)){
+    todayIdx = null;
+    setTile('tilePasserelle','mid','Hors période','Les horaires publiés couvrent 2026 uniquement.','');
+    setTile('tileEcluse','mid','Hors période','Consulter le site de Ports du Calvados.','');
     return;
   }
-  liveDayIdx = keyIndex[key];
-  nowAbs = liveDayIdx*1440 + now.hour*60 + now.minute;
-  const nowAbsSec = nowAbs*60 + now.second;
-
-  const pill = document.getElementById('statusPill');
-  const detail = document.getElementById('statusDetail');
-
-  const active = intervals.find(([s,e]) => nowAbs>=s && nowAbs<e);
-  if(active){
-    pill.className='pill open'; pill.textContent='Ouverte';
-    const end = fromAbs(active[1]);
-    const sameDay = end.dayIdx===liveDayIdx;
-    detail.innerHTML = 'Fermeture '+(sameDay?"aujourd'hui":'demain matin')+' à <b class="mono">'+end.time+'</b>.';
-    const remaining = active[1]*60 - nowAbsSec;
-    cd.className = 'countdown '+(remaining<=15*60?'soon':'open');
-    cd.innerHTML = '<span class="cd-value mono">'+fmtCountdown(remaining)+'</span><span class="cd-label">avant fermeture (<span class="mono">'+end.time+'</span>)</span>';
+  todayIdx = keyIndex[p.key];
+  const active = epochIntervals.find(iv => now>=iv.s && now<iv.e);
+  if(active && active.unknown){
+    const at = '<b>'+epochHHMM(active.e)+'</b>';
+    setTile('tilePasserelle','mid','Incertain',"Horaire des portes absent du PDF. Passage continu au plus tard vers "+at+'.','Confirmer au VHF canal 9');
+    setTile('tileEcluse','mid','Incertain','Fermeture prévue à '+at+'.', fmtIn(active.e-now));
+  } else if(active){
+    const at = '<b>'+epochHHMM(active.e)+'</b>';
+    setTile('tilePasserelle','mid','Intermittente','Se lève et se baisse pour les bateaux. Passage continu vers '+at, fmtIn(active.e-now));
+    setTile('tileEcluse','good','Ouverte','Ferme à '+at, fmtIn(active.e-now));
   } else {
-    pill.className='pill closed'; pill.textContent='Fermée';
-    const next = intervals.find(([s]) => s>nowAbs);
+    const next = epochIntervals.find(iv => iv.s>now && !iv.unknown);
     if(next){
-      const start = fromAbs(next[0]);
-      const sameDay = start.dayIdx===liveDayIdx;
-      detail.innerHTML = 'Prochaine ouverture '+(sameDay?"aujourd'hui":'le '+fmtDay(start.dayIdx).long)+' à <b class="mono">'+start.time+'</b>.';
-      const remaining = next[0]*60 - nowAbsSec;
-      cd.className = 'countdown '+(remaining<=15*60?'soon':'closed');
-      cd.innerHTML = '<span class="cd-value mono">'+fmtCountdown(remaining)+'</span><span class="cd-label">avant ouverture (<span class="mono">'+start.time+'</span>)</span>';
+      const nd = parisParts(next.s).key, ndIdx = keyIndex[nd];
+      const when = (ndIdx===todayIdx ? '' : relDay(ndIdx,todayIdx)+' ')+'à <b>'+epochHHMM(next.s)+'</b>';
+      setTile('tilePasserelle','good','Praticable','En continu. Passage intermittent '+when, fmtIn(next.s-now));
+      setTile('tileEcluse','bad','Fermée','Ouvre '+when, fmtIn(next.s-now));
     } else {
-      detail.textContent = "Aucune donnée d'ouverture à venir dans le jeu de données 2026.";
-      cd.className='countdown';
-      cd.innerHTML='';
+      setTile('tilePasserelle','good','Praticable','Plus d’ouverture prévue en 2026.','');
+      setTile('tileEcluse','bad','Fermée','Plus d’ouverture prévue en 2026.','');
     }
   }
-  renderWindows(document.getElementById('statusWindows'), liveDayIdx, nowAbs);
-  renderCoef(document.getElementById('statusCoef'), liveDayIdx);
-
-  const d = fmtDay(liveDayIdx);
-  document.getElementById('clock').textContent =
-    d.weekday+' '+d.long+' · '+String(now.hour).padStart(2,'0')+':'+String(now.minute).padStart(2,'0')+':'+String(now.second).padStart(2,'0')+' (heure de Paris)';
+  renderSlots($('todaySlots'), todayIdx, now);
+  renderTides($('todayTides'), todayIdx);
 }
 
-function keyFromInputDate(v){ const [y,m,d]=v.split('-'); return m+'-'+d; }
-function inputDateFromKey(key){ const [m,d]=key.split('-'); return '2026-'+m+'-'+d; }
-
-function fmtPoste(slot){
-  const [ouv, poA, poB, ferm] = slot;
-  if(ouv===null && poA===null && poB===null && ferm===null) return null;
-  const wrap = (ouv!==null && ferm!==null && toMin(ferm) < toMin(ouv));
-  let html = '<span class="mono">'+(ouv||'…')+'</span>';
-  if(poA!==null && poB!==null){
-    html += ' → <span class="mono po">'+poA+'–'+poB+'</span> (grand ouvert)';
-  }
-  html += ' → <span class="mono">'+(ferm||'…')+'</span>';
-  if(wrap) html += '<span class="poste-note"> le lendemain</span>';
-  return html;
+// Windows touching a given day (including the ones that started the evening before).
+function windowsOfDay(dayIdx){
+  const start = dayIdx*1440, end = start+1440;
+  return epochIntervals.filter(iv => iv.eAbs>start && iv.sAbs<end);
 }
 
-function renderPostes(container, dayIdx){
-  const key = keys[dayIdx];
-  const rec = MARINAS[key];
+function renderSlots(container, dayIdx, now){
+  const wins = windowsOfDay(dayIdx);
+  if(!wins.length){ container.innerHTML = '<div class="muted">Aucune ouverture des portes ce jour-là.</div>'; return; }
   container.innerHTML = '';
-  [['Poste jour', rec.j], ['Poste soir', rec.s]].forEach(([label, slot])=>{
-    const div = document.createElement('div');
-    div.className = 'poste';
-    const html = fmtPoste(slot);
-    div.innerHTML = '<div class="poste-label">'+label+'</div>'
-      + '<div class="poste-value">'+(html || '<span class="mono">—</span>') + '</div>'
-      + (html ? '' : '<div class="poste-note">pas de manœuvre ce poste (petit coefficient)</div>');
-    container.appendChild(div);
+  wins.forEach(iv=>{
+    const d = document.createElement('div');
+    d.className = 'slot'+(now!==undefined && now>=iv.s && now<iv.e ? ' now' : '');
+    const s = iv.unknown ? '?' : hhmm(iv.sAbs), e = hhmm(iv.eAbs);
+    let sub = iv.unknown ? 'ouverture absente du PDF' : fmtDur(iv.e-iv.s);
+    if(!iv.unknown && iv.sAbs < dayIdx*1440) sub = 'depuis la veille · '+sub;
+    if(iv.eAbs >= (dayIdx+1)*1440) sub += ' · finit le lendemain';
+    d.innerHTML = s+' – '+e+'<small>'+sub+'</small>';
+    container.appendChild(d);
   });
 }
 
-function renderBrowse(dayIdx){
-  dayIdx = Math.min(Math.max(dayIdx,0), keys.length-1);
-  const key = keys[dayIdx];
-  document.getElementById('datePick').value = inputDateFromKey(key);
-  const highlight = (!outOfRange && dayIdx===liveDayIdx) ? nowAbs : undefined;
-  renderWindows(document.getElementById('browseWindows'), dayIdx, highlight);
-  renderCoef(document.getElementById('browseCoef'), dayIdx, fmtDay(dayIdx).weekday+' '+fmtDay(dayIdx).long+' — coefficient');
-  renderPostes(document.getElementById('browsePostes'), dayIdx);
-  window.currentBrowseIdx = dayIdx;
+function renderTides(container, dayIdx){
+  const d = DATA[keys[dayIdx]];
+  const pm = d.pm.filter(Boolean).join(' · ') || '—';
+  const bm = d.bm.filter(Boolean).join(' · ') || '—';
+  const c = d.c.filter(Boolean).join(' / ') || '—';
+  container.innerHTML = '<span>Pleine mer <b>'+pm+'</b></span><span>Basse mer <b>'+bm+'</b></span><span>Coef. <b>'+c+'</b></span>';
 }
 
-updateStatus();
-setInterval(updateStatus, 1000);
+/* ---------- Je sors ? (profils bateau / kitesurf) ---------- */
+const LAT = 49.367, LON = 0.072;           // entrée du port / plage de Deauville
+const SEA_LAT = 49.40, SEA_LON = 0.05;     // au large, pour les vagues
+const BEACH_ONSHORE = 335;                 // direction d'où vient un vent venant pile de la mer (plage orientée NNO)
+let FC = null;
 
-renderBrowse(outOfRange ? 0 : liveDayIdx);
+let PROFILE = 'boat';
+try{ if(localStorage.getItem('profil')==='kite') PROFILE = 'kite'; }catch(e){}
 
-document.getElementById('prevDay').addEventListener('click', ()=>renderBrowse(window.currentBrowseIdx-1));
-document.getElementById('nextDay').addEventListener('click', ()=>renderBrowse(window.currentBrowseIdx+1));
-document.getElementById('gotoToday').addEventListener('click', ()=>renderBrowse(outOfRange?0:liveDayIdx));
-document.getElementById('datePick').addEventListener('change', e=>{
-  const key = keyFromInputDate(e.target.value);
-  if(key in keyIndex) renderBrowse(keyIndex[key]);
+const LEVELS = {good:'Bon', mid:'Moyen', bad:'Déconseillé'};
+function levelOf(score){ return score>=70 ? 'good' : score>=45 ? 'mid' : 'bad'; }
+const DIRS = ['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSO','SO','OSO','O','ONO','NO','NNO'];
+function dirName(deg){ return DIRS[Math.round(((deg%360)+360)%360/22.5)%16]; }
+function angDist(a, b){ const d = Math.abs(((a-b)%360+360)%360); return d>180 ? 360-d : d; }
+// la flèche indique où va le vent (direction d'origine + 180°)
+function windArrow(deg){
+  return '<svg class="arrow" viewBox="0 0 24 24" style="transform:rotate('+Math.round(deg+180)+'deg)" aria-hidden="true"><path d="M12 3l6 16-6-4-6 4z" fill="currentColor"/></svg>';
+}
+function num(x, d){ return x.toLocaleString('fr-FR',{minimumFractionDigits:d, maximumFractionDigits:d}); }
+
+// Bateau de plaisance 5-8 m : moins il y a de vent et de mer, mieux c'est.
+function scoreBoat(h){
+  const kn = h.kn, m = h.wave;
+  let w = kn<=12 ? 100 - kn*2 : kn<=18 ? 69 - (kn-12)*4 : Math.max(0, 44 - (kn-18)*5);
+  if(h.gust>25) w = Math.min(w, 40);
+  if(h.gust>30) w = Math.min(w, 15);
+  const s = m<=0.6 ? 100 - m*40 : m<=1.2 ? 69 - (m-0.6)*40 : Math.max(0, 44 - (m-1.2)*50);
+  let score = Math.min(w, s), why = w<s ? 'vent' : 'mer';
+  if(h.night && score>60){ score = 60; why = 'nuit'; }
+  return {score, why};
+}
+
+// Orientation du vent par rapport à la plage de Deauville.
+function orientation(dir){
+  const d = angDist(dir, BEACH_ONSHORE);
+  return d<=20 ? 'onshore' : d<=60 ? 'side-on' : d<=95 ? 'side-shore' : d<=120 ? 'side-off' : 'offshore';
+}
+// Kitesurf : il faut du vent, régulier, venant de la mer ou de côté, et de jour.
+function scoreKite(h){
+  const kn = h.kn;
+  let score = kn<8 ? 0 : kn<12 ? (kn-8)*15 : kn<=14 ? 70+(kn-12)*15 : kn<=25 ? 100 : kn<=30 ? 100-(kn-25)*10 : 10;
+  let why = kn<12 ? 'trop faible' : kn>25 ? 'très fort' : '';
+  const cap = (v, reason) => { if(score>v){ score = v; why = reason; } };
+  const spread = h.gust - kn;
+  if(spread>12) cap(45, 'rafaleux'); else if(spread>8) cap(65, 'rafaleux');
+  const o = orientation(h.dir);
+  if(o==='offshore') cap(0, 'offshore, dangereux');
+  else if(o==='side-off') cap(40, 'side-off');
+  else if(o==='onshore') cap(65, 'onshore');
+  if(h.wave>2) cap(60, 'mer formée');
+  if(h.night) cap(0, 'nuit');
+  return {score: Math.max(0, Math.min(100, score)), why};
+}
+
+function scoreHour(h){
+  const r = PROFILE==='kite' ? scoreKite(h) : scoreBoat(h);
+  return Object.assign(h, r, {level: levelOf(r.score)});
+}
+
+async function loadForecast(){
+  const common = '&timeformat=unixtime&timezone=Europe%2FParis&forecast_days=3';
+  const wUrl = 'https://api.open-meteo.com/v1/forecast?latitude='+LAT+'&longitude='+LON
+    + '&hourly=wind_speed_10m,wind_gusts_10m,wind_direction_10m&daily=sunrise,sunset'
+    + '&models=meteofrance_seamless&wind_speed_unit=kn'+common;
+  const sUrl = 'https://marine-api.open-meteo.com/v1/marine?latitude='+SEA_LAT+'&longitude='+SEA_LON
+    + '&hourly=wave_height,swell_wave_height,swell_wave_period&models=meteofrance_wave'+common;
+  try{
+    const [w, s] = await Promise.all([fetch(wUrl).then(r=>r.json()), fetch(sUrl).then(r=>r.json())]);
+    const waveAt = {};
+    s.hourly.time.forEach((t,i)=>waveAt[t]={h:s.hourly.wave_height[i], sw:s.hourly.swell_wave_height[i], sp:s.hourly.swell_wave_period[i]});
+    const days = w.daily.sunrise.map((r,i)=>[r*1000, w.daily.sunset[i]*1000]);
+    const hours = [];
+    w.hourly.time.forEach((t,i)=>{
+      const kn = w.hourly.wind_speed_10m[i], gust = w.hourly.wind_gusts_10m[i], wv = waveAt[t];
+      if(kn==null || !wv || wv.h==null) return;
+      const ts = t*1000;
+      hours.push({ts, kn, gust, dir:w.hourly.wind_direction_10m[i], wave:wv.h, swell:wv.sw, period:wv.sp,
+        night: !days.some(([a,b]) => ts>=a && ts<b)});
+    });
+    FC = {hours, days, fetched:Date.now()};
+    renderForecast();
+  } catch(err){
+    $('vLabel').textContent = 'Prévisions indisponibles pour le moment (connexion ?).';
+    $('vWord').textContent = '—';
+    $('windows').innerHTML = '<div class="muted">Impossible de charger les prévisions. Consulter le bulletin Météo-France ci-dessous.</div>';
+  }
+}
+
+function hoursIn(a, b){ return FC.hours.filter(h => h.ts+3600000>a && h.ts<b); }
+function summarize(hs){
+  const worst = hs.reduce((m,h)=>h.score<m.score?h:m, hs[0]);
+  return {
+    score: worst.score, level: worst.level, why: worst.why,
+    kn: Math.max(...hs.map(h=>h.kn)), knMin: Math.min(...hs.map(h=>h.kn)), gust: Math.max(...hs.map(h=>h.gust)),
+    dir: worst.dir, wave: Math.max(...hs.map(h=>h.wave)),
+    swell: Math.max(...hs.map(h=>h.swell||0)), period: worst.period, night: hs.some(h=>h.night)
+  };
+}
+function whenLabel(ts){ return cap(relDay(keyIndex[parisParts(ts).key], todayIdx)); }
+
+// Bateau : chaque créneau d'écluse est une sortie possible.
+function boatSlots(now, horizon){
+  return epochIntervals
+    .filter(iv => iv.e>now && iv.s<horizon && !iv.unknown)
+    .map(iv => ({s:iv.s, e:iv.e, hs:hoursIn(Math.max(iv.s,now), iv.e)}))
+    .filter(x => x.hs.length)
+    .map(x => Object.assign(x, summarize(x.hs)));
+}
+// Kite : les sessions sont les heures consécutives de jour notées « bon » (à défaut « moyen »).
+function kiteSlots(now){
+  const hs = FC.hours.filter(h => h.ts+3600000>now && !h.night);
+  const group = min => {
+    const out = []; let cur = null;
+    hs.forEach(h=>{
+      if(h.score>=min && cur && h.ts===cur.e){ cur.hs.push(h); cur.e = h.ts+3600000; }
+      else if(h.score>=min){ cur = {s:h.ts, e:h.ts+3600000, hs:[h]}; out.push(cur); }
+      else cur = null;
+    });
+    return out.map(x => Object.assign(x, summarize(x.hs)));
+  };
+  const good = group(70);
+  return good.length ? good : group(45);
+}
+
+function renderForecast(){
+  if(!FC || !FC.hours.length) return;
+  FC.hours.forEach(scoreHour);
+  const kite = PROFILE==='kite';
+  const now = Date.now();
+  const horizon = FC.hours[FC.hours.length-1].ts+3600000;
+  const slots = kite ? kiteSlots(now) : boatSlots(now, horizon);
+
+  // Verdict : bateau = créneau d'écluse en cours ou prochain ; kite = l'heure en cours.
+  const v = $('verdict');
+  const prevWord = $('vWord').textContent;
+  let cur;
+  if(kite){
+    const h = FC.hours.find(x => now>=x.ts && now<x.ts+3600000) || FC.hours.find(x => x.ts>now);
+    cur = Object.assign({s:h.ts, e:h.ts+3600000}, summarize([h]));
+    $('vLabel').innerHTML = 'Maintenant sur la plage de Deauville';
+  } else if(slots.length){
+    cur = slots[0];
+    const isNow = now>=cur.s;
+    $('vLabel').innerHTML = (isNow ? 'Écluse ouverte jusqu’à ' : 'Prochain créneau, '+relDay(keyIndex[parisParts(cur.s).key], todayIdx)+' ')
+      + '<b>'+(isNow ? epochHHMM(cur.e) : epochHHMM(cur.s)+' – '+epochHHMM(cur.e))+'</b>';
+  } else {
+    $('vLabel').textContent = "Aucun créneau d'écluse dans les 3 prochains jours.";
+  }
+  if(cur){
+    v.className = 'verdict '+cur.level;
+    $('vWord').textContent = LEVELS[cur.level];
+    if(prevWord!==LEVELS[cur.level]) replay($('vWord'), 'enter');
+    $('vNeedle').style.left = Math.max(2, Math.min(98, cur.score))+'%';
+    const best = slots.length ? slots.reduce((m,w)=>w.score>m.score?w:m, slots[0]) : null;
+    const bestTxt = best && (kite || best!==cur)
+      ? '<div class="cond" style="grid-column:1/3"><div class="k">'+(kite?'Meilleure session sur 3 jours':'Meilleur créneau sur 3 jours')+'</div><div class="val">'+whenLabel(best.s)+' '+epochHHMM(best.s)+' – '+epochHHMM(best.e)+'</div><div class="sub">'+LEVELS[best.level]+' · vent '+(kite?Math.round(best.knMin)+'–':'')+Math.round(best.kn)+' nd '+dirName(best.dir)+(kite?' · '+orientation(best.dir):' · vagues '+num(best.wave,1)+' m')+'</div></div>'
+      : '';
+    $('vConds').innerHTML =
+      '<div class="cond"><div class="k">Vent</div><div class="val">'+windArrow(cur.dir)+Math.round(cur.kn)+' nd '+dirName(cur.dir)+'</div><div class="sub">rafales '+Math.round(cur.gust)+' nd'+(kite?' · '+orientation(cur.dir):'')+'</div></div>'
+    + '<div class="cond"><div class="k">Mer</div><div class="val">'+num(cur.wave,1)+' m</div><div class="sub">houle '+num(cur.swell,1)+' m · '+Math.round(cur.period||0)+' s</div></div>'
+    + (cur.why && cur.level!=='good' ? '<div class="cond" style="grid-column:1/3"><div class="k">Ce qui limite</div><div class="val">'+cap(cur.why)+'</div></div>' : '')
+    + bestTxt;
+  } else {
+    v.className = 'verdict';
+    $('vWord').textContent = '—';
+  }
+
+  // Liste des créneaux / sessions
+  $('slotsTitle').textContent = kite ? 'Sessions de kite à venir' : "Créneaux d'écluse à venir";
+  const list = $('windows');
+  list.innerHTML = '';
+  const bestScore = Math.max(...slots.map(w=>w.score));
+  slots.forEach(w=>{
+    const el = document.createElement('div');
+    el.className = 'win'+(w.score===bestScore && w.level==='good' ? ' best' : '');
+    const meta = kite
+      ? 'Vent '+Math.round(w.knMin)+'–'+Math.round(w.kn)+' nd '+dirName(w.dir)+' (raf. '+Math.round(w.gust)+') · '+orientation(w.dir)+' · vagues '+num(w.wave,1)+' m'
+      : 'Vent '+Math.round(w.kn)+' nd '+dirName(w.dir)+' (raf. '+Math.round(w.gust)+') · vagues '+num(w.wave,1)+' m';
+    el.innerHTML = '<div class="when">'+epochHHMM(w.s)+' – '+epochHHMM(w.e)+'</div>'
+      + '<div class="day">'+whenLabel(w.s)+(w.night?' · nuit':'')+'</div>'
+      + '<span class="badge '+w.level+'">'+LEVELS[w.level]+'</span>'
+      + '<div class="meta">'+meta+'</div>';
+    list.appendChild(el);
+  });
+  if(!slots.length) list.innerHTML = '<div class="muted">'+(kite ? 'Pas de session navigable de jour dans les 3 prochains jours.' : 'Aucun créneau dans la période de prévision.')+'</div>';
+  const sig = PROFILE+slots.map(w=>w.s+w.level).join();
+  if(sig!==list.dataset.sig){ stagger(list); list.dataset.sig = sig; }
+
+  // Bande horaire
+  const strip = $('strip');
+  strip.innerHTML = '';
+  let lastDay = null;
+  FC.hours.filter(h => h.ts+3600000>now).slice(0,48).forEach((h,i)=>{
+    const p = parisParts(h.ts);
+    const open = epochIntervals.some(iv => !iv.unknown && h.ts+3600000>iv.s && h.ts<iv.e);
+    const b = document.createElement('button');
+    b.className = 'hour '+h.level+(h.night?' night':'')+(open && !kite?' open':'')+(lastDay!==null && p.key!==lastDay?' daystart':'');
+    b.setAttribute('role','listitem');
+    const label = p.hour===0 || i===0 ? (p.hour===0 ? dayName(keyIndex[p.key],{weekday:'short'}) : String(p.hour).padStart(2,'0')+'h') : p.hour%3===0 ? String(p.hour).padStart(2,'0')+'h' : '';
+    b.innerHTML = '<span class="lock"></span><span class="bar"></span><span class="t">'+label+'</span>';
+    const detail = whenLabel(h.ts)+' '+String(p.hour).padStart(2,'0')+'h : <b>'+LEVELS[h.level]+'</b>'+(h.why && h.level!=='good' ? ' ('+h.why+')' : '')
+      + ' — vent '+Math.round(h.kn)+' nd '+dirName(h.dir)+', rafales '+Math.round(h.gust)+' nd'
+      + (kite ? ', '+orientation(h.dir) : '')+', vagues '+num(h.wave,1)+' m'
+      + (open && !kite ? ' · écluse ouverte' : '')+(h.night ? ' · nuit' : '');
+    b.setAttribute('aria-label', detail.replace(/<[^>]+>/g,''));
+    b.addEventListener('click', ()=>{
+      strip.querySelectorAll('.sel').forEach(x=>x.classList.remove('sel'));
+      b.classList.add('sel');
+      const d = $('stripDetail');
+      d.classList.add('fade');
+      setTimeout(()=>{ d.innerHTML = detail; d.classList.remove('fade'); }, 120);
+      b.scrollIntoView({behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block:'nearest', inline:'center'});
+    });
+    strip.appendChild(b);
+    lastDay = p.key;
+  });
+
+  $('fcSource').textContent = 'Prévisions Météo-France (AROME/ARPEGE, MFWAM) via Open-Meteo · chargées à '+epochHHMM(FC.fetched)+'.';
+}
+
+function setProfile(p, animate){
+  PROFILE = p;
+  try{ localStorage.setItem('profil', p); }catch(e){}
+  document.documentElement.dataset.profile = p;
+  document.querySelectorAll('.seg button').forEach(b=>b.setAttribute('aria-pressed', b.dataset.p===p ? 'true' : 'false'));
+  $('t-out').textContent = p==='kite' ? 'Ça navigue en kite ?' : 'Je sors en mer ?';
+  if(animate) replay($('verdict'), 'enter');
+  renderForecast();
+}
+document.querySelectorAll('.seg button').forEach(b=>b.addEventListener('click', ()=>setProfile(b.dataset.p, true)));
+setProfile(PROFILE, false);
+
+/* ---------- Un autre jour ---------- */
+let browseIdx = 0;
+function renderBrowse(i, dir){
+  const before = browseIdx;
+  browseIdx = Math.min(Math.max(i,0), keys.length-1);
+  if(dir && browseIdx!==before) replay($('dayCard'), dir>0 ? 'slide-l' : 'slide-r');
+  const key = keys[browseIdx];
+  $('datePick').value = '2026-'+key;
+  $('dayLabel').textContent = cap(dayName(browseIdx));
+  renderSlots($('daySlots'), browseIdx, browseIdx===todayIdx ? Date.now() : undefined);
+  renderTides($('dayTides'), browseIdx);
+  $('dayNote').textContent = ANOMALIES[key] || '';
+  $('dayNote').hidden = !ANOMALIES[key];
+}
+$('prevDay').addEventListener('click', ()=>renderBrowse(browseIdx-1, -1));
+$('nextDay').addEventListener('click', ()=>renderBrowse(browseIdx+1, 1));
+$('gotoToday').addEventListener('click', ()=>{ const t = todayIdx ?? 0; renderBrowse(t, Math.sign(t-browseIdx)); });
+$('datePick').addEventListener('change', e=>{
+  const key = e.target.value.slice(5);
+  if(key in keyIndex) renderBrowse(keyIndex[key], Math.sign(keyIndex[key]-browseIdx));
+});
+// glisser à gauche / à droite sur la carte du jour pour changer de jour
+let touchX = null, touchY = null;
+$('dayCard').addEventListener('touchstart', e=>{ touchX = e.touches[0].clientX; touchY = e.touches[0].clientY; }, {passive:true});
+$('dayCard').addEventListener('touchend', e=>{
+  if(touchX===null) return;
+  const dx = e.changedTouches[0].clientX - touchX, dy = e.changedTouches[0].clientY - touchY;
+  touchX = null;
+  if(Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)*1.5) renderBrowse(browseIdx + (dx<0 ? 1 : -1), dx<0 ? 1 : -1);
+}, {passive:true});
+
+/* ---------- Barre d'onglets ---------- */
+const tabs = [...document.querySelectorAll('.tabbar a')];
+const sections = ['maintenant','sortir','calendrier'].map(id=>$(id));
+const ind = document.querySelector('.tabbar .ind');
+let activeTab = -1, ticking = false;
+function setTab(i){
+  if(i===activeTab) return;
+  activeTab = i;
+  tabs.forEach((a,j)=>a.setAttribute('aria-current', j===i ? 'true' : 'false'));
+  ind.style.transform = 'translateX('+(i*100)+'%)';
+}
+function syncTab(){
+  ticking = false;
+  const atBottom = innerHeight + scrollY >= document.documentElement.scrollHeight - 4;
+  let i = 0;
+  sections.forEach((s,j)=>{ if(s.getBoundingClientRect().top < innerHeight*0.4) i = j; });
+  setTab(atBottom ? sections.length-1 : i);
+}
+addEventListener('scroll', ()=>{ if(!ticking){ ticking = true; requestAnimationFrame(syncTab); } }, {passive:true});
+tabs.forEach((a,i)=>a.addEventListener('click', ()=>setTab(i)));
+syncTab();
+
+/* ---------- Mise à jour automatique ---------- */
+// version.json est réécrit à chaque publication (tools/publier-version.sh). Si la
+// version en ligne diffère de celle de la page, on recharge : sur l'écran
+// d'accueil de l'iPhone, l'app reste ainsi à jour sans manipulation.
+const APP_VERSION = '20261017-104547';
+async function checkUpdate(){
+  try{
+    const r = await fetch('version.json?t='+Date.now(), {cache:'no-store'});
+    if(!r.ok) return;
+    const {version} = await r.json();
+    if(version && version!==APP_VERSION) location.reload();
+  } catch(e){ /* hors ligne : on réessaiera */ }
+}
+
+/* ---------- Démarrage ---------- */
+updateNow();
+renderBrowse(todayIdx ?? 0);
+setInterval(updateNow, 15000);
+loadForecast();
+setInterval(loadForecast, 30*60000);
+setInterval(renderForecast, 5*60000);
+setInterval(checkUpdate, 5*60000);
+document.addEventListener('visibilitychange', ()=>{
+  if(document.visibilityState!=='visible') return;
+  checkUpdate();
+  updateNow();
+  if(!FC || Date.now()-FC.fetched > 15*60000) loadForecast();
 });
 </script>
-
 </body>
 </html>
