@@ -1,5 +1,14 @@
 # Historique des versions
 
+## 17 octobre 2026 (12h35) — Schémas techniques précis pour les tutos kite
+- Les illustrations générées plaçaient mal l'aile (bord d'attaque, valve, sens du vent). Elles sont remplacées par des **schémas techniques annotés** :
+  - au sol (zone, dérouler, étaler, gonfler, connecter, sécuriser) : vue de dessus, mer et vent toujours en bas, rider face à son aile donc **rouge toujours à gauche**, encart « vu de côté » pour la position de l'aile ;
+  - en l'air (s'accrocher, bord de fenêtre, tendre, monter, atterrir, water start) : vue de derrière le rider, vent dans le dos, fenêtre en cadran 9 h / 12 h / 3 h et zone de puissance.
+- Connexion des lignes et aile sécurisée : **aile dos vers le ciel, bord d'attaque face au vent**.
+- Water start redessiné, avec la comparaison « barre tirée » / « bras tendus ».
+- Les trois tutos sont rangés dans des **menus dépliants**.
+- Seules restent deux illustrations Krea de gestes (pouce levé, main sur la tête). Les schémas sont générés par `tools/schemas-kite.py`.
+
 ## 17 octobre 2026 (12h30) — Tutos kite complets, bateau de 13 m
 - **Décoller** en 10 étapes (zone, dérouler les lignes, étaler, gonfler, connecter, s'accrocher, sortir de la zone de puissance, tendre, signal, monter à midi), relu avec des sources d'écoles (kiteinside, FQK, whenwherekite).
 - **Atterrir et porter son aile** en 4 étapes (signal main sur la tête, récupération par le bord d'attaque, sécuriser, porter dos au sable face au vent).
