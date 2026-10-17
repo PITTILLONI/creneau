@@ -8,7 +8,7 @@
 - L'app ajoutée à l'écran d'accueil pouvait rester sur une vieille version (cache) : le rechargement automatique contourne maintenant le cache. Un message s'affiche si un script plante.
 
 ### Ajouté
-- Mode kite dédié, sans l'écluse : spot en direct (vent, taille d'aile idéale selon le poids du rider, température de l'eau et combinaison, rafales, marée, air, coucher du soleil), prévisions de sessions, section **Bonnes pratiques** (priorités, décollage/atterrissage, sécurité, règles locales).
+- Mode kite 100 % kitesurfeur (ni passerelle piétonne ni écluse, pied de page dédié) : spot en direct (vent, taille d'aile idéale selon le poids du rider, température de l'eau et combinaison, rafales, marée, air, coucher du soleil), prévisions de sessions, section **Bonnes pratiques** (priorités, décollage/atterrissage, sécurité, règles locales).
 - Orages pris en compte dans les notes.
 - En-tête façon app (icône, nom, heure en direct), onglets adaptés au profil.
 

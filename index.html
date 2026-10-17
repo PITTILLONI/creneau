@@ -321,7 +321,7 @@
     <img class="appicon" src="icons/icon.svg" alt="" width="36" height="36">
     <div class="appname">
       <h1>Port de Deauville</h1>
-      <p>Bassin Morny · marées · météo marine</p>
+      <p id="appSub">Bassin Morny · marées · météo marine</p>
     </div>
     <div class="clock" aria-label="Heure de Paris"><span class="live" aria-hidden="true"></span><span id="clock">—</span></div>
 </div></header>
@@ -486,18 +486,20 @@
       <div class="slots only-boat" id="daySlots"></div>
       <div class="tides" id="dayTides"></div>
     </div>
-    <div class="note" id="dayNote" hidden></div>
+    <div class="note only-boat" id="dayNote" hidden></div>
   </section>
 
   <footer>
-    <div class="warn"><b>Horaires théoriques.</b> Toujours confirmer avant une manœuvre via le <b>VHF canal 9</b> ou la cabine de l'écluse au <a href="tel:+33698718392">06 98 71 83 92</a>.</div>
+    <div class="warn only-boat"><b>Horaires théoriques.</b> Toujours confirmer avant une manœuvre via le <b>VHF canal 9</b> ou la cabine de l'écluse au <a href="tel:+33698718392">06 98 71 83 92</a>.</div>
+    <div class="warn only-kite"><b>Prévisions indicatives.</b> Vérifier le vent sur place avant de gréer. Urgence en mer : <a href="tel:196">196</a> (CROSS) ou VHF canal 16.</div>
     <div class="links">
       <a href="https://meteofrance.com/meteo-marine" target="_blank" rel="noopener">Bulletin météo marine officiel — Météo-France ↗</a>
       <a href="https://maree.shom.fr/harbor/DEAUVILLE" target="_blank" rel="noopener">Marées de Deauville — SHOM ↗</a>
-      <a href="https://www.portsducalvados.fr/wp-content/uploads/2023/08/06-DEAUVILLE-TROUVILLE-Horaires-de-manoeuvres-2026.pdf" target="_blank" rel="noopener">Horaires des portes 2026 — Ports du Calvados (PDF) ↗</a>
-      <a href="tel:+33231983001">Capitainerie · 02 31 98 30 01</a>
+      <a class="only-boat" href="https://www.portsducalvados.fr/wp-content/uploads/2023/08/06-DEAUVILLE-TROUVILLE-Horaires-de-manoeuvres-2026.pdf" target="_blank" rel="noopener">Horaires des portes 2026 — Ports du Calvados (PDF) ↗</a>
+      <a class="only-boat" href="tel:+33231983001">Capitainerie · 02 31 98 30 01</a>
     </div>
-    <div>Horaires des portes et marées : document officiel Ports du Calvados, calculé avec le SHOM (autorisation n° 2024-282). Porte à la cote 5,50 m. Données 2026 uniquement. Projet indépendant, non affilié à Ports du Calvados, à la mairie de Deauville, au SHOM ni à Météo-France.</div>
+    <div class="only-kite">Vent, vagues et température de l'eau : Météo-France (AROME/ARPEGE, MFWAM, courants) via Open-Meteo. Marées : SHOM, via Ports du Calvados (autorisation n° 2024-282). Projet indépendant, non affilié à la mairie de Deauville, au SHOM ni à Météo-France.</div>
+    <div class="only-boat">Horaires des portes et marées : document officiel Ports du Calvados, calculé avec le SHOM (autorisation n° 2024-282). Porte à la cote 5,50 m. Données 2026 uniquement. Projet indépendant, non affilié à Ports du Calvados, à la mairie de Deauville, au SHOM ni à Météo-France.</div>
   </footer>
 </div>
 
@@ -1100,6 +1102,7 @@ function setProfile(p, animate){
   $('t-out').textContent = p==='kite' ? 'Ça navigue en kite ?' : 'Je sors en mer ?';
   document.querySelectorAll('[data-l]').forEach(el => el.textContent = LABELS[p][el.dataset.l]);
   document.querySelectorAll('[data-boat]').forEach(el => el.textContent = el.dataset[p]);
+  $('appSub').textContent = p==='kite' ? 'Spot kite · vent · marées' : 'Bassin Morny · marées · météo marine';
   $('t-cal').textContent = p==='kite' ? 'Marées d\u2019un autre jour' : 'Un autre jour';
   if(animate) replay($(p==='kite' ? 'kiteNow' : 'tilePass'), 'enter');
   if(tabsReady){ refreshTabs(); syncTab(); }
@@ -1173,7 +1176,7 @@ syncTab();
 // version.json est réécrit à chaque publication (tools/publier-version.sh). Si la
 // version en ligne diffère de celle de la page, on recharge : sur l'écran
 // d'accueil de l'iPhone, l'app reste ainsi à jour sans manipulation.
-const APP_VERSION = '20261017-105719';
+const APP_VERSION = '20261017-105844';
 async function checkUpdate(){
   try{
     const r = await fetch('version.json?t='+Date.now(), {cache:'no-store'});
