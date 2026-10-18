@@ -20,6 +20,8 @@ Dernière mise à jour de ce fichier : 17 octobre 2026 (15h30).
 - [x] Navigation par vrais onglets (une section à l'écran à la fois)
 - [x] Bateau : bouées houlographes du Havre en direct (Candhis), comparées à la prévision
 - [x] Indicateur « récupération des données en cours » (bateau et kite), avec Réessayer en cas d'échec
+- [x] Vent recoupé entre 5 modèles (Météo-France, ECMWF, ICON, UKMO, GFS) avec indice d'accord
+- [x] Kite : « Mes ailes » + foil, vent mini/maxi et aile conseillée selon le poids et les ailes du rider
 - [x] Interface mobile d'abord : barre d'onglets, grandes zones tactiles, mode sombre automatique
 - [x] Icône et mode plein écran pour l'écran d'accueil iPhone
 - [x] Rechargement automatique quand une nouvelle version est publiée
@@ -44,7 +46,7 @@ Dernière mise à jour de ce fichier : 17 octobre 2026 (15h30).
 
 - [ ] **Rythme réel des levées de la passerelle piétonne** pendant l'ouverture des portes (à obtenir auprès de la capitainerie ou à relever sur place) pour afficher « prochaine levée dans X min » à chaque cycle
 - [ ] Vérifier l'**orientation de chaque plage** (Trouville, Houlgate, Cabourg) sur le terrain
-- [ ] Vérifier les **seuils kite** sur le terrain (taille d'aile, niveau) et les rendre réglables dans la page
+- [ ] Vérifier les **seuils kite** sur le terrain (plage −12 % / +50 % autour du vent idéal de chaque aile, planchers 9 nd twin-tip / 7 nd foil)
 - [ ] Rappeler les **zones et périodes de kite** autorisées par la mairie en saison
 - [ ] Confirmer le gréement du bateau (sloop ? nombre de ris, trinquette, gennaker) pour affiner la voilure conseillée
 - [ ] Vérifier les caps des destinations et en ajouter (Cherbourg, Fécamp…) si utile

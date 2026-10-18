@@ -43,6 +43,7 @@ Voir [ROADMAP.md](ROADMAP.md) pour ce qui est fait et ce qui reste à faire, et 
 | Vent (force, rafales, direction) | **Météo-France**, modèles AROME / ARPEGE | API [Open-Meteo](https://open-meteo.com/) en direct, sans clé |
 | Vagues et houle | **Météo-France**, modèle de vagues MFWAM | API marine [Open-Meteo](https://open-meteo.com/en/docs/marine-weather-api) |
 | Lever / coucher du soleil | Open-Meteo | idem |
+| Accord des modèles (vent) | Météo-France, ECMWF, ICON (DWD), UKMO (Met Office), GFS (NOAA) | Open-Meteo, un seul appel `models=…` ; la note reste sur Météo-France |
 | Vagues mesurées (bouées 07609 et 07611) | **Candhis** — Port du Havre et Cerema, Licence Ouverte Etalab — [candhis.cerema.fr](https://candhis.cerema.fr/) | Page publique relevée toutes les 30 min par GitHub Actions (`tools/bouees.py`), publiée sur la branche `donnees` (`bouees.json`) |
 
 Liens de vérification affichés sur la page : [bulletin météo marine Météo-France](https://meteofrance.com/meteo-marine), [marées SHOM de Deauville](https://maree.shom.fr/harbor/DEAUVILLE).
@@ -61,7 +62,7 @@ Liens de vérification affichés sur la page : [bulletin météo marine Météo-
 Les seuils sont expliqués sur la page (« Comment est calculé… ») et réglés dans `index.html` (`scoreBoat`, `scoreKite`, `BEACH_ONSHORE`) :
 
 - **Bateau** (notre bateau de 13 m) : favorable jusqu'à 17 nœuds et 1,25 m de vagues, prudence jusqu'à 27 nœuds et 2,5 m, déconseillé au-delà ou avec des rafales de plus de 34 nœuds ; jamais mieux que « prudence » de nuit. Un créneau d'écluse prend la note de sa pire heure.
-- **Kitesurf** (plage de Deauville, orientée NNO) : idéal 14–25 nœuds ; rafaleux si l'écart rafales/vent moyen dépasse 8 nœuds ; side-on / side-shore = bon, onshore = moyen, side-off = déconseillé, **offshore = dangereux** ; orage ou nuit = pas de session.
+- **Kitesurf** (plage de Deauville, orientée NNO) : plage de vent calculée pour le poids et les ailes du rider (« Mes ailes ») — une aile de S m² est idéale vers poids × 2,2 ÷ S nœuds et navigue de −12 % à +50 % autour ; minimum 9 nd en twin-tip, 7 nd en foil, 35 nd au plus ; rafaleux si l'écart rafales/vent moyen dépasse 8 nœuds ; side-on / side-shore = bon, onshore = moyen, side-off = déconseillé, **offshore = dangereux** ; orage ou nuit = pas de session.
 - **Taille d'aile** indicative (twin-tip) : poids du rider (kg) × 2,2 / vent (nœuds), entre 5 et 17 m² ; en dessous de 12 nœuds, foil. **Combinaison** selon la température de l'eau (modèle de courants Météo-France).
 
 ## Structure du dépôt

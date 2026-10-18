@@ -1,5 +1,10 @@
 # Historique des versions
 
+## 18 octobre 2026 (11h) — Accord des modèles et choix de l'aile
+- **Vent recoupé entre 5 modèles** : Météo-France (AROME/ARPEGE), européen (ECMWF), allemand (ICON), britannique (UKMO) et américain (GFS). La note reste calculée sur Météo-France, mais chaque prévision indique *Modèles d'accord / Accord moyen / Modèles en désaccord*, avec le vent de chaque modèle. Quand la médiane des modèles changerait la note, l'app l'écrit (« La plupart des modèles prévoient moins de vent (6 nd au lieu de 11) : ce serait « Pas navigable » »). Affiché dans le spot kite, le verdict « Je sors en mer ? », chaque créneau ou session, la bande heure par heure et le calendrier (y compris au-delà de 3 jours, sans Météo-France).
+- Kite : réglage **« Mes ailes »** (5 à 17 m², plus Foil), 9 et 12 m² par défaut, gardé sur le téléphone. Le **vent minimum et maximum** sont calculés pour le poids du rider et ses ailes au lieu du seuil fixe de 12 nœuds : une aile de S m² est idéale vers poids × 2,2 ÷ S nœuds et navigue de −12 % à +50 % autour ; plancher 9 nd en twin-tip, 7 nd en foil ; 35 nd au plus.
+- L'« Aile à sortir » est choisie **parmi tes ailes** (« ta 12 m² · idéal 11 m² pour 75 kg »), avec un conseil si les rafales demandent la plus petite, ou ce qui manquerait (« trop peu de vent pour ta 12 m² : il faudrait une 13 m² ou un foil »).
+
 ## 18 octobre 2026 (10h30) — Indicateur de récupération des données
 - Bateau et Kitesurf : quand l'app récupère des données, une **barre animée** court sous l'en-tête, le point de l'horloge passe en bleu et une ligne dit quoi : « Récupération des prévisions météo… », « …des prévisions du spot de Trouville-sur-Mer… », « …des mesures des bouées… », « …des prévisions du 22 octobre… », « …(nouvelle tentative)… ».
 - En cas d'échec durable des prévisions : message « Prévisions météo indisponibles (connexion ?) » avec un bouton **Réessayer** ; idem dans la carte du jour du calendrier.
