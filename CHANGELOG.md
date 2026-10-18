@@ -1,5 +1,10 @@
 # Historique des versions
 
+## 18 octobre 2026 (16h45) — Cycle de la passerelle piétonne
+- Pendant l'ouverture des portes, la passerelle piétonne alterne **15 min levée / 15 min baissée** (info locale). La carte « Sortie en mer » affiche l'état en direct : « **Levée** jusqu'à 13:59 (dans 9 min) » ou « **Baissée** · prochaine levée à 14:14 (dans 9 min) », la dernière levée s'arrêtant à la fermeture des portes. Avant l'ouverture : « Première levée vers 13:44, puis 15 min levée / 15 min baissée ».
+- Hypothèse à confirmer : le cycle commence par une levée à l'ouverture des portes (`BRIDGE_UP`, `BRIDGE_DOWN`, `bridgeCycle` dans `index.html`).
+- Conseil « Sortir du bassin Morny » complété (au pire un quart d'heure d'attente).
+
 ## 18 octobre 2026 (16h15) — Questionnaire branché
 - Le questionnaire « Votre avis » envoie maintenant les réponses **directement dans le Google Form** du projet (une question paragraphe, réponses mises en forme une ligne par rubrique), sans e-mail à envoyer.
 

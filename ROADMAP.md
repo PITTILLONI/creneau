@@ -57,7 +57,8 @@ Dernière mise à jour de ce fichier : 17 octobre 2026 (15h30).
 - [ ] Ajouter le **vent mesuré** (station Météo-France du cap de la Hève ou bouée) : nécessite l'API Météo-France (clé gratuite)
 - [ ] Demander une clé API Candhis (gratuite) pour remplacer la lecture de la page publique
 
-- [ ] **Rythme réel des levées de la passerelle piétonne** pendant l'ouverture des portes (à obtenir auprès de la capitainerie ou à relever sur place) pour afficher « prochaine levée dans X min » à chaque cycle
+- [x] Cycle de la passerelle piétonne : 15 min levée / 15 min baissée pendant l'ouverture des portes, « prochaine levée dans X min »
+- [ ] Confirmer sur place que le cycle de la passerelle piétonne démarre par une levée à l'ouverture des portes
 - [ ] Vérifier l'**orientation de chaque plage** (Trouville, Houlgate, Cabourg) sur le terrain
 - [ ] Vérifier les **seuils kite** sur le terrain (plage −12 % / +50 % autour du vent idéal de chaque aile, planchers 9 nd twin-tip / 7 nd foil)
 - [ ] Rappeler les **zones et périodes de kite** autorisées par la mairie en saison

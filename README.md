@@ -9,7 +9,7 @@ Savoir en un coup d'œil, depuis son téléphone :
 L'app est pensée pour un **marin** (profil Bateau) ou un **pratiquant de glisse** (profil Glisse : kite, windsurf, windfoil ou wingfoil, choisi dans l'en-tête avec le poids et le matériel). Chaque onglet de la barre du bas (Maintenant, Sortir, Conseils, Calendrier) est un écran à part.
 
 **Bateau**
-1. **Sortie en mer (bassins Morny et des Yachts)** : ouvert ou fermé aux bateaux, chrono jusqu'à l'ouverture ou la fermeture des portes, état de la passerelle piétonne (horaires de levée non publiés, VHF 9) et des portes, frise de la journée ;
+1. **Sortie en mer (bassins Morny et des Yachts)** : ouvert ou fermé aux bateaux, chrono jusqu'à l'ouverture ou la fermeture des portes, état de la passerelle piétonne (cycle 15 min levée / 15 min baissée pendant l’ouverture des portes, prochaine levée, VHF 9) et des portes, frise de la journée ;
 2. **Voilure et allures** : voilure conseillée selon le vent et les rafales (ris, génois roulé), allure et réglages vers Le Havre, Honfleur, Dives, Ouistreham ou le large ;
 3. **Je sors en mer ?** : chaque créneau d'écluse noté *Favorable / Prudence / Déconseillé* avec la raison chiffrée (« Trop de vent : 19 nd, rafales 26 nd », « Mer agitée : vagues de 1,1 m »…) ;
 4. **Conseils** : sortir du bassin Morny, check-list avant de partir, prendre un ris, réglages par allure, priorités en mer, homme à la mer ;
@@ -65,7 +65,7 @@ Liens de vérification affichés sur la page : [bulletin météo marine Météo-
 
 ### Ce qu'il faut savoir sur les données
 
-- Les horaires du PDF sont ceux des **portes du bassin Morny** (porte à la cote 5,50 m). Ce sont des **portes à flot**, pas une écluse à sas (l'écluse du port est celle du bassin des Marinas). La **passerelle piétonne** ne suit pas ces horaires : elle se lève aussi portes fermées (observé sur place) et aucun document public ne donne ses heures de levée. La page l'indique donc « horaires de levée non publiés · VHF canal 9 » en attendant une source fiable.
+- Les horaires du PDF sont ceux des **portes du bassin Morny** (porte à la cote 5,50 m). Ce sont des **portes à flot**, pas une écluse à sas (l'écluse du port est celle du bassin des Marinas). La **passerelle piétonne** : pendant l'ouverture des portes elle alterne **15 min levée / 15 min baissée** (information locale, octobre 2026 ; on suppose que le cycle démarre par une levée à l'ouverture, à confirmer). Elle peut aussi se lever ponctuellement portes fermées (observé sur place). Aucun document officiel : confirmer au VHF canal 9.
 - **Géographie** : bassin des Yachts → passerelle piétonne basculante (presqu'île de la Touques) → bassin Morny → portes du bassin Morny → avant-port. Les deux bassins sont à flot : la passerelle piétonne se lève surtout pendant l'ouverture des portes (entrées et sorties de bateaux) mais peut aussi se lever ponctuellement portes fermées (observé le 17 octobre 2026 vers 11h). Aucun horaire officiel n'est publié.
 - Le PDF 2026 donne le **25 octobre** à l'heure d'été (une heure trop tard) : correction du [Deauville Yacht Club](https://www.deauvilleyachtclub.org/ouvertures-des-portes/) appliquée via `CORRECTIONS` dans `index.html`.
 - Le PDF 2026 contient un **oubli** : l'ouverture des portes de la nuit du **4 au 5 juillet** n'y figure pas (seule la fermeture du 5 à 05h32 est indiquée). La page affiche « Incertain » sur cette période. Le script d'extraction détecte ce genre d'erreur automatiquement.
