@@ -635,6 +635,26 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   .day .ico,.wslot small .ico{margin:0;opacity:.85;}
   .val .ico{margin-right:2px;}
 
+  /* Premium : carte d'intérêt et questionnaire */
+  .premium-card{display:flex;align-items:center;gap:12px;width:100%;margin-top:14px;padding:12px 16px;border:1px dashed var(--accent);border-radius:var(--radius);background:transparent;color:var(--ink);text-align:left;cursor:pointer;font:inherit;}
+  .premium-card .pc-ico{font-size:1.4rem;}
+  .premium-card span{display:flex;flex-direction:column;}
+  .premium-card small{color:var(--ink-2);font-size:.85rem;}
+  .sheet{border:0;padding:0 16px calc(env(safe-area-inset-bottom) + 16px);margin:auto auto 0;width:100%;max-width:720px;max-height:90vh;border-radius:22px 22px 0 0;background:var(--ground);color:var(--ink);overflow:auto;}
+  .sheet::backdrop{background:rgba(0,0,0,.5);}
+  .sheet-head{position:sticky;top:0;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:16px 0 10px;background:var(--ground);}
+  .sheet-head h3{margin:0;font-size:1.3rem;}
+  .sheet fieldset{border:0;margin:0 0 12px;padding:12px 14px;background:var(--surface);border-radius:16px;display:flex;flex-direction:column;gap:10px;}
+  .sheet legend{font-weight:700;padding:0;margin-bottom:4px;float:left;width:100%;}
+  .sheet fieldset label{display:flex;gap:10px;align-items:flex-start;font-size:.95rem;}
+  .sheet input[type=checkbox],.sheet input[type=radio]{width:20px;height:20px;flex:none;margin:1px 0 0;accent-color:var(--accent);}
+  .sheet-note{display:flex;flex-direction:column;gap:6px;font-weight:600;margin-bottom:12px;}
+  .sheet textarea{font:inherit;border:0;border-radius:12px;background:var(--surface);color:var(--ink);padding:10px 12px;}
+  .premium-send{width:100%;}
+  .sheet fieldset label.other{flex-direction:column;gap:6px;color:var(--ink-2);}
+  .sheet input[type=text]{font:inherit;border:0;border-radius:10px;background:var(--surface-2);color:var(--ink);padding:9px 11px;width:100%;}
+  .sheet-done{text-align:center;font-weight:700;color:var(--good);margin:12px 0;}
+
   /* calendrier : carrousel des 7 prochains jours */
   .wk{display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x proximity;padding:3px 3px 6px;margin:0 -3px;scrollbar-width:none;-webkit-overflow-scrolling:touch;}
   .wk::-webkit-scrollbar{display:none;}
@@ -770,6 +790,46 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
       <div id="buoyList"><div class="muted">Chargement des bouées…</div></div>
       <p class="muted buoy-src" id="buoySrc"></p>
     </div>
+    <button type="button" class="premium-card" id="premiumOpen">
+      <span class="pc-ico" aria-hidden="true">💬</span>
+      <span><b>Votre avis compte</b><small>1 minute pour nous dire ce que vous utilisez et ce qui vous manque (et si une version Premium vous servirait).</small></span>
+    </button>
+    <dialog class="sheet" id="premiumDlg" aria-labelledby="premiumTitle">
+      <form id="premiumForm" method="dialog">
+        <div class="sheet-head"><h3 id="premiumTitle">Votre avis sur Crén'eau</h3><button type="button" class="todaybtn" id="premiumClose">Fermer</button></div>
+        <p class="muted" style="margin-top:0">4 questions, 1 minute. Crén'eau restera gratuit pour l'essentiel ; vos réponses nous aident à choisir la suite.</p>
+        <fieldset><legend>Si vous ne pouviez plus utiliser Crén'eau, vous seriez…</legend>
+          <label><input type="radio" name="deception" value="Très déçu"> Très déçu(e)</label>
+          <label><input type="radio" name="deception" value="Un peu déçu"> Un peu déçu(e)</label>
+          <label><input type="radio" name="deception" value="Pas déçu"> Pas déçu(e)</label>
+        </fieldset>
+        <fieldset><legend>Ce que vous utilisez aujourd'hui pour décider de sortir</legend>
+          <label><input type="checkbox" name="outils" value="Windguru"> Windguru</label>
+          <label><input type="checkbox" name="outils" value="Windy"> Windy</label>
+          <label><input type="checkbox" name="outils" value="Windfinder"> Windfinder</label>
+          <label><input type="checkbox" name="outils" value="Météo-France / bulletin marine"> Météo-France, bulletin météo marine</label>
+          <label><input type="checkbox" name="outils" value="Météo-Consult"> Météo-Consult / Marine</label>
+          <label><input type="checkbox" name="outils" value="Club, école, capitainerie"> Le club, l'école, la capitainerie, les copains</label>
+          <label class="other">Autre <input type="text" name="outilsAutre" placeholder="ex. une appli, un site, une webcam"></label>
+        </fieldset>
+        <fieldset><legend>Ce que vous aimeriez ajouter</legend>
+          <label><input type="checkbox" name="ajouts" value="Alertes créneau favorable"> Alertes quand un créneau ou une session devient favorable</label>
+          <label><input type="checkbox" name="ajouts" value="Plus de spots et de ports"> Plus de spots et de ports</label>
+          <label><input type="checkbox" name="ajouts" value="Prévisions 16 jours"> Prévisions jusqu'à 16 jours</label>
+          <label><input type="checkbox" name="ajouts" value="Vent mesuré en direct"> Vent mesuré en direct (balises)</label>
+          <label><input type="checkbox" name="ajouts" value="Spots favoris"> Spots favoris et comparaison</label>
+          <label class="other">Votre idée <input type="text" name="ajoutsAutre" placeholder="ce qui vous manque"></label>
+        </fieldset>
+        <fieldset><legend>Pour une version Premium, un prix juste serait…</legend>
+          <label><input type="radio" name="prix" value="Gratuit seulement"> Je n'utiliserais que la version gratuite</label>
+          <label><input type="radio" name="prix" value="10 € par an"> Environ 10 € par an</label>
+          <label><input type="radio" name="prix" value="20 € par an"> Environ 20 € par an</label>
+          <label><input type="radio" name="prix" value="3 € par mois"> Environ 3 € par mois</label>
+        </fieldset>
+        <button type="submit" class="ins-save premium-send">Envoyer</button>
+        <p class="sheet-done" id="premiumDone" hidden>Merci ! Votre avis est bien reçu.</p>
+      </form>
+    </dialog>
   </section>
 
   <section id="sortir" aria-labelledby="t-out">
@@ -2757,11 +2817,48 @@ try{ history.scrollRestoration = 'manual'; }catch(e){}
 scrollTo(0, 0);
 addEventListener('load', ()=>scrollTo(0, 0), {once:true});
 
+/* ---------- Votre avis : désirabilité, outils actuels, ajouts souhaités ---------- */
+// Envoi direct dans un Google Form (réponses dans un Google Sheet du propriétaire) :
+// renseigner SURVEY.form (identifiant du formulaire) et les numéros entry.xxx des questions
+// (voir docs/premium/questionnaire.md). Tant que ce n'est pas fait : e-mail prérempli.
+const SURVEY = {form:'', entries:{deception:'', outils:'', ajouts:'', prix:'', contexte:''}};
+$('premiumOpen').addEventListener('click', ()=>{
+  $('premiumDone').hidden = true; $('premiumForm').querySelector('.premium-send').hidden = false;
+  try{ $('premiumDlg').showModal(); }catch(e){ $('premiumDlg').setAttribute('open',''); }
+});
+$('premiumClose').addEventListener('click', ()=>$('premiumDlg').close());
+$('premiumForm').addEventListener('submit', async e=>{
+  e.preventDefault();
+  const f = e.target, picked = n => [...f.querySelectorAll('input[name='+n+']:checked')].map(x => x.value);
+  const one = n => (f.querySelector('input[name='+n+']:checked')||{}).value || '';
+  const outils = picked('outils').concat(f.elements.outilsAutre.value.trim() ? ['Autre : '+f.elements.outilsAutre.value.trim()] : []);
+  const ajouts = picked('ajouts').concat(f.elements.ajoutsAutre.value.trim() ? ['Idée : '+f.elements.ajoutsAutre.value.trim()] : []);
+  const contexte = (PROFILE==='kite' ? 'Glisse ('+SP().label+')' : 'Bateau')+' · '+RG().name;
+  const r = {deception: one('deception'), outils: outils.join(' ; '), ajouts: ajouts.join(' ; '), prix: one('prix'), contexte};
+  if(SURVEY.form){
+    const data = new URLSearchParams();
+    Object.entries(SURVEY.entries).forEach(([k, id]) => { if(id && r[k]) data.append('entry.'+id, r[k]); });
+    try{
+      // Google Forms n'autorise pas la lecture de la réponse (no-cors) : l'envoi suffit
+      await fetch('https://docs.google.com/forms/d/e/'+SURVEY.form+'/formResponse', {method:'POST', mode:'no-cors', body:data});
+      f.querySelector('.premium-send').hidden = true; $('premiumDone').hidden = false;
+      try{ localStorage.setItem('avisEnvoye', Date.now()); }catch(err){}
+      setTimeout(()=>$('premiumDlg').close(), 1800);
+      return;
+    } catch(err){ ERRORS.push('avis : '+(err && err.message)); }
+  }
+  const body = "Mon avis sur Crén'eau\n\nSi je ne pouvais plus l'utiliser : "+(r.deception||'—')+'\nJ\'utilise aujourd\'hui : '+(r.outils||'—')
+    + '\nJ\'aimerais ajouter : '+(r.ajouts||'—')+'\nPrix juste : '+(r.prix||'—')+'\n\n'+contexte;
+  const to = ['antoine.pittilloni', 'gmail.com'].join('@');
+  $('premiumDlg').close();
+  location.href = 'mailto:'+to+'?subject='+encodeURIComponent("Crén'eau · mon avis")+'&body='+encodeURIComponent(body);
+});
+
 /* ---------- Mise à jour automatique ---------- */
 // version.json est réécrit à chaque publication (tools/publier-version.sh). Si la
 // version en ligne diffère de celle de la page, on recharge : sur l'écran
 // d'accueil de l'iPhone, l'app reste ainsi à jour sans manipulation.
-const APP_VERSION = '20261018-123203';
+const APP_VERSION = '20261018-124223';
 async function checkUpdate(){
   try{
     const r = await fetch('version.json?t='+Date.now(), {cache:'no-store'});

@@ -3,3 +3,7 @@
 *.txt
 horaires.pdf
 data.json
+
+# brouillons et chiffrage Premium : gardés en local (dépôt public)
+docs/premium/emails.md
+docs/premium/chiffrage.md

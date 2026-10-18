@@ -46,6 +46,9 @@ Dernière mise à jour de ce fichier : 17 octobre 2026 (15h30).
 
 ## À faire / idées
 
+- [ ] Créer le Google Form du questionnaire et le brancher (`docs/premium/questionnaire.md`), puis le diffuser aux clubs et écoles
+- [ ] Version payante : prix Open-Meteo (usage commercial), accord Ports du Calvados et SHOM, puis comptes + paiement + alertes (chiffrage gardé hors du dépôt public)
+
 - [ ] Faire valider par des pratiquants les coefficients et vents mini/maxi du windsurf, du windfoil et du wingfoil (`SPORTS`)
 
 - [ ] Nouméa : faire confirmer par la famille l'orientation de l'îlot Maître (110°) et de Port Moselle (265°), les zones autorisées à Magenta (aérodrome), les caps du lagon et les heures de marée calculées (comparer à l'annuaire SHOM)

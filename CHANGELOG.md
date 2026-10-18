@@ -1,5 +1,9 @@
 # Historique des versions
 
+## 18 octobre 2026 (16h) — « Votre avis » : désirabilité et attentes
+- Onglet Maintenant : carte **« 💬 Votre avis compte »** qui ouvre un questionnaire d'une minute, sans quitter l'app : déception si Crén'eau disparaissait (test de Sean Ellis), outils utilisés aujourd'hui (Windguru, Windy, Windfinder, Météo-France, Météo-Consult, club… + autre), ajouts souhaités (alertes, spots, 16 jours, vent mesuré, favoris + idée libre), prix juste pour un Premium. Le contexte (profil, sport, région) est ajouté automatiquement.
+- Envoi **direct vers un Google Form** (réponses dans un Google Sheet) dès que le formulaire est branché (`SURVEY` dans `index.html`, mode d'emploi dans `docs/premium/questionnaire.md`) ; d'ici là, e-mail prérempli.
+
 ## 18 octobre 2026 (15h30) — Nouméa : Anse Vata, Magenta, Port Moselle en spots de glisse
 - Trois spots de glisse ajoutés à Nouméa, orientation calculée sur le trait de côte OpenStreetMap :
   - **Anse Vata** (la grande plage) : tournée vers le sud-ouest (243°) ; avec l'alizé, vent de côté-terre.
