@@ -593,6 +593,30 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   .buoy.off p{margin:4px 0 0;font-size:.9rem;color:var(--ink-2);}
   .buoy-src{font-size:.82rem;margin-top:8px;}
 
+  /* calendrier : vue des 7 prochains jours */
+  .weekbtn{display:flex;align-items:center;gap:12px;width:100%;margin:2px 0 12px;padding:12px 16px;border:0;border-radius:var(--radius);background:var(--surface);color:var(--ink);text-align:left;cursor:pointer;min-height:56px;}
+  .weekbtn svg{width:26px;height:26px;color:var(--accent);flex:none;}
+  .weekbtn span{display:flex;flex-direction:column;}
+  .weekbtn small{color:var(--ink-2);font-size:.85rem;font-weight:500;}
+  .week{border:0;padding:0 16px calc(env(safe-area-inset-bottom) + 16px);margin:auto auto 0;width:100%;max-width:720px;max-height:88vh;border-radius:22px 22px 0 0;background:var(--ground);color:var(--ink);overflow:auto;}
+  .week[open]{animation:sheetUp .3s cubic-bezier(.2,.8,.2,1);}
+  @keyframes sheetUp{from{transform:translateY(40px);opacity:0;}to{transform:none;opacity:1;}}
+  .week::backdrop{background:rgba(0,0,0,.5);}
+  .week-head{position:sticky;top:0;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:16px 0 10px;background:var(--ground);}
+  .week-head h3{margin:0;font-size:1.3rem;letter-spacing:-.02em;}
+  .week-sum{margin:0 0 12px;font-weight:600;}
+  .wday{display:block;width:100%;text-align:left;border:0;border-radius:16px;background:var(--surface);color:var(--ink);padding:12px 14px;margin-bottom:8px;cursor:pointer;font:inherit;}
+  .wday-h{display:flex;justify-content:space-between;align-items:center;gap:10px;}
+  .wday-h b{font-size:1.02rem;}
+  .wday-h .badge{grid-row:auto;grid-column:auto;font-size:.8rem;padding:3px 9px;}
+  .wday-slots{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}
+  .wslot{font-weight:700;font-size:.88rem;padding:5px 9px;border-radius:10px;background:var(--surface-2);}
+  .wslot small{font-weight:500;color:var(--ink-2);margin-left:4px;}
+  .wslot.good{background:var(--good-bg);color:var(--good);} .wslot.mid{background:var(--mid-bg);color:var(--mid);} .wslot.bad{background:var(--bad-bg);color:var(--bad);}
+  .wday-why{margin:6px 0 0;font-size:.88rem;color:var(--ink-2);}
+  .week-foot{font-size:.82rem;}
+  @media (prefers-reduced-motion: reduce){ .week[open]{animation:none;} }
+
   /* calendrier : conditions du jour choisi */
   .daycond{margin-top:12px;background:var(--surface);border-radius:var(--radius);padding:16px 18px;}
   .daycond .dc-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
@@ -964,6 +988,16 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
       <div class="daylabel" id="dayLabel">—</div>
       <button class="todaybtn" id="gotoToday">Aujourd'hui</button>
     </div>
+    <button type="button" class="weekbtn" id="openWeek">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4M7 14h2M11 14h2M15 14h2M7 17h2M11 17h2"/></svg>
+      <span><b>Les 7 prochains jours</b><small id="weekBtnSub">repérer les créneaux favorables</small></span>
+    </button>
+    <dialog class="week" id="weekDlg" aria-labelledby="weekTitle">
+      <div class="week-head"><h3 id="weekTitle">Les 7 prochains jours</h3><button type="button" class="todaybtn" id="weekClose">Fermer</button></div>
+      <p class="week-sum" id="weekSum"></p>
+      <div id="weekBody"></div>
+      <p class="muted week-foot">Touchez un jour pour voir le détail heure par heure. Au-delà de 3 jours, ce sont des tendances, à revérifier la veille.</p>
+    </dialog>
     <div class="today" id="dayCard">
       <div class="today-title only-boat">Ouverture des portes du bassin Morny</div>
       <div class="slots only-boat" id="daySlots"></div>
@@ -2004,6 +2038,7 @@ function setProfile(p, animate){
   if(animate) replay($(p==='kite' ? 'kiteNow' : 'tilePass'), 'enter');
   if(tabsReady){ refreshTabs(); syncTab(); }
   ensureForecast();
+  $('weekBtnSub').textContent = p==='kite' ? 'repérer les sessions navigables' : 'repérer les créneaux favorables';
   if(animate) renderDayCond();
   if(animate && p==='boat') loadBuoys();
 }
@@ -2026,6 +2061,96 @@ function renderBrowse(i, dir){
   renderDayCond();
 }
 
+/* ---------- Calendrier : les 7 prochains jours ---------- */
+// Jours 0 à 2 : prévisions déjà chargées ; jours 3 à 6 : un seul appel pour tous.
+let weekReq = 0;
+async function openWeek(){
+  const dlg = $('weekDlg');
+  if(!dlg.open){ try{ dlg.showModal(); }catch(e){ dlg.setAttribute('open',''); } }
+  const req = ++weekReq, t = todayIdx ?? 0, last = Math.min(keys.length-1, t+6);
+  const body = $('weekBody');
+  $('weekSum').textContent = '';
+  body.innerHTML = '<div class="muted">Chargement des prévisions de la semaine…</div>';
+  const fcOK = FC && FC.key===fcKey();
+  let hours = fcOK ? FC.hours.slice() : [];
+  const fcEnd = fcOK ? FC.hours[FC.hours.length-1].ts : 0;
+  const from = fcOK ? t+3 : t;
+  if(from<=last){
+    const done = busy('des prévisions de la semaine');
+    try{
+      const r = await fetchDays(from, last-from+1);
+      hours = hours.concat(r.hours.filter(h => h.ts>fcEnd));
+    } catch(e){
+      ERRORS.push('semaine : '+(e && e.message));
+      if(!hours.length){
+        if(req===weekReq) body.innerHTML = '<div class="muted">Prévisions indisponibles (connexion ?).</div> <button type="button" class="todaybtn" id="weekRetry" style="margin-top:10px">Réessayer</button>';
+        const b = $('weekRetry'); if(b) b.addEventListener('click', openWeek);
+        return;
+      }
+    } finally { done(); }
+  }
+  if(req!==weekReq) return;
+  hours.forEach(scoreHour);
+  renderWeek(hours, t, last);
+}
+function renderWeek(hours, t, last){
+  const kite = PROFILE==='kite', now = Date.now();
+  let nGood = 0;
+  const rows = [];
+  for(let idx=t; idx<=last; idx++){
+    const dayHs = hoursOfDay(hours, idx);
+    let badge = '', slotsHTML = '', why = '';
+    if(kite){
+      const ss = dayHs.length ? kiteSessions(dayHs.filter(h => !h.night)).filter(w => idx!==t || w.e>now) : [];
+      ss.forEach(w => { if(w.level==='good') nGood++; });
+      const best = ss.length ? ss.reduce((m,w)=>w.score>m.score?w:m, ss[0]) : null;
+      if(best){
+        badge = '<span class="badge '+best.level+'">'+LEVELS[best.level]+'</span>';
+        slotsHTML = ss.map(w => '<span class="wslot '+w.level+'">'+epochHHMM(w.s)+'–'+epochHHMM(w.e)+'<small>'+kiteSize((w.knMin+w.kn)/2).val+'</small></span>').join('');
+        why = dayReason(best);
+      } else if(dayHs.length){
+        // la raison de la meilleure heure de jour (vent trop faible, offshore, rafales…)
+        const light = dayHs.filter(h => !h.night), pool = light.length ? light : dayHs;
+        const bestH = pool.reduce((m,h)=>h.score>m.score?h:m, pool[0]);
+        badge = '<span class="badge bad">'+LEVELS.bad+'</span>';
+        why = 'Pas de session : '+dayReason(bestH).charAt(0).toLowerCase()+dayReason(bestH).slice(1);
+      }
+    } else {
+      const ivs = windowsOfDay(idx).filter(iv => !iv.unknown && iv.sAbs >= idx*1440 && iv.e>now);
+      const rated = ivs.map(iv => {
+        const hs = hours.filter(h => h.ts+3600000>iv.s && h.ts<iv.e);
+        return Object.assign({iv}, hs.length ? summarize(hs) : {});
+      });
+      rated.forEach(r => { if(r.level==='good') nGood++; });
+      const ok = rated.filter(r => r.level);
+      const best = ok.length ? ok.reduce((m,w)=>w.score>m.score?w:m, ok[0]) : null;
+      if(best){ badge = '<span class="badge '+best.level+'">'+LEVELS[best.level]+'</span>'; why = dayReason(best); }
+      slotsHTML = rated.map(r => '<span class="wslot '+(r.level||'')+'">'+epochHHMM(r.iv.s)+'–'+epochHHMM(r.iv.e)+(r.night ? '<small>nuit</small>' : '')+'</span>').join('')
+        || '<span class="wslot">Pas d’ouverture des portes</span>';
+    }
+    if(!dayHs.length && !why) why = 'Pas encore de prévision';
+    rows.push('<button type="button" class="wday" data-idx="'+idx+'"><div class="wday-h"><b>'+cap(relDay(idx, t))+'</b>'+badge+'</div>'
+      + (slotsHTML ? '<div class="wday-slots">'+slotsHTML+'</div>' : '')
+      + (why ? '<p class="wday-why">'+why+'</p>' : '')+'</button>');
+  }
+  $('weekSum').textContent = nGood
+    ? nGood+' '+(kite ? (nGood>1 ? 'sessions navigables' : 'session navigable') : (nGood>1 ? 'créneaux favorables' : 'créneau favorable'))+' sur 7 jours'
+    : (kite ? 'Aucune session navigable sur 7 jours avec ton matériel' : 'Aucun créneau favorable sur 7 jours');
+  $('weekBody').innerHTML = rows.join('');
+}
+$('openWeek').addEventListener('click', openWeek);
+$('weekClose').addEventListener('click', ()=>$('weekDlg').close());
+$('weekDlg').addEventListener('click', e=>{
+  // toucher le fond (hors du panneau) ferme
+  const r = $('weekDlg').getBoundingClientRect();
+  if(e.target===$('weekDlg') && (e.clientY<r.top || e.clientY>r.bottom || e.clientX<r.left || e.clientX>r.right)){ $('weekDlg').close(); return; }
+  const d = e.target.closest('.wday');
+  if(!d) return;
+  $('weekDlg').close();
+  const i = +d.dataset.idx;
+  renderBrowse(i, Math.sign(i-browseIdx));
+});
+
 /* ---------- Calendrier : conditions du jour choisi ---------- */
 // Les 3 premiers jours reprennent les prévisions déjà chargées (Météo-France).
 // Au-delà : tendance des modèles mondiaux (vent jusqu'à J+15, vagues jusqu'à J+7 environ).
@@ -2046,12 +2171,13 @@ async function getJSON(urls){
   }
   throw new Error('prévisions du jour indisponibles');
 }
-function fetchDay(idx){
-  const ck = fcKey()+':'+idx;
+function fetchDay(idx){ return fetchDays(idx, 1); }
+// n jours à partir de idx, plus le lendemain : un créneau d'écluse du soir peut finir après minuit
+function fetchDays(idx, n){
+  const ck = fcKey()+':'+idx+':'+n;
   if(DAYFC[ck]) return DAYFC[ck];
   const P = fcPlace(), past = idx < (todayIdx ?? 0);
-  // jusqu'au lendemain : un créneau d'écluse du soir peut finir après minuit
-  const range = '&timeformat=unixtime&timezone=Europe%2FParis&start_date='+isoDay(idx)+'&end_date='+isoDay(idx+1);
+  const range = '&timeformat=unixtime&timezone=Europe%2FParis&start_date='+isoDay(idx)+'&end_date='+isoDay(idx+n);
   const wBase = 'https://api.open-meteo.com/v1/forecast?latitude='+P.lat+'&longitude='+P.lon
     + '&hourly=wind_speed_10m,wind_gusts_10m,wind_direction_10m,temperature_2m,weather_code&daily=sunrise,sunset'
     + '&wind_speed_unit=kn'+range;
@@ -2265,7 +2391,7 @@ addEventListener('load', ()=>scrollTo(0, 0), {once:true});
 // version.json est réécrit à chaque publication (tools/publier-version.sh). Si la
 // version en ligne diffère de celle de la page, on recharge : sur l'écran
 // d'accueil de l'iPhone, l'app reste ainsi à jour sans manipulation.
-const APP_VERSION = '20261018-104021';
+const APP_VERSION = '20261018-104547';
 async function checkUpdate(){
   try{
     const r = await fetch('version.json?t='+Date.now(), {cache:'no-store'});

@@ -1,5 +1,9 @@
 # Historique des versions
 
+## 18 octobre 2026 (12h) — Les 7 prochains jours
+- Calendrier : bouton **« Les 7 prochains jours »** qui ouvre un panneau avec, jour par jour, les créneaux d'écluse notés (couleur Favorable / Prudence / Déconseillé, « nuit ») ou, en kite, les sessions navigables avec l'aile à sortir, la note du jour et sa raison, et un total (« 2 créneaux favorables sur 7 jours »). Toucher un jour l'ouvre dans le calendrier.
+- Jours 1 à 3 : prévisions déjà chargées ; jours 4 à 7 : un seul appel groupé (`fetchDays`).
+
 ## 18 octobre 2026 (11h45) — Créneaux favorables, pastille des bouées
 - Liste des créneaux (et sessions kite) : chaque créneau **Favorable** / session **Navigable** est entouré en vert, **trait plein s'il est aujourd'hui**, **pointillé s'il est un autre jour** (avant : seul le meilleur créneau était entouré).
 - Bouées : la pastille « il y a 37 min » dépassait de la carte et son point vert était écrasé sur les petits écrans (classe `live` déjà utilisée par l'horloge) ; elle est maintenant une vraie pastille et le nom de la bouée passe à la ligne. Plus aucun défilement horizontal de la page.
