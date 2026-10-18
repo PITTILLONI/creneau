@@ -377,6 +377,8 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   .weight b{color:var(--ink);font-size:1.05rem;}
   .weight button{width:40px;height:40px;border-radius:12px;border:0;background:var(--surface);font-size:1.3rem;font-weight:700;cursor:pointer;}
   .weight button{background:var(--surface-2);}
+  .key.target .v{color:var(--mid);}
+  .wkd .t .ico{margin-right:3px;color:var(--mid);}
   .rider{flex:none;display:inline-flex;align-items:center;gap:6px;border:0;border-radius:999px;background:var(--surface);color:var(--ink);font-weight:700;font-size:.88rem;padding:6px 12px;min-height:36px;cursor:pointer;white-space:nowrap;}
   .rider .ico{margin:0;color:var(--accent);}
   .rider[aria-expanded="true"]{background:var(--accent);color:var(--accent-ink);}
@@ -1102,7 +1104,7 @@ function ico(name, label){
 }
 // Intitulés des tuiles : une icône devant chaque libellé connu.
 const K_ICON = {'Vent':'wind', 'Rafales':'wind', 'Mer':'waves', 'Vague max':'waves', 'Période':'timer', 'Viennent du':'compass',
-  'Marée':'tideUp', 'Air':'thermo', 'Soleil':'sun', 'Eau':'drop', 'Aile à sortir':'kite', 'Aile au plus fort':'kite'};
+  'Marée':'tideUp', 'Air':'thermo', 'Soleil':'sun', 'Eau':'drop', 'Aile à sortir':'kite', 'Aile au plus fort':'kite', 'Aile cible':'kite'};
 function kLabel(k){ return '<div class="k">'+ico(K_ICON[k])+k+'</div>'; }
 function cellHTML([k,v,s]){ return '<div class="cond">'+kLabel(k)+'<div class="val">'+v+'</div><div class="sub">'+s+'</div></div>'; }
 // Icône de la raison d'une note (vent, mer, nuit, orage, vent de terre, ou tout va bien).
@@ -1367,8 +1369,10 @@ function reason(x){
   const kn = Math.round(x.kn), gust = Math.round(x.gust), wave = num(x.wave,1);
   if(PROFILE==='kite'){
     switch(x.why){
-      case 'trop faible': return 'Vent trop faible : '+num(x.knMin ?? x.kn, 1)+' nd, il en faut au moins '+Math.round(windRange().lo)+' avec '+quiverLabel('max');
-      case 'très fort': return kn>35 ? 'Vent très fort ('+kn+' nd) : rester à terre' : 'Trop de vent ('+kn+' nd) même pour '+quiverLabel('min')+' : surtoilé';
+      case 'trop faible': { const tg = targetKite(x.knMin ?? x.kn);
+        return 'Vent trop faible : '+num(x.knMin ?? x.kn, 1)+' nd, il en faut au moins '+Math.round(windRange().lo)+' avec '+quiverLabel('max')+(tg ? ' · aile cible : '+tg : ''); }
+      case 'très fort': { const tg = targetKite(x.kn);
+        return kn>35 ? 'Vent très fort ('+kn+' nd) : rester à terre' : 'Trop de vent ('+kn+' nd) même pour '+quiverLabel('min')+(tg ? ' · aile cible : '+tg : ' : surtoilé'); }
       case 'rafaleux': return 'Vent irrégulier : rafales à '+gust+' nd pour '+kn+' nd de moyenne';
       case 'offshore, dangereux': return 'Vent de terre (offshore) : dangereux, il pousse vers le large';
       case 'side-off': return 'Vent de côté-terre (side-off) : risque de dérive vers le large';
@@ -1720,7 +1724,7 @@ function renderForecast(){
     b.innerHTML = '<span class="lock"></span><span class="bar"></span><span class="t">'+label+'</span>';
     const detail = whenLabel(h.ts)+' '+String(p.hour).padStart(2,'0')+'h : <b>'+LEVELS[h.level]+'</b>'+' — '+reason(h).charAt(0).toLowerCase()+reason(h).slice(1)
       + ' — vent '+Math.round(h.kn)+' nd '+dirName(h.dir)+', rafales '+Math.round(h.gust)+' nd'
-      + (kite ? ', '+orientation(h.dir)+', aile '+kiteSize(h.kn).val : '')+', vagues '+num(h.wave,1)+' m'
+      + (kite ? ', '+orientation(h.dir)+', '+(kiteSize(h.kn).target ? 'aile cible ' : 'aile ')+kiteSize(h.kn).val : '')+', vagues '+num(h.wave,1)+' m'
       + (open && !kite ? ' · écluse ouverte' : '')+(h.night ? ' · nuit' : '')
     b.setAttribute('aria-label', detail.replace(/<[^>]+>/g,''));
     b.addEventListener('click', ()=>{
@@ -1848,15 +1852,30 @@ function windRange(){
   const hi = Math.min(35, idealWind(small)*1.5);
   return {lo, hi};
 }
+// Aile qu'il faudrait quand les miennes ne permettent pas de naviguer (inverse de windRange).
+// '' si rien ne marche (moins de 7 nd, plus de 35 nd).
+function targetKite(kn){
+  const {lo, hi} = windRange();
+  if(kn>=lo && kn<=hi) return '';
+  if(kn>hi) return kn>35 ? '' : Math.max(4, Math.floor(RIDER_KG*2.2*1.5/kn))+' m²';
+  if(kn<7) return '';
+  if(FOIL){ const sz = Math.ceil(RIDER_KG*2.2*.6/kn); return sz<=21 ? sz+' m² en foil' : ''; }
+  if(kn<9) return 'Foil';   // sous 9 nd, même une grande aile vole mal en twin-tip
+  const sz = Math.ceil(RIDER_KG*2.2*.88/kn);
+  return sz<=21 ? sz+' m²' : 'Foil';
+}
 function quiverLabel(which){ return 'ta '+(which==='max' ? Math.max(...QUIVER) : Math.min(...QUIVER))+' m²'; }
 // L'aile à sortir pour ce vent, parmi les miennes.
 function kiteSize(kn){
   const need = RIDER_KG*2.2/Math.max(kn, 1);
   const {lo, hi} = windRange();
   const ideal = 'idéal '+Math.round(Math.min(21, need))+' m² pour '+RIDER_KG+' kg';
-  if(kn<lo) return {val:'—', sub: need>21 ? 'trop peu de vent pour naviguer'
-    : 'trop peu de vent pour '+quiverLabel('max')+' : il faudrait une '+Math.ceil(need*.88)+' m²'+(FOIL || kn<7 ? '' : ' ou un foil')};
-  if(kn>hi) return {val:'—', sub: kn>35 ? 'trop fort, rester à terre' : 'trop de vent même pour '+quiverLabel('min')+' : il faudrait une '+Math.max(4, Math.floor(need*1.5))+' m²'};
+  if(kn<lo || kn>hi){
+    const tg = targetKite(kn);
+    const why = kn<lo ? 'trop peu de vent pour '+quiverLabel('max') : 'trop de vent même pour '+quiverLabel('min');
+    return tg ? {val:tg, target:true, sub:why+' : il faudrait '+(tg==='Foil' ? 'un foil' : 'une '+tg)}
+      : {val:'—', sub: kn>35 ? 'trop fort, rester à terre' : 'trop peu de vent pour naviguer'};
+  }
   const fits = QUIVER.filter(sz => kn>=idealWind(sz)*.88 && kn<=idealWind(sz)*1.5);
   if(!fits.length){
     // aucune aile dans sa plage mais le foil passe (vent faible)
@@ -1932,7 +1951,7 @@ function renderKiteNow(){
   const gustSize = kiteSize(h.gust);
   const gustTxt = size.size && gustSize.size && gustSize.size!==size.size ? '<br>rafales à '+Math.round(h.gust)+' nd : la '+gustSize.size+' m² sera plus confortable' : '';
   $('kKey').innerHTML =
-    '<div class="key">'+kLabel('Aile à sortir')+'<div class="v">'+size.val+'</div><div class="sub">'+size.sub+gustTxt+'</div></div>'
+    '<div class="key'+(size.target ? ' target' : '')+'">'+kLabel(size.target ? 'Aile cible' : 'Aile à sortir')+'<div class="v">'+size.val+'</div><div class="sub">'+size.sub+gustTxt+'</div></div>'
   + '<div class="key">'+kLabel('Eau')+'<div class="v">'+(h.sst!=null ? num(h.sst,1)+'°' : '—')+'</div><div class="sub">'+wetsuit(h.sst)+'</div></div>';
   const cells = [
     ['Rafales', Math.round(h.gust)+' nd', spread<=5 ? 'vent régulier (écart '+spread+' nd)' : spread<=8 ? 'un peu irrégulier (écart '+spread+' nd)' : 'irrégulier (écart '+spread+' nd)'],
@@ -2166,7 +2185,10 @@ function renderWeek(){
       good = ss.filter(w => w.level==='good').length;
       best = ss.length ? ss.reduce((m,w)=>w.score>m.score?w:m, ss[0]) : null;
       if(best) when = epochHHMM(best.s).slice(0,2)+'h–'+epochHHMM(best.e).slice(0,2)+'h · '+kiteSize((best.knMin+best.kn)/2).val;
-      else if(dayHs.length){ const pool = dayHs.filter(h=>!h.night).length ? dayHs.filter(h=>!h.night) : dayHs; best = Object.assign({}, pool.reduce((m,h)=>h.score>m.score?h:m, pool[0]), {level:'bad'}); when = 'pas de session'; }
+      else if(dayHs.length){ const pool = dayHs.filter(h=>!h.night).length ? dayHs.filter(h=>!h.night) : dayHs; best = Object.assign({}, pool.reduce((m,h)=>h.score>m.score?h:m, pool[0]), {level:'bad'});
+        // vent trop faible ou trop fort pour mes ailes : l'aile qu'il faudrait
+        const tg = (best.why==='trop faible' || best.why==='très fort') ? targetKite(best.kn) : '';
+        when = tg ? ico('kite')+(tg==='Foil' ? 'foil requis' : 'cible '+tg) : 'pas de session'; }
     } else {
       const rated = windowsOfDay(idx).filter(iv => !iv.unknown && iv.sAbs >= idx*1440 && iv.e>now).map(iv => {
         const hs = hours.filter(h => h.ts+3600000>iv.s && h.ts<iv.e);
@@ -2180,7 +2202,7 @@ function renderWeek(){
     const label = idx===t ? 'Auj.' : idx===t+1 ? 'Demain' : dayName(idx, {weekday:'short', day:'numeric'});
     const cls = 'wkd'+(good ? ' fav'+(idx===t ? '' : ' later') : '')+(idx===browseIdx ? ' sel' : '');
     const lvl = best ? '<div class="l '+best.level+'">'+ico(reasonIcon(best))+LEVELS[best.level]+'</div>' : '<div class="l">—</div>';
-    cards.push('<button type="button" role="listitem" class="'+cls+'" data-idx="'+idx+'" aria-label="'+cap(relDay(idx,t))+' : '+(best ? LEVELS[best.level]+', '+when : 'pas de prévision')+'">'
+    cards.push('<button type="button" role="listitem" class="'+cls+'" data-idx="'+idx+'" aria-label="'+cap(relDay(idx,t))+' : '+(best ? LEVELS[best.level]+', '+when.replace(/<[^>]+>/g,'') : 'pas de prévision')+'">'
       + '<span class="d">'+label+'</span>'+lvl+'<span class="t">'+(dayHs.length ? when : 'pas de prévision')+'</span></button>');
   }
   $('weekStrip').innerHTML = cards.join('');
@@ -2288,8 +2310,10 @@ async function renderDayCond(){
     const best = ss.length ? ss.reduce((m,w)=>w.score>m.score?w:m, ss[0]) : null;
     head = best
       ? {level:best.level, when:'Session '+epochHHMM(best.s)+' – '+epochHHMM(best.e)+' · '+kiteSize((best.knMin+best.kn)/2).val, why:dayReason(best), x:best, hs:best.hs}
-      : (()=>{ const hs = dayHs.filter(h=>!h.night).length ? dayHs.filter(h=>!h.night) : dayHs, x = summarize(hs);
-          return {level:'bad', when:'Pas de session navigable de jour', why:dayReason(x), hs}; })();
+      : (()=>{ const hs = dayHs.filter(h=>!h.night).length ? dayHs.filter(h=>!h.night) : dayHs;
+          // la raison de l'heure la plus proche de naviguer (et l'aile cible qui va avec)
+          const x = hs.reduce((m,h)=>h.score>m.score?h:m, hs[0]);
+          return {level:'bad', when:'Pas de session navigable de jour', why:dayReason(x), x, hs}; })();
   } else {
     const ivs = windowsOfDay(idx).filter(iv => !iv.unknown).map(iv => Object.assign({iv}, rateIv(iv) || {})).filter(x => x.level);
     const best = ivs.length ? ivs.reduce((m,w)=>w.score>m.score?w:m, ivs[0]) : null;
@@ -2311,7 +2335,7 @@ async function renderDayCond(){
     const sz = kiteSize(top.kn);
     const ssts = base.map(h=>h.sst).filter(v=>v!=null);
     const sst = ssts.length ? ssts.reduce((a,b)=>a+b,0)/ssts.length : null;
-    cells.push(['Aile au plus fort', sz.val, sz.sub]);
+    cells.push([sz.target ? 'Aile cible' : 'Aile au plus fort', sz.val, sz.sub]);
     cells.push(['Eau', sst!=null ? num(sst,1)+'°' : '—', wetsuit(sst)]);
   }
   if(sun[0]) cells.push(['Soleil', epochHHMM(sun[0])+' – '+epochHHMM(sun[1]), kite ? 'sortir de l’eau avant '+epochHHMM(sun[1]-30*60000) : 'lever et coucher']);
@@ -2339,7 +2363,7 @@ async function renderDayCond(){
     const why = dayReason(h);
     const detail = String(p.hour).padStart(2,'0')+'h : <b>'+LEVELS[h.level]+'</b> — '+why.charAt(0).toLowerCase()+why.slice(1)
       + ' — vent '+Math.round(h.kn)+' nd '+dirName(h.dir)+', rafales '+Math.round(h.gust)+' nd'
-      + (kite ? ', '+orientation(h.dir)+', aile '+kiteSize(h.kn).val : '')+(h.noWave ? '' : ', vagues '+num(h.wave,1)+' m')
+      + (kite ? ', '+orientation(h.dir)+', '+(kiteSize(h.kn).target ? 'aile cible ' : 'aile ')+kiteSize(h.kn).val : '')+(h.noWave ? '' : ', vagues '+num(h.wave,1)+' m')
       + (open && !kite ? ' · portes ouvertes' : '')+(h.night ? ' · nuit' : '')
     b.setAttribute('aria-label', detail.replace(/<[^>]+>/g,''));
     b.addEventListener('click', ()=>{
@@ -2436,7 +2460,7 @@ addEventListener('load', ()=>scrollTo(0, 0), {once:true});
 // version.json est réécrit à chaque publication (tools/publier-version.sh). Si la
 // version en ligne diffère de celle de la page, on recharge : sur l'écran
 // d'accueil de l'iPhone, l'app reste ainsi à jour sans manipulation.
-const APP_VERSION = '20261018-110038';
+const APP_VERSION = '20261018-110400';
 async function checkUpdate(){
   try{
     const r = await fetch('version.json?t='+Date.now(), {cache:'no-store'});
