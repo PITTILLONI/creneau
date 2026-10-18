@@ -660,6 +660,27 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   .sheet input[type=text]{font:inherit;border:0;border-radius:10px;background:var(--surface-2);color:var(--ink);padding:9px 11px;width:100%;}
   .sheet-done{text-align:center;font-weight:700;color:var(--good);margin:12px 0;}
 
+  /* onboarding (premier lancement) */
+  .onboard{display:none;}
+  .onboard[open]{display:flex;flex-direction:column;}
+  .ob-beta{font-size:.8rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--accent);border:1.5px solid var(--accent);border-radius:999px;padding:2px 10px;}
+  .ob-slides{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;gap:16px;}
+  .ob-slides::-webkit-scrollbar{display:none;}
+  .ob-slide{flex:0 0 100%;scroll-snap-align:start;min-width:0;}
+  .ob-slide h3{font-size:1.4rem;letter-spacing:-.02em;margin:4px 0 8px;}
+  .ob-slide p{margin:0 0 10px;line-height:1.45;}
+  .ob-q{font-weight:700;margin:14px 0 6px;}
+  .ob-choice button{min-height:44px;font-size:.95rem;}
+  .ob-badges{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 12px;}
+  .ob-badges .badge{grid-row:auto;grid-column:auto;}
+  .ob-frames{display:flex;gap:10px;margin:4px 0 12px;}
+  .ob-frame{padding:10px 14px;border-radius:14px;background:var(--surface);outline:3px solid var(--good);outline-offset:-3px;font-weight:700;font-size:.9rem;}
+  .ob-frame.later{outline-style:dashed;}
+  .ob-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0 4px;}
+  .ob-foot .dots{max-width:none;justify-content:flex-start;}
+  .ob-foot .ins-save{min-width:130px;}
+  .ob-replay{margin:0 0 6px;}
+
   /* calendrier : carrousel des 7 prochains jours */
   .wk{display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x proximity;padding:3px 3px 6px;margin:0 -3px;scrollbar-width:none;-webkit-overflow-scrolling:touch;}
   .wk::-webkit-scrollbar{display:none;}
@@ -799,6 +820,52 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
       <span class="pc-ico" aria-hidden="true">💬</span>
       <span><b>Votre avis compte</b><small>1 minute pour nous dire ce que vous utilisez et ce qui vous manque (et si une version Premium vous servirait).</small></span>
     </button>
+    <dialog class="sheet onboard" id="onboardDlg" aria-labelledby="obTitle">
+      <div class="sheet-head"><span class="ob-beta">Bêta</span><button type="button" class="todaybtn" id="obSkip">Passer</button></div>
+      <div class="ob-slides" id="obSlides">
+        <section class="ob-slide" data-step="0">
+          <h3 id="obTitle">Bienvenue sur Crén'eau</h3>
+          <p>Le bon créneau pour glisser : savoir en un coup d'œil s'il faut sortir, en bateau ou en glisse.</p>
+          <div class="ob-q">Vous sortez plutôt…</div>
+          <div class="qv-chips ob-choice" id="obProfile">
+            <button type="button" data-p="boat">Bateau</button>
+            <button type="button" data-p="kite">Kite, windsurf, foil</button>
+          </div>
+          <div class="ob-q">Où ?</div>
+          <div class="qv-chips ob-choice" id="obRegion">
+            <button type="button" data-r="dv">Deauville · Côte Fleurie</button>
+            <button type="button" data-r="nc">Nouméa</button>
+          </div>
+        </section>
+        <section class="ob-slide" data-step="1">
+          <div class="only-boat">
+            <h3>Sortir du port</h3>
+            <p class="only-dv">La carte <b>Sortie en mer</b> dit si les <b>portes du bassin Morny</b> sont ouvertes, avec le chrono jusqu'au prochain changement. Pendant l'ouverture, la <b>passerelle piétonne</b> se lève 15 min toutes les 45 min : l'app affiche la prochaine levée.</p>
+            <p class="only-nc">Pas d'écluse à Port Moselle : la carte <b>Maintenant</b> donne la note du moment, le vent, la marée, l'eau. L'onglet <b>Sortir</b> liste les sorties possibles.</p>
+            <p>Changez de port avec le nom en haut à gauche. Les horaires sont théoriques : confirmez au <b>VHF canal 9</b> à Deauville.</p>
+          </div>
+          <div class="only-kite">
+            <h3>Votre matériel</h3>
+            <p>Les notes dépendent de <b>votre sport, votre poids et votre matériel</b>. Touchez la pastille en haut (ex. « 9/12 ») pour choisir kite, windsurf, windfoil ou wingfoil et cocher vos ailes ou voiles.</p>
+            <p>L'app dit alors quelle aile ou voile sortir, ou laquelle il faudrait (« aile cible ») si la vôtre ne suffit pas.</p>
+            <button type="button" class="todaybtn" id="obGear">Régler maintenant</button>
+          </div>
+        </section>
+        <section class="ob-slide" data-step="2">
+          <h3>Lire une note</h3>
+          <div class="ob-badges"><span class="badge good" data-l="good">Favorable</span><span class="badge mid" data-l="mid">Prudence</span><span class="badge bad" data-l="bad">Déconseillé</span></div>
+          <p>Chaque note vient avec <b>sa raison chiffrée</b> (vent, vagues, nuit, vent de terre…) et le <b>ciel</b> : soleil, nuages, pluie avec les millimètres.</p>
+          <div class="ob-frames"><span class="ob-frame">Aujourd'hui</span><span class="ob-frame later">Un autre jour</span></div>
+          <p>Un créneau favorable est entouré en vert : <b>trait plein</b> aujourd'hui, <b>pointillé</b> un autre jour. Les 7 prochains jours sont dans l'onglet Calendrier.</p>
+        </section>
+        <section class="ob-slide" data-step="3">
+          <h3>Version bêta</h3>
+          <p>Crén'eau est une <b>aide à la décision, pas une garantie</b>. Vérifiez toujours sur place, au <b>VHF canal 9</b> (portes) et avec le bulletin météo marine officiel. Urgence en mer : <span class="only-dv">196 ou VHF 16</span><span class="only-nc">16 ou VHF 16</span>.</p>
+          <p>Certaines infos sont encore à confirmer (cycle de la passerelle piétonne, marées calculées de Nouméa, réglages windsurf et foil). Dites-nous ce qui cloche ou ce qui manque avec la carte <b>💬 Votre avis compte</b>.</p>
+        </section>
+      </div>
+      <div class="ob-foot"><div class="dots" id="obDots"></div><button type="button" class="ins-save" id="obNext" autofocus>Suivant</button></div>
+    </dialog>
     <dialog class="sheet" id="premiumDlg" aria-labelledby="premiumTitle">
       <form id="premiumForm" method="dialog">
         <div class="sheet-head"><h3 id="premiumTitle">Votre avis sur Crén'eau</h3><button type="button" class="todaybtn" id="premiumClose">Fermer</button></div>
@@ -894,6 +961,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
 
   <section id="conseils" aria-labelledby="t-tips">
     <h2 id="t-tips"><span class="only-kite">Bonnes pratiques</span><span class="only-boat">Bonnes pratiques bateau</span></h2>
+    <button type="button" class="todaybtn ob-replay" id="obReplay">Revoir la présentation</button>
     <div class="only-kite">
     <div class="insur" id="insur">
       <div class="insur-head"><span class="h3" style="margin:0">Mon assurance</span><button class="todaybtn" id="insEdit">Modifier</button></div>
@@ -2869,6 +2937,55 @@ try{ history.scrollRestoration = 'manual'; }catch(e){}
 scrollTo(0, 0);
 addEventListener('load', ()=>scrollTo(0, 0), {once:true});
 
+/* ---------- Onboarding : présentation au premier lancement ---------- */
+// 4 étapes à faire glisser : profil + région, l'essentiel du profil, lire une note, bêta.
+// Vue une fois (localStorage 'onboard'), revoyable depuis Conseils.
+const ONBOARD_V = '1';
+let obStep = 0;
+function obSync(){
+  $('obProfile').querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', b.dataset.p===PROFILE));
+  $('obRegion').querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', b.dataset.r===REGION));
+}
+function obGo(i){
+  const slides = $('obSlides').children;
+  obStep = Math.max(0, Math.min(slides.length-1, i));
+  $('obSlides').scrollTo({left: slides[obStep].offsetLeft - $('obSlides').offsetLeft, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'});
+  obDots();
+}
+function obDots(){
+  const n = $('obSlides').children.length;
+  $('obDots').innerHTML = Array.from({length:n}, (_,j) => '<button type="button" aria-label="Étape '+(j+1)+'" aria-current="'+(j===obStep)+'"></button>').join('');
+  $('obNext').textContent = obStep===n-1 ? 'C’est compris' : 'Suivant';
+}
+function openOnboard(){
+  obStep = 0; obSync();
+  try{ $('onboardDlg').showModal(); }catch(e){ $('onboardDlg').setAttribute('open',''); }
+  $('obSlides').scrollLeft = 0; obDots();
+}
+function closeOnboard(){
+  try{ localStorage.setItem('onboard', ONBOARD_V); }catch(e){}
+  $('onboardDlg').close();
+}
+function maybeOnboard(){
+  let seen = null; try{ seen = localStorage.getItem('onboard'); }catch(e){}
+  if(seen!==ONBOARD_V) setTimeout(openOnboard, 400);
+}
+$('obProfile').addEventListener('click', e => { const b = e.target.closest('button'); if(!b) return; setProfile(b.dataset.p, true); obSync(); });
+$('obRegion').addEventListener('click', e => { const b = e.target.closest('button'); if(!b) return; if(b.dataset.r!==REGION) setRegion(b.dataset.r); obSync(); });
+$('obNext').addEventListener('click', () => { if(obStep >= $('obSlides').children.length-1) closeOnboard(); else obGo(obStep+1); });
+$('obSkip').addEventListener('click', closeOnboard);
+$('obDots').addEventListener('click', e => { const b = e.target.closest('button'); if(b) obGo([...$('obDots').children].indexOf(b)); });
+$('obSlides').addEventListener('scroll', () => {
+  const i = Math.round($('obSlides').scrollLeft / $('obSlides').clientWidth);
+  if(i!==obStep){ obStep = i; obDots(); }
+}, {passive:true});
+$('obGear').addEventListener('click', () => {
+  closeOnboard();
+  $('riderPanel').hidden = false; $('riderBtn').setAttribute('aria-expanded', 'true');
+});
+$('obReplay').addEventListener('click', openOnboard);
+$('onboardDlg').addEventListener('cancel', () => { try{ localStorage.setItem('onboard', ONBOARD_V); }catch(e){} });
+
 /* ---------- Votre avis : désirabilité, outils actuels, ajouts souhaités ---------- */
 // Envoi direct dans le Google Form du propriétaire (réponses dans un Google Sheet).
 // single : le formulaire n'a qu'une question « paragraphe », on y met toutes les réponses mises
@@ -2918,7 +3035,7 @@ $('premiumForm').addEventListener('submit', async e=>{
 // version.json est réécrit à chaque publication (tools/publier-version.sh). Si la
 // version en ligne diffère de celle de la page, on recharge : sur l'écran
 // d'accueil de l'iPhone, l'app reste ainsi à jour sans manipulation.
-const APP_VERSION = '20261018-172738';
+const APP_VERSION = '20261018-172918';
 async function checkUpdate(){
   try{
     const r = await fetch('version.json?t='+Date.now(), {cache:'no-store'});
@@ -2940,6 +3057,7 @@ $('gate').addEventListener('submit', async e=>{
   if(h===PASS_HASH){
     try{ localStorage.setItem('acces', h); }catch(err){}
     document.documentElement.classList.remove('locked');
+    maybeOnboard();
     $('gatePass').blur();
     syncTab();
   } else {
@@ -2963,6 +3081,7 @@ document.querySelectorAll('.spotName').forEach(el => el.textContent = SPOTS[SPOT
 document.querySelectorAll('.spotFaces').forEach(el => el.textContent = SPOTS[SPOT].faces);
 setProfile(PROFILE, false);
 checkUpdate();
+if(!document.documentElement.classList.contains('locked')) maybeOnboard();
 updateNow();
 renderBrowse(todayIdx ?? 0);
 setInterval(updateNow, 15000);

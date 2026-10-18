@@ -1,5 +1,9 @@
 # Historique des versions
 
+## 18 octobre 2026 (17h45) — Présentation au premier lancement
+- **Bottom sheet de bienvenue** à la première ouverture (après le mot de passe), 4 étapes à faire glisser : 1) choix du profil (Bateau / Kite, windsurf, foil) et de la région (Deauville / Nouméa), appliqués tout de suite ; 2) l'essentiel du profil (portes et passerelle piétonne 15/30 à Deauville, carte Maintenant à Nouméa, ou réglage du matériel avec « Régler maintenant ») ; 3) lire une note (couleurs, raison, ciel, cadre plein / pointillé) ; 4) **version bêta** : aide à la décision, pas une garantie, VHF 9 et bulletin officiel, numéros d'urgence, infos encore à confirmer, lien vers « Votre avis ».
+- Vue une seule fois ; « Revoir la présentation » dans l'onglet Conseils.
+
 ## 18 octobre 2026 (17h30) — Passerelle piétonne : 15 min levée / 30 min baissée
 - Cycle corrigé (info locale) : la passerelle piétonne se lève **15 min toutes les 45 min** pendant l'ouverture des portes (15 min levée, 30 min baissée). Ex. ouverture à 13:44 : levées 13:44, 14:29, 15:14… ; au pire une demi-heure d'attente. Toujours supposé démarrer par une levée à l'ouverture (à confirmer).
 
