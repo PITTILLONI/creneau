@@ -506,7 +506,15 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   }
   .daynav button{font-size:1.4rem;cursor:pointer;}
   .daynav input{width:100%;padding:0 12px;text-align:center;-webkit-appearance:none;appearance:none;min-width:0;}
-  .daylabel{font-size:1.15rem;font-weight:700;margin:6px 0 10px;}
+  /* date affichée = champ de date (toucher ouvre le calendrier du téléphone) */
+  .cal-h{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:26px 0 10px;}
+  .cal-h .h3{margin:0;}
+  .cal-h .todaybtn{min-height:36px;padding:6px 14px;}
+  .datefield{position:relative;display:flex;align-items:center;justify-content:center;gap:8px;height:48px;border-radius:14px;background:var(--surface);font-weight:700;font-size:1.02rem;min-width:0;cursor:pointer;}
+  .datefield span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .datefield .ico{margin:0;color:var(--accent);}
+  .datefield input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;}
+  .datefield:focus-within{outline:3px solid var(--accent);outline-offset:2px;}
   .todaybtn{border:0;background:var(--surface-2);border-radius:999px;padding:8px 14px;font-weight:600;font-size:.9rem;cursor:pointer;min-height:40px;}
 
   footer{font-size:.9rem;color:var(--ink-2);display:flex;flex-direction:column;gap:10px;}
@@ -999,15 +1007,15 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
     <div class="h3" style="margin-top:0">Les 7 prochains jours</div>
     <div class="wk" id="weekStrip" role="list"><div class="muted">Chargement…</div></div>
     <p class="muted wk-sum" id="weekSum"></p>
-    <div class="h3">Un autre jour</div>
+    <div class="cal-h"><div class="h3">Un autre jour</div><button class="todaybtn" id="gotoToday" hidden>Aujourd'hui</button></div>
     <div class="daynav">
       <button id="prevDay" aria-label="Jour précédent">‹</button>
-      <input type="date" id="datePick" min="2026-01-01" max="2026-12-31" aria-label="Choisir une date">
+      <label class="datefield">
+        <span id="dayLabel">—</span>
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+        <input type="date" id="datePick" min="2026-01-01" max="2026-12-31" aria-label="Choisir une date">
+      </label>
       <button id="nextDay" aria-label="Jour suivant">›</button>
-    </div>
-    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;">
-      <div class="daylabel" id="dayLabel">—</div>
-      <button class="todaybtn" id="gotoToday">Aujourd'hui</button>
     </div>
     <div class="today" id="dayCard">
       <div class="today-title only-boat">Ouverture des portes du bassin Morny</div>
@@ -2111,6 +2119,7 @@ function renderBrowse(i, dir){
   const key = keys[browseIdx];
   $('datePick').value = '2026-'+key;
   $('dayLabel').textContent = cap(dayName(browseIdx));
+  $('gotoToday').hidden = browseIdx===(todayIdx ?? 0);
   renderSlots($('daySlots'), browseIdx, browseIdx===todayIdx ? Date.now() : undefined);
   renderTides($('dayTides'), browseIdx);
   $('dayNote').textContent = ANOMALIES[key] || '';
@@ -2427,7 +2436,7 @@ addEventListener('load', ()=>scrollTo(0, 0), {once:true});
 // version.json est réécrit à chaque publication (tools/publier-version.sh). Si la
 // version en ligne diffère de celle de la page, on recharge : sur l'écran
 // d'accueil de l'iPhone, l'app reste ainsi à jour sans manipulation.
-const APP_VERSION = '20261018-105756';
+const APP_VERSION = '20261018-110038';
 async function checkUpdate(){
   try{
     const r = await fetch('version.json?t='+Date.now(), {cache:'no-store'});

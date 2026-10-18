@@ -1,5 +1,8 @@
 # Historique des versions
 
+## 18 octobre 2026 (13h) — Calendrier : une seule ligne de date
+- La date n'est plus affichée deux fois (champ « 18/10/2026 » puis « Dimanche 18 octobre » en dessous) : une seule barre ‹ **Mardi 20 octobre** 📅 ›, toucher la date ouvre le calendrier du téléphone. Le bouton « Aujourd'hui » passe à droite du titre « Un autre jour » et n'apparaît que lorsqu'on regarde un autre jour.
+
 ## 18 octobre 2026 (12h45) — Créneaux en carrousel
 - « Créneaux d'écluse à venir » (et « Sessions de kite à venir ») passent en **carrousel horizontal**, comme les 7 prochains jours : une carte par créneau, la suivante dépasse pour inviter à glisser, cadre plein (favorable aujourd'hui) ou pointillé (autre jour) conservé. Sous le carrousel : « 5 créneaux sur 3 jours dont 2 favorables · glisser pour voir la suite ».
 
