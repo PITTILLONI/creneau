@@ -1493,10 +1493,14 @@ function tickChrono(){
 // Passage d'un bateau par le bassin Morny : il faut les portes ouvertes ET la
 // passerelle piétonne levée. Pendant l'ouverture des portes, la passerelle
 // piétonne alterne 15 min levée / 30 min baissée (info locale, 18 octobre 2026).
-// Hypothèse à confirmer : le cycle commence par une levée à l'ouverture des portes.
-const BRIDGE_UP = 15*60000, BRIDGE_DOWN = 30*60000;
+// Calé sur une observation (18 octobre, portes ouvertes à 13:44 : levée 17:41–17:56) :
+// première levée 12 min après l'ouverture des portes, puis toutes les 45 min.
+// Un seul relevé : à confirmer sur d'autres jours.
+const BRIDGE_UP = 15*60000, BRIDGE_DOWN = 30*60000, BRIDGE_OFFSET = 12*60000;
 function bridgeCycle(now, iv){
-  const period = BRIDGE_UP + BRIDGE_DOWN, t = (now - iv.s) % period;
+  const start = iv.s + BRIDGE_OFFSET;
+  if(now < start) return {up:false, change:Math.min(iv.e, start)};
+  const period = BRIDGE_UP + BRIDGE_DOWN, t = (now - start) % period;
   const up = t < BRIDGE_UP;
   const change = Math.min(iv.e, now - t + (up ? BRIDGE_UP : period));
   return {up, change};
@@ -1523,7 +1527,7 @@ function renderPassage(now, active, next){
     const day = ndIdx===todayIdx ? '' : relDay(ndIdx,todayIdx)+' ';
     cls='bad'; state='Fermé'; label='Ouverture des portes dans';
     gates='Fermées<br>ouvrent '+day+'à '+at(next.s);
-    bridge='Première levée vers '+at(next.s)+', puis 15 min levée / 30 min baissée<br>ponctuelles possibles avant · VHF 9';
+    bridge='Première levée vers '+at(next.s + BRIDGE_OFFSET)+', puis 15 min levée / 30 min baissée<br>ponctuelles possibles avant · VHF 9';
     passTarget = next.s; passFrom = prev ? prev.e : null;
   } else {
     cls='bad'; state='Fermé'; label=''; gates='Plus d’ouverture prévue en 2026'; bridge='Levées ponctuelles · VHF 9';
@@ -3184,7 +3188,7 @@ $('premiumForm').addEventListener('submit', async e=>{
 // version.json est réécrit à chaque publication (tools/publier-version.sh). Si la
 // version en ligne diffère de celle de la page, on recharge : sur l'écran
 // d'accueil de l'iPhone, l'app reste ainsi à jour sans manipulation.
-const APP_VERSION = '20261018-174715';
+const APP_VERSION = '20261018-175810';
 async function checkUpdate(){
   try{
     const r = await fetch('version.json?t='+Date.now(), {cache:'no-store'});

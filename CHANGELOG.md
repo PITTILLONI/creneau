@@ -1,5 +1,8 @@
 # Historique des versions
 
+## 18 octobre 2026 (18h) — Passerelle piétonne recalée sur le terrain
+- Relevé sur place le 18 octobre (portes ouvertes à 13:44) : passerelle piétonne levée jusqu'à 17:56. Le cycle 15 min levée / 30 min baissée démarre donc **12 min après l'ouverture des portes** (levées 13:56, 14:41, 15:26, 16:11, 16:56, 17:41, 18:26), et non à l'ouverture. `BRIDGE_OFFSET` dans `index.html`. Un seul relevé : à confirmer sur d'autres jours.
+
 ## 18 octobre 2026 (18h30) — Installation facilitée, pas de zoom
 - **Android** : service worker minimal (`sw.js`, sans aucun cache, la mise à jour automatique est préservée) pour que Chrome propose le bouton « Installer Crén'eau » en un tap ; page « Pas de connexion » hors ligne.
 - **iPhone** : Apple n'autorise pas un site à s'ajouter seul à l'écran d'accueil ; le panneau guide mieux : **flèche animée** vers la barre de Safari, étapes pour iOS récent (⋯ puis Partager) et ancien (Partager), et la ligne « Sur l'écran d'accueil » dessinée pour la reconnaître.
