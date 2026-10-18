@@ -47,7 +47,8 @@ Dernière mise à jour de ce fichier : 17 octobre 2026 (15h30).
 ## À faire / idées
 
 - [x] Google Form du questionnaire branché
-- [x] Présentation au premier lancement (profil, région, lecture des notes, avertissement bêta)
+- [x] Présentation au premier lancement (prénom/nom du testeur, profil, région, lecture des notes, avertissement bêta)
+- [x] Proposition d'installation sur l'écran d'accueil à la 2e ouverture (iPhone, Android)
 - [ ] Diffuser le questionnaire aux clubs et écoles (Deauville, Nouméa) ; option : une colonne par rubrique dans le Sheet
 - [ ] Version payante : prix Open-Meteo (usage commercial), accord Ports du Calvados et SHOM, puis comptes + paiement + alertes (chiffrage gardé hors du dépôt public)
 

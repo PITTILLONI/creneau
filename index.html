@@ -680,6 +680,18 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   .ob-foot .dots{max-width:none;justify-content:flex-start;}
   .ob-foot .ins-save{min-width:130px;}
   .ob-replay{margin:0 0 6px;}
+  .ob-links{display:flex;flex-wrap:wrap;gap:8px;}
+  .install p{line-height:1.45;margin:0 0 10px;}
+  .inst-steps ol{margin:0 0 10px;padding-left:22px;display:flex;flex-direction:column;gap:8px;line-height:1.4;}
+  .inst-steps .ico{color:var(--accent);margin:0 2px;}
+  .inst-note{font-size:.85rem;color:var(--ink-2);}
+  .inst-steps .ins-save{width:100%;margin-bottom:12px;}
+  .inst-actions{display:flex;gap:10px;justify-content:flex-end;padding:8px 0 4px;}
+  .ob-name{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0 4px;}
+  .ob-name label{display:flex;flex-direction:column;gap:4px;font-size:.88rem;font-weight:600;color:var(--ink-2);}
+  .ob-name input{font:inherit;font-size:1rem;height:46px;border:0;border-radius:12px;background:var(--surface);color:var(--ink);padding:0 12px;min-width:0;}
+  .ob-name input.err{outline:2px solid var(--bad);}
+  .ob-legal{font-size:.8rem;color:var(--ink-2);margin:4px 0 0 !important;}
 
   /* calendrier : carrousel des 7 prochains jours */
   .wk{display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x proximity;padding:3px 3px 6px;margin:0 -3px;scrollbar-width:none;-webkit-overflow-scrolling:touch;}
@@ -825,7 +837,12 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
       <div class="ob-slides" id="obSlides">
         <section class="ob-slide" data-step="0">
           <h3 id="obTitle">Bienvenue sur Crén'eau</h3>
-          <p>Le bon créneau pour glisser : savoir en un coup d'œil s'il faut sortir, en bateau ou en glisse.</p>
+          <p>Le bon créneau pour glisser : savoir en un coup d'œil s'il faut sortir.</p>
+          <div class="ob-name">
+            <label>Prénom<input id="obFirst" type="text" autocomplete="given-name" autocapitalize="words" enterkeyhint="next"></label>
+            <label>Nom<input id="obLast" type="text" autocomplete="family-name" autocapitalize="words" enterkeyhint="done"></label>
+          </div>
+          <p class="ob-legal">Pour suivre la bêta, votre nom est transmis au créateur de l'app (rien d'autre, pas de pub).</p>
           <div class="ob-q">Vous sortez plutôt…</div>
           <div class="qv-chips ob-choice" id="obProfile">
             <button type="button" data-p="boat">Bateau</button>
@@ -839,15 +856,14 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
         </section>
         <section class="ob-slide" data-step="1">
           <div class="only-boat">
-            <h3>Sortir du port</h3>
-            <p class="only-dv">La carte <b>Sortie en mer</b> dit si les <b>portes du bassin Morny</b> sont ouvertes, avec le chrono jusqu'au prochain changement. Pendant l'ouverture, la <b>passerelle piétonne</b> se lève 15 min toutes les 45 min : l'app affiche la prochaine levée.</p>
-            <p class="only-nc">Pas d'écluse à Port Moselle : la carte <b>Maintenant</b> donne la note du moment, le vent, la marée, l'eau. L'onglet <b>Sortir</b> liste les sorties possibles.</p>
-            <p>Changez de port avec le nom en haut à gauche. Les horaires sont théoriques : confirmez au <b>VHF canal 9</b> à Deauville.</p>
+            <h3 class="only-dv">Portes et passerelle</h3>
+            <p class="only-dv">La carte <b>Sortie en mer</b> : portes ouvertes ou fermées, chrono, prochaine levée de la passerelle piétonne. Confirmez au VHF 9.</p>
+            <h3 class="only-nc">Port Moselle</h3>
+            <p class="only-nc">Pas d'écluse : la note du moment, et les sorties possibles dans l'onglet <b>Sortir</b>.</p>
           </div>
           <div class="only-kite">
             <h3>Votre matériel</h3>
-            <p>Les notes dépendent de <b>votre sport, votre poids et votre matériel</b>. Touchez la pastille en haut (ex. « 9/12 ») pour choisir kite, windsurf, windfoil ou wingfoil et cocher vos ailes ou voiles.</p>
-            <p>L'app dit alors quelle aile ou voile sortir, ou laquelle il faudrait (« aile cible ») si la vôtre ne suffit pas.</p>
+            <p>Les notes dépendent de votre sport, votre poids et vos ailes. Réglez-les dans la pastille en haut.</p>
             <button type="button" class="todaybtn" id="obGear">Régler maintenant</button>
           </div>
         </section>
@@ -865,6 +881,30 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
         </section>
       </div>
       <div class="ob-foot"><div class="dots" id="obDots"></div><button type="button" class="ins-save" id="obNext" autofocus>Suivant</button></div>
+    </dialog>
+    <dialog class="sheet install" id="installDlg" aria-labelledby="instTitle">
+      <div class="sheet-head"><h3 id="instTitle">Crén'eau sur votre écran d'accueil</h3></div>
+      <p>Une icône comme une vraie app : plein écran, ouverture en un geste, et mise à jour automatique.</p>
+      <div class="inst-steps" id="instIos">
+        <ol>
+          <li>Touchez <b>Partager</b> <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3M8 7l4-4 4 4"/><path d="M6 11H5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-8a1 1 0 0 0-1-1h-1"/></svg> en bas de Safari (en haut sur iPad).</li>
+          <li>Choisissez <b>« Sur l'écran d'accueil »</b> (faites défiler la liste si besoin).</li>
+          <li>Touchez <b>Ajouter</b>.</li>
+        </ol>
+        <p class="inst-note">Lien ouvert depuis WhatsApp, Messenger ou un e-mail ? Ouvrez-le d'abord dans <b>Safari</b> (bouton « Ouvrir dans Safari »).</p>
+      </div>
+      <div class="inst-steps" id="instAndroid">
+        <button type="button" class="ins-save" id="instPrompt" hidden>Installer Crén'eau</button>
+        <ol id="instAndroidSteps">
+          <li>Touchez le menu <b>⋮</b> en haut à droite de Chrome.</li>
+          <li>Choisissez <b>« Installer l'application »</b> ou <b>« Ajouter à l'écran d'accueil »</b>.</li>
+          <li>Validez.</li>
+        </ol>
+      </div>
+      <div class="inst-steps" id="instOther">
+        <p>Sur téléphone : dans Safari (iPhone) ou Chrome (Android), utilisez <b>« Sur l'écran d'accueil »</b> ou <b>« Installer l'application »</b>.</p>
+      </div>
+      <div class="inst-actions"><button type="button" class="todaybtn" id="instLater">Plus tard</button><button type="button" class="ins-save" id="instDone" autofocus>C'est fait</button></div>
     </dialog>
     <dialog class="sheet" id="premiumDlg" aria-labelledby="premiumTitle">
       <form id="premiumForm" method="dialog">
@@ -961,7 +1001,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
 
   <section id="conseils" aria-labelledby="t-tips">
     <h2 id="t-tips"><span class="only-kite">Bonnes pratiques</span><span class="only-boat">Bonnes pratiques bateau</span></h2>
-    <button type="button" class="todaybtn ob-replay" id="obReplay">Revoir la présentation</button>
+    <div class="ob-links"><button type="button" class="todaybtn ob-replay" id="obReplay">Revoir la présentation</button><button type="button" class="todaybtn ob-replay" id="instOpen">Ajouter à l'écran d'accueil</button></div>
     <div class="only-kite">
     <div class="insur" id="insur">
       <div class="insur-head"><span class="h3" style="margin:0">Mon assurance</span><button class="todaybtn" id="insEdit">Modifier</button></div>
@@ -2940,7 +2980,7 @@ addEventListener('load', ()=>scrollTo(0, 0), {once:true});
 /* ---------- Onboarding : présentation au premier lancement ---------- */
 // 4 étapes à faire glisser : profil + région, l'essentiel du profil, lire une note, bêta.
 // Vue une fois (localStorage 'onboard'), revoyable depuis Conseils.
-const ONBOARD_V = '1';
+const ONBOARD_V = '2';   // v2 : prénom et nom demandés (testeurs de la bêta)
 let obStep = 0;
 function obSync(){
   $('obProfile').querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', b.dataset.p===PROFILE));
@@ -2957,8 +2997,32 @@ function obDots(){
   $('obDots').innerHTML = Array.from({length:n}, (_,j) => '<button type="button" aria-label="Étape '+(j+1)+'" aria-current="'+(j===obStep)+'"></button>').join('');
   $('obNext').textContent = obStep===n-1 ? 'C’est compris' : 'Suivant';
 }
+// Testeur de la bêta : prénom + nom, gardés sur le téléphone et envoyés une fois au Google Form.
+function getTester(){ try{ return JSON.parse(localStorage.getItem('testeur')||'null'); }catch(e){ return null; } }
+function sendForm(text){
+  if(!SURVEY.form || !SURVEY.single) return Promise.resolve();
+  const data = new URLSearchParams(); data.append('entry.'+SURVEY.single, text);
+  return fetch('https://docs.google.com/forms/d/e/'+SURVEY.form+'/formResponse', {method:'POST', mode:'no-cors', body:data}).catch(()=>{});
+}
+function saveTester(){
+  const first = $('obFirst').value.trim(), last = $('obLast').value.trim();
+  $('obFirst').classList.toggle('err', !first); $('obLast').classList.toggle('err', !last);
+  if(!first || !last){ replay(!first ? $('obFirst') : $('obLast'), 'shake'); (!first ? $('obFirst') : $('obLast')).focus(); return false; }
+  const prev = getTester(), same = prev && prev.first===first && prev.last===last;
+  const t = {first, last, sent: !!(same && prev.sent)};
+  try{ localStorage.setItem('testeur', JSON.stringify(t)); }catch(e){}
+  if(!t.sent){
+    sendForm('Inscription bêta\nNom : '+first+' '+last+'\nContexte : '+(PROFILE==='kite' ? 'Glisse' : 'Bateau')+' · '+RG().name)
+      .then(() => { try{ localStorage.setItem('testeur', JSON.stringify(Object.assign(t, {sent:true}))); }catch(e){} });
+  }
+  $('obSkip').hidden = false;
+  return true;
+}
 function openOnboard(){
   obStep = 0; obSync();
+  const t = getTester();
+  $('obFirst').value = t ? t.first : ''; $('obLast').value = t ? t.last : '';
+  $('obSkip').hidden = !t;   // le nom est demandé avant de pouvoir passer
   try{ $('onboardDlg').showModal(); }catch(e){ $('onboardDlg').setAttribute('open',''); }
   $('obSlides').scrollLeft = 0; obDots();
 }
@@ -2966,25 +3030,82 @@ function closeOnboard(){
   try{ localStorage.setItem('onboard', ONBOARD_V); }catch(e){}
   $('onboardDlg').close();
 }
+// À chaque ouverture (une fois le mot de passe passé) : présentation si pas encore vue,
+// sinon éventuellement la proposition d'installation.
 function maybeOnboard(){
+  countVisit();
   let seen = null; try{ seen = localStorage.getItem('onboard'); }catch(e){}
   if(seen!==ONBOARD_V) setTimeout(openOnboard, 400);
+  else maybeInstall();
 }
 $('obProfile').addEventListener('click', e => { const b = e.target.closest('button'); if(!b) return; setProfile(b.dataset.p, true); obSync(); });
 $('obRegion').addEventListener('click', e => { const b = e.target.closest('button'); if(!b) return; if(b.dataset.r!==REGION) setRegion(b.dataset.r); obSync(); });
-$('obNext').addEventListener('click', () => { if(obStep >= $('obSlides').children.length-1) closeOnboard(); else obGo(obStep+1); });
+$('obNext').addEventListener('click', () => {
+  if(obStep===0 && !saveTester()) return;
+  if(obStep >= $('obSlides').children.length-1) closeOnboard(); else obGo(obStep+1);
+});
 $('obSkip').addEventListener('click', closeOnboard);
-$('obDots').addEventListener('click', e => { const b = e.target.closest('button'); if(b) obGo([...$('obDots').children].indexOf(b)); });
+$('obDots').addEventListener('click', e => { const b = e.target.closest('button'); if(!b) return; const i = [...$('obDots').children].indexOf(b); if(i>0 && !getTester() && !saveTester()) return; obGo(i); });
 $('obSlides').addEventListener('scroll', () => {
   const i = Math.round($('obSlides').scrollLeft / $('obSlides').clientWidth);
-  if(i!==obStep){ obStep = i; obDots(); }
+  if(i===obStep) return;
+  // pas d'étape suivante sans le nom
+  if(i>0 && !getTester()){ obGo(0); saveTester(); return; }
+  obStep = i; obDots();
 }, {passive:true});
+$('obLast').addEventListener('keydown', e => { if(e.key==='Enter'){ e.preventDefault(); $('obNext').click(); } });
+$('obFirst').addEventListener('keydown', e => { if(e.key==='Enter'){ e.preventDefault(); $('obLast').focus(); } });
 $('obGear').addEventListener('click', () => {
   closeOnboard();
   $('riderPanel').hidden = false; $('riderBtn').setAttribute('aria-expanded', 'true');
 });
 $('obReplay').addEventListener('click', openOnboard);
-$('onboardDlg').addEventListener('cancel', () => { try{ localStorage.setItem('onboard', ONBOARD_V); }catch(e){} });
+$('onboardDlg').addEventListener('cancel', e => {
+  if(!getTester()){ e.preventDefault(); return; }   // Échap : pas avant d'avoir donné son nom
+  try{ localStorage.setItem('onboard', ONBOARD_V); }catch(err){}
+});
+
+/* ---------- Installer sur l'écran d'accueil (proposé à la 2e ouverture) ---------- */
+// Pas à la 1re ouverture (mot de passe + présentation suffisent) ; jamais si l'app est déjà
+// ouverte depuis l'écran d'accueil. « Plus tard » : reproposé 3 ouvertures plus tard.
+const standalone = () => navigator.standalone === true || matchMedia('(display-mode: standalone)').matches;
+const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform==='MacIntel' && navigator.maxTouchPoints>1);
+const isAndroid = /Android/.test(navigator.userAgent);
+let installEvt = null;
+addEventListener('beforeinstallprompt', e => { e.preventDefault(); installEvt = e; $('instPrompt').hidden = false; });
+function openInstall(){
+  $('instIos').hidden = !isIOS; $('instAndroid').hidden = !isAndroid; $('instOther').hidden = isIOS || isAndroid;
+  $('instPrompt').hidden = !installEvt;
+  try{ $('installDlg').showModal(); }catch(e){ $('installDlg').setAttribute('open',''); }
+}
+function maybeInstall(){
+  if(standalone()) return;
+  let visits = 0, state = '';
+  try{ visits = +localStorage.getItem('visites') || 0; state = localStorage.getItem('installe') || ''; }catch(e){}
+  if(state==='fait') return;
+  if(visits>=2 && (!state || visits >= +state)) setTimeout(openInstall, 900);
+}
+// une seule fois par session : le rechargement automatique après une mise à jour ne compte pas
+function countVisit(){
+  try{
+    if(sessionStorage.getItem('visiteComptee')) return;
+    sessionStorage.setItem('visiteComptee', '1');
+    localStorage.setItem('visites', (+localStorage.getItem('visites') || 0) + 1);
+  }catch(e){}
+}
+$('instLater').addEventListener('click', () => {
+  try{ localStorage.setItem('installe', (+localStorage.getItem('visites') || 0) + 3); }catch(e){}
+  $('installDlg').close();
+});
+$('instDone').addEventListener('click', () => { try{ localStorage.setItem('installe', 'fait'); }catch(e){} $('installDlg').close(); });
+$('instPrompt').addEventListener('click', async () => {
+  if(!installEvt) return;
+  installEvt.prompt();
+  const r = await installEvt.userChoice.catch(()=>null);
+  installEvt = null;
+  if(r && r.outcome==='accepted'){ try{ localStorage.setItem('installe', 'fait'); }catch(e){} $('installDlg').close(); }
+});
+$('instOpen').addEventListener('click', openInstall);
 
 /* ---------- Votre avis : désirabilité, outils actuels, ajouts souhaités ---------- */
 // Envoi direct dans le Google Form du propriétaire (réponses dans un Google Sheet).
@@ -3004,7 +3125,8 @@ $('premiumForm').addEventListener('submit', async e=>{
   const one = n => (f.querySelector('input[name='+n+']:checked')||{}).value || '';
   const outils = picked('outils').concat(f.elements.outilsAutre.value.trim() ? ['Autre : '+f.elements.outilsAutre.value.trim()] : []);
   const ajouts = picked('ajouts').concat(f.elements.ajoutsAutre.value.trim() ? ['Idée : '+f.elements.ajoutsAutre.value.trim()] : []);
-  const contexte = (PROFILE==='kite' ? 'Glisse ('+SP().label+')' : 'Bateau')+' · '+RG().name;
+  const tester = getTester();
+  const contexte = (tester ? tester.first+' '+tester.last+' · ' : '')+(PROFILE==='kite' ? 'Glisse ('+SP().label+')' : 'Bateau')+' · '+RG().name;
   const r = {deception: one('deception'), outils: outils.join(' ; '), ajouts: ajouts.join(' ; '), prix: one('prix'), contexte};
   if(SURVEY.form){
     const data = new URLSearchParams();
@@ -3035,7 +3157,7 @@ $('premiumForm').addEventListener('submit', async e=>{
 // version.json est réécrit à chaque publication (tools/publier-version.sh). Si la
 // version en ligne diffère de celle de la page, on recharge : sur l'écran
 // d'accueil de l'iPhone, l'app reste ainsi à jour sans manipulation.
-const APP_VERSION = '20261018-172918';
+const APP_VERSION = '20261018-174248';
 async function checkUpdate(){
   try{
     const r = await fetch('version.json?t='+Date.now(), {cache:'no-store'});

@@ -1,5 +1,10 @@
 # Historique des versions
 
+## 18 octobre 2026 (18h) — Testeurs nommés, installation sur l'écran d'accueil
+- Présentation : **prénom et nom demandés** à la première étape (obligatoires pour continuer), gardés sur le téléphone et envoyés **une seule fois** au Google Form du projet (« Inscription bêta · Nom · profil · région ») ; mention de leur usage. Ils sont aussi joints aux réponses de « Votre avis ». La présentation est reproposée une fois à ceux qui l'avaient déjà vue, pour qu'ils donnent leur nom.
+- Étape 2 de la présentation raccourcie à deux lignes.
+- **Installer sur l'écran d'accueil**, proposé à la **2e ouverture** (jamais si l'app est déjà ouverte depuis l'écran d'accueil) : étapes iPhone (Partager → « Sur l'écran d'accueil », avec l'astuce « ouvrir dans Safari » pour un lien reçu par WhatsApp/Messenger), Android (bouton « Installer » en un tap quand Chrome le permet, sinon menu ⋮). « Plus tard » : reproposé 3 ouvertures plus tard ; « C'est fait » : plus jamais. Lien permanent « Ajouter à l'écran d'accueil » dans Conseils. Une ouverture = une session (le rechargement automatique après une mise à jour ne compte pas).
+
 ## 18 octobre 2026 (17h45) — Présentation au premier lancement
 - **Bottom sheet de bienvenue** à la première ouverture (après le mot de passe), 4 étapes à faire glisser : 1) choix du profil (Bateau / Kite, windsurf, foil) et de la région (Deauville / Nouméa), appliqués tout de suite ; 2) l'essentiel du profil (portes et passerelle piétonne 15/30 à Deauville, carte Maintenant à Nouméa, ou réglage du matériel avec « Régler maintenant ») ; 3) lire une note (couleurs, raison, ciel, cadre plein / pointillé) ; 4) **version bêta** : aide à la décision, pas une garantie, VHF 9 et bulletin officiel, numéros d'urgence, infos encore à confirmer, lien vers « Votre avis ».
 - Vue une seule fois ; « Revoir la présentation » dans l'onglet Conseils.
