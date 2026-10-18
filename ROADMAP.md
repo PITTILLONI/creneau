@@ -1,7 +1,7 @@
 # Avancement
 
 Site : <https://pittilloni.github.io/creneau/>
-Dernière mise à jour de ce fichier : 17 octobre 2026 (15h30).
+Dernière mise à jour de ce fichier : 18 octobre 2026 (18h35).
 
 ## Fait
 
@@ -45,6 +45,8 @@ Dernière mise à jour de ce fichier : 17 octobre 2026 (15h30).
 - [x] En-tête : sélecteur Bateau / Kitesurf en haut, port ou spot en dessous ; menus dépliants homogènes
 
 ## À faire / idées
+
+- [ ] **19 octobre** : relever les feux vert / rouge de la passerelle piétonne (prévu par l'app : 15:44–15:59, 16:29–16:44, 17:14–17:29, 17:59–18:14, 18:44–18:59) et la durée de la manœuvre, pour confirmer le décalage de 12 min et afficher « en cours de levée / descente »
 
 - [ ] SIMBAD (HAROPA) : vent et houle mesurés dans le chenal de Port 2000, à intégrer seulement après autorisation écrite d'HAROPA (CGU art. 6 et 8)
 
