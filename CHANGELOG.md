@@ -2,6 +2,7 @@
 
 ## 18 octobre 2026 (18h30) — Calage de la passerelle piétonne confirmé
 - Deuxième relevé sur place : la passerelle piétonne s'est levée à **18:26**, exactement à l'heure annoncée par l'app (après la descente de 17:56). Le cycle « première levée 12 min après l'ouverture des portes, puis 15 min levée / 30 min baissée » est confirmé pour ce jour ; à revérifier un jour où les portes ouvrent à une autre heure.
+- Troisième relevé : la passerelle piétonne redescend vers **18:29**, juste après la fermeture des portes (18:28) : la dernière levée est bien coupée à la fermeture des portes, comme dans l'app. Durée de la manœuvre (levée / descente) encore inconnue.
 
 ## 18 octobre 2026 (18h) — Passerelle piétonne recalée sur le terrain
 - Relevé sur place le 18 octobre (portes ouvertes à 13:44) : passerelle piétonne levée jusqu'à 17:56. Le cycle 15 min levée / 30 min baissée démarre donc **12 min après l'ouverture des portes** (levées 13:56, 14:41, 15:26, 16:11, 16:56, 17:41, 18:26), et non à l'ouverture. `BRIDGE_OFFSET` dans `index.html`. Un seul relevé : à confirmer sur d'autres jours.
