@@ -701,10 +701,13 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
           <option value="houlgate">Houlgate</option>
           <option value="cabourg">Cabourg</option>
         </optgroup>
-        <optgroup label="Nouméa · Anse Vata et îlots">
+        <optgroup label="Nouméa">
+          <option value="vata">Anse Vata</option>
           <option value="meridien">Méridien</option>
           <option value="aquareve">Aquarêve</option>
+          <option value="magenta">Magenta</option>
           <option value="maitre">Îlot Maître</option>
+          <option value="moselle">Port Moselle</option>
         </optgroup>
         <option value="__add">➕ Ajouter votre spot…</option>
       </select>
@@ -982,6 +985,9 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
         <li><b>Anse Vata · Méridien</b> : avec l'alizé (est-sud-est) le vent y est <b>offshore</b> : réservé aux riders confirmés qui savent remonter au vent. L'app le note « Pas navigable ».</li>
         <li><b>Anse Vata · Aquarêve</b> : vent de côté, plus accessible, mais décollage délicat.</li>
         <li><b>Patates de corail</b> à marée basse à l'Anse Vata : naviguer de préférence à mi-marée ou marée haute, chaussons conseillés.</li>
+        <li><b>Anse Vata</b> : la grande plage (tournée vers le sud-ouest) ; avec l'alizé le vent y est de côté-terre, plus favorable vers l'Aquarêve. Rester attentif à la dérive vers le large.</li>
+        <li><b>Magenta</b> : plage tournée vers l'est, l'alizé y arrive de face ou de côté (le plus favorable par alizé). L'<b>aérodrome de Magenta</b> est tout proche : se renseigner sur les zones et la hauteur autorisées.</li>
+        <li><b>Port Moselle</b> : départ depuis la marina vers la baie de la Moselle ; avec l'alizé le vent vient de terre (offshore, rafaleux en passant sur la ville) : prudence, respecter le chenal et les règles du port. Orientation (265°) à confirmer sur place.</li>
         <li><b>Îlot Maître</b> : 15 min en bateau, vent onshore, à mi-marée ou marée haute. <b>Réserve naturelle</b> : respecter les zones et les tortues. L'orientation de la plage (110°) est à confirmer sur place.</li>
         <li>Se renseigner auprès des écoles de kite locales sur les zones autorisées et les règles du moment.</li>
       </ul>
@@ -1450,12 +1456,19 @@ const SPOTS = {
   houlgate:  {region:'dv', name:'Houlgate',          lat:49.304, lon:-0.081, seaLat:49.35, seaLon:-0.08, onshore:350, faces:'nord'},
   cabourg:   {region:'dv', name:'Cabourg',           lat:49.293, lon:-0.122, seaLat:49.34, seaLon:-0.13, onshore:0,   faces:'nord'},
   // Nouméa : position et orientation d'après les écoles locales et OpenStreetMap
+  vata:      {region:'nc', name:'Anse Vata', lat:-22.304, lon:166.444, seaLat:-22.31, seaLon:166.44, onshore:243, faces:'sud-ouest',
+              note:'La grande plage. Avec l’alizé le vent y est de côté-terre (plus favorable vers l’Aquarêve). Patates de corail à marée basse.'},
+  magenta:   {region:'nc', name:'Magenta', lat:-22.266, lon:166.472, seaLat:-22.27, seaLon:166.48, onshore:95, faces:'est',
+              note:'Plage tournée vers l’est : l’alizé y arrive de face ou de côté. Aérodrome de Magenta tout proche : se renseigner sur les zones autorisées.'},
   meridien:  {region:'nc', name:'Anse Vata · Méridien', lat:-22.311, lon:166.448, seaLat:-22.32, seaLon:166.44, onshore:279, faces:'ouest',
               note:'Offshore avec l’alizé : confirmés qui savent remonter au vent. Patates de corail à marée basse.'},
   aquareve:  {region:'nc', name:'Anse Vata · Aquarêve', lat:-22.312, lon:166.453, seaLat:-22.32, seaLon:166.45, onshore:198, faces:'sud-sud-ouest',
               note:'Vent de côté, plus accessible. Quelques patates de corail, décollage délicat.'},
   maitre:    {region:'nc', name:'Îlot Maître', lat:-22.334, lon:166.410, seaLat:-22.34, seaLon:166.41, onshore:110, faces:'est-sud-est (à confirmer)',
-              note:'15 min en bateau. Vent onshore, à mi-marée ou marée haute. Réserve naturelle : attention aux tortues.'}
+              note:'15 min en bateau. Vent onshore, à mi-marée ou marée haute. Réserve naturelle : attention aux tortues.'},
+  // trait de côte OpenStreetMap autour de la marina : face à l'ouest (~265°), peu net à cause des quais
+  moselle:   {region:'nc', name:'Port Moselle', lat:-22.278, lon:166.441, seaLat:-22.28, seaLon:166.43, onshore:265, faces:'ouest (à confirmer)',
+              note:'Marina, départ vers la baie de la Moselle. Avec l’alizé le vent vient de terre et passe sur la ville : offshore et rafaleux. Respecter le chenal et les règles du port.'}
 };
 let SPOT = 'deauville', REGION = 'dv';
 try{
@@ -2748,7 +2761,7 @@ addEventListener('load', ()=>scrollTo(0, 0), {once:true});
 // version.json est réécrit à chaque publication (tools/publier-version.sh). Si la
 // version en ligne diffère de celle de la page, on recharge : sur l'écran
 // d'accueil de l'iPhone, l'app reste ainsi à jour sans manipulation.
-const APP_VERSION = '20261018-122536';
+const APP_VERSION = '20261018-123203';
 async function checkUpdate(){
   try{
     const r = await fetch('version.json?t='+Date.now(), {cache:'no-store'});

@@ -1,5 +1,12 @@
 # Historique des versions
 
+## 18 octobre 2026 (15h30) — Nouméa : Anse Vata, Magenta, Port Moselle en spots de glisse
+- Trois spots de glisse ajoutés à Nouméa, orientation calculée sur le trait de côte OpenStreetMap :
+  - **Anse Vata** (la grande plage) : tournée vers le sud-ouest (243°) ; avec l'alizé, vent de côté-terre.
+  - **Magenta** : tournée vers l'est (95°) ; l'alizé y arrive de face ou de côté, le spot le mieux orienté par alizé. Mise en garde : aérodrome de Magenta tout proche, se renseigner sur les zones autorisées.
+  - **Port Moselle** (marina, départ vers la baie de la Moselle) : tournée vers l'ouest (265°, à confirmer, mesure peu nette à cause des quais) ; avec l'alizé, offshore et rafaleux.
+- Conseils « Règles et précautions à Nouméa » complétés pour ces spots.
+
 ## 18 octobre 2026 (15h) — Profil Glisse : kite, windsurf, windfoil, wingfoil
 - Le profil « Kitesurf » devient **« Glisse »** ; le sport se choisit dans le panneau de l'en-tête (**Kite / Windsurf / Windfoil / Wingfoil**), avec le poids et **son matériel** (« Mes ailes », « Mes voiles », « Mes wings », gardés séparément pour chaque sport).
 - Même logique pour tous, chiffres propres à chaque sport : taille idéale = poids × coef ÷ vent (2,2 kite, 1,34 windsurf, 1 windfoil et wingfoil) ; vent minimum 9 nd en kite (7 en foil), 11 en windsurf (planing), 7 en windfoil, 10 en wingfoil ; maximum 25 nd en windfoil, 35 sinon. Notes, sessions, 7 jours, calendrier, « … à sortir » et « … cible » suivent le sport choisi.

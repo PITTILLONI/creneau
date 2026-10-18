@@ -48,7 +48,7 @@ Dernière mise à jour de ce fichier : 17 octobre 2026 (15h30).
 
 - [ ] Faire valider par des pratiquants les coefficients et vents mini/maxi du windsurf, du windfoil et du wingfoil (`SPORTS`)
 
-- [ ] Nouméa : faire confirmer par la famille l'orientation de l'îlot Maître (110°), les caps du lagon et les heures de marée calculées (comparer à l'annuaire SHOM)
+- [ ] Nouméa : faire confirmer par la famille l'orientation de l'îlot Maître (110°) et de Port Moselle (265°), les zones autorisées à Magenta (aérodrome), les caps du lagon et les heures de marée calculées (comparer à l'annuaire SHOM)
 
 - [ ] Ajouter le **vent mesuré** (station Météo-France du cap de la Hève ou bouée) : nécessite l'API Météo-France (clé gratuite)
 - [ ] Demander une clé API Candhis (gratuite) pour remplacer la lecture de la page publique

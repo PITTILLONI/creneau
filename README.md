@@ -31,7 +31,7 @@ L'app est pensée pour un **marin** (profil Bateau) ou un **pratiquant de glisse
 | --- | --- | --- |
 | Fuseau | Europe/Paris | Pacific/Noumea |
 | Bateau | portes du bassin Morny (PDF officiel), passerelle piétonne, bouées Candhis | Port Moselle, pas d'écluse : « sorties possibles » sur les heures de jour |
-| Kite | Deauville, Trouville, Houlgate, Cabourg | Anse Vata · Méridien, Anse Vata · Aquarêve, Îlot Maître (110°, à confirmer) |
+| Glisse | Deauville, Trouville, Houlgate, Cabourg | Anse Vata (243°), Méridien (279°), Aquarêve (198°), Magenta (95°), Îlot Maître (110°, à confirmer), Port Moselle (265°, à confirmer) |
 | Vagues | Météo-France MFWAM | ignorées (le modèle ne voit pas la barrière de corail) : note sur le vent seul |
 | Marées | PDF Ports du Calvados / SHOM, avec coefficients | calculées sur la hauteur d'eau prévue (Open-Meteo), sans coefficient |
 | Urgence | 196 (CROSS), VHF 16 | 16 (COSS NC), VHF 16 ; météo VHF 65/66 |
