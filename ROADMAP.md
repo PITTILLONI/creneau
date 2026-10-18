@@ -18,6 +18,7 @@ Dernière mise à jour de ce fichier : 17 octobre 2026 (15h30).
 - [x] Consultation de n'importe quel jour de 2026 (boutons, calendrier, glisser gauche/droite)
 - [x] Calendrier : conditions météo du jour choisi (note des créneaux, meilleur créneau/session, heure par heure), jusqu'à J+15 et jours passés
 - [x] Navigation par vrais onglets (une section à l'écran à la fois)
+- [x] Bateau : bouées houlographes du Havre en direct (Candhis), comparées à la prévision
 - [x] Interface mobile d'abord : barre d'onglets, grandes zones tactiles, mode sombre automatique
 - [x] Icône et mode plein écran pour l'écran d'accueil iPhone
 - [x] Rechargement automatique quand une nouvelle version est publiée
@@ -36,6 +37,9 @@ Dernière mise à jour de ce fichier : 17 octobre 2026 (15h30).
 - [x] En-tête : sélecteur Bateau / Kitesurf en haut, port ou spot en dessous ; menus dépliants homogènes
 
 ## À faire / idées
+
+- [ ] Ajouter le **vent mesuré** (station Météo-France du cap de la Hève ou bouée) : nécessite l'API Météo-France (clé gratuite)
+- [ ] Demander une clé API Candhis (gratuite) pour remplacer la lecture de la page publique
 
 - [ ] **Rythme réel des levées de la passerelle piétonne** pendant l'ouverture des portes (à obtenir auprès de la capitainerie ou à relever sur place) pour afficher « prochaine levée dans X min » à chaque cycle
 - [ ] Vérifier l'**orientation de chaque plage** (Trouville, Houlgate, Cabourg) sur le terrain

@@ -547,6 +547,25 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   html:not([data-tab="maintenant"]):not([data-tab="calendrier"]) footer{display:none;}
   html[data-tab="calendrier"] footer .links, html[data-tab="calendrier"] footer > div:not(.warn){display:none;}
 
+  /* bouées houlographes */
+  .buoy{background:var(--surface);border-radius:var(--radius);padding:14px 16px;margin-top:10px;}
+  .buoy-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px;}
+  .buoy-name{font-weight:700;}
+  .buoy-age{font-size:.85rem;color:var(--ink-2);white-space:nowrap;}
+  .buoy-age.live::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--good);margin-right:6px;vertical-align:1px;}
+  .buoy-main{display:flex;align-items:baseline;gap:8px;margin-top:6px;}
+  .buoy-main b{font-size:2rem;font-weight:800;letter-spacing:-.03em;}
+  .buoy-main span{color:var(--ink-2);font-size:.92rem;}
+  .buoy .conds{grid-template-columns:repeat(3,1fr);margin-top:10px;gap:8px;}
+  .buoy .cond{background:var(--surface-2);padding:8px 10px;}
+  .buoy .cond .val{font-size:1.05rem;}
+  .buoy-cmp{margin:10px 0 0;font-size:.9rem;}
+  .buoy-spark{display:block;width:100%;height:44px;margin-top:10px;color:var(--accent);}
+  .buoy-spark-l{display:flex;justify-content:space-between;font-size:.75rem;color:var(--ink-2);}
+  .buoy.off{padding:12px 16px;}
+  .buoy.off p{margin:4px 0 0;font-size:.9rem;color:var(--ink-2);}
+  .buoy-src{font-size:.82rem;margin-top:8px;}
+
   /* calendrier : conditions du jour choisi */
   .daycond{margin-top:12px;background:var(--surface);border-radius:var(--radius);padding:16px 18px;}
   .daycond .dc-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
@@ -633,6 +652,11 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
       <div class="today-title only-boat">Aujourd'hui · ouverture des portes du bassin Morny</div>
       <div class="slots only-boat" id="todaySlots"></div>
       <div class="tides" id="todayTides"></div>
+    </div>
+    <div class="buoys only-boat">
+      <div class="h3">Bouées au large · mesures en direct</div>
+      <div id="buoyList"><div class="muted">Chargement des bouées…</div></div>
+      <p class="muted buoy-src" id="buoySrc"></p>
     </div>
   </section>
 
@@ -1327,6 +1351,7 @@ async function loadForecast(){
     loadForecast.retried = false;
     renderForecast();
     renderKiteNow();
+    renderBuoys();
     if(browseIdx-(todayIdx ?? 0)<=2) renderDayCond();
   } catch(err){
     ERRORS.push('prévisions : '+(err && err.message));
@@ -1486,6 +1511,71 @@ function renderForecast(){
   $('fcSource').textContent = 'Prévisions Météo-France (AROME/ARPEGE, MFWAM) via Open-Meteo · chargées à '+epochHHMM(FC.fetched)+'.';
 }
 
+
+/* ---------- Bouées houlographes au large (Candhis) ---------- */
+// Relevées toutes les 30 min par GitHub Actions (tools/bouees.py) et publiées sur la
+// branche `donnees` : Candhis n'accepte pas les appels directs depuis la page.
+const BUOY_URL = 'https://raw.githubusercontent.com/PITTILLONI/deauville-passerelle-ecluse/donnees/bouees.json';
+const BUOY_STALE = 3*3600000;   // au-delà, la bouée est considérée hors service
+let BUOYS = null;
+async function loadBuoys(){
+  try{
+    const r = await fetch(BUOY_URL+'?t='+Math.floor(Date.now()/300000), {cache:'no-store'});
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    BUOYS = await r.json();
+  } catch(e){
+    ERRORS.push('bouées : '+(e && e.message));
+    if(!BUOYS) $('buoyList').innerHTML = '<div class="muted">Mesures des bouées indisponibles pour le moment.</div>';
+    return;
+  }
+  renderBuoys();
+}
+function ago(ms){
+  const min = Math.max(0, Math.round(ms/60000));
+  return min<60 ? 'il y a '+min+' min' : 'il y a '+Math.floor(min/60)+' h '+String(min%60).padStart(2,'0');
+}
+function sparkline(obs){
+  const pts = obs.filter(o => o.h!=null);
+  if(pts.length<3) return '';
+  const t0 = pts[0].t, t1 = pts[pts.length-1].t, max = Math.max(0.5, ...pts.map(o=>o.hmax ?? o.h));
+  const x = t => ((t-t0)/(t1-t0||1)*100).toFixed(1), y = v => (42 - v/max*38).toFixed(1);
+  const line = k => pts.filter(o=>o[k]!=null).map(o => x(o.t)+','+y(o[k])).join(' ');
+  return '<svg class="buoy-spark" viewBox="0 0 100 44" preserveAspectRatio="none" aria-hidden="true">'
+    + '<polyline points="'+line('hmax')+'" fill="none" stroke="currentColor" stroke-opacity=".35" stroke-width="1.2" vector-effect="non-scaling-stroke"/>'
+    + '<polyline points="'+line('h')+'" fill="none" stroke="currentColor" stroke-width="2.2" vector-effect="non-scaling-stroke" stroke-linejoin="round"/></svg>'
+    + '<div class="buoy-spark-l"><span>−'+Math.round((t1-t0)/3600)+' h</span><span>vagues (trait plein) et vague max</span><span>'+epochHHMM(t1*1000)+'</span></div>';
+}
+function renderBuoys(){
+  if(!BUOYS) return;
+  const now = Date.now();
+  const fcNow = FC && FC.key==='port' ? FC.hours.find(h => now>=h.ts && now<h.ts+3600000) : null;
+  $('buoyList').innerHTML = BUOYS.buoys.map(b => {
+    const obs = b.obs.filter(o => o.h!=null);
+    const last = obs[obs.length-1];
+    if(!last || now-last.t*1000 > BUOY_STALE){
+      const since = last ? new Date(last.t*1000).toLocaleDateString('fr-FR',{day:'numeric', month:'long', timeZone:'Europe/Paris'}) : null;
+      return '<div class="buoy off"><div class="buoy-head"><span class="buoy-name">'+b.name+'</span><span class="buoy-age">hors service</span></div>'
+        + '<p>'+(since ? 'Pas de mesure depuis le '+since+' (bouée en maintenance).' : 'Pas de mesure disponible.')+'</p></div>';
+    }
+    // tendance sur 3 h
+    const before = obs.find(o => o.t >= last.t-3*3600);
+    const d = before ? last.h - before.h : 0;
+    const trend = Math.abs(d) < 0.15 ? 'stable sur 3 h' : (d>0 ? 'en hausse' : 'en baisse')+' ('+(d>0?'+':'−')+num(Math.abs(d),1)+' m en 3 h)';
+    const cells = [
+      ['Vague max', last.hmax!=null ? num(last.hmax,1)+' m' : '—', 'la plus haute'],
+      ['Période', last.tp!=null ? Math.round(last.tp)+' s' : '—', last.tp!=null ? (last.tp<6 ? 'mer de vent, courte' : last.tp<9 ? 'mer moyenne' : 'houle longue') : ''],
+      ['Viennent du', last.dir!=null ? windArrow(last.dir)+dirName(last.dir) : '—', last.dir!=null ? Math.round(last.dir)+'°' : '']
+    ];
+    const cmp = fcNow ? '<p class="buoy-cmp">Prévu à cette heure (Météo-France) : <b>'+num(fcNow.wave,1)+' m</b>'
+      + (Math.abs(fcNow.wave-last.h) >= 0.3 ? ' — la mer est '+(last.h>fcNow.wave ? 'plus forte' : 'plus calme')+' que prévu' : ' — conforme à la prévision')+'</p>' : '';
+    return '<div class="buoy"><div class="buoy-head"><span class="buoy-name">'+b.name+'</span><span class="buoy-age live">'+ago(now-last.t*1000)+'</span></div>'
+      + '<div class="buoy-main"><b>'+num(last.h,1)+' m</b><span>vagues · '+trend+'</span></div>'
+      + '<div class="conds">'+cells.map(([k,v,s]) => '<div class="cond"><div class="k">'+k+'</div><div class="val">'+v+'</div><div class="sub">'+s+'</div></div>').join('')+'</div>'
+      + cmp + sparkline(b.obs) + '</div>';
+  }).join('');
+  $('buoySrc').innerHTML = 'Houlographes à l’entrée de l’estuaire de la Seine, à 12-13 km au nord de Deauville. « Vagues » = hauteur significative (H1/3), comparable aux prévisions. '
+    + 'Source : Port du Havre et Cerema, <a href="https://candhis.cerema.fr/" target="_blank" rel="noopener">Candhis</a> (Licence Ouverte), relevé à '+epochHHMM(BUOYS.updated*1000)+'.';
+}
 
 /* ---------- Spot kite en direct ---------- */
 let RIDER_KG = 75;
@@ -1980,7 +2070,7 @@ refreshTabs();
 // version.json est réécrit à chaque publication (tools/publier-version.sh). Si la
 // version en ligne diffère de celle de la page, on recharge : sur l'écran
 // d'accueil de l'iPhone, l'app reste ainsi à jour sans manipulation.
-const APP_VERSION = '20261017-150923';
+const APP_VERSION = '20261018-100637';
 async function checkUpdate(){
   try{
     const r = await fetch('version.json?t='+Date.now(), {cache:'no-store'});
@@ -2032,11 +2122,14 @@ setInterval(tickChrono, 1000);
 setInterval(loadForecast, 30*60000);
 setInterval(renderForecast, 5*60000);
 setInterval(checkUpdate, 5*60000);
+loadBuoys();
+setInterval(loadBuoys, 10*60000);
 document.addEventListener('visibilitychange', ()=>{
   if(document.visibilityState!=='visible') return;
   checkUpdate();
   updateNow();
   if(!FC || Date.now()-FC.fetched > 15*60000) loadForecast();
+  loadBuoys();
 });
 </script>
 </body>

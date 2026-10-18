@@ -11,7 +11,8 @@ L'app est pensée pour un **marin** (profil Bateau) ou un **kitesurfeur** (profi
 2. **Voilure et allures** : voilure conseillée selon le vent et les rafales (ris, génois roulé), allure et réglages vers Le Havre, Honfleur, Dives, Ouistreham ou le large ;
 3. **Je sors en mer ?** : chaque créneau d'écluse noté *Favorable / Prudence / Déconseillé* avec la raison chiffrée (« Trop de vent : 19 nd, rafales 26 nd », « Mer agitée : vagues de 1,1 m »…) ;
 4. **Conseils** : sortir du bassin Morny, check-list avant de partir, prendre un ris, réglages par allure, priorités en mer, homme à la mer ;
-5. **Calendrier** : horaires des portes et marées de **n'importe quel jour de 2026**, avec les **conditions prévues** ce jour-là (note de chaque créneau, meilleur créneau et sa raison, heure par heure) jusqu'à J+15, et les conditions passées.
+5. **Bouées au large en direct** : vagues mesurées par les houlographes Candhis à l'entrée de l'estuaire (12-13 km au nord), comparées à la prévision ;
+6. **Calendrier** : horaires des portes et marées de **n'importe quel jour de 2026**, avec les **conditions prévues** ce jour-là (note de chaque créneau, meilleur créneau et sa raison, heure par heure) jusqu'à J+15, et les conditions passées.
 
 **Kitesurf**
 1. **Spot en direct** : vent (force, direction, orientation par rapport à la plage), **taille d'aile idéale** selon le **poids du rider** (réglable), **température de l'eau** et combinaison conseillée, rafales et régularité, marée montante/descendante, air, coucher du soleil ;
@@ -42,6 +43,7 @@ Voir [ROADMAP.md](ROADMAP.md) pour ce qui est fait et ce qui reste à faire, et 
 | Vent (force, rafales, direction) | **Météo-France**, modèles AROME / ARPEGE | API [Open-Meteo](https://open-meteo.com/) en direct, sans clé |
 | Vagues et houle | **Météo-France**, modèle de vagues MFWAM | API marine [Open-Meteo](https://open-meteo.com/en/docs/marine-weather-api) |
 | Lever / coucher du soleil | Open-Meteo | idem |
+| Vagues mesurées (bouées 07609 et 07611) | **Candhis** — Port du Havre et Cerema, Licence Ouverte Etalab — [candhis.cerema.fr](https://candhis.cerema.fr/) | Page publique relevée toutes les 30 min par GitHub Actions (`tools/bouees.py`), publiée sur la branche `donnees` (`bouees.json`) |
 
 Liens de vérification affichés sur la page : [bulletin météo marine Météo-France](https://meteofrance.com/meteo-marine), [marées SHOM de Deauville](https://maree.shom.fr/harbor/DEAUVILLE).
 
@@ -72,6 +74,7 @@ version.json            numéro de version en ligne, lu par la page pour se rech
 tools/
   extraire-horaires.mjs extraction du PDF officiel -> données JSON + contrôle des incohérences
   publier-version.sh    nouveau numéro de version avant chaque publication
+  bouees.py             relevé des bouées Candhis (lancé par .github/workflows/bouees.yml)
   krea-generer.py       génération des illustrations via l'API Krea (jeton dans ~/.config/krea/token)
   annotations-kite.py   annotations précises (vent, bord d'attaque, positions) et carrousels
 tuto/                   illustrations des tutos kite (décollage, atterrissage, water start)

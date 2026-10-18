@@ -1,0 +1,30 @@
+# Relève les mesures des bouées houlographes Candhis du Havre toutes les 30 min
+# et les publie dans bouees.json sur la branche `donnees` (lue par la page via
+# raw.githubusercontent.com). Un seul commit, remplacé à chaque fois : pas d'historique.
+name: Bouées en direct
+on:
+  schedule:
+    - cron: '8,38 * * * *'   # Candhis publie une mesure toutes les 30 min
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: bouees
+  cancel-in-progress: true
+jobs:
+  releve:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Relever les bouées
+        run: python3 tools/bouees.py > /tmp/bouees.json
+      - name: Publier sur la branche donnees
+        run: |
+          cd "$(mktemp -d)"
+          git init -q -b donnees
+          cp /tmp/bouees.json .
+          git add bouees.json
+          git -c user.name='github-actions[bot]' -c user.email='41898282+github-actions[bot]@users.noreply.github.com' \
+            commit -qm "Bouées : mesures du $(date -u +'%d/%m %H:%M') TU"
+          git push -qf "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" donnees

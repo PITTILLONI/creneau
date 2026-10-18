@@ -1,5 +1,10 @@
 # Historique des versions
 
+## 18 octobre 2026 — Bouées au large en direct
+- Mode Bateau, onglet Maintenant : **mesures en direct des bouées houlographes** à l'entrée de l'estuaire de la Seine (Candhis, Port du Havre et Cerema), à 12-13 km au nord de Deauville : hauteur des vagues (H1/3), vague max, période, provenance, tendance sur 3 h, courbe des 24 dernières heures, et **comparaison avec la prévision Météo-France** de l'heure (« la mer est plus calme que prévu »).
+- Deux bouées : 07609 *Haut du Sud-Ouest* (active) et 07611 *Nord du mouillage* (en maintenance, aucune mesure depuis le 2 juin 2026 : affichée « hors service » tant qu'elle ne transmet pas).
+- Relevé toutes les 30 min par GitHub Actions (`tools/bouees.py`, `.github/workflows/bouees.yml`), publié sur la branche `donnees` : Candhis n'accepte pas les appels directs depuis la page.
+
 ## 17 octobre 2026 (15h30) — Navigation par onglets, conditions dans le calendrier
 - **Un onglet = un écran** : la barre du bas n'est plus un raccourci vers une longue page, chaque onglet (Maintenant, Sortir, Conseils, Calendrier) affiche uniquement sa section. L'onglet ouvert est gardé dans l'adresse (`#sortir`…), chaque onglet retrouve sa position, toucher l'onglet déjà ouvert remonte en haut. Le pied de page (sources, liens) n'apparaît plus que sur Maintenant (et l'avertissement sur Calendrier).
 - Onglet Sortir allégé : les **allures et réglages par destination** sont dans un menu dépliant sous la voilure conseillée.
