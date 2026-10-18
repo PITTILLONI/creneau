@@ -37,6 +37,15 @@ Pour avoir **une colonne par rubrique** dans le Google Sheet : ajouter 4 questio
 (ou faire Données → Scinder le texte en colonnes, séparateur personnalisé « retour à la ligne »),
 puis me donner le lien : je renseigne `SURVEY.entries` et retire `SURVEY.single`.
 
+## Autres lignes reçues dans le formulaire
+
+- **« Inscription bêta »** : prénom et nom d'un testeur (une fois, à la première ouverture).
+- **« Ouverture »** : un testeur a ouvert l'app (au plus une ligne toutes les 2 h par personne), avec son nom,
+  le nombre d'ouvertures depuis l'installation et s'il utilise l'icône de l'écran d'accueil. Pour compter les
+  ouvertures par semaine : filtrer la colonne des réponses sur « Ouverture » et regrouper par nom et par date
+  (colonne Horodateur).
+- L'avis est redemandé automatiquement à la 3e ouverture, puis une dernière fois à la 6e.
+
 ## Créer le formulaire (5 minutes)
 
 1. Sur <https://forms.google.com>, créer un formulaire vide « Crén'eau — avis ».

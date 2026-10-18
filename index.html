@@ -659,6 +659,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   .sheet fieldset label.other{flex-direction:column;gap:6px;color:var(--ink-2);}
   .sheet input[type=text]{font:inherit;font-size:16px;border:0;border-radius:10px;background:var(--surface-2);color:var(--ink);padding:9px 11px;width:100%;}
   .sheet-done{text-align:center;font-weight:700;color:var(--good);margin:12px 0;}
+  .avis-intro{font-weight:700;margin:0 0 6px;}
 
   /* pas de zoom : ni double-tap (touch-action), ni pincement (gesturestart, voir le script) ;
      champs à 16 px minimum, sinon Safari zoome tout seul à la saisie */
@@ -858,7 +859,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
             <label>Prénom<input id="obFirst" type="text" autocomplete="given-name" autocapitalize="words" enterkeyhint="next"></label>
             <label>Nom<input id="obLast" type="text" autocomplete="family-name" autocapitalize="words" enterkeyhint="done"></label>
           </div>
-          <p class="ob-legal">Pour suivre la bêta, votre nom est transmis au créateur de l'app (rien d'autre, pas de pub).</p>
+          <p class="ob-legal">Pour suivre la bêta, votre nom et le nombre de fois où vous ouvrez l'app sont transmis au créateur de l'app (rien d'autre, pas de pub).</p>
           <div class="ob-q">Vous sortez plutôt…</div>
           <div class="qv-chips ob-choice" id="obProfile">
             <button type="button" data-p="boat">Bateau</button>
@@ -927,6 +928,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
     <dialog class="sheet" id="premiumDlg" aria-labelledby="premiumTitle">
       <form id="premiumForm" method="dialog">
         <div class="sheet-head"><h3 id="premiumTitle">Votre avis sur Crén'eau</h3><button type="button" class="todaybtn" id="premiumClose">Fermer</button></div>
+        <p class="avis-intro" id="avisIntro" hidden>Vous avez utilisé Crén'eau plusieurs fois : merci de nous dire ce que vous en pensez.</p>
         <p class="muted" style="margin-top:0">4 questions, 1 minute. Crén'eau restera gratuit pour l'essentiel ; vos réponses nous aident à choisir la suite.</p>
         <fieldset><legend>Si vous ne pouviez plus utiliser Crén'eau, vous seriez…</legend>
           <label><input type="radio" name="deception" value="Très déçu"> Très déçu(e)</label>
@@ -3058,7 +3060,7 @@ function maybeOnboard(){
   countVisit();
   let seen = null; try{ seen = localStorage.getItem('onboard'); }catch(e){}
   if(seen!==ONBOARD_V) setTimeout(openOnboard, 400);
-  else maybeInstall();
+  else if(!maybeInstall()) maybeAvis();   // un seul panneau par ouverture
 }
 $('obProfile').addEventListener('click', e => { const b = e.target.closest('button'); if(!b) return; setProfile(b.dataset.p, true); obSync(); });
 $('obRegion').addEventListener('click', e => { const b = e.target.closest('button'); if(!b) return; if(b.dataset.r!==REGION) setRegion(b.dataset.r); obSync(); });
@@ -3113,8 +3115,18 @@ function maybeInstall(){
   if(standalone()) return;
   let visits = 0, state = '';
   try{ visits = +localStorage.getItem('visites') || 0; state = localStorage.getItem('installe') || ''; }catch(e){}
-  if(state==='fait') return;
-  if(visits>=2 && (!state || visits >= +state)) setTimeout(openInstall, 900);
+  if(state==='fait') return false;
+  if(visits>=2 && (!state || visits >= +state)){ setTimeout(openInstall, 900); return true; }
+  return false;
+}
+// Relance de l'avis : à la 3e ouverture, puis une dernière fois 3 ouvertures plus tard.
+function maybeAvis(){
+  let visits = 0, sent = null, next = 3;
+  try{ visits = +localStorage.getItem('visites') || 0; sent = localStorage.getItem('avisEnvoye'); next = localStorage.getItem('avisDemande') ?? 3; }catch(e){}
+  if(sent || next==='stop' || visits < +next) return false;
+  try{ localStorage.setItem('avisDemande', +next >= 6 ? 'stop' : visits + 3); }catch(e){}
+  setTimeout(() => openAvis(true), 900);
+  return true;
 }
 // une seule fois par session : le rechargement automatique après une mise à jour ne compte pas
 function countVisit(){
@@ -3123,6 +3135,20 @@ function countVisit(){
     sessionStorage.setItem('visiteComptee', '1');
     localStorage.setItem('visites', (+localStorage.getItem('visites') || 0) + 1);
   }catch(e){}
+  pingUsage();
+}
+// Suivi de la bêta : « Ouverture · Prénom Nom » envoyé au Google Form, au plus toutes les 2 h,
+// pour compter les ouvertures par testeur et par semaine (annoncé dans la présentation).
+// Pas d'adresse IP ni de localisation : seulement le nom donné par le testeur.
+function pingUsage(){
+  const t = getTester();
+  if(!t) return;
+  let last = 0, visits = 0;
+  try{ last = +localStorage.getItem('dernierPing') || 0; visits = +localStorage.getItem('visites') || 0; }catch(e){}
+  if(Date.now() - last < 2*3600000) return;
+  try{ localStorage.setItem('dernierPing', Date.now()); }catch(e){}
+  sendForm('Ouverture\nNom : '+t.first+' '+t.last+'\nOuvertures depuis l\'installation : '+visits
+    + '\nContexte : '+(PROFILE==='kite' ? 'Glisse ('+SP().label+')' : 'Bateau')+' · '+RG().name+(standalone() ? ' · écran d\'accueil' : ' · navigateur'));
 }
 $('instLater').addEventListener('click', () => {
   try{ localStorage.setItem('installe', (+localStorage.getItem('visites') || 0) + 3); }catch(e){}
@@ -3145,10 +3171,13 @@ $('instOpen').addEventListener('click', openInstall);
 // Voir docs/premium/questionnaire.md. Sans formulaire : e-mail prérempli.
 const SURVEY = {form:'1FAIpQLSfN0jynPaX6YNUVvbVU6IT3S68nzKTfMnmmwuNuMUERNXHQCQ', single:'1724789462',
   entries:{deception:'', outils:'', ajouts:'', prix:'', contexte:''}};
-$('premiumOpen').addEventListener('click', ()=>{
+function openAvis(auto){
   $('premiumDone').hidden = true; $('premiumForm').querySelector('.premium-send').hidden = false;
+  $('avisIntro').hidden = !auto;
+  $('premiumClose').textContent = auto ? 'Plus tard' : 'Fermer';
   try{ $('premiumDlg').showModal(); }catch(e){ $('premiumDlg').setAttribute('open',''); }
-});
+}
+$('premiumOpen').addEventListener('click', () => openAvis(false));
 $('premiumClose').addEventListener('click', ()=>$('premiumDlg').close());
 $('premiumForm').addEventListener('submit', async e=>{
   e.preventDefault();
@@ -3188,7 +3217,7 @@ $('premiumForm').addEventListener('submit', async e=>{
 // version.json est réécrit à chaque publication (tools/publier-version.sh). Si la
 // version en ligne diffère de celle de la page, on recharge : sur l'écran
 // d'accueil de l'iPhone, l'app reste ainsi à jour sans manipulation.
-const APP_VERSION = '20261018-182642';
+const APP_VERSION = '20261018-184507';
 async function checkUpdate(){
   try{
     const r = await fetch('version.json?t='+Date.now(), {cache:'no-store'});

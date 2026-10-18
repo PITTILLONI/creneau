@@ -1,5 +1,9 @@
 # Historique des versions
 
+## 18 octobre 2026 (19h) — Relance de l'avis, suivi des ouvertures
+- **Relance de l'avis** : le questionnaire s'ouvre de lui-même à la **3e ouverture** (« Vous avez utilisé Crén'eau plusieurs fois… », bouton « Plus tard »), puis une dernière fois à la 6e. Un seul panneau par ouverture (présentation, puis installation, puis avis).
+- **Suivi des ouvertures pour la bêta** : signal « Ouverture · Prénom Nom » envoyé au Google Form au plus toutes les 2 h (nombre d'ouvertures, icône d'écran d'accueil ou navigateur), pour compter l'usage par testeur et par semaine. Pas d'adresse IP ni de localisation. La phrase d'information de la présentation le mentionne.
+
 ## 18 octobre 2026 (18h30) — Calage de la passerelle piétonne confirmé
 - Deuxième relevé sur place : la passerelle piétonne s'est levée à **18:26**, exactement à l'heure annoncée par l'app (après la descente de 17:56). Le cycle « première levée 12 min après l'ouverture des portes, puis 15 min levée / 30 min baissée » est confirmé pour ce jour ; à revérifier un jour où les portes ouvrent à une autre heure.
 - Troisième relevé : la passerelle piétonne redescend vers **18:29**, juste après la fermeture des portes (18:28) : la dernière levée est bien coupée à la fermeture des portes, comme dans l'app. Durée de la manœuvre (levée / descente) encore inconnue.
