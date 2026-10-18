@@ -20,7 +20,7 @@ Dernière mise à jour de ce fichier : 17 octobre 2026 (15h30).
 - [x] Navigation par vrais onglets (une section à l'écran à la fois)
 - [x] Bateau : bouées houlographes du Havre en direct (Candhis), comparées à la prévision
 - [x] Indicateur « récupération des données en cours » (bateau et kite), avec Réessayer en cas d'échec
-- [x] Vent recoupé entre 5 modèles (Météo-France, ECMWF, ICON, UKMO, GFS) avec indice d'accord
+- [x] Vent consolidé : médiane de 5 modèles (Météo-France compte double, ECMWF, ICON, UKMO, GFS)
 - [x] Kite : « Mes ailes » + foil, vent mini/maxi et aile conseillée selon le poids et les ailes du rider
 - [x] Interface mobile d'abord : barre d'onglets, grandes zones tactiles, mode sombre automatique
 - [x] Icône et mode plein écran pour l'écran d'accueil iPhone

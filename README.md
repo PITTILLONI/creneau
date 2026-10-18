@@ -43,7 +43,7 @@ Voir [ROADMAP.md](ROADMAP.md) pour ce qui est fait et ce qui reste à faire, et 
 | Vent (force, rafales, direction) | **Météo-France**, modèles AROME / ARPEGE | API [Open-Meteo](https://open-meteo.com/) en direct, sans clé |
 | Vagues et houle | **Météo-France**, modèle de vagues MFWAM | API marine [Open-Meteo](https://open-meteo.com/en/docs/marine-weather-api) |
 | Lever / coucher du soleil | Open-Meteo | idem |
-| Accord des modèles (vent) | Météo-France, ECMWF, ICON (DWD), UKMO (Met Office), GFS (NOAA) | Open-Meteo, un seul appel `models=…` ; la note reste sur Météo-France |
+| Vent consolidé | Météo-France (compte double), ECMWF, ICON (DWD), UKMO (Met Office), GFS (NOAA) | Open-Meteo, un seul appel `models=…` ; médiane par heure (`attachModels` dans `index.html`) |
 | Vagues mesurées (bouées 07609 et 07611) | **Candhis** — Port du Havre et Cerema, Licence Ouverte Etalab — [candhis.cerema.fr](https://candhis.cerema.fr/) | Page publique relevée toutes les 30 min par GitHub Actions (`tools/bouees.py`), publiée sur la branche `donnees` (`bouees.json`) |
 
 Liens de vérification affichés sur la page : [bulletin météo marine Météo-France](https://meteofrance.com/meteo-marine), [marées SHOM de Deauville](https://maree.shom.fr/harbor/DEAUVILLE).
