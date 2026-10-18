@@ -62,7 +62,8 @@ Dernière mise à jour de ce fichier : 17 octobre 2026 (15h30).
 - [ ] Demander une clé API Candhis (gratuite) pour remplacer la lecture de la page publique
 
 - [x] Cycle de la passerelle piétonne : 15 min levée / 30 min baissée pendant l'ouverture des portes, « prochaine levée dans X min »
-- [ ] Confirmer sur d'autres jours le calage de la passerelle piétonne (première levée 12 min après l'ouverture des portes, relevé du 18 octobre)
+- [x] Calage de la passerelle piétonne confirmé le 18 octobre (descente 17:56, levée 18:26 comme prévu)
+- [ ] Revérifier le calage un jour où les portes ouvrent à une autre heure (le décalage de 12 min est-il fixe ?)
 - [ ] Vérifier l'**orientation de chaque plage** (Trouville, Houlgate, Cabourg) sur le terrain
 - [ ] Vérifier les **seuils kite** sur le terrain (plage −12 % / +50 % autour du vent idéal de chaque aile, planchers 9 nd twin-tip / 7 nd foil)
 - [ ] Rappeler les **zones et périodes de kite** autorisées par la mairie en saison
