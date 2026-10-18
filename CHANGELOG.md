@@ -1,5 +1,9 @@
 # Historique des versions
 
+## 18 octobre 2026 (17h15) — Le ciel : pluie ou beau temps
+- « Favorable » ne veut pas dire « beau temps » : chaque créneau, session, carte des 7 jours, verdict, journée du calendrier, carte « Maintenant » (Nouméa) et heure du détail indique maintenant **le ciel** avec une icône : Ensoleillé / Ciel dégagé (nuit), Éclaircies, Couvert, Brouillard, **Pluie** ou **Averses possibles avec les millimètres**, Neige, Orage.
+- Pluie = au moins 0,2 mm dans l'heure ou un code de pluie (Météo-France via Open-Meteo, nouvelle donnée `precipitation`) ; sans pluie, c'est le ciel le plus fréquent sur la période. La note n'est pas modifiée par la pluie (l'orage reste éliminatoire).
+
 ## 18 octobre 2026 (16h45) — Cycle de la passerelle piétonne
 - Pendant l'ouverture des portes, la passerelle piétonne alterne **15 min levée / 15 min baissée** (info locale). La carte « Sortie en mer » affiche l'état en direct : « **Levée** jusqu'à 13:59 (dans 9 min) » ou « **Baissée** · prochaine levée à 14:14 (dans 9 min) », la dernière levée s'arrêtant à la fermeture des portes. Avant l'ouverture : « Première levée vers 13:44, puis 15 min levée / 15 min baissée ».
 - Hypothèse à confirmer : le cycle commence par une levée à l'ouverture des portes (`BRIDGE_UP`, `BRIDGE_DOWN`, `bridgeCycle` dans `index.html`).

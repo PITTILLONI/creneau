@@ -403,6 +403,10 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
 
   /* passerelle chrono */
   .br-up{color:var(--good);} .br-down{color:var(--mid);}
+  .sky{display:inline-flex;align-items:center;gap:5px;}
+  .sky .ico{margin:0;color:var(--accent);}
+  .sky.wet .ico{color:var(--mid);}
+  .wkd .sk .ico{margin:0;width:1em;height:1em;}
   .pass .chrono-label{font-size:1.05rem;font-weight:600;margin-top:14px;}
   .pass .chrono{font-size:clamp(3.2rem,17vw,4.6rem);font-weight:700;line-height:1;letter-spacing:-.05em;margin-top:2px;}
   .pass.good .chrono{color:var(--good);} .pass.mid .chrono{color:var(--mid);} .pass.bad .chrono{color:var(--bad);}
@@ -1200,6 +1204,10 @@ const ICONS = {
   drop:'<path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5S12.5 5.5 12 3c-.5 2.5-2 4.9-4 6.5S5 13 5 15a7 7 0 0 0 7 7z"/>',
   kite:'<path d="M12 2l7 7-7 9-7-9z"/><path d="M12 2v16M5 9h14"/><path d="M12 18c0 2 1.5 3.5 3.5 3.5"/>',
   moon:'<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z"/>',
+  cloud:'<path d="M7 18a4.5 4.5 0 1 1 .9-8.9A6 6 0 0 1 19 11a3.5 3.5 0 0 1-.5 7z"/>',
+  sunCloud:'<path d="M12 3v1.5M5.6 5.6l1 1M3 12h1.5M18.4 5.6l-1 1"/><path d="M8.5 11a3.5 3.5 0 0 1 6.6-1.6"/><path d="M9 20a3.8 3.8 0 1 1 .8-7.5A5 5 0 0 1 19 14a3 3 0 0 1-.4 6z"/>',
+  rain:'<path d="M7 15a4.5 4.5 0 1 1 .9-8.9A6 6 0 0 1 19 8a3.5 3.5 0 0 1-.5 7z"/><path d="M8 18l-1 3M12 18l-1 3M16 18l-1 3"/>',
+  fog:'<path d="M7 11a4.5 4.5 0 1 1 .9-8.9A6 6 0 0 1 19 4a3.5 3.5 0 0 1-.5 7z"/><path d="M4 15h16M6 19h12"/>',
   sail:'<path d="M11 3v15"/><path d="M11 4c4.5 3 7 8 7 14h-7"/><path d="M4 21h16"/>',
   wing:'<path d="M3 14c3-6 7.5-9 12.5-9 2.6 0 4.4.9 5.5 2.5-4 .2-7 2.3-9 5.8-2 3.2-5 4.3-9 3.7z"/><path d="M9.5 11.5l3 3"/>',
   storm:'<path d="M6 16.3A5 5 0 1 1 15.9 9h1.8a4.5 4.5 0 0 1 1.3 8.8"/><path d="m13 11-3 5h4l-3 5"/>',
@@ -1216,7 +1224,7 @@ function ico(name, label){
 }
 // Intitulés des tuiles : une icône devant chaque libellé connu.
 const K_ICON = {'Vent':'wind', 'Rafales':'wind', 'Mer':'waves', 'Vague max':'waves', 'Période':'timer', 'Viennent du':'compass',
-  'Marée':'tideUp', 'Air':'thermo', 'Soleil':'sun', 'Eau':'drop', 'Aile à sortir':'kite', 'Aile au plus fort':'kite', 'Aile cible':'kite'};
+  'Marée':'tideUp', 'Air':'thermo', 'Soleil':'sun', 'Ciel':'sunCloud', 'Eau':'drop', 'Aile à sortir':'kite', 'Aile au plus fort':'kite', 'Aile cible':'kite'};
 function kLabel(k){ return '<div class="k">'+ico(K_ICON[k] || (/^(Aile|Voile|Wing) /.test(k) ? SP().icon : ''))+k+'</div>'; }
 function cellHTML([k,v,s]){ return '<div class="cond">'+kLabel(k)+'<div class="val">'+v+'</div><div class="sub">'+s+'</div></div>'; }
 // Icône de la raison d'une note (vent, mer, nuit, orage, vent de terre, ou tout va bien).
@@ -1729,7 +1737,7 @@ function buildHours(w, s, sst, noWave){
     if(kn==null || (!hasWave && !noWave)) return;
     const ts = t*1000;
     hours.push({ts, kn, gust: gust ?? kn, dir:w.hourly.wind_direction_10m[i], wave: hasWave ? wv.h : 0, swell: hasWave ? wv.sw : 0, period: hasWave ? wv.sp : 0,
-      noWave: !hasWave, temp:w.hourly.temperature_2m[i], code:w.hourly.weather_code[i], sst:sstAt[t] ?? null,
+      noWave: !hasWave, temp:w.hourly.temperature_2m[i], code:w.hourly.weather_code[i], rain:(w.hourly.precipitation||[])[i] ?? null, sst:sstAt[t] ?? null,
       night: !days.some(([a,b]) => ts>=a && ts<b)});
   });
   return {hours, days};
@@ -1741,7 +1749,7 @@ async function loadForecast(){
   const done = busy(PROFILE==='kite' ? 'des prévisions du spot de '+SPOTS[SPOT].name : 'des prévisions météo');
   const common = '&timeformat=unixtime&timezone='+encodeURIComponent(TZ())+'&forecast_days=3';
   const wUrl = 'https://api.open-meteo.com/v1/forecast?latitude='+P.lat+'&longitude='+P.lon
-    + '&hourly=wind_speed_10m,wind_gusts_10m,wind_direction_10m,temperature_2m,weather_code&daily=sunrise,sunset'
+    + '&hourly=wind_speed_10m,wind_gusts_10m,wind_direction_10m,temperature_2m,weather_code,precipitation&daily=sunrise,sunset'
     + '&models=meteofrance_seamless&wind_speed_unit=kn'+common;
   const sUrl = 'https://marine-api.open-meteo.com/v1/marine?latitude='+P.seaLat+'&longitude='+P.seaLon
     + '&hourly=wave_height,swell_wave_height,swell_wave_period&models=meteofrance_wave'+common;
@@ -1816,7 +1824,8 @@ function summarize(hs){
     score: worst.score, level: worst.level, why: worst.why,
     kn: Math.max(...hs.map(h=>h.kn)), knMin: Math.min(...hs.map(h=>h.kn)), gust: Math.max(...hs.map(h=>h.gust)),
     dir: worst.dir, wave: Math.max(...hs.map(h=>h.wave)),
-    swell: Math.max(...hs.map(h=>h.swell||0)), period: worst.period, night: hs.some(h=>h.night), noWave: hs.some(h=>h.noWave)
+    swell: Math.max(...hs.map(h=>h.swell||0)), period: worst.period, night: hs.some(h=>h.night), noWave: hs.some(h=>h.noWave),
+    sky: sky(hs)
   };
 }
 function whenLabel(ts){ return cap(relDay(keyIndex[parisParts(ts).key], todayIdx)); }
@@ -1917,6 +1926,7 @@ function renderForecast(){
       '<div class="cond">'+kLabel('Vent')+'<div class="val">'+windArrow(cur.dir)+Math.round(cur.kn)+' nd '+dirName(cur.dir)+'</div><div class="sub">rafales '+Math.round(cur.gust)+' nd'+(kite?' · '+orientation(cur.dir):'')+'</div></div>'
     + (cur.noWave ? '<div class="cond">'+kLabel('Mer')+'<div class="val">'+(RG().waves ? '—' : 'Lagon')+'</div><div class="sub">'+(RG().waves ? 'vagues indisponibles pour le moment : note sur le vent' : 'vagues non prévues (barrière de corail) : note sur le vent')+'</div></div>'
       : '<div class="cond">'+kLabel('Mer')+'<div class="val">'+num(cur.wave,1)+' m</div><div class="sub">houle '+num(cur.swell,1)+' m · '+Math.round(cur.period||0)+' s</div></div>')
+    + (cur.sky ? '<div class="cond" style="grid-column:1/3">'+kLabel('Ciel')+'<div class="val">'+skyHTML(cur.sky)+'</div></div>' : '')
     + '<div class="cond" style="grid-column:1/3"><div class="k">'+(cur.level==='good' ? 'Pourquoi' : 'Ce qui limite')+'</div><div class="sub" style="color:var(--ink);font-size:1rem;font-weight:600">'+reasonHTML(cur)+'</div></div>'
     + bestTxt;
   } else {
@@ -1940,7 +1950,7 @@ function renderForecast(){
     el.innerHTML = '<div class="when">'+epochHHMM(w.s)+' – '+epochHHMM(w.e)+'</div>'
       + '<div class="day">'+whenLabel(w.s)+(w.night?' '+NIGHT():'')+'</div>'
       + '<span class="badge '+w.level+'">'+LEVELS[w.level]+'</span>'
-      + '<div class="meta"><b>'+reasonHTML(w)+'</b><br>'+meta+'</div>';
+      + '<div class="meta"><b>'+reasonHTML(w)+'</b><br>'+meta+(w.sky ? '<br>'+skyHTML(w.sky) : '')+'</div>';
     list.appendChild(el);
   });
   if(!slots.length){
@@ -1978,7 +1988,7 @@ function renderForecast(){
     const detail = whenLabel(h.ts)+' '+String(p.hour).padStart(2,'0')+'h : <b>'+LEVELS[h.level]+'</b>'+' — '+reason(h).charAt(0).toLowerCase()+reason(h).slice(1)
       + ' — vent '+Math.round(h.kn)+' nd '+dirName(h.dir)+', rafales '+Math.round(h.gust)+' nd'
       + (kite ? ', '+orientation(h.dir)+', '+(kiteSize(h.kn).target ? SP().gear+' cible ' : SP().gear+' ')+kiteSize(h.kn).val : '')+(h.noWave ? '' : ', vagues '+num(h.wave,1)+' m')
-      + (open && !kite ? ' · écluse ouverte' : '')+(h.night ? ' · nuit' : '')
+      + (open && !kite ? ' · écluse ouverte' : '')+(h.night ? ' · nuit' : '')+(sky([h]) ? ' · '+sky([h]).text.toLowerCase() : '')
     b.setAttribute('aria-label', detail.replace(/<[^>]+>/g,''));
     b.addEventListener('click', ()=>{
       strip.querySelectorAll('.sel').forEach(x=>x.classList.remove('sel'));
@@ -2068,6 +2078,30 @@ function renderBuoys(){
 let RIDER_KG = 75;
 try{ const w = +localStorage.getItem('poids'); if(w>=35 && w<=130) RIDER_KG = w; }catch(e){}
 
+// Le ciel sur une heure ou un créneau : « favorable » ne veut pas dire « beau temps ».
+// Pluie si au moins 0,2 mm dans l'heure ou un code de pluie/averse (Météo-France via Open-Meteo).
+const RAINY = c => (c>=51 && c<=67) || (c>=80 && c<=82);
+function sky(hs){
+  if(!hs || !hs.length) return null;
+  const codes = hs.map(h=>h.code).filter(c=>c!=null);
+  const mm = hs.reduce((a,h)=>a+(h.rain||0), 0);
+  const wet = hs.filter(h => (h.rain||0)>=0.2 || RAINY(h.code)).length;
+  const night = hs.filter(h=>h.night).length >= hs.length/2;   // surtout de nuit
+  const mmTxt = mm>=0.5 ? ' · '+num(Math.round(mm*10)/10, mm<10 ? 1 : 0)+' mm' : '';
+  if(codes.some(c=>c>=95)) return {icon:'storm', text:'Orage'+mmTxt, wet:true};
+  if(codes.some(c=>(c>=71 && c<=77) || c===85 || c===86)) return {icon:'cloud', text:'Neige'+mmTxt, wet:true};
+  if(wet) return {icon:'rain', text:(wet/hs.length>=.5 ? 'Pluie' : 'Averses possibles')+mmTxt, wet:true};
+  if(!codes.length) return null;
+  // sans pluie : le ciel le plus fréquent sur la période (à égalité, le plus couvert)
+  const cat = c => c>=45 ? 3 : c>=3 ? 2 : c>=1 ? 1 : 0, n = [0,0,0,0];
+  codes.forEach(c => n[cat(c)]++);
+  const k = [3,2,1,0].reduce((m,i) => n[i]>n[m] ? i : m, 3);
+  if(k===3) return {icon:'fog', text:'Brouillard'};
+  if(k===2) return {icon:'cloud', text:'Couvert'};
+  if(k===1) return {icon: night ? 'moon' : 'sunCloud', text:'Éclaircies'};
+  return {icon: night ? 'moon' : 'sun', text: night ? 'Ciel dégagé' : 'Ensoleillé'};
+}
+function skyHTML(sk){ return sk ? '<span class="sky'+(sk.wet ? ' wet' : '')+'">'+ico(sk.icon)+sk.text+'</span>' : ''; }
 function weatherText(code){
   if(code==null) return '';
   if(code>=95) return 'Orage';
@@ -2242,6 +2276,7 @@ function renderBoatNow(){
   const cells = [
     ['Vent', windArrow(h.dir)+Math.round(h.kn)+' nd '+dirName(h.dir), 'rafales '+Math.round(h.gust)+' nd'+(spread>8 ? ' · irrégulier' : '')],
     tideCell(tide, now, null),
+    ['Ciel', sky([h]) ? skyHTML(sky([h])) : '—', h.temp!=null ? 'air '+Math.round(h.temp)+' °C' : ''],
     ['Eau', h.sst!=null ? num(h.sst,1)+'°' : '—', 'température de surface'],
     ['Soleil', sun[1] ? (now<sun[0] ? 'Lever '+epochHHMM(sun[0]) : 'Coucher '+epochHHMM(sun[1])) : '—', h.night ? 'de nuit : jamais mieux que « Prudence »' : 'rentrer avant la nuit']
   ];
@@ -2281,7 +2316,7 @@ function renderKiteNow(){
   const cells = [
     ['Rafales', Math.round(h.gust)+' nd', spread<=5 ? 'vent régulier (écart '+spread+' nd)' : spread<=8 ? 'un peu irrégulier (écart '+spread+' nd)' : 'irrégulier (écart '+spread+' nd)'],
     tideCell(tide, now, d),
-    ['Air', h.temp!=null ? Math.round(h.temp)+' °C' : '—', weatherText(h.code)],
+    ['Air', h.temp!=null ? Math.round(h.temp)+' °C' : '—', sky([h]) ? skyHTML(sky([h])) : weatherText(h.code)],
     ['Soleil', sun[1] ? 'Coucher '+epochHHMM(sun[1]) : '—', sun[1] ? 'sortir de l’eau avant '+epochHHMM(sun[1]-30*60000) : '']
   ];
   $('kGrid').innerHTML = cells.map(cellHTML).join('');
@@ -2571,9 +2606,12 @@ function renderWeek(){
     nGood += good;
     const label = idx===t ? 'Auj.' : idx===t+1 ? 'Demain' : dayName(idx, {weekday:'short', day:'numeric'});
     const cls = 'wkd'+(good ? ' fav'+(idx===t ? '' : ' later') : '')+(idx===browseIdx ? ' sel' : '');
+    // ciel du meilleur créneau, sinon des heures de jour
+    const wsky = best && best.sky ? best.sky : sky(dayHs.filter(h => !h.night).length ? dayHs.filter(h => !h.night) : dayHs);
     const lvl = best ? '<div class="l '+best.level+'">'+ico(reasonIcon(best))+LEVELS[best.level]+'</div>' : '<div class="l">—</div>';
-    cards.push('<button type="button" role="listitem" class="'+cls+'" data-idx="'+idx+'" aria-label="'+cap(relDay(idx,t))+' : '+(best ? LEVELS[best.level]+', '+when.replace(/<[^>]+>/g,'') : 'pas de prévision')+'">'
-      + '<span class="d">'+label+'</span>'+lvl+'<span class="t">'+(dayHs.length ? when : 'pas de prévision')+'</span></button>');
+    cards.push('<button type="button" role="listitem" class="'+cls+'" data-idx="'+idx+'" aria-label="'+cap(relDay(idx,t))+' : '+(best ? LEVELS[best.level]+', '+when.replace(/<[^>]+>/g,'') : 'pas de prévision')+(wsky ? ', '+wsky.text : '')+'">'
+      + '<span class="d">'+label+'</span>'+lvl+'<span class="t">'+(dayHs.length ? when : 'pas de prévision')+'</span>'
+      + (wsky ? '<span class="t sk">'+skyHTML(wsky)+'</span>' : '')+'</button>');
   }
   $('weekStrip').innerHTML = cards.join('');
   $('weekSum').textContent = nGood
@@ -2618,7 +2656,7 @@ function fetchDays(idx, n){
   const P = fcPlace(), past = idx < (todayIdx ?? 0);
   const range = '&timeformat=unixtime&timezone='+encodeURIComponent(TZ())+'&start_date='+isoDay(idx)+'&end_date='+isoDay(idx+n);
   const wBase = 'https://api.open-meteo.com/v1/forecast?latitude='+P.lat+'&longitude='+P.lon
-    + '&hourly=wind_speed_10m,wind_gusts_10m,wind_direction_10m,temperature_2m,weather_code&daily=sunrise,sunset'
+    + '&hourly=wind_speed_10m,wind_gusts_10m,wind_direction_10m,temperature_2m,weather_code,precipitation&daily=sunrise,sunset'
     + '&wind_speed_unit=kn'+range;
   const wUrls = (past ? ['meteofrance_seamless', ''] : ['', 'ecmwf_ifs025', 'gfs_seamless']).map(m => wBase+(m ? '&models='+m : ''));
   const sBase = 'https://marine-api.open-meteo.com/v1/marine?latitude='+P.seaLat+'&longitude='+P.seaLon
@@ -2702,6 +2740,8 @@ async function renderDayCond(){
   const sun = src.days.find(([a]) => parisParts(a).key===keys[idx]) || [];
   const cells = [
     ['Vent', windArrow(top.dir)+Math.round(sm.knMin)+'–'+Math.round(sm.kn)+' nd', dirName(top.dir)+' · rafales '+Math.round(sm.gust)+' nd'+(kite ? ' · '+orientation(top.dir) : '')],
+    ['Ciel', sm.sky ? skyHTML(sm.sky) : '—', 'heures de jour'+(()=>{ const ts = base.map(h=>h.temp).filter(v=>v!=null); if(!ts.length) return '';
+      const a = Math.round(Math.min(...ts)), b = Math.round(Math.max(...ts)); return ' · air '+(a===b ? a : a+'–'+b)+' °C'; })()],
     ['Mer', noWave ? '—' : 'jusqu’à '+num(sm.wave,1)+' m', noWave ? (RG().waves ? 'vagues pas encore prévues' : 'lagon : vagues non prévues') : 'houle '+num(sm.swell,1)+' m']
   ];
   if(kite){
@@ -2737,7 +2777,7 @@ async function renderDayCond(){
     const detail = String(p.hour).padStart(2,'0')+'h : <b>'+LEVELS[h.level]+'</b> — '+why.charAt(0).toLowerCase()+why.slice(1)
       + ' — vent '+Math.round(h.kn)+' nd '+dirName(h.dir)+', rafales '+Math.round(h.gust)+' nd'
       + (kite ? ', '+orientation(h.dir)+', '+(kiteSize(h.kn).target ? SP().gear+' cible ' : SP().gear+' ')+kiteSize(h.kn).val : '')+(h.noWave ? '' : ', vagues '+num(h.wave,1)+' m')
-      + (open && !kite ? ' · portes ouvertes' : '')+(h.night ? ' · nuit' : '')
+      + (open && !kite ? ' · portes ouvertes' : '')+(h.night ? ' · nuit' : '')+(sky([h]) ? ' · '+sky([h]).text.toLowerCase() : '')
     b.setAttribute('aria-label', detail.replace(/<[^>]+>/g,''));
     b.addEventListener('click', ()=>{
       strip.querySelectorAll('.sel').forEach(x=>x.classList.remove('sel'));
@@ -2878,7 +2918,7 @@ $('premiumForm').addEventListener('submit', async e=>{
 // version.json est réécrit à chaque publication (tools/publier-version.sh). Si la
 // version en ligne diffère de celle de la page, on recharge : sur l'écran
 // d'accueil de l'iPhone, l'app reste ainsi à jour sans manipulation.
-const APP_VERSION = '20261018-170120';
+const APP_VERSION = '20261018-170316';
 async function checkUpdate(){
   try{
     const r = await fetch('version.json?t='+Date.now(), {cache:'no-store'});
