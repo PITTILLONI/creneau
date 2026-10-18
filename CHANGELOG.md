@@ -1,5 +1,12 @@
 # Historique des versions
 
+## 18 octobre 2026 (14h30) — Chargement beaucoup plus rapide
+- Constat : le service de données marines d'Open-Meteo répondait très lentement (vagues : 16 à 30 s, parfois aucune réponse ; 5 modèles : jusqu'à 17 s), et la page attendait la plus lente des 4 requêtes avant d'afficher quoi que ce soit.
+- **Affichage progressif** : la page s'affiche dès que le vent est là ; les vagues sont attendues 5 s au plus, puis ajoutées à leur arrivée (« vagues indisponibles pour le moment » en attendant) ; la température de l'eau et le vent consolidé sur 5 modèles complètent l'affichage quand ils arrivent.
+- **Délai maximum par requête** (9 s, 30 s pour les vagues en tâche de fond) : une requête bloquée ne fige plus la page.
+- **Dernières prévisions gardées sur le téléphone** (moins de 6 h) : affichées immédiatement à l'ouverture, puis mises à jour ; si la mise à jour échoue, elles restent affichées avec « Mise à jour impossible · prévisions de HH:MM » et Réessayer.
+- Mesuré : verdict affiché en ~1 s à la première ouverture, ~0,2 s ensuite ; ~6-7 s dans le pire cas simulé (vagues à 25 s) au lieu de 17 s et plus.
+
 ## 18 octobre 2026 (14h) — Nouméa, « Ajouter votre spot »
 - **Deuxième région : Nouméa** (bateau et kite), pour tester avec de la famille sur place. Choix dans l'en-tête : port (« Nouméa · Port Moselle ») en mode Bateau, spot en mode Kite (Anse Vata · Méridien, Anse Vata · Aquarêve, Îlot Maître, d'après les écoles locales et OpenStreetMap). Changer de port ou de spot change de région ; la région est gardée sur le téléphone.
 - **Heure de Nouméa** (Pacific/Noumea, UTC+11) partout : horloge, créneaux, calendrier, prévisions. Les horaires des portes de Deauville restent calculés à l'heure de Paris.

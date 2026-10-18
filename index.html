@@ -1655,23 +1655,33 @@ async function loadForecast(){
     // température de l'eau : modèle de courants Météo-France (le modèle de vagues ne la fournit pas)
     const tUrl = 'https://marine-api.open-meteo.com/v1/marine?latitude='+P.seaLat+'&longitude='+P.seaLon
       + '&hourly=sea_surface_temperature&models=meteofrance_currents'+common;
-    // getJSON retente quand Open-Meteo répond « service is overloaded »
-    const [w, s, sst, mm] = await Promise.all([getJSON(wUrl), getJSON(sUrl), getJSON(tUrl).catch(()=>null),
-      getJSON(modelsUrl(P, common)).catch(()=>null)]);
-    const {hours, days} = buildHours(w, s, sst, false);
-    attachModels(hours, mm);
+    // On affiche dès que le vent (et les vagues, s'ils arrivent à temps) sont là ;
+    // l'eau et le recoupement des 5 modèles complètent l'affichage quand ils arrivent.
+    const tP = getJSON(tUrl).catch(()=>null), mP = getJSON(modelsUrl(P, common)).catch(()=>null);
+    // vagues : on les attend 5 s au plus ; au-delà on affiche sur le vent et on les ajoute à l'arrivée
+    const sP = RG().waves ? getJSON(sUrl, 30000).catch(()=>null) : Promise.resolve(null);
+    const [w, s] = await Promise.all([getJSON(wUrl), Promise.race([sP, new Promise(r => setTimeout(() => r(undefined), 5000))])]);
+    const {hours, days} = buildHours(w, s || null, null, true);
     lagoon(hours);
     if(key!==fcKey()) return;   // l'utilisateur a changé de plage pendant le chargement
-    FC = {hours, days, fetched:Date.now(), key};
+    const fc = FC = {hours, days, fetched:Date.now(), key, noWaves: RG().waves && !s};
+    saveFC();
+    // compléments : on ne les applique que si ces prévisions sont toujours celles affichées
+    mP.then(mm => { if(FC!==fc || !mm) return; attachModels(fc.hours, mm); saveFC(); refreshAll(); });
+    tP.then(t => { if(FC!==fc || !t || !t.hourly) return;
+      const at = {}; t.hourly.time.forEach((x,i)=>at[x*1000]=t.hourly.sea_surface_temperature[i]);
+      fc.hours.forEach(h => { if(at[h.ts]!=null) h.sst = at[h.ts]; }); saveFC(); renderKiteNow(); renderBoatNow(); });
+    // vagues pas arrivées à temps : on retente dans 2 minutes
+    if(s===undefined) sP.then(sv => { if(FC!==fc || !sv || !sv.hourly) return;
+      const at = {}; sv.hourly.time.forEach((x,i)=>at[x*1000]=i);
+      fc.hours.forEach(h => { const i = at[h.ts]; if(i===undefined || sv.hourly.wave_height[i]==null) return;
+        h.wave = sv.hourly.wave_height[i]; h.swell = sv.hourly.swell_wave_height[i]; h.period = sv.hourly.swell_wave_period[i]; h.noWave = false; });
+      fc.noWaves = false; saveFC(); refreshAll(); });
     loadForecast.pending = false;
     if(syncErr && syncErr.retry===loadForecast) syncErr = null;
     loadForecast.retried = false;
-    renderForecast();
-    renderKiteNow();
-    renderBoatNow();
-    renderBuoys();
+    refreshAll();
     loadWeek();
-    if(browseIdx-(todayIdx ?? 0)<=2) renderDayCond();
   } catch(err){
     ERRORS.push('prévisions : '+(err && err.message));
     // un raté réseau ponctuel : on retente une fois quelques secondes plus tard
@@ -1683,6 +1693,10 @@ async function loadForecast(){
     }
     loadForecast.pending = false;
     loadForecast.retried = false;
+    if(FC && FC.key===key){   // on garde les dernières prévisions connues
+      syncFailed('Mise à jour impossible · prévisions de '+epochHHMM(FC.fetched), loadForecast);
+      return;
+    }
     loadWeek();
     syncFailed('Prévisions météo indisponibles (connexion ?)', loadForecast);
     renderDayCond();   // le calendrier charge alors le jour seul
@@ -1739,9 +1753,28 @@ function kiteSessions(hs){
 }
 
 // Recharge les prévisions si le lieu a changé (profil ou plage), sinon réaffiche.
+// Dernières prévisions gardées sur le téléphone : affichées tout de suite à l'ouverture,
+// puis remplacées dès que les nouvelles arrivent.
+const FC_CACHE_MAX = 6*3600000;
+function saveFC(){
+  try{ localStorage.setItem('fc:'+FC.key, JSON.stringify({hours:FC.hours, days:FC.days, fetched:FC.fetched, noWaves:FC.noWaves})); }catch(e){}
+}
+function cachedFC(key){
+  try{
+    const c = JSON.parse(localStorage.getItem('fc:'+key)||'null');
+    if(c && Date.now()-c.fetched < FC_CACHE_MAX && c.hours.length && c.hours[c.hours.length-1].ts > Date.now()) return Object.assign(c, {key, cached:true});
+  }catch(e){}
+  return null;
+}
+function refreshAll(){
+  renderForecast(); renderKiteNow(); renderBoatNow(); renderBuoys(); renderWeek();
+  const ahead = browseIdx-(todayIdx ?? 0);
+  if(ahead>=0 && ahead<=2) renderDayCond();
+}
 function ensureForecast(){
   if(!FC || FC.key!==fcKey()){
-    FC = null;
+    FC = cachedFC(fcKey());
+    if(FC){ refreshAll(); loadWeek(); loadForecast(); return; }
     $('knSpeed').textContent = '—';
     $('knSub').textContent = 'Chargement des prévisions pour '+(PROFILE==='kite' ? SPOTS[SPOT].name : 'le port')+'…';
     $('windows').innerHTML = '<div class="muted">Chargement…</div>';
@@ -1788,7 +1821,7 @@ function renderForecast(){
       : '';
     $('vConds').innerHTML =
       '<div class="cond">'+kLabel('Vent')+'<div class="val">'+windArrow(cur.dir)+Math.round(cur.kn)+' nd '+dirName(cur.dir)+'</div><div class="sub">rafales '+Math.round(cur.gust)+' nd'+(kite?' · '+orientation(cur.dir):'')+'</div></div>'
-    + (cur.noWave ? '<div class="cond">'+kLabel('Mer')+'<div class="val">Lagon</div><div class="sub">vagues non prévues (barrière de corail) : note sur le vent</div></div>'
+    + (cur.noWave ? '<div class="cond">'+kLabel('Mer')+'<div class="val">'+(RG().waves ? '—' : 'Lagon')+'</div><div class="sub">'+(RG().waves ? 'vagues indisponibles pour le moment : note sur le vent' : 'vagues non prévues (barrière de corail) : note sur le vent')+'</div></div>'
       : '<div class="cond">'+kLabel('Mer')+'<div class="val">'+num(cur.wave,1)+' m</div><div class="sub">houle '+num(cur.swell,1)+' m · '+Math.round(cur.period||0)+' s</div></div>')
     + '<div class="cond" style="grid-column:1/3"><div class="k">'+(cur.level==='good' ? 'Pourquoi' : 'Ce qui limite')+'</div><div class="sub" style="color:var(--ink);font-size:1rem;font-weight:600">'+reasonHTML(cur)+'</div></div>'
     + bestTxt;
@@ -2434,15 +2467,18 @@ function isoDay(idx){ return idx < keys.length ? '2026-'+keys[idx] : '2027-01-01
 function hoursOfDay(hs, idx){ return hs.filter(h => parisParts(h.ts).key===keys[idx]); }
 // Open-Meteo répond parfois « service is overloaded » (503) sur un modèle :
 // on essaie chaque adresse deux fois, puis la suivante (autre modèle).
-async function getJSON(urls){
+// Chaque essai est coupé au bout de `ms` : une requête bloquée (vu jusqu'à 30 s) ne
+// fait plus attendre la page indéfiniment.
+async function getJSON(urls, ms = 9000){
   for(const url of [].concat(urls)) for(let i=0; i<2; i++){
+    const ctl = new AbortController(), timer = setTimeout(() => ctl.abort(), ms);
     try{
-      const j = await fetch(url).then(r=>r.json());
+      const j = await fetch(url, {signal: ctl.signal}).then(r=>r.json());
       if(!j.error) return j;
-    } catch(e){}
-    await new Promise(r=>setTimeout(r, 800));
+    } catch(e){} finally { clearTimeout(timer); }
+    await new Promise(r=>setTimeout(r, 600));
   }
-  throw new Error('prévisions du jour indisponibles');
+  throw new Error('prévisions indisponibles');
 }
 function fetchDay(idx){ return fetchDays(idx, 1); }
 // n jours à partir de idx, plus le lendemain : un créneau d'écluse du soir peut finir après minuit
@@ -2667,7 +2703,7 @@ addEventListener('load', ()=>scrollTo(0, 0), {once:true});
 // version.json est réécrit à chaque publication (tools/publier-version.sh). Si la
 // version en ligne diffère de celle de la page, on recharge : sur l'écran
 // d'accueil de l'iPhone, l'app reste ainsi à jour sans manipulation.
-const APP_VERSION = '20261018-120559';
+const APP_VERSION = '20261018-121651';
 async function checkUpdate(){
   try{
     const r = await fetch('version.json?t='+Date.now(), {cache:'no-store'});
