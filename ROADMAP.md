@@ -24,6 +24,8 @@ Dernière mise à jour de ce fichier : 17 octobre 2026 (15h30).
 - [x] Kite : « Mes ailes » + foil, vent mini/maxi et aile conseillée selon le poids et les ailes du rider
 - [x] Calendrier : carrousel des 7 prochains jours (créneaux favorables / sessions navigables)
 - [x] Icônes sur les intitulés et les raisons des notes ; réglages kite (poids, ailes) dans l'en-tête
+- [x] Région Nouméa (bateau et kite) : fuseau, spots, marées calculées, lagon noté sur le vent seul
+- [x] « Ajouter votre spot / port » : e-mail prérempli
 - [x] Interface mobile d'abord : barre d'onglets, grandes zones tactiles, mode sombre automatique
 - [x] Icône et mode plein écran pour l'écran d'accueil iPhone
 - [x] Rechargement automatique quand une nouvelle version est publiée
@@ -42,6 +44,8 @@ Dernière mise à jour de ce fichier : 17 octobre 2026 (15h30).
 - [x] En-tête : sélecteur Bateau / Kitesurf en haut, port ou spot en dessous ; menus dépliants homogènes
 
 ## À faire / idées
+
+- [ ] Nouméa : faire confirmer par la famille l'orientation de l'îlot Maître (110°), les caps du lagon et les heures de marée calculées (comparer à l'annuaire SHOM)
 
 - [ ] Ajouter le **vent mesuré** (station Météo-France du cap de la Hève ou bouée) : nécessite l'API Météo-France (clé gratuite)
 - [ ] Demander une clé API Candhis (gratuite) pour remplacer la lecture de la page publique

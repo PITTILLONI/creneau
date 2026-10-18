@@ -380,11 +380,15 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   .weight button{background:var(--surface-2);}
   .key.target .v{color:var(--mid);}
   .wkd .t .ico{margin-right:3px;color:var(--mid);}
+  .kn-note{margin:8px 0 0;font-size:.88rem;color:var(--ink-2);}
+  .boatnow .what{margin-bottom:6px;}
+  .boatnow .kn-verdict{margin-top:6px;}
   .rider{flex:none;display:inline-flex;align-items:center;gap:6px;border:0;border-radius:999px;background:var(--surface);color:var(--ink);font-weight:700;font-size:.88rem;padding:6px 12px;min-height:36px;cursor:pointer;white-space:nowrap;}
   .rider .ico{margin:0;color:var(--accent);}
   .rider[aria-expanded="true"]{background:var(--accent);color:var(--accent-ink);}
   .rider[aria-expanded="true"] .ico{color:inherit;}
-  .placebar .place.only-kite{flex:1;min-width:0;}
+  .placebar .place{flex:1;min-width:0;}
+  [data-region="nc"] .only-dv,[data-region="dv"] .only-nc,html:not([data-region]) .only-nc{display:none !important;}
   .rider-panel{padding-bottom:4px;}
   .rider-panel .weight{margin-top:2px;}
   .quiver{margin-top:8px;background:var(--surface);border-radius:16px;padding:10px 12px 12px 14px;font-size:.95rem;color:var(--ink-2);}
@@ -676,14 +680,29 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
     <button data-p="kite" aria-pressed="false">Kitesurf</button>
   </div>
   <div class="placebar">
-    <span class="place only-boat">Port de Deauville · bassin Morny</span>
+    <label class="place only-boat">
+      <span class="sr">Choisir le port</span>
+      <select id="portSel" aria-label="Choisir le port">
+        <option value="dv">Deauville · bassin Morny</option>
+        <option value="nc">Nouméa · Port Moselle</option>
+        <option value="__add">➕ Ajouter votre port…</option>
+      </select>
+    </label>
     <label class="place only-kite">
       <span class="sr">Choisir la plage</span>
       <select id="spotSel" aria-label="Choisir la plage">
-        <option value="deauville">Deauville</option>
-        <option value="trouville">Trouville</option>
-        <option value="houlgate">Houlgate</option>
-        <option value="cabourg">Cabourg</option>
+        <optgroup label="Côte Fleurie">
+          <option value="deauville">Deauville</option>
+          <option value="trouville">Trouville</option>
+          <option value="houlgate">Houlgate</option>
+          <option value="cabourg">Cabourg</option>
+        </optgroup>
+        <optgroup label="Nouméa">
+          <option value="meridien">Anse Vata · Méridien</option>
+          <option value="aquareve">Anse Vata · Aquarêve</option>
+          <option value="maitre">Îlot Maître</option>
+        </optgroup>
+        <option value="__add">➕ Ajouter votre spot…</option>
       </select>
     </label>
     <button type="button" class="rider only-kite" id="riderBtn" aria-expanded="false" aria-controls="riderPanel" aria-label="Mon poids et mes ailes"></button>
@@ -709,12 +728,14 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
         <span class="kn-speed" id="knSpeed">—</span><span class="kn-unit">nœuds</span>
       </div>
       <div class="kn-sub" id="knSub">Prévisions en cours de chargement…</div>
+      <p class="kn-note" id="knNote" hidden></p>
       <div class="kn-verdict" id="knVerdict"></div>
       <div class="kkey" id="kKey"></div>
       <div class="kgrid" id="kGrid"></div>
     </div>
 
-    <div class="tile pass only-boat" id="tilePass">
+    <div class="only-boat only-nc" id="boatNowWrap"><div class="tile boatnow" id="boatNow"><div class="muted">Prévisions en cours de chargement…</div></div></div>
+    <div class="tile pass only-boat only-dv" id="tilePass">
       <div class="what">Sortie en mer · bassins Morny et des Yachts</div>
       <div class="state" id="pState">…</div>
       <div class="chrono-label" id="pChronoLabel"></div>
@@ -731,11 +752,12 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
       <div class="dl-legend"><span class="free">Portes ouvertes</span><span class="shut">Portes fermées</span></div>
     </div>
     <div class="today">
-      <div class="today-title only-boat">Aujourd'hui · ouverture des portes du bassin Morny</div>
-      <div class="slots only-boat" id="todaySlots"></div>
+      <div class="today-title only-boat only-dv">Aujourd'hui · ouverture des portes du bassin Morny</div>
+      <div class="today-title only-nc">Aujourd'hui · marées</div>
+      <div class="slots only-boat only-dv" id="todaySlots"></div>
       <div class="tides" id="todayTides"></div>
     </div>
-    <div class="buoys only-boat">
+    <div class="buoys only-boat only-dv">
       <div class="h3">Bouées au large · mesures en direct</div>
       <div id="buoyList"><div class="muted">Chargement des bouées…</div></div>
       <p class="muted buoy-src" id="buoySrc"></p>
@@ -753,7 +775,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
     </div>
 
     <div class="sail only-boat" id="sailCard"></div>
-    <details class="tuto only-boat" id="sailDest" hidden><summary><span>Allure et réglages selon ta destination</span><small>Le Havre, Honfleur, Dives, Ouistreham, le large</small></summary><div class="tuto-body" id="sailDestBody"></div></details>
+    <details class="tuto only-boat" id="sailDest" hidden><summary><span>Allure et réglages selon ta destination</span><small><span class="only-dv">Le Havre, Honfleur, Dives, Ouistreham, le large</span><span class="only-nc">îlots Canard, Maître, Signal, phare Amédée, Prony</span></small></summary><div class="tuto-body" id="sailDestBody"></div></details>
 
     <div class="h3" id="slotsTitle">Créneaux d'écluse à venir</div>
     <p class="muted slots-help" id="slotsHelp"></p>
@@ -768,7 +790,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
         <span style="--c:var(--good)" data-l="good">Favorable</span>
         <span style="--c:var(--mid)" data-l="mid">Prudence</span>
         <span style="--c:var(--bad)" data-l="bad">Déconseillé</span>
-        <span style="--c:var(--accent)" class="only-boat">Écluse ouverte</span>
+        <span style="--c:var(--accent)" class="only-boat only-dv">Écluse ouverte</span>
       </div>
     </div>
 
@@ -947,10 +969,19 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
         <li><b>Orage annoncé = pas de session</b>, et sortir de l'eau aux premiers signes (rafales, foudre).</li>
         <li><b>Savoir se larguer</b> : largueur (quick release), puis leash si nécessaire. Le tester avant de partir.</li>
         <li><b>Rester loin des digues, de l'entrée du port et du chenal de la Touques</b> : trafic de bateaux.</li>
-        <li><b>En difficulté</b> : auto-sauvetage avec l'aile, grands signes avec le bras. Urgence en mer : <a href="tel:196">196</a> depuis un téléphone (CROSS) ou VHF canal 16.</li>
+        <li><b>En difficulté</b> : auto-sauvetage avec l'aile, grands signes avec le bras. Urgence en mer : <span class="only-dv"><a href="tel:196">196</a> depuis un téléphone (CROSS)</span><span class="only-nc"><a href="tel:16">16</a> depuis un téléphone (COSS NC)</span> ou VHF canal 16.</li>
       </ul>
     </div></details>
-    <details class="tuto"><summary><span>Règles locales</span><small>zones et horaires de pratique</small></summary><div class="tuto-body">
+    <details class="tuto only-nc"><summary><span>Règles et précautions à Nouméa</span><small>alizé, corail, réserves</small></summary><div class="tuto-body">
+      <ul>
+        <li><b>Anse Vata · Méridien</b> : avec l'alizé (est-sud-est) le vent y est <b>offshore</b> : réservé aux riders confirmés qui savent remonter au vent. L'app le note « Pas navigable ».</li>
+        <li><b>Anse Vata · Aquarêve</b> : vent de côté, plus accessible, mais décollage délicat.</li>
+        <li><b>Patates de corail</b> à marée basse à l'Anse Vata : naviguer de préférence à mi-marée ou marée haute, chaussons conseillés.</li>
+        <li><b>Îlot Maître</b> : 15 min en bateau, vent onshore, à mi-marée ou marée haute. <b>Réserve naturelle</b> : respecter les zones et les tortues. L'orientation de la plage (110°) est à confirmer sur place.</li>
+        <li>Se renseigner auprès des écoles de kite locales sur les zones autorisées et les règles du moment.</li>
+      </ul>
+    </div></details>
+    <details class="tuto only-dv"><summary><span>Règles locales</span><small>zones et horaires de pratique</small></summary><div class="tuto-body">
       <ul>
         <li>En saison, les zones et horaires de pratique sur les plages sont fixés par <b>arrêté municipal</b> : se renseigner auprès de la mairie ou d'une école de kite locale.</li>
         <li>Respecter le balisage de la plage et les consignes des sauveteurs.</li>
@@ -958,7 +989,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
     </div></details>
     </div>
     <div class="only-boat">
-    <details class="tuto"><summary><span>Sortir du bassin Morny</span><small>VHF 9, passerelle piétonne, portes</small></summary><div class="tuto-body"><ol>
+    <details class="tuto only-dv"><summary><span>Sortir du bassin Morny</span><small>VHF 9, passerelle piétonne, portes</small></summary><div class="tuto-body"><ol>
       <li><b>Vérifie le créneau</b> d'ouverture des portes dans l'app, et surtout <b>l'heure de fermeture pour rentrer</b>.</li>
       <li><b>Appelle la cabine au VHF canal 9</b> (ou au 06 98 71 83 92) avant de te présenter : annonce ton bateau et ta manœuvre.</li>
       <li><b>Attends la levée de la passerelle piétonne</b> entre le bassin des Yachts et le bassin Morny, au large de la passerelle, sans gêner les autres bateaux.</li>
@@ -967,7 +998,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
     </ol></div></details>
     <details class="tuto"><summary><span>Check-list avant de partir</span><small>à faire au ponton</small></summary><div class="tuto-body"><ul>
       <li><b>Bulletin météo marine</b> du jour et du retour (Météo-France), vent et rafales.</li>
-      <li><b>Horaire de fermeture des portes</b> pour le retour, avec de la marge : sinon, prévois une nuit dehors ou un autre port.</li>
+      <li class="only-dv"><b>Horaire de fermeture des portes</b> pour le retour, avec de la marge : sinon, prévois une nuit dehors ou un autre port.</li>
       <li><b>Marée et coefficient</b> : hauteur d'eau dans le chenal de la Touques à l'heure du retour.</li>
       <li><b>VHF</b> en veille canal 16, téléphone chargé, gilets ou harnais pour tout l'équipage.</li>
       <li><b>Carburant</b>, moteur vérifié, feux de navigation si tu risques de rentrer de nuit.</li>
@@ -1001,7 +1032,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
       <li><b>Crie « Un homme à la mer ! »</b> et lance la bouée fer à cheval.</li>
       <li><b>Désigne un équipier</b> qui ne quitte jamais la personne des yeux, et appuie sur MOB au GPS.</li>
       <li><b>Reviens vers elle</b> à vitesse réduite, par sous le vent, moteur au point mort près de la personne.</li>
-      <li>Urgence : <b>VHF canal 16</b> (« Mayday » si danger de mort), ou le <a href="tel:196">196</a> depuis un téléphone (CROSS).</li>
+      <li>Urgence : <b>VHF canal 16</b> (« Mayday » si danger de mort), ou le <span class="only-dv"><a href="tel:196">196</a> depuis un téléphone (CROSS)</span><span class="only-nc"><a href="tel:16">16</a> depuis un téléphone (COSS NC)</span>.</li>
     </ol></div></details>
     </div>
   </section>
@@ -1022,11 +1053,12 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
       <button id="nextDay" aria-label="Jour suivant">›</button>
     </div>
     <div class="today" id="dayCard">
-      <div class="today-title only-boat">Ouverture des portes du bassin Morny</div>
-      <div class="slots only-boat" id="daySlots"></div>
+      <div class="today-title only-boat only-dv">Ouverture des portes du bassin Morny</div>
+      <div class="today-title only-nc">Marées</div>
+      <div class="slots only-boat only-dv" id="daySlots"></div>
       <div class="tides" id="dayTides"></div>
     </div>
-    <div class="note only-boat" id="dayNote" hidden></div>
+    <div class="note only-boat only-dv" id="dayNote" hidden></div>
     <div class="daycond" id="dayCond" aria-live="polite">
       <div class="h3" id="dayCondT" style="margin-top:0">Conditions prévues</div>
       <div id="dayCondBody"><div class="muted">Chargement…</div></div>
@@ -1034,16 +1066,20 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   </section>
 
   <footer>
-    <div class="warn only-boat"><b>Horaires théoriques.</b> Toujours confirmer avant une manœuvre via le <b>VHF canal 9</b> ou la cabine de l'écluse au <a href="tel:+33698718392">06 98 71 83 92</a>.</div>
-    <div class="warn only-kite"><b>Prévisions indicatives.</b> Vérifier le vent sur place avant de gréer. Urgence en mer : <a href="tel:196">196</a> (CROSS) ou VHF canal 16.</div>
+    <div class="warn only-boat only-dv"><b>Horaires théoriques.</b> Toujours confirmer avant une manœuvre via le <b>VHF canal 9</b> ou la cabine de l'écluse au <a href="tel:+33698718392">06 98 71 83 92</a>.</div>
+    <div class="warn only-kite only-dv"><b>Prévisions indicatives.</b> Vérifier le vent sur place avant de gréer. Urgence en mer : <a href="tel:196">196</a> (CROSS) ou VHF canal 16.</div>
+    <div class="warn only-nc"><b>Prévisions indicatives.</b> Urgence en mer : le <a href="tel:16">16</a> depuis un téléphone ou la <b>VHF canal 16</b> (COSS NC, ex-MRCC Nouméa). Météo marine en VHF sur les canaux <b>65</b> et <b>66</b>.</div>
     <div class="links">
-      <a href="https://meteofrance.com/meteo-marine" target="_blank" rel="noopener">Bulletin météo marine officiel — Météo-France ↗</a>
-      <a href="https://maree.shom.fr/harbor/DEAUVILLE" target="_blank" rel="noopener">Marées de Deauville — SHOM ↗</a>
-      <a class="only-boat" href="https://www.portsducalvados.fr/wp-content/uploads/2023/08/06-DEAUVILLE-TROUVILLE-Horaires-de-manoeuvres-2026.pdf" target="_blank" rel="noopener">Horaires des portes 2026 — Ports du Calvados (PDF) ↗</a>
-      <a class="only-boat" href="tel:+33231983001">Capitainerie · 02 31 98 30 01</a>
+      <a class="only-dv" href="https://meteofrance.com/meteo-marine" target="_blank" rel="noopener">Bulletin météo marine officiel — Météo-France ↗</a>
+      <a class="only-dv" href="https://maree.shom.fr/harbor/DEAUVILLE" target="_blank" rel="noopener">Marées de Deauville — SHOM ↗</a>
+      <a class="only-boat only-dv" href="https://www.portsducalvados.fr/wp-content/uploads/2023/08/06-DEAUVILLE-TROUVILLE-Horaires-de-manoeuvres-2026.pdf" target="_blank" rel="noopener">Horaires des portes 2026 — Ports du Calvados (PDF) ↗</a>
+      <a class="only-boat only-dv" href="tel:+33231983001">Capitainerie · 02 31 98 30 01</a>
+      <a class="only-nc" href="https://meteo.nc" target="_blank" rel="noopener">Météo officielle — Météo-France Nouvelle-Calédonie ↗</a>
+      <a class="only-nc" href="https://maree.shom.fr/harbor/NOUMEA" target="_blank" rel="noopener">Marées de Nouméa — SHOM ↗</a>
     </div>
-    <div class="only-kite">Vent, vagues et température de l'eau : Météo-France (AROME/ARPEGE, MFWAM, courants) via Open-Meteo. Marées : SHOM, via Ports du Calvados (autorisation n° 2024-282). Projet indépendant, non affilié à la mairie de Deauville, au SHOM ni à Météo-France.</div>
-    <div class="only-boat">Horaires des portes et marées : document officiel Ports du Calvados, calculé avec le SHOM (autorisation n° 2024-282). Porte à la cote 5,50 m. Données 2026 uniquement. Projet indépendant, non affilié à Ports du Calvados, à la mairie de Deauville, au SHOM ni à Météo-France.</div>
+    <div class="only-kite only-dv">Vent, vagues et température de l'eau : Météo-France (AROME/ARPEGE, MFWAM, courants) via Open-Meteo. Marées : SHOM, via Ports du Calvados (autorisation n° 2024-282). Projet indépendant, non affilié à la mairie de Deauville, au SHOM ni à Météo-France.</div>
+    <div class="only-boat only-dv">Horaires des portes et marées : document officiel Ports du Calvados, calculé avec le SHOM (autorisation n° 2024-282). Porte à la cote 5,50 m. Données 2026 uniquement. Projet indépendant, non affilié à Ports du Calvados, à la mairie de Deauville, au SHOM ni à Météo-France.</div>
+    <div class="only-nc">Vent consolidé sur 5 modèles et température de l'eau (Météo-France, courants) via Open-Meteo. Marées calculées à partir de la hauteur d'eau prévue (modèle), sans coefficient : à vérifier sur l'annuaire du SHOM. Vagues non affichées dans le lagon. Spots d'après les écoles de kite locales. Projet indépendant, non affilié à Météo-France, au SHOM ni au gouvernement de la Nouvelle-Calédonie.</div>
   </footer>
 </div>
 
@@ -1185,12 +1221,16 @@ function absToEpoch(abs){
   const guess = naive - parisOffsetMin(naive)*60000;
   return naive - parisOffsetMin(guess)*60000;
 }
+var SHOW_TZ = 'Europe/Paris';
 function parisParts(ts){
-  const p = new Intl.DateTimeFormat('fr-FR',{timeZone:'Europe/Paris', year:'numeric', month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit', hourCycle:'h23'}).formatToParts(new Date(ts));
+  // heure locale de la région affichée (Paris ou Nouméa), voir applyRegion
+  const p = new Intl.DateTimeFormat('fr-FR',{timeZone:SHOW_TZ, year:'numeric', month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit', hourCycle:'h23'}).formatToParts(new Date(ts));
   const g = t => p.find(x=>x.type===t).value;
   return {year:+g('year'), key:g('month')+'-'+g('day'), hour:+g('hour'), minute:+g('minute')};
 }
 const epochIntervals = intervals.map(([s,e,f])=>({s:absToEpoch(s), e:absToEpoch(e), sAbs:s, eAbs:e, unknown:f==='unknown'}));
+// Portes du bassin Morny : seulement à Deauville
+function gateIntervals(){ return RG().gates ? epochIntervals : []; }
 
 function dayName(dayIdx, style){
   const [mm,dd] = keys[dayIdx].split('-').map(Number);
@@ -1270,7 +1310,7 @@ function renderPassage(now, active, next){
     cls='bad'; state='Fermé'; label=''; gates='Plus d’ouverture prévue en 2026'; bridge='Levées ponctuelles · VHF 9';
     passTarget = null; passFrom = null; $('pChrono').textContent = '—';
   }
-  $('tilePass').className = 'tile pass only-boat '+cls;
+  $('tilePass').className = 'tile pass only-boat only-dv '+cls;
   const st = $('pState');
   if(st.textContent!==state){ st.textContent = state; replay(st, 'enter'); }
   $('pChronoLabel').textContent = label;
@@ -1291,9 +1331,9 @@ function updateNow(){
   const now = Date.now();
   const p = parisParts(now);
   $('clock').textContent = String(p.hour).padStart(2,'0')+':'+String(p.minute).padStart(2,'0');
-  if(p.year!==2026 || !(p.key in keyIndex)){
+  if(p.year!==2026 || !(p.key in keyIndex)){   // (calendrier limité à 2026)
     todayIdx = null; passTarget = null;
-    $('tilePass').className = 'tile pass only-boat mid';
+    $('tilePass').className = 'tile pass only-boat only-dv mid';
     $('pState').textContent = 'Hors période';
     $('pChronoLabel').textContent = ''; $('pChrono').textContent = '—';
     $('pGates').textContent = 'Les horaires publiés couvrent 2026 uniquement.';
@@ -1301,17 +1341,19 @@ function updateNow(){
     return;
   }
   todayIdx = keyIndex[p.key];
-  const active = epochIntervals.find(iv => now>=iv.s && now<iv.e);
-  renderPassage(now, active, epochIntervals.find(iv => iv.s>now && !iv.unknown));
-  renderSlots($('todaySlots'), todayIdx, now);
+  if(RG().gates){
+    const active = epochIntervals.find(iv => now>=iv.s && now<iv.e);
+    renderPassage(now, active, epochIntervals.find(iv => iv.s>now && !iv.unknown));
+    renderSlots($('todaySlots'), todayIdx, now);
+  } else { passTarget = null; $('pState').textContent = '—'; }   // pas d'écluse
   renderTides($('todayTides'), todayIdx);
-  if(FC) renderKiteNow();
+  if(FC){ renderKiteNow(); renderBoatNow(); }
 }
 
 // Windows touching a given day (including the ones that started the evening before).
 function windowsOfDay(dayIdx){
   const start = dayIdx*1440, end = start+1440;
-  return epochIntervals.filter(iv => iv.eAbs>start && iv.sAbs<end);
+  return gateIntervals().filter(iv => iv.eAbs>start && iv.sAbs<end);
 }
 
 // rate(iv) : note du créneau (calendrier), affichée sous l'horaire quand elle est connue.
@@ -1332,7 +1374,50 @@ function renderSlots(container, dayIdx, now, rate){
   });
 }
 
+// Tuile « Marée » (kite et bateau à Nouméa) ; coefficient seulement à Deauville.
+function tideCell(tide, now, d){
+  return ['Marée', tide ? ico(tide.rising ? 'tideUp' : 'tideDown')+(tide.rising ? 'Montante' : 'Descendante') : '—',
+    tide ? (tide.next.type==='PM' ? 'pleine mer ' : 'basse mer ')+epochHHMM(tide.next.ts)+' ('+fmtIn(tide.next.ts-now)+')'
+      + (RG().gates && d ? ' · coef. '+(d.c.filter(Boolean).join('/')||'—') : '') : ''];
+}
+/* ---------- Marées de Nouméa (calculées) ---------- */
+// Pas d'annuaire embarqué : pleines et basses mers = extremums de la hauteur d'eau horaire
+// (Open-Meteo, sea_level_height_msl), affinés par interpolation parabolique. Pas de coefficient.
+const NCT = {};   // index du jour -> {events} ou promesse
+function ncTideDay(idx, onReady){
+  if(NCT[idx] && NCT[idx].events) return NCT[idx].events;
+  if(!NCT[idx]){
+    NCT[idx] = getJSON('https://marine-api.open-meteo.com/v1/marine?latitude='+RG().port.seaLat+'&longitude='+RG().port.seaLon
+      + '&hourly=sea_level_height_msl&timeformat=unixtime&timezone='+encodeURIComponent(REGIONS.nc.tz)
+      + '&start_date='+isoDay(Math.max(0, idx-1))+'&end_date='+isoDay(idx+1))
+      .then(j => {
+        const t = j.hourly.time, v = j.hourly.sea_level_height_msl, ev = [];
+        for(let i=1; i<v.length-1; i++){
+          const a = v[i-1], b = v[i], c = v[i+1];
+          if(a==null || b==null || c==null) continue;
+          const hi = b>=a && b>c, lo = b<=a && b<c;
+          if(!hi && !lo) continue;
+          const den = a - 2*b + c, off = den ? .5*(a-c)/den : 0;
+          ev.push({type: hi ? 'PM' : 'BM', ts:(t[i] + off*3600)*1000, h: b - .25*(a-c)*off});
+        }
+        NCT[idx] = {events: ev};
+        if(onReady) onReady();
+        return ev;
+      })
+      .catch(() => { delete NCT[idx]; });
+  } else if(onReady && NCT[idx].then) NCT[idx].then(onReady);
+  return null;
+}
 function renderTides(container, dayIdx){
+  if(!RG().gates){
+    const ev = ncTideDay(dayIdx, () => renderTides(container, dayIdx));
+    if(!ev){ container.innerHTML = '<span class="muted">Marées en cours de calcul…</span>'; return; }
+    const day = ev.filter(e => parisParts(e.ts).key===keys[dayIdx]);
+    const fmt = type => day.filter(e => e.type===type).map(e => epochHHMM(e.ts)).join(' · ') || '—';
+    container.innerHTML = '<span>'+ico('tideUp')+'Pleine mer <b>'+fmt('PM')+'</b></span><span>'+ico('tideDown')+'Basse mer <b>'+fmt('BM')+'</b></span>'
+      + '<span class="muted" style="font-size:.85rem">calculées (modèle), à vérifier sur l’annuaire SHOM</span>';
+    return;
+  }
   const d = DATA[keys[dayIdx]];
   const pm = d.pm.filter(Boolean).join(' · ') || '—';
   const bm = d.bm.filter(Boolean).join(' · ') || '—';
@@ -1341,19 +1426,40 @@ function renderTides(container, dayIdx){
 }
 
 /* ---------- Je sors ? (profils bateau / kitesurf) ---------- */
-// Bateau : entrée du port de Deauville. Kite : la plage choisie.
+// Régions : Deauville (portes du bassin Morny, horaires officiels, bouées Candhis) et
+// Nouméa (pas d'écluse ; lagon fermé par la barrière de corail, que le modèle de vagues
+// ne voit pas : on note sur le vent seul ; marées calculées sur le niveau de la mer).
+// Bateau : le port de la région. Kite : la plage choisie.
 // onshore = direction d'où vient un vent qui arrive pile de la mer sur la plage.
-const PORT = {lat:49.367, lon:0.072, seaLat:49.40, seaLon:0.05};
-const SPOTS = {
-  deauville: {name:'Deauville',         lat:49.364, lon:0.070,  seaLat:49.40, seaLon:0.05,  onshore:335, faces:'nord-nord-ouest'},
-  trouville: {name:'Trouville-sur-Mer', lat:49.369, lon:0.087,  seaLat:49.42, seaLon:0.06,  onshore:320, faces:'nord-ouest'},
-  houlgate:  {name:'Houlgate',          lat:49.304, lon:-0.081, seaLat:49.35, seaLon:-0.08, onshore:350, faces:'nord'},
-  cabourg:   {name:'Cabourg',           lat:49.293, lon:-0.122, seaLat:49.34, seaLon:-0.13, onshore:0,   faces:'nord'}
+const REGIONS = {
+  dv: {name:'Deauville', tz:'Europe/Paris', gates:true, waves:true,
+       port:{name:'Deauville · bassin Morny', lat:49.367, lon:0.072, seaLat:49.40, seaLon:0.05}},
+  nc: {name:'Nouméa', tz:'Pacific/Noumea', gates:false, waves:false,
+       port:{name:'Nouméa · Port Moselle', lat:-22.278, lon:166.441, seaLat:-22.30, seaLon:166.44}}
 };
-let SPOT = 'deauville';
-try{ const v = localStorage.getItem('spot'); if(v in SPOTS) SPOT = v; }catch(e){}
-function fcPlace(){ return PROFILE==='kite' ? SPOTS[SPOT] : PORT; }
-function fcKey(){ return PROFILE==='kite' ? 'kite:'+SPOT : 'port'; }
+const SPOTS = {
+  deauville: {region:'dv', name:'Deauville',         lat:49.364, lon:0.070,  seaLat:49.40, seaLon:0.05,  onshore:335, faces:'nord-nord-ouest'},
+  trouville: {region:'dv', name:'Trouville-sur-Mer', lat:49.369, lon:0.087,  seaLat:49.42, seaLon:0.06,  onshore:320, faces:'nord-ouest'},
+  houlgate:  {region:'dv', name:'Houlgate',          lat:49.304, lon:-0.081, seaLat:49.35, seaLon:-0.08, onshore:350, faces:'nord'},
+  cabourg:   {region:'dv', name:'Cabourg',           lat:49.293, lon:-0.122, seaLat:49.34, seaLon:-0.13, onshore:0,   faces:'nord'},
+  // Nouméa : position et orientation d'après les écoles locales et OpenStreetMap
+  meridien:  {region:'nc', name:'Anse Vata · Méridien', lat:-22.311, lon:166.448, seaLat:-22.32, seaLon:166.44, onshore:279, faces:'ouest',
+              note:'Offshore avec l’alizé : confirmés qui savent remonter au vent. Patates de corail à marée basse.'},
+  aquareve:  {region:'nc', name:'Anse Vata · Aquarêve', lat:-22.312, lon:166.453, seaLat:-22.32, seaLon:166.45, onshore:198, faces:'sud-sud-ouest',
+              note:'Vent de côté, plus accessible. Quelques patates de corail, décollage délicat.'},
+  maitre:    {region:'nc', name:'Îlot Maître', lat:-22.334, lon:166.410, seaLat:-22.34, seaLon:166.41, onshore:110, faces:'est-sud-est (à confirmer)',
+              note:'15 min en bateau. Vent onshore, à mi-marée ou marée haute. Réserve naturelle : attention aux tortues.'}
+};
+let SPOT = 'deauville', REGION = 'dv';
+try{
+  const v = localStorage.getItem('spot'); if(v in SPOTS) SPOT = v;
+  const r = localStorage.getItem('region'); if(r in REGIONS) REGION = r;
+}catch(e){}
+if(SPOTS[SPOT].region!==REGION) SPOT = Object.keys(SPOTS).find(k => SPOTS[k].region===REGION);
+function RG(){ return REGIONS[REGION]; }
+function TZ(){ return RG().tz; }
+function fcPlace(){ return PROFILE==='kite' ? SPOTS[SPOT] : RG().port; }
+function fcKey(){ return PROFILE==='kite' ? 'kite:'+SPOT : 'port:'+REGION; }
 let FC = null;
 
 let PROFILE = 'boat';
@@ -1385,7 +1491,7 @@ function reason(x){
       default: return 'Vent de '+kn+' nd régulier et bien orienté ('+orientation(x.dir)+')';
     }
   }
-  if(x.level==='good') return 'Vent modéré ('+kn+' nd) et mer peu agitée ('+wave+' m)';
+  if(x.level==='good') return x.noWave ? 'Vent modéré ('+kn+' nd)' : 'Vent modéré ('+kn+' nd) et mer peu agitée ('+wave+' m)';
   if(x.why==='nuit') return 'De nuit : visibilité réduite';
   if(x.why==='orage') return 'Orage annoncé : rafales violentes et foudre';
   if(x.why==='vent') return (x.level==='bad' ? 'Trop de vent' : 'Vent soutenu')+' : '+kn+' nd, rafales '+gust+' nd';
@@ -1477,6 +1583,12 @@ function renderBusy(){
 function syncFailed(text, retry){ syncErr = {text, retry}; renderBusy(); }
 $('syncRetry').addEventListener('click', ()=>{ const r = syncErr && syncErr.retry; syncErr = null; renderBusy(); if(r) r(); });
 
+// Lagon de Nouméa : le modèle de vagues ne voit pas la barrière de corail (il annonce
+// 1,6 m dans le lagon) : on ignore ses vagues et la note se fait sur le vent seul.
+function lagoon(hours){
+  if(RG().waves) return;
+  hours.forEach(h => { h.wave = 0; h.swell = 0; h.period = 0; h.noWave = true; });
+}
 /* ---------- Vent consolidé entre plusieurs modèles ---------- */
 // Pour un vent plus fiable, on recoupe 5 modèles et on garde la médiane, Météo-France
 // (AROME, le plus fin sur la côte) comptant double : un modèle qui part seul dans un
@@ -1533,7 +1645,7 @@ async function loadForecast(){
   const P = fcPlace(), key = fcKey();
   loadForecast.pending = true;
   const done = busy(PROFILE==='kite' ? 'des prévisions du spot de '+SPOTS[SPOT].name : 'des prévisions météo');
-  const common = '&timeformat=unixtime&timezone=Europe%2FParis&forecast_days=3';
+  const common = '&timeformat=unixtime&timezone='+encodeURIComponent(TZ())+'&forecast_days=3';
   const wUrl = 'https://api.open-meteo.com/v1/forecast?latitude='+P.lat+'&longitude='+P.lon
     + '&hourly=wind_speed_10m,wind_gusts_10m,wind_direction_10m,temperature_2m,weather_code&daily=sunrise,sunset'
     + '&models=meteofrance_seamless&wind_speed_unit=kn'+common;
@@ -1548,6 +1660,7 @@ async function loadForecast(){
       getJSON(modelsUrl(P, common)).catch(()=>null)]);
     const {hours, days} = buildHours(w, s, sst, false);
     attachModels(hours, mm);
+    lagoon(hours);
     if(key!==fcKey()) return;   // l'utilisateur a changé de plage pendant le chargement
     FC = {hours, days, fetched:Date.now(), key};
     loadForecast.pending = false;
@@ -1555,6 +1668,7 @@ async function loadForecast(){
     loadForecast.retried = false;
     renderForecast();
     renderKiteNow();
+    renderBoatNow();
     renderBuoys();
     loadWeek();
     if(browseIdx-(todayIdx ?? 0)<=2) renderDayCond();
@@ -1578,6 +1692,15 @@ async function loadForecast(){
   } finally { done(); }
 }
 
+function setSlotsText(){
+  const kite = PROFILE==='kite';
+  $('slotsTitle').textContent = kite ? 'Sessions de kite à venir' : RG().gates ? "Créneaux d'écluse à venir" : 'Sorties possibles à venir';
+  $('slotsHelp').textContent = kite
+    ? "Les heures de jour où ça navigue à "+SPOTS[SPOT].name+" : vent assez fort et régulier, bien orienté par rapport à la plage (side-on ou side-shore), jamais offshore."
+    : RG().gates
+      ? "Chaque créneau est une fenêtre pour sortir du port (ou y rentrer). La note indique les conditions en mer prévues pendant le créneau, pour notre bateau de 13 m : vent et vagues (Météo-France)."
+      : "Pas d'écluse à Port Moselle : ce sont les heures de jour où le vent convient à notre bateau de 13 m. Dans le lagon, la mer est notée sur le vent seul (le modèle de vagues ne voit pas la barrière de corail).";
+}
 function hoursIn(a, b){ return FC.hours.filter(h => h.ts+3600000>a && h.ts<b); }
 function summarize(hs){
   const worst = hs.reduce((m,h)=>h.score<m.score?h:m, hs[0]);
@@ -1592,6 +1715,7 @@ function whenLabel(ts){ return cap(relDay(keyIndex[parisParts(ts).key], todayIdx
 
 // Bateau : chaque créneau d'écluse est une sortie possible.
 function boatSlots(now, horizon){
+  if(!RG().gates) return kiteSessions(FC.hours.filter(h => h.ts+3600000>now && !h.night));   // pas d'écluse : heures de jour bien notées
   return epochIntervals
     .filter(iv => iv.e>now && iv.s<horizon && !iv.unknown)
     .map(iv => ({s:iv.s, e:iv.e, hs:hoursIn(Math.max(iv.s,now), iv.e)}))
@@ -1640,6 +1764,11 @@ function renderForecast(){
     const h = FC.hours.find(x => now>=x.ts && now<x.ts+3600000) || FC.hours.find(x => x.ts>now);
     cur = Object.assign({s:h.ts, e:h.ts+3600000}, summarize([h]));
     $('vLabel').innerHTML = 'Maintenant à '+SPOTS[SPOT].name;
+  } else if(!RG().gates){
+    // Nouméa : pas d'écluse, on note l'heure en cours
+    const h = FC.hours.find(x => now>=x.ts && now<x.ts+3600000) || FC.hours.find(x => x.ts>now);
+    cur = Object.assign({s:h.ts, e:h.ts+3600000, hs:[h]}, summarize([h]));
+    $('vLabel').innerHTML = 'Maintenant à '+RG().name;
   } else if(slots.length){
     cur = slots[0];
     const isNow = now>=cur.s;
@@ -1655,11 +1784,12 @@ function renderForecast(){
     $('vNeedle').style.left = Math.max(2, Math.min(98, cur.score))+'%';
     const best = slots.length ? slots.reduce((m,w)=>w.score>m.score?w:m, slots[0]) : null;
     const bestTxt = best && (kite || best!==cur)
-      ? '<div class="cond" style="grid-column:1/3"><div class="k">'+ico('star')+(kite?'Meilleure session sur 3 jours':'Meilleur créneau sur 3 jours')+'</div><div class="val">'+whenLabel(best.s)+' '+epochHHMM(best.s)+' – '+epochHHMM(best.e)+'</div><div class="sub">'+LEVELS[best.level]+' · vent '+(kite?Math.round(best.knMin)+'–':'')+Math.round(best.kn)+' nd '+dirName(best.dir)+(kite?' · '+orientation(best.dir):' · vagues '+num(best.wave,1)+' m')+'</div></div>'
+      ? '<div class="cond" style="grid-column:1/3"><div class="k">'+ico('star')+(kite?'Meilleure session sur 3 jours':'Meilleur créneau sur 3 jours')+'</div><div class="val">'+whenLabel(best.s)+' '+epochHHMM(best.s)+' – '+epochHHMM(best.e)+'</div><div class="sub">'+LEVELS[best.level]+' · vent '+(kite?Math.round(best.knMin)+'–':'')+Math.round(best.kn)+' nd '+dirName(best.dir)+(kite?' · '+orientation(best.dir):best.noWave ? '' : ' · vagues '+num(best.wave,1)+' m')+'</div></div>'
       : '';
     $('vConds').innerHTML =
       '<div class="cond">'+kLabel('Vent')+'<div class="val">'+windArrow(cur.dir)+Math.round(cur.kn)+' nd '+dirName(cur.dir)+'</div><div class="sub">rafales '+Math.round(cur.gust)+' nd'+(kite?' · '+orientation(cur.dir):'')+'</div></div>'
-    + '<div class="cond">'+kLabel('Mer')+'<div class="val">'+num(cur.wave,1)+' m</div><div class="sub">houle '+num(cur.swell,1)+' m · '+Math.round(cur.period||0)+' s</div></div>'
+    + (cur.noWave ? '<div class="cond">'+kLabel('Mer')+'<div class="val">Lagon</div><div class="sub">vagues non prévues (barrière de corail) : note sur le vent</div></div>'
+      : '<div class="cond">'+kLabel('Mer')+'<div class="val">'+num(cur.wave,1)+' m</div><div class="sub">houle '+num(cur.swell,1)+' m · '+Math.round(cur.period||0)+' s</div></div>')
     + '<div class="cond" style="grid-column:1/3"><div class="k">'+(cur.level==='good' ? 'Pourquoi' : 'Ce qui limite')+'</div><div class="sub" style="color:var(--ink);font-size:1rem;font-weight:600">'+reasonHTML(cur)+'</div></div>'
     + bestTxt;
   } else {
@@ -1669,10 +1799,7 @@ function renderForecast(){
   if(!kite) renderSail(cur);
 
   // Liste des créneaux / sessions
-  $('slotsTitle').textContent = kite ? 'Sessions de kite à venir' : "Créneaux d'écluse à venir";
-  $('slotsHelp').textContent = kite
-    ? "Les heures de jour où ça navigue à "+SPOTS[SPOT].name+" : vent assez fort et régulier, bien orienté par rapport à la plage (side-on ou side-shore), jamais offshore."
-    : "Chaque créneau est une fenêtre pour sortir du port (ou y rentrer). La note indique les conditions en mer prévues pendant le créneau, pour notre bateau de 13 m : vent et vagues (Météo-France).";
+  setSlotsText();
   const list = $('windows');
   list.innerHTML = '';
   slots.forEach(w=>{
@@ -1681,8 +1808,8 @@ function renderForecast(){
     const today = parisParts(w.s).key===parisParts(now).key || w.s<=now;
     el.className = 'win'+(w.level==='good' ? (today ? ' best' : ' best later') : '');
     const meta = kite
-      ? 'Aile : '+kiteSize((w.knMin+w.kn)/2).val+' · vent '+Math.round(w.knMin)+'–'+Math.round(w.kn)+' nd '+dirName(w.dir)+' (raf. '+Math.round(w.gust)+') · '+orientation(w.dir)+' · vagues '+num(w.wave,1)+' m'
-      : 'Vent '+Math.round(w.kn)+' nd '+dirName(w.dir)+' (raf. '+Math.round(w.gust)+') · vagues '+num(w.wave,1)+' m';
+      ? 'Aile : '+kiteSize((w.knMin+w.kn)/2).val+' · vent '+Math.round(w.knMin)+'–'+Math.round(w.kn)+' nd '+dirName(w.dir)+' (raf. '+Math.round(w.gust)+') · '+orientation(w.dir)+(w.noWave ? '' : ' · vagues '+num(w.wave,1)+' m')
+      : 'Vent '+Math.round(w.kn)+' nd '+dirName(w.dir)+' (raf. '+Math.round(w.gust)+')'+(w.noWave ? '' : ' · vagues '+num(w.wave,1)+' m');
     el.innerHTML = '<div class="when">'+epochHHMM(w.s)+' – '+epochHHMM(w.e)+'</div>'
       + '<div class="day">'+whenLabel(w.s)+(w.night?' '+NIGHT():'')+'</div>'
       + '<span class="badge '+w.level+'">'+LEVELS[w.level]+'</span>'
@@ -1703,13 +1830,13 @@ function renderForecast(){
           + (twin ? ' : il faudrait une '+need+' m²'+(FOIL ? '' : ' ou un foil') : !FOIL && top>=7 ? ' : seulement en foil' : '')+'.';
       }
     }
-    list.innerHTML = '<div class="muted">'+(kite ? 'Pas de session navigable de jour dans les 3 prochains jours avec ton matériel.'+hint : 'Aucun créneau dans la période de prévision.')+'</div>';
+    list.innerHTML = '<div class="muted">'+(kite ? 'Pas de session navigable de jour dans les 3 prochains jours avec ton matériel.'+hint : RG().gates ? 'Aucun créneau dans la période de prévision.' : 'Pas de sortie favorable de jour dans les 3 prochains jours.')+'</div>';
   }
   const sig = PROFILE+slots.map(w=>w.s+w.level).join();
   if(sig!==list.dataset.sig){ stagger(list); list.dataset.sig = sig; list.scrollLeft = 0; }
   const nFav = slots.filter(w => w.level==='good').length;
   $('winCount').textContent = slots.length>1
-    ? slots.length+' '+(kite ? 'sessions' : 'créneaux')+' sur 3 jours'+(nFav ? ' dont '+nFav+' '+(kite ? (nFav>1 ? 'navigables' : 'navigable') : (nFav>1 ? 'favorables' : 'favorable')) : '')+' · glisser pour voir la suite'
+    ? slots.length+' '+(kite ? 'sessions' : RG().gates ? 'créneaux' : 'sorties')+' sur 3 jours'+(nFav ? ' dont '+nFav+' '+(kite ? (nFav>1 ? 'navigables' : 'navigable') : (nFav>1 ? 'favorables' : 'favorable')) : '')+' · glisser pour voir la suite'
     : '';
 
   // Bande horaire
@@ -1718,7 +1845,7 @@ function renderForecast(){
   let lastDay = null;
   FC.hours.filter(h => h.ts+3600000>now).slice(0,48).forEach((h,i)=>{
     const p = parisParts(h.ts);
-    const open = epochIntervals.some(iv => !iv.unknown && h.ts+3600000>iv.s && h.ts<iv.e);
+    const open = gateIntervals().some(iv => !iv.unknown && h.ts+3600000>iv.s && h.ts<iv.e);
     const b = document.createElement('button');
     b.className = 'hour '+h.level+(h.night?' night':'')+(open && !kite?' open':'')+(lastDay!==null && p.key!==lastDay?' daystart':'');
     b.setAttribute('role','listitem');
@@ -1726,7 +1853,7 @@ function renderForecast(){
     b.innerHTML = '<span class="lock"></span><span class="bar"></span><span class="t">'+label+'</span>';
     const detail = whenLabel(h.ts)+' '+String(p.hour).padStart(2,'0')+'h : <b>'+LEVELS[h.level]+'</b>'+' — '+reason(h).charAt(0).toLowerCase()+reason(h).slice(1)
       + ' — vent '+Math.round(h.kn)+' nd '+dirName(h.dir)+', rafales '+Math.round(h.gust)+' nd'
-      + (kite ? ', '+orientation(h.dir)+', '+(kiteSize(h.kn).target ? 'aile cible ' : 'aile ')+kiteSize(h.kn).val : '')+', vagues '+num(h.wave,1)+' m'
+      + (kite ? ', '+orientation(h.dir)+', '+(kiteSize(h.kn).target ? 'aile cible ' : 'aile ')+kiteSize(h.kn).val : '')+(h.noWave ? '' : ', vagues '+num(h.wave,1)+' m')
       + (open && !kite ? ' · écluse ouverte' : '')+(h.night ? ' · nuit' : '')
     b.setAttribute('aria-label', detail.replace(/<[^>]+>/g,''));
     b.addEventListener('click', ()=>{
@@ -1741,7 +1868,8 @@ function renderForecast(){
     lastDay = p.key;
   });
 
-  $('fcSource').textContent = 'Vent consolidé sur 5 modèles (Météo-France AROME/ARPEGE en priorité, ECMWF, ICON, UKMO, GFS), vagues Météo-France MFWAM, via Open-Meteo · chargées à '+epochHHMM(FC.fetched)+'.';
+  $('fcSource').textContent = 'Vent consolidé sur 5 modèles (Météo-France AROME/ARPEGE en priorité, ECMWF, ICON, UKMO, GFS)'
+    + (RG().waves ? ', vagues Météo-France MFWAM' : ' ; vagues non utilisées dans le lagon')+', via Open-Meteo · chargées à '+epochHHMM(FC.fetched)+'.';
 }
 
 
@@ -1752,7 +1880,7 @@ const BUOY_URL = 'https://raw.githubusercontent.com/PITTILLONI/creneau/donnees/b
 const BUOY_STALE = 3*3600000;   // au-delà, la bouée est considérée hors service
 let BUOYS = null;
 async function loadBuoys(){
-  if(PROFILE==='kite') return;   // les bouées ne sont affichées qu'en mode Bateau
+  if(PROFILE==='kite' || !RG().gates) return;   // bouées du Havre : mode Bateau à Deauville seulement
   const done = busy('des mesures des bouées');
   try{
     const r = await fetch(BUOY_URL+'?t='+Math.floor(Date.now()/300000), {cache:'no-store'});
@@ -1917,6 +2045,12 @@ $('riderBtn').addEventListener('click', ()=>{
 });
 // Marée : pleines et basses mers autour de maintenant, à partir du PDF officiel.
 function tideState(now){
+  if(!RG().gates){
+    const all = [todayIdx-1, todayIdx, todayIdx+1].filter(i => i>=0).map(i => ncTideDay(i, ()=>{ renderKiteNow(); renderBoatNow(); }) || []).flat();
+    all.sort((a,b)=>a.ts-b.ts);
+    const next = all.find(e => e.ts>now);
+    return next ? {rising: next.type==='PM', next} : null;
+  }
   const ev = [];
   for(let d=Math.max(0,todayIdx-1); d<=Math.min(keys.length-1,todayIdx+1); d++){
     const t = DATA[keys[d]];
@@ -1929,6 +2063,30 @@ function tideState(now){
   return {rising: next.type==='PM', next};
 }
 
+// Bateau à Nouméa (pas d'écluse) : carte « maintenant » avec la note et les infos utiles.
+function renderBoatNow(){
+  if(!FC || todayIdx===null || RG().gates || FC.key!=='port:'+REGION) return;
+  const now = Date.now();
+  const h = FC.hours.find(x => now>=x.ts && now<x.ts+3600000) || FC.hours.find(x => x.ts>now);
+  if(!h) return;
+  const prof = PROFILE; PROFILE = 'boat';
+  const sc = scoreBoat(h), x = Object.assign({}, h, sc, {level: levelOf(sc.score)});
+  const verdict = '<span class="badge '+x.level+'">'+LABELS.boat[x.level]+'</span>'+reasonHTML(x);
+  PROFILE = prof;
+  const tide = tideState(now);
+  const sun = FC.days.find(([a,b]) => now < b) || [];
+  const spread = Math.round(h.gust - h.kn);
+  const cells = [
+    ['Vent', windArrow(h.dir)+Math.round(h.kn)+' nd '+dirName(h.dir), 'rafales '+Math.round(h.gust)+' nd'+(spread>8 ? ' · irrégulier' : '')],
+    tideCell(tide, now, null),
+    ['Eau', h.sst!=null ? num(h.sst,1)+'°' : '—', 'température de surface'],
+    ['Soleil', sun[1] ? (now<sun[0] ? 'Lever '+epochHHMM(sun[0]) : 'Coucher '+epochHHMM(sun[1])) : '—', h.night ? 'de nuit : jamais mieux que « Prudence »' : 'rentrer avant la nuit']
+  ];
+  $('boatNow').className = 'tile boatnow '+x.level;
+  $('boatNow').innerHTML = '<div class="what">Maintenant · '+RG().port.name+'</div>'
+    + '<div class="kn-verdict">'+verdict+'</div>'
+    + '<div class="kgrid">'+cells.map(cellHTML).join('')+'</div>';
+}
 function renderKiteNow(){
   if(!FC || todayIdx===null) return;
   const now = Date.now();
@@ -1939,6 +2097,8 @@ function renderKiteNow(){
   $('knSpeed').textContent = Math.round(h.kn);
   $('knArrow').style.transform = 'rotate('+Math.round(h.dir+180)+'deg)';
   $('knSub').textContent = 'Vent de '+dirName(h.dir)+' · '+orientation(h.dir)+' · rafales '+Math.round(h.gust)+' nd';
+  $('knNote').textContent = SPOTS[SPOT].note || '';
+  $('knNote').hidden = !SPOTS[SPOT].note;
   $('kiteNow').className = 'kite-now only-kite '+x.level;
   const prevProf = PROFILE; PROFILE = 'kite';
   $('knVerdict').innerHTML = '<span class="badge '+x.level+'">'+LABELS.kite[x.level]+'</span>'+reasonHTML(x);
@@ -1957,7 +2117,7 @@ function renderKiteNow(){
   + '<div class="key">'+kLabel('Eau')+'<div class="v">'+(h.sst!=null ? num(h.sst,1)+'°' : '—')+'</div><div class="sub">'+wetsuit(h.sst)+'</div></div>';
   const cells = [
     ['Rafales', Math.round(h.gust)+' nd', spread<=5 ? 'vent régulier (écart '+spread+' nd)' : spread<=8 ? 'un peu irrégulier (écart '+spread+' nd)' : 'irrégulier (écart '+spread+' nd)'],
-    ['Marée', tide ? ico(tide.rising ? 'tideUp' : 'tideDown')+(tide.rising ? 'Montante' : 'Descendante') : '—', tide ? (tide.next.type==='PM' ? 'pleine mer ' : 'basse mer ')+epochHHMM(tide.next.ts)+' ('+fmtIn(tide.next.ts-now)+') · coef. '+(d.c.filter(Boolean).join('/')||'—') : ''],
+    tideCell(tide, now, d),
     ['Air', h.temp!=null ? Math.round(h.temp)+' °C' : '—', weatherText(h.code)],
     ['Soleil', sun[1] ? 'Coucher '+epochHHMM(sun[1]) : '—', sun[1] ? 'sortir de l’eau avant '+epochHHMM(sun[1]-30*60000) : '']
   ];
@@ -2056,10 +2216,13 @@ function sailPlan(kn, gust){
   return {plan:'Rester au port', sub:'au-delà de 30 nœuds (rafales comprises), ce n\u2019est plus une sortie plaisir'};
 }
 // Destinations depuis l'entrée du port de Deauville (cap vrai approximatif).
-const DESTS = [
-  {name:'Le Havre', cap:6}, {name:'Honfleur', cap:61},
-  {name:'Dives · Port-Guillaume', cap:238}, {name:'Ouistreham', cap:251}, {name:'Le large (nord-ouest)', cap:315}
-];
+const DESTS = {
+  dv: [{name:'Le Havre', cap:6}, {name:'Honfleur', cap:61},
+       {name:'Dives · Port-Guillaume', cap:238}, {name:'Ouistreham', cap:251}, {name:'Le large (nord-ouest)', cap:315}],
+  // depuis Port Moselle, cap direct à vol d'oiseau (la route réelle contourne les récifs)
+  nc: [{name:'Îlot Canard', cap:189}, {name:'Îlot Maître', cap:207}, {name:'Phare Amédée', cap:173},
+       {name:'Îlot Signal', cap:262}, {name:'Baie de Prony', cap:96}]
+};
 const ALLURES = [
   {max:40,  name:'Vent debout', tip:'impossible en direct : tire des bords à 45° du vent, voiles bordées'},
   {max:55,  name:'Près serré', tip:'voiles bordées, chariot de GV au centre, chariots de génois avancés, suis les penons'},
@@ -2081,7 +2244,7 @@ function renderSail(cur){
   if(cur.wave > 1.5) notes.push('Mer formée ('+num(cur.wave,1)+' m) : réduis un cran plus tôt et privilégie les allures portantes.');
   if(sp.plan.indexOf('ris') >= 0) notes.push('Prends les ris au port, avant la sortie : bien plus simple qu\u2019en mer.');
   if(cur.night) notes.push('Sortie de nuit : feux de navigation, lampe frontale, gilets.');
-  const rows = DESTS.map(d => {
+  const rows = DESTS[REGION].map(d => {
     const a = allureFor(d.cap, cur.dir);
     return '<li><div class="dest"><b>'+d.name+'</b><span>cap '+String(d.cap).padStart(3,'0')+'° · '+Math.round(a.twa)+'° du vent</span></div>'
       + '<div class="allure a'+Math.min(5, ALLURES.indexOf(ALLURES.find(x=>x.name===a.name)))+'">'+a.name+'</div>'
@@ -2094,10 +2257,50 @@ function renderSail(cur){
   // les allures par destination sont repliées : on les ouvre seulement si besoin
   $('sailDest').hidden = false;
   $('sailDestBody').innerHTML = '<ul class="sail-dest">'+rows+'</ul>'
-    + '<p class="muted sail-foot">Pour notre voilier de 13 m (sloop, grand-voile 3 ris, génois sur enrouleur). Repères de croisière : adapte à ton bateau et à ton équipage. Caps approximatifs depuis l\u2019entrée du port.</p>';
+    + '<p class="muted sail-foot">Pour notre voilier de 13 m (sloop, grand-voile 3 ris, génois sur enrouleur). Repères de croisière : adapte à ton bateau et à ton équipage. '+(RG().gates ? 'Caps approximatifs depuis l\u2019entrée du port.' : 'Caps directs depuis Port Moselle, à vol d\u2019oiseau : la route réelle contourne les récifs, suivre les cartes et le balisage.')+'</p>';
 }
 
+// Changer de région (port ou spot d'une autre région) : fuseau, port, spot, écrans.
+function applyRegion(){
+  SHOW_TZ = TZ();
+  document.documentElement.dataset.region = REGION;
+  $('portSel').value = REGION;
+  $('spotSel').value = SPOT;
+  document.querySelector('.clock').setAttribute('aria-label', 'Heure de '+(REGION==='nc' ? 'Nouméa' : 'Paris'));
+}
+function setRegion(r, spot){
+  REGION = r;
+  SPOT = spot || (SPOTS[SPOT].region===r ? SPOT : Object.keys(SPOTS).find(k => SPOTS[k].region===r));
+  try{ localStorage.setItem('region', r); localStorage.setItem('spot', SPOT); }catch(e){}
+  applyRegion();
+  document.querySelectorAll('.spotName').forEach(el => el.textContent = SPOTS[SPOT].name);
+  document.querySelectorAll('.spotFaces').forEach(el => el.textContent = SPOTS[SPOT].faces);
+  weekHours = null;
+  updateNow();
+  renderBrowse(todayIdx ?? 0);
+  if(tabsReady){ refreshTabs(); syncTab(); }
+  replay($(PROFILE==='kite' ? 'kiteNow' : 'boatNowWrap'), 'enter');
+  ensureForecast();
+  loadBuoys();
+}
+// « Ajouter votre spot / port » : e-mail prérempli au propriétaire du projet
+// (adresse assemblée ici pour ne pas l'écrire en clair dans la page).
+function requestPlace(kind){
+  const to = ['antoine.pittilloni', 'gmail.com'].join('@');
+  const spot = kind==='spot';
+  const subject = 'Crén\'eau · ajouter '+(spot ? 'un spot de kite' : 'un port');
+  const body = (spot
+    ? "Bonjour,\n\nPouvez-vous ajouter ce spot de kite dans Crén'eau ?\n\nNom du spot :\nCommune / pays :\nPosition (lien Google Maps ou coordonnées) :\nLa plage est tournée vers (mer face à vous : nord, ouest…) :\nVents qui marchent bien :\nPièges à connaître (corail, courant, zone interdite…) :\n"
+    : "Bonjour,\n\nPouvez-vous ajouter ce port dans Crén'eau ?\n\nNom du port :\nCommune / pays :\nPosition (lien Google Maps ou coordonnées) :\nÉcluse ou portes ? Horaires (lien) :\nRemarques :\n")
+    + "\nEnvoyé depuis Crén'eau (région actuelle : "+RG().name+").";
+  location.href = 'mailto:'+to+'?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
+}
+$('portSel').addEventListener('change', e => {
+  if(e.target.value==='__add'){ e.target.value = REGION; requestPlace('port'); return; }
+  setRegion(e.target.value);
+});
 function setSpot(v){
+  if(SPOTS[v].region!==REGION){ setRegion(SPOTS[v].region, v); return; }
   SPOT = v;
   try{ localStorage.setItem('spot', v); }catch(e){}
   $('spotSel').value = v;
@@ -2109,7 +2312,10 @@ function setSpot(v){
     renderDayCond();
   }
 }
-$('spotSel').addEventListener('change', e => setSpot(e.target.value));
+$('spotSel').addEventListener('change', e => {
+  if(e.target.value==='__add'){ e.target.value = SPOT; requestPlace('spot'); return; }
+  setSpot(e.target.value);
+});
 
 function setProfile(p, animate){
   PROFILE = p;
@@ -2119,10 +2325,7 @@ function setProfile(p, animate){
   $('t-out').textContent = p==='kite' ? 'Ça navigue en kite ?' : 'Je sors en mer ?';
   document.querySelectorAll('[data-l]').forEach(el => el.textContent = LABELS[p][el.dataset.l]);
   document.querySelectorAll('[data-boat]').forEach(el => el.textContent = el.dataset[p]);
-  $('slotsTitle').textContent = p==='kite' ? 'Sessions de kite à venir' : "Créneaux d'écluse à venir";
-  $('slotsHelp').textContent = p==='kite'
-    ? "Les heures de jour où ça navigue sur la plage choisie : vent assez fort et régulier, bien orienté par rapport à la plage (side-on ou side-shore), jamais offshore."
-    : "Chaque créneau est une fenêtre pour sortir du port (ou y rentrer). La note indique les conditions en mer prévues pendant le créneau, pour notre bateau de 13 m : vent et vagues (Météo-France).";
+  setSlotsText();
   if(animate) replay($(p==='kite' ? 'kiteNow' : 'tilePass'), 'enter');
   if(tabsReady){ refreshTabs(); syncTab(); }
   ensureForecast();
@@ -2182,15 +2385,17 @@ function renderWeek(){
   for(let idx=t; idx<=last; idx++){
     const dayHs = hoursOfDay(hours, idx);
     let best = null, when = '', good = 0;
-    if(kite){
+    if(kite || !RG().gates){
       const ss = dayHs.length ? kiteSessions(dayHs.filter(h => !h.night)).filter(w => idx!==t || w.e>now) : [];
       good = ss.filter(w => w.level==='good').length;
       best = ss.length ? ss.reduce((m,w)=>w.score>m.score?w:m, ss[0]) : null;
-      if(best) when = epochHHMM(best.s).slice(0,2)+'h–'+epochHHMM(best.e).slice(0,2)+'h · '+kiteSize((best.knMin+best.kn)/2).val;
-      else if(dayHs.length){ const pool = dayHs.filter(h=>!h.night).length ? dayHs.filter(h=>!h.night) : dayHs; best = Object.assign({}, pool.reduce((m,h)=>h.score>m.score?h:m, pool[0]), {level:'bad'});
+      const over = idx===t && !ss.length && !dayHs.some(h => !h.night && h.ts+3600000>now);   // plus d'heure de jour à venir
+      if(best) when = epochHHMM(best.s).slice(0,2)+'h–'+epochHHMM(best.e).slice(0,2)+'h'+(kite ? ' · '+kiteSize((best.knMin+best.kn)/2).val : '');
+      if(over) when = 'journée terminée';
+      else if(!best && dayHs.length){ const pool = dayHs.filter(h=>!h.night).length ? dayHs.filter(h=>!h.night) : dayHs; best = Object.assign({}, pool.reduce((m,h)=>h.score>m.score?h:m, pool[0]), {level:'bad'});
         // vent trop faible ou trop fort pour mes ailes : l'aile qu'il faudrait
-        const tg = (best.why==='trop faible' || best.why==='très fort') ? targetKite(best.kn) : '';
-        when = tg ? ico('kite')+(tg==='Foil' ? 'foil requis' : 'cible '+tg) : 'pas de session'; }
+        const tg = kite && (best.why==='trop faible' || best.why==='très fort') ? targetKite(best.kn) : '';
+        when = tg ? ico('kite')+(tg==='Foil' ? 'foil requis' : 'cible '+tg) : kite ? 'pas de session' : 'pas de sortie'; }
     } else {
       const rated = windowsOfDay(idx).filter(iv => !iv.unknown && iv.sAbs >= idx*1440 && iv.e>now).map(iv => {
         const hs = hours.filter(h => h.ts+3600000>iv.s && h.ts<iv.e);
@@ -2209,8 +2414,8 @@ function renderWeek(){
   }
   $('weekStrip').innerHTML = cards.join('');
   $('weekSum').textContent = nGood
-    ? nGood+' '+(kite ? (nGood>1 ? 'sessions navigables' : 'session navigable') : (nGood>1 ? 'créneaux favorables' : 'créneau favorable'))+' sur 7 jours · au-delà de 3 jours, tendance à revérifier'
-    : (kite ? 'Aucune session navigable sur 7 jours avec ton matériel' : 'Aucun créneau favorable sur 7 jours');
+    ? nGood+' '+(kite ? (nGood>1 ? 'sessions navigables' : 'session navigable') : RG().gates ? (nGood>1 ? 'créneaux favorables' : 'créneau favorable') : (nGood>1 ? 'sorties favorables' : 'sortie favorable'))+' sur 7 jours · au-delà de 3 jours, tendance à revérifier'
+    : (kite ? 'Aucune session navigable sur 7 jours avec ton matériel' : RG().gates ? 'Aucun créneau favorable sur 7 jours' : 'Aucune sortie favorable sur 7 jours');
 }
 $('weekStrip').addEventListener('click', e=>{
   const d = e.target.closest('.wkd');
@@ -2245,7 +2450,7 @@ function fetchDays(idx, n){
   const ck = fcKey()+':'+idx+':'+n;
   if(DAYFC[ck]) return DAYFC[ck];
   const P = fcPlace(), past = idx < (todayIdx ?? 0);
-  const range = '&timeformat=unixtime&timezone=Europe%2FParis&start_date='+isoDay(idx)+'&end_date='+isoDay(idx+n);
+  const range = '&timeformat=unixtime&timezone='+encodeURIComponent(TZ())+'&start_date='+isoDay(idx)+'&end_date='+isoDay(idx+n);
   const wBase = 'https://api.open-meteo.com/v1/forecast?latitude='+P.lat+'&longitude='+P.lon
     + '&hourly=wind_speed_10m,wind_gusts_10m,wind_direction_10m,temperature_2m,weather_code&daily=sunrise,sunset'
     + '&wind_speed_unit=kn'+range;
@@ -2257,7 +2462,7 @@ function fetchDays(idx, n){
     + '&hourly=sea_surface_temperature'+range;
   const p = Promise.all([getJSON(wUrls), getJSON(sUrls).catch(()=>null), PROFILE==='kite' ? getJSON(tUrl).catch(()=>null) : null,
       getJSON(modelsUrl(P, range)).catch(()=>null)])
-    .then(([w, s, t, mm]) => { const r = buildHours(w, s, t, true); attachModels(r.hours, mm); return Object.assign(r, {past}); });
+    .then(([w, s, t, mm]) => { const r = buildHours(w, s, t, true); attachModels(r.hours, mm); lagoon(r.hours); return Object.assign(r, {past}); });
   DAYFC[ck] = p;
   p.catch(()=>{ delete DAYFC[ck]; });
   return p;
@@ -2307,15 +2512,15 @@ async function renderDayCond(){
 
   // En-tête : meilleur créneau (bateau) ou meilleure session (kite) de la journée.
   let head;
-  if(kite){
+  if(kite || !RG().gates){
     const ss = kiteSessions(dayHs.filter(h => !h.night));
     const best = ss.length ? ss.reduce((m,w)=>w.score>m.score?w:m, ss[0]) : null;
     head = best
-      ? {level:best.level, when:'Session '+epochHHMM(best.s)+' – '+epochHHMM(best.e)+' · '+kiteSize((best.knMin+best.kn)/2).val, why:dayReason(best), x:best, hs:best.hs}
+      ? {level:best.level, when:(kite ? 'Session ' : 'Sortie possible ')+epochHHMM(best.s)+' – '+epochHHMM(best.e)+(kite ? ' · '+kiteSize((best.knMin+best.kn)/2).val : ''), why:dayReason(best), x:best, hs:best.hs}
       : (()=>{ const hs = dayHs.filter(h=>!h.night).length ? dayHs.filter(h=>!h.night) : dayHs;
           // la raison de l'heure la plus proche de naviguer (et l'aile cible qui va avec)
           const x = hs.reduce((m,h)=>h.score>m.score?h:m, hs[0]);
-          return {level:'bad', when:'Pas de session navigable de jour', why:dayReason(x), x, hs}; })();
+          return {level:'bad', when: kite ? 'Pas de session navigable de jour' : 'Pas de sortie favorable de jour', why:dayReason(x), x, hs}; })();
   } else {
     const ivs = windowsOfDay(idx).filter(iv => !iv.unknown).map(iv => Object.assign({iv}, rateIv(iv) || {})).filter(x => x.level);
     const best = ivs.length ? ivs.reduce((m,w)=>w.score>m.score?w:m, ivs[0]) : null;
@@ -2331,7 +2536,7 @@ async function renderDayCond(){
   const sun = src.days.find(([a]) => parisParts(a).key===keys[idx]) || [];
   const cells = [
     ['Vent', windArrow(top.dir)+Math.round(sm.knMin)+'–'+Math.round(sm.kn)+' nd', dirName(top.dir)+' · rafales '+Math.round(sm.gust)+' nd'+(kite ? ' · '+orientation(top.dir) : '')],
-    ['Mer', noWave ? '—' : 'jusqu’à '+num(sm.wave,1)+' m', noWave ? 'vagues pas encore prévues' : 'houle '+num(sm.swell,1)+' m']
+    ['Mer', noWave ? '—' : 'jusqu’à '+num(sm.wave,1)+' m', noWave ? (RG().waves ? 'vagues pas encore prévues' : 'lagon : vagues non prévues') : 'houle '+num(sm.swell,1)+' m']
   ];
   if(kite){
     const sz = kiteSize(top.kn);
@@ -2348,16 +2553,16 @@ async function renderDayCond(){
     + '<div class="conds">'+cells.map(cellHTML).join('')+'</div>'
     + '<div class="strip" id="dayStrip" role="list"></div>'
     + '<div class="strip-detail" id="dayStripDetail">Touchez une heure pour le détail.</div>'
-    + '<div class="muted dc-src">'+(fromFC ? 'Prévisions Météo-France (AROME/ARPEGE, MFWAM) via Open-Meteo.'
+    + '<div class="muted dc-src">'+(fromFC ? 'Vent consolidé sur 5 modèles (Météo-France en priorité)'+(RG().waves ? ', vagues Météo-France MFWAM' : '')+', via Open-Meteo.'
         : src.past ? 'Archives des prévisions Météo-France via Open-Meteo.'
         : 'Tendance à J+'+ahead+' (modèles météo via Open-Meteo) : moins fiable que les 3 premiers jours, à revérifier la veille.')
-      + (noWave ? ' Vagues pas encore prévues : note sur le vent seul.' : '')+'</div>';
+      + (noWave ? (RG().waves ? ' Vagues pas encore prévues : note sur le vent seul.' : ' Lagon : note sur le vent seul.') : '')+'</div>';
 
   // Bande heure par heure de la journée
   const strip = $('dayStrip');
   dayHs.forEach(h=>{
     const p = parisParts(h.ts);
-    const open = epochIntervals.some(iv => !iv.unknown && h.ts+3600000>iv.s && h.ts<iv.e);
+    const open = gateIntervals().some(iv => !iv.unknown && h.ts+3600000>iv.s && h.ts<iv.e);
     const b = document.createElement('button');
     b.className = 'hour '+h.level+(h.night?' night':'')+(open && !kite?' open':'');
     b.setAttribute('role','listitem');
@@ -2462,7 +2667,7 @@ addEventListener('load', ()=>scrollTo(0, 0), {once:true});
 // version.json est réécrit à chaque publication (tools/publier-version.sh). Si la
 // version en ligne diffère de celle de la page, on recharge : sur l'écran
 // d'accueil de l'iPhone, l'app reste ainsi à jour sans manipulation.
-const APP_VERSION = '20261018-110825';
+const APP_VERSION = '20261018-120559';
 async function checkUpdate(){
   try{
     const r = await fetch('version.json?t='+Date.now(), {cache:'no-store'});
@@ -2502,7 +2707,7 @@ setTimeout(()=>{
   b.textContent = 'L\u2019app n\u2019a pas pu démarrer'+(ERRORS.length ? ' : '+ERRORS[0] : '')+'. Rechargez la page.';
   document.body.appendChild(b);
 }, 5000);
-$('spotSel').value = SPOT;
+applyRegion();
 document.querySelectorAll('.spotName').forEach(el => el.textContent = SPOTS[SPOT].name);
 document.querySelectorAll('.spotFaces').forEach(el => el.textContent = SPOTS[SPOT].faces);
 setProfile(PROFILE, false);

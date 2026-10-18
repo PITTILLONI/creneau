@@ -1,5 +1,14 @@
 # Historique des versions
 
+## 18 octobre 2026 (14h) — Nouméa, « Ajouter votre spot »
+- **Deuxième région : Nouméa** (bateau et kite), pour tester avec de la famille sur place. Choix dans l'en-tête : port (« Nouméa · Port Moselle ») en mode Bateau, spot en mode Kite (Anse Vata · Méridien, Anse Vata · Aquarêve, Îlot Maître, d'après les écoles locales et OpenStreetMap). Changer de port ou de spot change de région ; la région est gardée sur le téléphone.
+- **Heure de Nouméa** (Pacific/Noumea, UTC+11) partout : horloge, créneaux, calendrier, prévisions. Les horaires des portes de Deauville restent calculés à l'heure de Paris.
+- **Bateau à Nouméa** : pas d'écluse ni de passerelle piétonne ni de bouées Candhis (masqués) ; carte « Maintenant » (note, vent, marée, eau, soleil) ; « Sorties possibles à venir » = heures de jour où le vent convient ; destinations du lagon (îlots Canard, Maître, Signal, phare Amédée, baie de Prony — caps directs indicatifs).
+- **Lagon** : le modèle de vagues MFWAM ne voit pas la barrière de corail (il annonce 1,6 m dans le lagon) : vagues ignorées, note sur le vent seul, et l'app le dit.
+- **Marées de Nouméa calculées** à partir de la hauteur d'eau prévue (Open-Meteo `sea_level_height_msl`), pleines et basses mers par interpolation, sans coefficient, à vérifier sur l'annuaire SHOM.
+- Nouméa : secours au **16** ou VHF 16 (COSS NC), météo marine VHF 65/66, liens meteo.nc et SHOM Nouméa, conseils kite locaux (offshore au Méridien, patates de corail à marée basse, réserve de l'îlot Maître) ; les conseils propres à Deauville (bassin Morny, portes) sont masqués.
+- **« ➕ Ajouter votre spot… » / « ➕ Ajouter votre port… »** en bas des listes : ouvre un e-mail prérempli au propriétaire du projet (nom, position, orientation de la plage, pièges).
+
 ## 18 octobre 2026 (13h30) — L'app devient « Crén'eau »
 - Nouveau nom, plus générique que « Port de Deauville » et qui couvre bateau et kite : **Crén'eau — le bon créneau pour glisser** (créneau + eau). Titre, nom sous l'icône de l'écran d'accueil, écran du mot de passe, manifeste.
 - Dépôt renommé `deauville-passerelle-ecluse` → **`creneau`** ; nouvelle adresse <https://pittilloni.github.io/creneau/>. L'ancienne adresse redirige vers la nouvelle (petit dépôt de redirection), y compris pour l'icône déjà posée sur l'écran d'accueil. Mot de passe et réglages (poids, ailes, spot) sont conservés (même domaine).

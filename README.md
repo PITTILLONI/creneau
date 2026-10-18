@@ -2,7 +2,7 @@
 
 **➜ En ligne : <https://pittilloni.github.io/creneau/>**
 
-Bateau ou kitesurf à Deauville et sur la Côte Fleurie : savoir quand sortir (portes du bassin Morny, vent, vagues, marées, bouées, spots de kite). Anciennement « Port de Deauville » (dépôt `deauville-passerelle-ecluse`, l'ancienne adresse redirige ici).
+Bateau ou kitesurf à Deauville et sur la Côte Fleurie, et à **Nouméa** : savoir quand sortir (portes du bassin Morny, vent, vagues, marées, bouées, spots de kite). Anciennement « Port de Deauville » (dépôt `deauville-passerelle-ecluse`, l'ancienne adresse redirige ici).
 
 Savoir en un coup d'œil, depuis son téléphone :
 
@@ -24,6 +24,19 @@ L'app est pensée pour un **marin** (profil Bateau) ou un **kitesurfeur** (profi
 5. **Calendrier** : marées de n'importe quel jour, avec les conditions prévues (meilleure session, aile, eau, heure par heure) jusqu'à J+15.
 
 > ⚠️ Horaires **théoriques**. Toujours confirmer avant une manœuvre via le **VHF canal 9** ou la cabine de l'écluse (06 98 71 83 92).
+
+## Régions
+
+| | Deauville (Côte Fleurie) | Nouméa |
+| --- | --- | --- |
+| Fuseau | Europe/Paris | Pacific/Noumea |
+| Bateau | portes du bassin Morny (PDF officiel), passerelle piétonne, bouées Candhis | Port Moselle, pas d'écluse : « sorties possibles » sur les heures de jour |
+| Kite | Deauville, Trouville, Houlgate, Cabourg | Anse Vata · Méridien, Anse Vata · Aquarêve, Îlot Maître (110°, à confirmer) |
+| Vagues | Météo-France MFWAM | ignorées (le modèle ne voit pas la barrière de corail) : note sur le vent seul |
+| Marées | PDF Ports du Calvados / SHOM, avec coefficients | calculées sur la hauteur d'eau prévue (Open-Meteo), sans coefficient |
+| Urgence | 196 (CROSS), VHF 16 | 16 (COSS NC), VHF 16 ; météo VHF 65/66 |
+
+Tout est dans `REGIONS`, `SPOTS` et `DESTS` (`index.html`). Le bouton « Ajouter votre spot / port » des listes ouvre un e-mail prérempli (`requestPlace`).
 
 ## Accès
 
