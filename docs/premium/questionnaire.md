@@ -15,6 +15,22 @@ un e-mail prérempli à la place.
 | Prix juste (gratuit seulement / ~10 €/an / ~20 €/an / ~3 €/mois) | la disposition à payer |
 | Contexte (ajouté automatiquement) : profil, sport, région | segmenter les réponses (bateau Deauville, kite Nouméa…) |
 
+## Formulaire branché (18 octobre 2026)
+
+Formulaire « Crén'eau — avis » : `1FAIpQLSfN0jynPaX6YNUVvbVU6IT3S68nzKTfMnmmwuNuMUERNXHQCQ`, une seule
+question « paragraphe » (`entry.1724789462`). L'app y envoie toutes les réponses mises en forme, une
+ligne par rubrique :
+
+    Déception si Crén'eau disparaissait : Très déçu
+    Outils utilisés aujourd'hui : Windguru ; Windy ; Autre : webcam Anse Vata
+    Ajouts souhaités : Alertes créneau favorable
+    Prix juste : 20 € par an
+    Contexte : Glisse (Wingfoil) · Nouméa
+
+Pour avoir **une colonne par rubrique** dans le Google Sheet : ajouter 4 questions « paragraphe »
+(ou faire Données → Scinder le texte en colonnes, séparateur personnalisé « retour à la ligne »),
+puis me donner le lien : je renseigne `SURVEY.entries` et retire `SURVEY.single`.
+
 ## Créer le formulaire (5 minutes)
 
 1. Sur <https://forms.google.com>, créer un formulaire vide « Crén'eau — avis ».

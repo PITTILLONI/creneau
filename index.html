@@ -2818,10 +2818,12 @@ scrollTo(0, 0);
 addEventListener('load', ()=>scrollTo(0, 0), {once:true});
 
 /* ---------- Votre avis : désirabilité, outils actuels, ajouts souhaités ---------- */
-// Envoi direct dans un Google Form (réponses dans un Google Sheet du propriétaire) :
-// renseigner SURVEY.form (identifiant du formulaire) et les numéros entry.xxx des questions
-// (voir docs/premium/questionnaire.md). Tant que ce n'est pas fait : e-mail prérempli.
-const SURVEY = {form:'', entries:{deception:'', outils:'', ajouts:'', prix:'', contexte:''}};
+// Envoi direct dans le Google Form du propriétaire (réponses dans un Google Sheet).
+// single : le formulaire n'a qu'une question « paragraphe », on y met toutes les réponses mises
+// en forme (une ligne par rubrique) ; entries : une question par rubrique, si on en ajoute.
+// Voir docs/premium/questionnaire.md. Sans formulaire : e-mail prérempli.
+const SURVEY = {form:'1FAIpQLSfN0jynPaX6YNUVvbVU6IT3S68nzKTfMnmmwuNuMUERNXHQCQ', single:'1724789462',
+  entries:{deception:'', outils:'', ajouts:'', prix:'', contexte:''}};
 $('premiumOpen').addEventListener('click', ()=>{
   $('premiumDone').hidden = true; $('premiumForm').querySelector('.premium-send').hidden = false;
   try{ $('premiumDlg').showModal(); }catch(e){ $('premiumDlg').setAttribute('open',''); }
@@ -2838,6 +2840,12 @@ $('premiumForm').addEventListener('submit', async e=>{
   if(SURVEY.form){
     const data = new URLSearchParams();
     Object.entries(SURVEY.entries).forEach(([k, id]) => { if(id && r[k]) data.append('entry.'+id, r[k]); });
+    if(SURVEY.single) data.append('entry.'+SURVEY.single,
+      'Déception si Crén\'eau disparaissait : '+(r.deception||'—')+'\n'
+      + 'Outils utilisés aujourd\'hui : '+(r.outils||'—')+'\n'
+      + 'Ajouts souhaités : '+(r.ajouts||'—')+'\n'
+      + 'Prix juste : '+(r.prix||'—')+'\n'
+      + 'Contexte : '+r.contexte);
     try{
       // Google Forms n'autorise pas la lecture de la réponse (no-cors) : l'envoi suffit
       await fetch('https://docs.google.com/forms/d/e/'+SURVEY.form+'/formResponse', {method:'POST', mode:'no-cors', body:data});
@@ -2858,7 +2866,7 @@ $('premiumForm').addEventListener('submit', async e=>{
 // version.json est réécrit à chaque publication (tools/publier-version.sh). Si la
 // version en ligne diffère de celle de la page, on recharge : sur l'écran
 // d'accueil de l'iPhone, l'app reste ainsi à jour sans manipulation.
-const APP_VERSION = '20261018-124223';
+const APP_VERSION = '20261018-125423';
 async function checkUpdate(){
   try{
     const r = await fetch('version.json?t='+Date.now(), {cache:'no-store'});

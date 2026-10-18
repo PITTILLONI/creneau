@@ -1,5 +1,8 @@
 # Historique des versions
 
+## 18 octobre 2026 (16h15) — Questionnaire branché
+- Le questionnaire « Votre avis » envoie maintenant les réponses **directement dans le Google Form** du projet (une question paragraphe, réponses mises en forme une ligne par rubrique), sans e-mail à envoyer.
+
 ## 18 octobre 2026 (16h) — « Votre avis » : désirabilité et attentes
 - Onglet Maintenant : carte **« 💬 Votre avis compte »** qui ouvre un questionnaire d'une minute, sans quitter l'app : déception si Crén'eau disparaissait (test de Sean Ellis), outils utilisés aujourd'hui (Windguru, Windy, Windfinder, Météo-France, Météo-Consult, club… + autre), ajouts souhaités (alertes, spots, 16 jours, vent mesuré, favoris + idée libre), prix juste pour un Premium. Le contexte (profil, sport, région) est ajouté automatiquement.
 - Envoi **direct vers un Google Form** (réponses dans un Google Sheet) dès que le formulaire est branché (`SURVEY` dans `index.html`, mode d'emploi dans `docs/premium/questionnaire.md`) ; d'ici là, e-mail prérempli.
