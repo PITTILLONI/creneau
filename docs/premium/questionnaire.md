@@ -27,6 +27,12 @@ ligne par rubrique :
     Prix juste : 20 € par an
     Contexte : Glisse (Wingfoil) · Nouméa
 
+Dans le Google Drive du propriétaire, dossier **Crén'eau** : le formulaire « Crén'eau — votre avis » et le
+tableau **« Crén'eau — synthèse des avis »** (part de « très déçus », part prête à payer, outils et ajouts les plus
+cités, réponses découpées en colonnes). Pour l'alimenter : dans le formulaire, Réponses → « Associer à Sheets »,
+puis coller le lien de ce Google Sheet en B2 de la synthèse et cliquer « Autoriser l'accès » en A33.
+(Sheets en français : formules avec des points-virgules ; plages bornées à la ligne 2000.)
+
 Pour avoir **une colonne par rubrique** dans le Google Sheet : ajouter 4 questions « paragraphe »
 (ou faire Données → Scinder le texte en colonnes, séparateur personnalisé « retour à la ligne »),
 puis me donner le lien : je renseigne `SURVEY.entries` et retire `SURVEY.single`.
