@@ -19,6 +19,7 @@ Dernière mise à jour de ce fichier : 17 octobre 2026 (15h30).
 - [x] Calendrier : conditions météo du jour choisi (note des créneaux, meilleur créneau/session, heure par heure), jusqu'à J+15 et jours passés
 - [x] Navigation par vrais onglets (une section à l'écran à la fois)
 - [x] Bateau : bouées houlographes du Havre en direct (Candhis), comparées à la prévision
+- [x] Indicateur « récupération des données en cours » (bateau et kite), avec Réessayer en cas d'échec
 - [x] Interface mobile d'abord : barre d'onglets, grandes zones tactiles, mode sombre automatique
 - [x] Icône et mode plein écran pour l'écran d'accueil iPhone
 - [x] Rechargement automatique quand une nouvelle version est publiée

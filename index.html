@@ -547,6 +547,24 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   html:not([data-tab="maintenant"]):not([data-tab="calendrier"]) footer{display:none;}
   html[data-tab="calendrier"] footer .links, html[data-tab="calendrier"] footer > div:not(.warn){display:none;}
 
+  /* récupération des données en cours */
+  .appbar::after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;opacity:0;transition:opacity .2s;
+    background:linear-gradient(90deg,transparent 0,var(--accent) 40%,var(--accent) 60%,transparent 100%) 0 0/40% 100% no-repeat;}
+  html.syncing .appbar::after{opacity:1;animation:syncbar 1.1s linear infinite;}
+  @keyframes syncbar{from{background-position:-60% 0;}to{background-position:160% 0;}}
+  .sync{display:none;align-items:center;gap:8px;font-size:.85rem;font-weight:600;color:var(--ink-2);min-height:22px;}
+  html.syncing .sync, .sync.err{display:flex;}
+  .sync.err{color:var(--bad);}
+  .sync .spin{width:14px;height:14px;border-radius:50%;border:2px solid var(--surface-2);border-top-color:var(--accent);animation:spin .8s linear infinite;flex:0 0 14px;}
+  .sync.err .spin{display:none;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .sync button{margin-left:auto;border:0;border-radius:999px;background:var(--surface-2);color:var(--ink);font-weight:700;font-size:.85rem;padding:4px 12px;cursor:pointer;}
+  html.syncing .clock .live, html.syncing .clock .live::after{background:var(--accent);}
+  @media (prefers-reduced-motion: reduce){
+    html.syncing .appbar::after{animation:none;background:var(--accent);opacity:.6;}
+    .sync .spin{animation-duration:2.4s;}
+  }
+
   /* bouées houlographes */
   .buoy{background:var(--surface);border-radius:var(--radius);padding:14px 16px;margin-top:10px;}
   .buoy-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px;}
@@ -611,6 +629,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
     </label>
     <div class="clock" aria-label="Heure de Paris"><span class="live" aria-hidden="true"></span><span id="clock">—</span></div>
   </div>
+  <div class="sync" id="sync" role="status" aria-live="polite"><span class="spin" aria-hidden="true"></span><span id="syncTxt"></span><button type="button" id="syncRetry" hidden>Réessayer</button></div>
 </div></header>
 <div class="wrap">
 
@@ -1308,6 +1327,38 @@ function scoreHour(h){
   return Object.assign(h, r, {level: levelOf(r.score)});
 }
 
+/* ---------- Récupération en cours ---------- */
+// Chaque chargement s'annonce sous l'en-tête (« Récupération des prévisions… ») avec
+// une barre animée ; un échec durable y laisse un message et un bouton Réessayer.
+const BUSY = new Map();
+let busySeq = 0;
+function busy(label){
+  const id = ++busySeq;
+  BUSY.set(id, label);
+  renderBusy();
+  return () => { BUSY.delete(id); renderBusy(); };
+}
+let syncErr = null;
+function renderBusy(){
+  const labels = [...new Set(BUSY.values())];
+  document.documentElement.classList.toggle('syncing', labels.length>0);
+  const el = $('sync');
+  if(labels.length){
+    el.classList.remove('err');
+    $('syncTxt').textContent = 'Récupération '+labels.join(' et ')+'…';
+    $('syncRetry').hidden = true;
+  } else if(syncErr){
+    el.classList.add('err');
+    $('syncTxt').textContent = syncErr.text;
+    $('syncRetry').hidden = false;
+  } else {
+    el.classList.remove('err');
+    $('syncTxt').textContent = '';
+  }
+}
+function syncFailed(text, retry){ syncErr = {text, retry}; renderBusy(); }
+$('syncRetry').addEventListener('click', ()=>{ const r = syncErr && syncErr.retry; syncErr = null; renderBusy(); if(r) r(); });
+
 // Réponses Open-Meteo (vent, vagues, température de l'eau) -> heures prêtes à noter.
 // noWave = true : on garde les heures sans prévision de vagues (au-delà de J+7 environ).
 function buildHours(w, s, sst, noWave){
@@ -1332,6 +1383,7 @@ function buildHours(w, s, sst, noWave){
 async function loadForecast(){
   const P = fcPlace(), key = fcKey();
   loadForecast.pending = true;
+  const done = busy(PROFILE==='kite' ? 'des prévisions du spot de '+SPOTS[SPOT].name : 'des prévisions météo');
   const common = '&timeformat=unixtime&timezone=Europe%2FParis&forecast_days=3';
   const wUrl = 'https://api.open-meteo.com/v1/forecast?latitude='+P.lat+'&longitude='+P.lon
     + '&hourly=wind_speed_10m,wind_gusts_10m,wind_direction_10m,temperature_2m,weather_code&daily=sunrise,sunset'
@@ -1342,12 +1394,13 @@ async function loadForecast(){
     // température de l'eau : modèle de courants Météo-France (le modèle de vagues ne la fournit pas)
     const tUrl = 'https://marine-api.open-meteo.com/v1/marine?latitude='+P.seaLat+'&longitude='+P.seaLon
       + '&hourly=sea_surface_temperature&models=meteofrance_currents'+common;
-    const [w, s, sst] = await Promise.all([fetch(wUrl).then(r=>r.json()), fetch(sUrl).then(r=>r.json()),
-      fetch(tUrl).then(r=>r.json()).catch(()=>null)]);
+    // getJSON retente quand Open-Meteo répond « service is overloaded »
+    const [w, s, sst] = await Promise.all([getJSON(wUrl), getJSON(sUrl), getJSON(tUrl).catch(()=>null)]);
     const {hours, days} = buildHours(w, s, sst, false);
     if(key!==fcKey()) return;   // l'utilisateur a changé de plage pendant le chargement
     FC = {hours, days, fetched:Date.now(), key};
     loadForecast.pending = false;
+    if(syncErr && syncErr.retry===loadForecast) syncErr = null;
     loadForecast.retried = false;
     renderForecast();
     renderKiteNow();
@@ -1356,13 +1409,20 @@ async function loadForecast(){
   } catch(err){
     ERRORS.push('prévisions : '+(err && err.message));
     // un raté réseau ponctuel : on retente une fois quelques secondes plus tard
-    if(!loadForecast.retried){ loadForecast.retried = true; setTimeout(()=>{ loadForecast(); }, 4000); return; }
+    if(!loadForecast.retried){
+      loadForecast.retried = true;
+      const wait = busy('des prévisions météo (nouvelle tentative)');
+      setTimeout(()=>{ wait(); loadForecast(); }, 4000);
+      return;
+    }
     loadForecast.pending = false;
+    loadForecast.retried = false;
+    syncFailed('Prévisions météo indisponibles (connexion ?)', loadForecast);
     renderDayCond();   // le calendrier charge alors le jour seul
     $('vLabel').textContent = 'Prévisions indisponibles pour le moment (connexion ?).';
     $('vWord').textContent = '—';
     $('windows').innerHTML = '<div class="muted">Impossible de charger les prévisions. Consulter le bulletin Météo-France ci-dessous.</div>';
-  }
+  } finally { done(); }
 }
 
 function hoursIn(a, b){ return FC.hours.filter(h => h.ts+3600000>a && h.ts<b); }
@@ -1519,6 +1579,8 @@ const BUOY_URL = 'https://raw.githubusercontent.com/PITTILLONI/deauville-passere
 const BUOY_STALE = 3*3600000;   // au-delà, la bouée est considérée hors service
 let BUOYS = null;
 async function loadBuoys(){
+  if(PROFILE==='kite') return;   // les bouées ne sont affichées qu'en mode Bateau
+  const done = busy('des mesures des bouées');
   try{
     const r = await fetch(BUOY_URL+'?t='+Math.floor(Date.now()/300000), {cache:'no-store'});
     if(!r.ok) throw new Error('HTTP '+r.status);
@@ -1527,7 +1589,7 @@ async function loadBuoys(){
     ERRORS.push('bouées : '+(e && e.message));
     if(!BUOYS) $('buoyList').innerHTML = '<div class="muted">Mesures des bouées indisponibles pour le moment.</div>';
     return;
-  }
+  } finally { done(); }
   renderBuoys();
 }
 function ago(ms){
@@ -1818,6 +1880,7 @@ function setProfile(p, animate){
   if(tabsReady){ refreshTabs(); syncTab(); }
   ensureForecast();
   if(animate) renderDayCond();
+  if(animate && p==='boat') loadBuoys();
 }
 document.querySelectorAll('.seg button').forEach(b=>b.addEventListener('click', ()=>setProfile(b.dataset.p, true)));
 
@@ -1904,13 +1967,15 @@ async function renderDayCond(){
   }
   if(!src){
     body.innerHTML = '<div class="muted">Chargement des prévisions du '+dayName(idx)+'…</div>';
+    const done = busy('des prévisions du '+dayName(idx, {day:'numeric', month:'long'}));
     try{ src = await fetchDay(idx); }
     catch(e){
       if(req!==dayReq) return;
       ERRORS.push('jour : '+(e && e.message));
-      body.innerHTML = '<div class="muted">Prévisions indisponibles pour ce jour (connexion ?). Réessayez dans un instant.</div>';
+      body.innerHTML = '<div class="muted">Prévisions indisponibles pour ce jour (connexion ?).</div> <button type="button" class="todaybtn" id="dayRetry" style="margin-top:10px">Réessayer</button>';
+      $('dayRetry').addEventListener('click', renderDayCond);
       return;
-    }
+    } finally { done(); }
   }
   if(req!==dayReq) return;
   src.hours.forEach(scoreHour);
@@ -2065,12 +2130,16 @@ document.querySelectorAll('.tabbar a').forEach(a=>a.addEventListener('click', e=
 }));
 tabId = (location.hash || '').slice(1);
 refreshTabs();
+// l'adresse contient #onglet : le navigateur y défilerait tout seul à l'ouverture
+try{ history.scrollRestoration = 'manual'; }catch(e){}
+scrollTo(0, 0);
+addEventListener('load', ()=>scrollTo(0, 0), {once:true});
 
 /* ---------- Mise à jour automatique ---------- */
 // version.json est réécrit à chaque publication (tools/publier-version.sh). Si la
 // version en ligne diffère de celle de la page, on recharge : sur l'écran
 // d'accueil de l'iPhone, l'app reste ainsi à jour sans manipulation.
-const APP_VERSION = '20261018-100637';
+const APP_VERSION = '20261018-101353';
 async function checkUpdate(){
   try{
     const r = await fetch('version.json?t='+Date.now(), {cache:'no-store'});

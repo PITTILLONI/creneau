@@ -1,5 +1,12 @@
 # Historique des versions
 
+## 18 octobre 2026 (10h30) — Indicateur de récupération des données
+- Bateau et Kitesurf : quand l'app récupère des données, une **barre animée** court sous l'en-tête, le point de l'horloge passe en bleu et une ligne dit quoi : « Récupération des prévisions météo… », « …des prévisions du spot de Trouville-sur-Mer… », « …des mesures des bouées… », « …des prévisions du 22 octobre… », « …(nouvelle tentative)… ».
+- En cas d'échec durable des prévisions : message « Prévisions météo indisponibles (connexion ?) » avec un bouton **Réessayer** ; idem dans la carte du jour du calendrier.
+- Les prévisions principales retentent aussi automatiquement quand Open-Meteo est saturé.
+- Les bouées ne sont plus chargées en mode Kitesurf (elles n'y sont pas affichées).
+- Correctif : à l'ouverture avec `#onglet` dans l'adresse, la page ne défile plus de quelques pixels (haut de l'en-tête coupé).
+
 ## 18 octobre 2026 — Bouées au large en direct
 - Mode Bateau, onglet Maintenant : **mesures en direct des bouées houlographes** à l'entrée de l'estuaire de la Seine (Candhis, Port du Havre et Cerema), à 12-13 km au nord de Deauville : hauteur des vagues (H1/3), vague max, période, provenance, tendance sur 3 h, courbe des 24 dernières heures, et **comparaison avec la prévision Météo-France** de l'heure (« la mer est plus calme que prévu »).
 - Deux bouées : 07609 *Haut du Sud-Ouest* (active) et 07611 *Nord du mouillage* (en maintenance, aucune mesure depuis le 2 juin 2026 : affichée « hors service » tant qu'elle ne transmet pas).
