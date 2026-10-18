@@ -1,5 +1,11 @@
 # Historique des versions
 
+## 18 octobre 2026 (18h30) — Installation facilitée, pas de zoom
+- **Android** : service worker minimal (`sw.js`, sans aucun cache, la mise à jour automatique est préservée) pour que Chrome propose le bouton « Installer Crén'eau » en un tap ; page « Pas de connexion » hors ligne.
+- **iPhone** : Apple n'autorise pas un site à s'ajouter seul à l'écran d'accueil ; le panneau guide mieux : **flèche animée** vers la barre de Safari, étapes pour iOS récent (⋯ puis Partager) et ancien (Partager), et la ligne « Sur l'écran d'accueil » dessinée pour la reconnaître.
+- **Zoom désactivé** : viewport sans zoom, double-tap bloqué (`touch-action: manipulation`), pincement bloqué sur Safari iOS (`gesturestart`), champs de saisie à 16 px minimum (sinon Safari zoome à la saisie).
+- Bouées **SIMBAD** (HAROPA, vent et houle du chenal de Port 2000) : non intégrées, leurs conditions d'utilisation interdisent la rediffusion sans autorisation écrite ; demande d'autorisation préparée.
+
 ## 18 octobre 2026 (18h) — Testeurs nommés, installation sur l'écran d'accueil
 - Présentation : **prénom et nom demandés** à la première étape (obligatoires pour continuer), gardés sur le téléphone et envoyés **une seule fois** au Google Form du projet (« Inscription bêta · Nom · profil · région ») ; mention de leur usage. Ils sont aussi joints aux réponses de « Votre avis ». La présentation est reproposée une fois à ceux qui l'avaient déjà vue, pour qu'ils donnent leur nom.
 - Étape 2 de la présentation raccourcie à deux lignes.

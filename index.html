@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>Crén'eau — le bon créneau pour glisser</title>
 <meta name="description" content="Bateau et kitesurf à Deauville et sur la Côte Fleurie : le bon créneau pour sortir — portes du bassin Morny, vent, vagues, marées, bouées et spots de kite.">
 <meta name="theme-color" content="#f2f4f7" media="(prefers-color-scheme: light)">
@@ -529,7 +529,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   .datefield{position:relative;display:flex;align-items:center;justify-content:center;gap:8px;height:48px;border-radius:14px;background:var(--surface);font-weight:700;font-size:1.02rem;min-width:0;cursor:pointer;}
   .datefield span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
   .datefield .ico{margin:0;color:var(--accent);}
-  .datefield input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;}
+  .datefield input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;font-size:16px;}
   .datefield:focus-within{outline:3px solid var(--accent);outline-offset:2px;}
   .todaybtn{border:0;background:var(--surface-2);border-radius:999px;padding:8px 14px;font-weight:600;font-size:.9rem;cursor:pointer;min-height:40px;}
 
@@ -654,11 +654,16 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   .sheet fieldset label{display:flex;gap:10px;align-items:flex-start;font-size:.95rem;}
   .sheet input[type=checkbox],.sheet input[type=radio]{width:20px;height:20px;flex:none;margin:1px 0 0;accent-color:var(--accent);}
   .sheet-note{display:flex;flex-direction:column;gap:6px;font-weight:600;margin-bottom:12px;}
-  .sheet textarea{font:inherit;border:0;border-radius:12px;background:var(--surface);color:var(--ink);padding:10px 12px;}
+  .sheet textarea{font:inherit;font-size:16px;border:0;border-radius:12px;background:var(--surface);color:var(--ink);padding:10px 12px;}
   .premium-send{width:100%;}
   .sheet fieldset label.other{flex-direction:column;gap:6px;color:var(--ink-2);}
-  .sheet input[type=text]{font:inherit;border:0;border-radius:10px;background:var(--surface-2);color:var(--ink);padding:9px 11px;width:100%;}
+  .sheet input[type=text]{font:inherit;font-size:16px;border:0;border-radius:10px;background:var(--surface-2);color:var(--ink);padding:9px 11px;width:100%;}
   .sheet-done{text-align:center;font-weight:700;color:var(--good);margin:12px 0;}
+
+  /* pas de zoom : ni double-tap (touch-action), ni pincement (gesturestart, voir le script) ;
+     champs à 16 px minimum, sinon Safari zoome tout seul à la saisie */
+  html{touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%;}
+  input,select,textarea{font-size:max(16px,1em);}
 
   /* onboarding (premier lancement) */
   .onboard{display:none;}
@@ -682,11 +687,22 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   .ob-replay{margin:0 0 6px;}
   .ob-links{display:flex;flex-wrap:wrap;gap:8px;}
   .install p{line-height:1.45;margin:0 0 10px;}
+  .install.ios-arrow{margin-bottom:64px;border-radius:22px;}   /* place pour la flèche vers la barre de Safari */
   .inst-steps ol{margin:0 0 10px;padding-left:22px;display:flex;flex-direction:column;gap:8px;line-height:1.4;}
   .inst-steps .ico{color:var(--accent);margin:0 2px;}
   .inst-note{font-size:.85rem;color:var(--ink-2);}
   .inst-steps .ins-save{width:100%;margin-bottom:12px;}
   .inst-actions{display:flex;gap:10px;justify-content:flex-end;padding:8px 0 4px;}
+  .inst-row{display:flex;align-items:center;gap:10px;margin-top:6px;padding:10px 14px;border-radius:12px;background:var(--surface);font-weight:600;width:max-content;max-width:100%;}
+  .inst-row .ico{color:var(--ink);margin:0;}
+  /* flèche vers la barre de Safari (iPhone) : sous le panneau, au centre */
+  .inst-arrow{display:none;}
+  .install.ios[open] ~ .inst-arrow-fixed, .inst-arrow.on{display:flex;}
+  .inst-arrow{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom) + 4px);transform:translateX(-50%);flex-direction:column;align-items:center;gap:2px;
+    color:var(--accent);font-weight:800;font-size:.78rem;text-align:center;z-index:1;pointer-events:none;animation:instBounce 1.2s ease-in-out infinite;}
+  .inst-arrow svg{width:30px;height:30px;}
+  @keyframes instBounce{50%{transform:translate(-50%,6px);}}
+  @media (prefers-reduced-motion: reduce){ .inst-arrow{animation:none;} }
   .ob-name{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0 4px;}
   .ob-name label{display:flex;flex-direction:column;gap:4px;font-size:.88rem;font-weight:600;color:var(--ink-2);}
   .ob-name input{font:inherit;font-size:1rem;height:46px;border:0;border-radius:12px;background:var(--surface);color:var(--ink);padding:0 12px;min-width:0;}
@@ -887,9 +903,10 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
       <p>Une icône comme une vraie app : plein écran, ouverture en un geste, et mise à jour automatique.</p>
       <div class="inst-steps" id="instIos">
         <ol>
-          <li>Touchez <b>Partager</b> <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3M8 7l4-4 4 4"/><path d="M6 11H5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-8a1 1 0 0 0-1-1h-1"/></svg> en bas de Safari (en haut sur iPad).</li>
-          <li>Choisissez <b>« Sur l'écran d'accueil »</b> (faites défiler la liste si besoin).</li>
-          <li>Touchez <b>Ajouter</b>.</li>
+          <li>En bas de Safari, touchez <b>Partager</b> <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3M8 7l4-4 4 4"/><path d="M6 11H5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-8a1 1 0 0 0-1-1h-1"/></svg> (selon la version d'iOS : <b>⋯</b> puis Partager). Sur iPad : en haut à droite.</li>
+          <li>Faites défiler et choisissez cette ligne :
+            <span class="inst-row" aria-hidden="true"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M12 8v8M8 12h8"/></svg>Sur l'écran d'accueil</span></li>
+          <li>Touchez <b>Ajouter</b> en haut à droite.</li>
         </ol>
         <p class="inst-note">Lien ouvert depuis WhatsApp, Messenger ou un e-mail ? Ouvrez-le d'abord dans <b>Safari</b> (bouton « Ouvrir dans Safari »).</p>
       </div>
@@ -904,6 +921,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
       <div class="inst-steps" id="instOther">
         <p>Sur téléphone : dans Safari (iPhone) ou Chrome (Android), utilisez <b>« Sur l'écran d'accueil »</b> ou <b>« Installer l'application »</b>.</p>
       </div>
+      <div class="inst-arrow" id="instArrow" aria-hidden="true"><span>Partager<br>ou ⋯</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v15M6 13l6 6 6-6"/></svg></div>
       <div class="inst-actions"><button type="button" class="todaybtn" id="instLater">Plus tard</button><button type="button" class="ins-save" id="instDone" autofocus>C'est fait</button></div>
     </dialog>
     <dialog class="sheet" id="premiumDlg" aria-labelledby="premiumTitle">
@@ -3065,7 +3083,13 @@ $('onboardDlg').addEventListener('cancel', e => {
   try{ localStorage.setItem('onboard', ONBOARD_V); }catch(err){}
 });
 
+/* ---------- Pas de zoom ---------- */
+// Safari iOS ignore « user-scalable=no » : on bloque le pincement à la main.
+['gesturestart','gesturechange','gestureend'].forEach(t => document.addEventListener(t, e => e.preventDefault(), {passive:false}));
+
 /* ---------- Installer sur l'écran d'accueil (proposé à la 2e ouverture) ---------- */
+// Service worker minimal (sw.js, sans cache) : nécessaire au bouton « Installer » de certains Android.
+if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
 // Pas à la 1re ouverture (mot de passe + présentation suffisent) ; jamais si l'app est déjà
 // ouverte depuis l'écran d'accueil. « Plus tard » : reproposé 3 ouvertures plus tard.
 const standalone = () => navigator.standalone === true || matchMedia('(display-mode: standalone)').matches;
@@ -3076,6 +3100,9 @@ addEventListener('beforeinstallprompt', e => { e.preventDefault(); installEvt = 
 function openInstall(){
   $('instIos').hidden = !isIOS; $('instAndroid').hidden = !isAndroid; $('instOther').hidden = isIOS || isAndroid;
   $('instPrompt').hidden = !installEvt;
+  const iPad = /iPad/.test(navigator.userAgent) || (navigator.platform==='MacIntel' && navigator.maxTouchPoints>1);
+  $('instArrow').classList.toggle('on', isIOS && !iPad);
+  $('installDlg').classList.toggle('ios-arrow', isIOS && !iPad);
   try{ $('installDlg').showModal(); }catch(e){ $('installDlg').setAttribute('open',''); }
 }
 function maybeInstall(){
@@ -3157,7 +3184,7 @@ $('premiumForm').addEventListener('submit', async e=>{
 // version.json est réécrit à chaque publication (tools/publier-version.sh). Si la
 // version en ligne diffère de celle de la page, on recharge : sur l'écran
 // d'accueil de l'iPhone, l'app reste ainsi à jour sans manipulation.
-const APP_VERSION = '20261018-174248';
+const APP_VERSION = '20261018-174715';
 async function checkUpdate(){
   try{
     const r = await fetch('version.json?t='+Date.now(), {cache:'no-store'});

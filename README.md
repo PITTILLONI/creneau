@@ -87,6 +87,7 @@ index.html              la page (HTML + CSS + JS, aucune dépendance à installe
 manifest.webmanifest    nom et icônes pour l'écran d'accueil
 icons/                  icône (SVG source + PNG 180/192/512)
 version.json            numéro de version en ligne, lu par la page pour se recharger
+sw.js                   service worker minimal, sans cache (installation Android, page hors ligne)
 tools/
   extraire-horaires.mjs extraction du PDF officiel -> données JSON + contrôle des incohérences
   publier-version.sh    nouveau numéro de version avant chaque publication

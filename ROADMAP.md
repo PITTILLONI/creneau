@@ -46,6 +46,8 @@ Dernière mise à jour de ce fichier : 17 octobre 2026 (15h30).
 
 ## À faire / idées
 
+- [ ] SIMBAD (HAROPA) : vent et houle mesurés dans le chenal de Port 2000, à intégrer seulement après autorisation écrite d'HAROPA (CGU art. 6 et 8)
+
 - [x] Google Form du questionnaire branché
 - [x] Présentation au premier lancement (prénom/nom du testeur, profil, région, lecture des notes, avertissement bêta)
 - [x] Proposition d'installation sur l'écran d'accueil à la 2e ouverture (iPhone, Android)
