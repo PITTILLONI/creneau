@@ -22,7 +22,8 @@ Dernière mise à jour de ce fichier : 17 octobre 2026 (15h30).
 - [x] Indicateur « récupération des données en cours » (bateau et kite), avec Réessayer en cas d'échec
 - [x] Vent consolidé : médiane de 5 modèles (Météo-France compte double, ECMWF, ICON, UKMO, GFS)
 - [x] Kite : « Mes ailes » + foil, vent mini/maxi et aile conseillée selon le poids et les ailes du rider
-- [x] Calendrier : vue des 7 prochains jours (créneaux favorables / sessions navigables)
+- [x] Calendrier : carrousel des 7 prochains jours (créneaux favorables / sessions navigables)
+- [x] Icônes sur les intitulés et les raisons des notes ; réglages kite (poids, ailes) dans l'en-tête
 - [x] Interface mobile d'abord : barre d'onglets, grandes zones tactiles, mode sombre automatique
 - [x] Icône et mode plein écran pour l'écran d'accueil iPhone
 - [x] Rechargement automatique quand une nouvelle version est publiée

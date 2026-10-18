@@ -1,5 +1,10 @@
 # Historique des versions
 
+## 18 octobre 2026 (12h30) — Icônes, réglages kite dans l'en-tête, carrousel 7 jours
+- **Icônes** pour alléger la lecture : devant les intitulés (vent, rafales, mer, période, provenance, marée montante/descendante, air, soleil, eau, aile), devant chaque raison de note (coche si favorable, vent, vagues, lune la nuit, orage, alerte vent de terre), lune à la place de « nuit », pleine/basse mer, passerelle piétonne et portes.
+- Kite : **poids et ailes dans l'en-tête**, à côté du spot (pastille « 75 kg · 9/12 » qui déplie les réglages), communs à tous les onglets ; le rappel en tête des Prévisions est retiré. Noms des spots raccourcis (« Deauville »).
+- Calendrier : le panneau « 7 prochains jours » devient un **carrousel léger** en haut de l'onglet : une carte par jour (note, meilleur créneau ou session + aile), **cadre plein** si favorable aujourd'hui, **pointillé** si favorable un autre jour, jour affiché surligné ; toucher une carte ouvre le jour.
+
 ## 18 octobre 2026 (12h) — Les 7 prochains jours
 - Calendrier : bouton **« Les 7 prochains jours »** qui ouvre un panneau avec, jour par jour, les créneaux d'écluse notés (couleur Favorable / Prudence / Déconseillé, « nuit ») ou, en kite, les sessions navigables avec l'aile à sortir, la note du jour et sa raison, et un total (« 2 créneaux favorables sur 7 jours »). Toucher un jour l'ouvre dans le calendrier.
 - Jours 1 à 3 : prévisions déjà chargées ; jours 4 à 7 : un seul appel groupé (`fetchDays`).
