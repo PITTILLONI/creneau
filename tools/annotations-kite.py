@@ -1,7 +1,7 @@
 # Carrousels kite : illustrations + annotations exactes superposées (vent, bord d'attaque, positions).
 # Coordonnées en % de la largeur (x) et de la hauteur (y) de l'image.
-import html, re
-P='/Users/antoine/deauville-passerelle-ecluse/index.html'
+import html, os, re
+P=os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'index.html')
 H=56.25  # hauteur du viewBox pour une image 16:9 de largeur 100
 
 def wind(x1,y1,x2,y2,label='vent'):

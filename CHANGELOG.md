@@ -1,5 +1,9 @@
 # Historique des versions
 
+## 18 octobre 2026 (13h30) — L'app devient « Crén'eau »
+- Nouveau nom, plus générique que « Port de Deauville » et qui couvre bateau et kite : **Crén'eau — le bon créneau pour glisser** (créneau + eau). Titre, nom sous l'icône de l'écran d'accueil, écran du mot de passe, manifeste.
+- Dépôt renommé `deauville-passerelle-ecluse` → **`creneau`** ; nouvelle adresse <https://pittilloni.github.io/creneau/>. L'ancienne adresse redirige vers la nouvelle (petit dépôt de redirection), y compris pour l'icône déjà posée sur l'écran d'accueil. Mot de passe et réglages (poids, ailes, spot) sont conservés (même domaine).
+
 ## 18 octobre 2026 (13h15) — Kite : aile cible quand mon matériel ne suffit pas
 - Quand le vent est trop faible ou trop fort pour mes ailes et mon poids, l'app indique **l'aile qu'il faudrait** : plus grande si le vent est trop faible, plus petite s'il est trop fort, **foil** sous 9 nd (twin-tip impossible), rien sous 7 nd ou au-delà de 35 nd.
 - Spot : la tuile devient « **Aile cible** » (ex. « Foil », « 16 m² ») ; raison de la note complétée (« … avec ta 12 m² · aile cible : 16 m² ») ; Prévisions : verdict, détail heure par heure ; carrousel 7 jours : « cible 16 m² » / « foil requis » sur les jours sans session ; calendrier : tuile « Aile cible » et raison de l'heure la plus proche de naviguer.

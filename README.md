@@ -1,6 +1,8 @@
-# Passerelle & écluse — Deauville-Trouville
+# Crén'eau — le bon créneau pour glisser
 
-**➜ En ligne : <https://pittilloni.github.io/deauville-passerelle-ecluse/>**
+**➜ En ligne : <https://pittilloni.github.io/creneau/>**
+
+Bateau ou kitesurf à Deauville et sur la Côte Fleurie : savoir quand sortir (portes du bassin Morny, vent, vagues, marées, bouées, spots de kite). Anciennement « Port de Deauville » (dépôt `deauville-passerelle-ecluse`, l'ancienne adresse redirige ici).
 
 Savoir en un coup d'œil, depuis son téléphone :
 

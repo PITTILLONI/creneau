@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Port de Deauville — passage Morny, marées, météo marine</title>
-<meta name="description" content="Passerelle piétonne et écluse du bassin Morny en direct, marées et conditions de sortie en mer à Deauville-Trouville.">
+<title>Crén'eau — le bon créneau pour glisser</title>
+<meta name="description" content="Bateau et kitesurf à Deauville et sur la Côte Fleurie : le bon créneau pour sortir — portes du bassin Morny, vent, vagues, marées, bouées et spots de kite.">
 <meta name="theme-color" content="#f2f4f7" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#05070c" media="(prefers-color-scheme: dark)">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Port Deauville">
+<meta name="apple-mobile-web-app-title" content="Crén'eau">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
 <link rel="manifest" href="manifest.webmanifest">
@@ -304,7 +304,8 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
     max-width:360px;margin:12vh auto 0;padding:0 8px;
   }
   .gate img{width:64px;height:64px;border-radius:16px;align-self:center;}
-  .gate h1{text-align:center;font-size:1.6rem;letter-spacing:-.03em;margin:4px 0 12px;}
+  .gate h1{text-align:center;font-size:1.6rem;letter-spacing:-.03em;margin:4px 0 0;}
+  .gate-tag{text-align:center;margin:2px 0 14px;color:var(--ink-2);font-weight:600;}
   .gate label{font-weight:600;color:var(--ink-2);}
   .gate input{height:52px;border:0;border-radius:14px;background:var(--surface);color:var(--ink);font:inherit;font-size:1.1rem;padding:0 16px;}
   .gate button{height:52px;border:0;border-radius:14px;background:var(--accent);color:var(--accent-ink);font:inherit;font-size:1.1rem;font-weight:700;cursor:pointer;}
@@ -660,14 +661,15 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
 <body>
 <form id="gate" class="gate" autocomplete="off">
   <img src="icons/icon.svg" alt="" width="64" height="64">
-  <h1>Port de Deauville</h1>
+  <h1>Crén'eau</h1>
+  <p class="gate-tag">Le bon créneau pour glisser</p>
   <label for="gatePass">Mot de passe</label>
   <input id="gatePass" type="password" autocomplete="current-password" enterkeyhint="go" required>
   <button type="submit">Entrer</button>
   <p id="gateErr" role="alert"></p>
 </form>
 <header class="appbar" id="appbar"><div class="appbar-in">
-  <h1 class="sr">Port de Deauville</h1>
+  <h1 class="sr">Crén'eau</h1>
   <div class="seg" role="group" aria-label="Profil">
     <span class="seg-ind" aria-hidden="true"></span>
     <button data-p="boat" aria-pressed="true">Bateau</button>
@@ -1746,7 +1748,7 @@ function renderForecast(){
 /* ---------- Bouées houlographes au large (Candhis) ---------- */
 // Relevées toutes les 30 min par GitHub Actions (tools/bouees.py) et publiées sur la
 // branche `donnees` : Candhis n'accepte pas les appels directs depuis la page.
-const BUOY_URL = 'https://raw.githubusercontent.com/PITTILLONI/deauville-passerelle-ecluse/donnees/bouees.json';
+const BUOY_URL = 'https://raw.githubusercontent.com/PITTILLONI/creneau/donnees/bouees.json';
 const BUOY_STALE = 3*3600000;   // au-delà, la bouée est considérée hors service
 let BUOYS = null;
 async function loadBuoys(){
@@ -2460,7 +2462,7 @@ addEventListener('load', ()=>scrollTo(0, 0), {once:true});
 // version.json est réécrit à chaque publication (tools/publier-version.sh). Si la
 // version en ligne diffère de celle de la page, on recharge : sur l'écran
 // d'accueil de l'iPhone, l'app reste ainsi à jour sans manipulation.
-const APP_VERSION = '20261018-110400';
+const APP_VERSION = '20261018-110825';
 async function checkUpdate(){
   try{
     const r = await fetch('version.json?t='+Date.now(), {cache:'no-store'});

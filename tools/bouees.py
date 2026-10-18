@@ -30,7 +30,7 @@ def num(t):
 
 def mesures(camp):
     url = 'https://candhis.cerema.fr/_public_/campagne.php?' + base64.b64encode(('camp=' + camp).encode()).decode()
-    req = urllib.request.Request(url, headers={'User-Agent': 'deauville-passerelle-ecluse (github.com/PITTILLONI)'})
+    req = urllib.request.Request(url, headers={'User-Agent': 'creneau (github.com/PITTILLONI/creneau)'})
     page = urllib.request.urlopen(req, timeout=60).read().decode('utf-8', 'replace')
     out = []
     # tableau « Date | Heure (TU) | H1/3 | Hmax | Th1/3 | Dir. au pic | Etal. au pic | Temp. mer »
