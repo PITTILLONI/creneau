@@ -1,5 +1,12 @@
 # Historique des versions
 
+## 18 octobre 2026 (15h) — Profil Glisse : kite, windsurf, windfoil, wingfoil
+- Le profil « Kitesurf » devient **« Glisse »** ; le sport se choisit dans le panneau de l'en-tête (**Kite / Windsurf / Windfoil / Wingfoil**), avec le poids et **son matériel** (« Mes ailes », « Mes voiles », « Mes wings », gardés séparément pour chaque sport).
+- Même logique pour tous, chiffres propres à chaque sport : taille idéale = poids × coef ÷ vent (2,2 kite, 1,34 windsurf, 1 windfoil et wingfoil) ; vent minimum 9 nd en kite (7 en foil), 11 en windsurf (planing), 7 en windfoil, 10 en wingfoil ; maximum 25 nd en windfoil, 35 sinon. Notes, sessions, 7 jours, calendrier, « … à sortir » et « … cible » suivent le sport choisi.
+- Pastille de l'en-tête compacte : icône du sport (aile, voile, wing) + tailles (« 6,5/8 · foil ») ; noms courts des spots de Nouméa (Méridien, Aquarêve) pour que tout tienne sur un petit écran.
+- Les tutos illustrés (décollage, atterrissage, water start) restent affichés en kite seulement.
+- Une session bien notée garde un message positif (« Vent de 20 nd, bon pour ta 6,5 m² »).
+
 ## 18 octobre 2026 (14h30) — Chargement beaucoup plus rapide
 - Constat : le service de données marines d'Open-Meteo répondait très lentement (vagues : 16 à 30 s, parfois aucune réponse ; 5 modèles : jusqu'à 17 s), et la page attendait la plus lente des 4 requêtes avant d'afficher quoi que ce soit.
 - **Affichage progressif** : la page s'affiche dès que le vent est là ; les vagues sont attendues 5 s au plus, puis ajoutées à leur arrivée (« vagues indisponibles pour le moment » en attendant) ; la température de l'eau et le vent consolidé sur 5 modèles complètent l'affichage quand ils arrivent.

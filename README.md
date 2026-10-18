@@ -6,7 +6,7 @@ Bateau ou kitesurf à Deauville et sur la Côte Fleurie, et à **Nouméa** : sav
 
 Savoir en un coup d'œil, depuis son téléphone :
 
-L'app est pensée pour un **marin** (profil Bateau) ou un **kitesurfeur** (profil Kitesurf). Chaque onglet de la barre du bas (Maintenant, Sortir, Conseils, Calendrier) est un écran à part.
+L'app est pensée pour un **marin** (profil Bateau) ou un **pratiquant de glisse** (profil Glisse : kite, windsurf, windfoil ou wingfoil, choisi dans l'en-tête avec le poids et le matériel). Chaque onglet de la barre du bas (Maintenant, Sortir, Conseils, Calendrier) est un écran à part.
 
 **Bateau**
 1. **Sortie en mer (bassins Morny et des Yachts)** : ouvert ou fermé aux bateaux, chrono jusqu'à l'ouverture ou la fermeture des portes, état de la passerelle piétonne (horaires de levée non publiés, VHF 9) et des portes, frise de la journée ;
@@ -78,7 +78,7 @@ Les seuils sont expliqués sur la page (« Comment est calculé… ») et régl�
 
 - **Bateau** (notre bateau de 13 m) : favorable jusqu'à 17 nœuds et 1,25 m de vagues, prudence jusqu'à 27 nœuds et 2,5 m, déconseillé au-delà ou avec des rafales de plus de 34 nœuds ; jamais mieux que « prudence » de nuit. Un créneau d'écluse prend la note de sa pire heure.
 - **Kitesurf** (plage de Deauville, orientée NNO) : plage de vent calculée pour le poids et les ailes du rider (« Mes ailes ») — une aile de S m² est idéale vers poids × 2,2 ÷ S nœuds et navigue de −12 % à +50 % autour ; minimum 9 nd en twin-tip, 7 nd en foil, 35 nd au plus ; rafaleux si l'écart rafales/vent moyen dépasse 8 nœuds ; side-on / side-shore = bon, onshore = moyen, side-off = déconseillé, **offshore = dangereux** ; orage ou nuit = pas de session.
-- **Taille d'aile** indicative (twin-tip) : poids du rider (kg) × 2,2 / vent (nœuds), entre 5 et 17 m² ; en dessous de 12 nœuds, foil. **Combinaison** selon la température de l'eau (modèle de courants Météo-France).
+- **Taille d'aile / voile / wing** indicative : poids (kg) × coef ÷ vent (nœuds), coef 2,2 en kite, 1,34 en windsurf, 1 en windfoil et en wingfoil (`SPORTS` dans `index.html`), parmi le matériel coché du rider. **Combinaison** selon la température de l'eau (modèle de courants Météo-France).
 
 ## Structure du dépôt
 

@@ -26,6 +26,7 @@ Dernière mise à jour de ce fichier : 17 octobre 2026 (15h30).
 - [x] Icônes sur les intitulés et les raisons des notes ; réglages kite (poids, ailes) dans l'en-tête
 - [x] Région Nouméa (bateau et kite) : fuseau, spots, marées calculées, lagon noté sur le vent seul
 - [x] « Ajouter votre spot / port » : e-mail prérempli
+- [x] Profil Glisse : kite, windsurf, windfoil, wingfoil (matériel et plages de vent par sport)
 - [x] Interface mobile d'abord : barre d'onglets, grandes zones tactiles, mode sombre automatique
 - [x] Icône et mode plein écran pour l'écran d'accueil iPhone
 - [x] Rechargement automatique quand une nouvelle version est publiée
@@ -44,6 +45,8 @@ Dernière mise à jour de ce fichier : 17 octobre 2026 (15h30).
 - [x] En-tête : sélecteur Bateau / Kitesurf en haut, port ou spot en dessous ; menus dépliants homogènes
 
 ## À faire / idées
+
+- [ ] Faire valider par des pratiquants les coefficients et vents mini/maxi du windsurf, du windfoil et du wingfoil (`SPORTS`)
 
 - [ ] Nouméa : faire confirmer par la famille l'orientation de l'îlot Maître (110°), les caps du lagon et les heures de marée calculées (comparer à l'annuaire SHOM)
 
