@@ -457,6 +457,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   .badge.mid{background:var(--mid-bg);color:var(--mid);}
   .badge.bad{background:var(--bad-bg);color:var(--bad);}
   .win.best{outline:3px solid var(--good);outline-offset:-3px;}
+  .win.best.later{outline-style:dashed;}
 
   .strip-wrap{background:var(--surface);border-radius:var(--radius);padding:14px 0 12px;}
   .strip{display:flex;gap:3px;overflow-x:auto;padding:0 14px 6px;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
@@ -575,10 +576,10 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
 
   /* bouées houlographes */
   .buoy{background:var(--surface);border-radius:var(--radius);padding:14px 16px;margin-top:10px;}
-  .buoy-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px;}
-  .buoy-name{font-weight:700;}
-  .buoy-age{font-size:.85rem;color:var(--ink-2);white-space:nowrap;}
-  .buoy-age.live::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--good);margin-right:6px;vertical-align:1px;}
+  .buoy-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;}
+  .buoy-name{font-weight:700;flex:1 1 auto;min-width:0;}
+  .buoy-age{flex:none;display:inline-flex;align-items:center;gap:6px;font-size:.82rem;font-weight:600;color:var(--ink-2);white-space:nowrap;background:var(--surface-2);border-radius:999px;padding:3px 10px;}
+  .buoy-age.fresh::before{content:"";flex:none;width:7px;height:7px;border-radius:50%;background:var(--good);}
   .buoy-main{display:flex;align-items:baseline;gap:8px;margin-top:6px;}
   .buoy-main b{font-size:2rem;font-weight:800;letter-spacing:-.03em;}
   .buoy-main span{color:var(--ink-2);font-size:.92rem;}
@@ -1569,10 +1570,11 @@ function renderForecast(){
     : "Chaque créneau est une fenêtre pour sortir du port (ou y rentrer). La note indique les conditions en mer prévues pendant le créneau, pour notre bateau de 13 m : vent et vagues (Météo-France).";
   const list = $('windows');
   list.innerHTML = '';
-  const bestScore = Math.max(...slots.map(w=>w.score));
   slots.forEach(w=>{
     const el = document.createElement('div');
-    el.className = 'win'+(w.score===bestScore && w.level==='good' ? ' best' : '');
+    // favorable : contour plein aujourd'hui, pointillé un autre jour
+    const today = parisParts(w.s).key===parisParts(now).key || w.s<=now;
+    el.className = 'win'+(w.level==='good' ? (today ? ' best' : ' best later') : '');
     const meta = kite
       ? 'Aile : '+kiteSize((w.knMin+w.kn)/2).val+' · vent '+Math.round(w.knMin)+'–'+Math.round(w.kn)+' nd '+dirName(w.dir)+' (raf. '+Math.round(w.gust)+') · '+orientation(w.dir)+' · vagues '+num(w.wave,1)+' m'
       : 'Vent '+Math.round(w.kn)+' nd '+dirName(w.dir)+' (raf. '+Math.round(w.gust)+') · vagues '+num(w.wave,1)+' m';
@@ -1692,7 +1694,7 @@ function renderBuoys(){
     ];
     const cmp = fcNow ? '<p class="buoy-cmp">Prévu à cette heure (Météo-France) : <b>'+num(fcNow.wave,1)+' m</b>'
       + (Math.abs(fcNow.wave-last.h) >= 0.3 ? ' — la mer est '+(last.h>fcNow.wave ? 'plus forte' : 'plus calme')+' que prévu' : ' — conforme à la prévision')+'</p>' : '';
-    return '<div class="buoy"><div class="buoy-head"><span class="buoy-name">'+b.name+'</span><span class="buoy-age live">'+ago(now-last.t*1000)+'</span></div>'
+    return '<div class="buoy"><div class="buoy-head"><span class="buoy-name">'+b.name+'</span><span class="buoy-age fresh">'+ago(now-last.t*1000)+'</span></div>'
       + '<div class="buoy-main"><b>'+num(last.h,1)+' m</b><span>vagues · '+trend+'</span></div>'
       + '<div class="conds">'+cells.map(([k,v,s]) => '<div class="cond"><div class="k">'+k+'</div><div class="val">'+v+'</div><div class="sub">'+s+'</div></div>').join('')+'</div>'
       + cmp + sparkline(b.obs) + '</div>';
@@ -2263,7 +2265,7 @@ addEventListener('load', ()=>scrollTo(0, 0), {once:true});
 // version.json est réécrit à chaque publication (tools/publier-version.sh). Si la
 // version en ligne diffère de celle de la page, on recharge : sur l'écran
 // d'accueil de l'iPhone, l'app reste ainsi à jour sans manipulation.
-const APP_VERSION = '20261018-103336';
+const APP_VERSION = '20261018-104021';
 async function checkUpdate(){
   try{
     const r = await fetch('version.json?t='+Date.now(), {cache:'no-store'});

@@ -1,5 +1,9 @@
 # Historique des versions
 
+## 18 octobre 2026 (11h45) — Créneaux favorables, pastille des bouées
+- Liste des créneaux (et sessions kite) : chaque créneau **Favorable** / session **Navigable** est entouré en vert, **trait plein s'il est aujourd'hui**, **pointillé s'il est un autre jour** (avant : seul le meilleur créneau était entouré).
+- Bouées : la pastille « il y a 37 min » dépassait de la carte et son point vert était écrasé sur les petits écrans (classe `live` déjà utilisée par l'horloge) ; elle est maintenant une vraie pastille et le nom de la bouée passe à la ligne. Plus aucun défilement horizontal de la page.
+
 ## 18 octobre 2026 (11h30) — Vent consolidé, prévisions kite selon le matériel
 - Le recoupement des modèles ne s'affiche plus (« modèles en désaccord » était peu compréhensible) : il sert désormais à **fiabiliser la donnée**. Le vent affiché et noté est la **médiane de 5 modèles** (Météo-France AROME/ARPEGE comptant double, ECMWF, ICON, UKMO, GFS) : une erreur isolée d'un modèle ne fausse plus la note. Direction et écart rafales/vent restent ceux de Météo-France. Partout : spot, prévisions, créneaux bateau, calendrier.
 - Onglet Prévisions (kite) : rappel **« Pour 75 kg avec tes ailes 9 et 12 m² : ça navigue de 12 à 27 nd »** avec un bouton Modifier (qui ouvre le réglage sur l'onglet Spot) ; chaque session et chaque heure indique **l'aile à sortir** ; s'il n'y a aucune session, l'app dit ce qui manquerait (« le vent ne dépasse pas 10 nd : il faudrait une 16 m² ou un foil »). Calendrier : l'aile de la meilleure session.
