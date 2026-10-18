@@ -462,6 +462,16 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   .badge.bad{background:var(--bad-bg);color:var(--bad);}
   .win.best{outline:3px solid var(--good);outline-offset:-3px;}
   .win.best.later{outline-style:dashed;}
+  /* créneaux / sessions en carrousel horizontal (la carte suivante dépasse) */
+  .windows{flex-direction:row;overflow-x:auto;scroll-snap-type:x mandatory;gap:10px;padding:3px;margin:0 -3px;scrollbar-width:none;-webkit-overflow-scrolling:touch;}
+  .windows::-webkit-scrollbar{display:none;}
+  .windows > .win{flex:0 0 min(82%, 300px);scroll-snap-align:start;grid-template-columns:1fr auto;grid-template-rows:auto auto 1fr;align-items:start;align-content:start;}
+  .windows > .win .when{grid-column:1;grid-row:1;}
+  .windows > .win .badge{grid-column:2;grid-row:1;}
+  .windows > .win .day{grid-column:1 / 3;grid-row:2;}
+  .windows > .win .meta{grid-column:1 / 3;grid-row:3;margin-top:4px;}
+  .windows > .muted{flex:1;}
+  .win-count{font-size:.85rem;color:var(--ink-2);margin:6px 0 0;}
 
   .strip-wrap{background:var(--surface);border-radius:var(--radius);padding:14px 0 12px;}
   .strip{display:flex;gap:3px;overflow-x:auto;padding:0 14px 6px;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
@@ -736,6 +746,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
     <div class="h3" id="slotsTitle">Créneaux d'écluse à venir</div>
     <p class="muted slots-help" id="slotsHelp"></p>
     <div class="windows" id="windows"><div class="muted">Chargement…</div></div>
+    <p class="win-count" id="winCount"></p>
 
     <div class="h3">Heure par heure</div>
     <div class="strip-wrap">
@@ -1681,7 +1692,11 @@ function renderForecast(){
     list.innerHTML = '<div class="muted">'+(kite ? 'Pas de session navigable de jour dans les 3 prochains jours avec ton matériel.'+hint : 'Aucun créneau dans la période de prévision.')+'</div>';
   }
   const sig = PROFILE+slots.map(w=>w.s+w.level).join();
-  if(sig!==list.dataset.sig){ stagger(list); list.dataset.sig = sig; }
+  if(sig!==list.dataset.sig){ stagger(list); list.dataset.sig = sig; list.scrollLeft = 0; }
+  const nFav = slots.filter(w => w.level==='good').length;
+  $('winCount').textContent = slots.length>1
+    ? slots.length+' '+(kite ? 'sessions' : 'créneaux')+' sur 3 jours'+(nFav ? ' dont '+nFav+' '+(kite ? (nFav>1 ? 'navigables' : 'navigable') : (nFav>1 ? 'favorables' : 'favorable')) : '')+' · glisser pour voir la suite'
+    : '';
 
   // Bande horaire
   const strip = $('strip');
@@ -2412,7 +2427,7 @@ addEventListener('load', ()=>scrollTo(0, 0), {once:true});
 // version.json est réécrit à chaque publication (tools/publier-version.sh). Si la
 // version en ligne diffère de celle de la page, on recharge : sur l'écran
 // d'accueil de l'iPhone, l'app reste ainsi à jour sans manipulation.
-const APP_VERSION = '20261018-105140';
+const APP_VERSION = '20261018-105756';
 async function checkUpdate(){
   try{
     const r = await fetch('version.json?t='+Date.now(), {cache:'no-store'});

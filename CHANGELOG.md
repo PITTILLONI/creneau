@@ -1,5 +1,8 @@
 # Historique des versions
 
+## 18 octobre 2026 (12h45) — Créneaux en carrousel
+- « Créneaux d'écluse à venir » (et « Sessions de kite à venir ») passent en **carrousel horizontal**, comme les 7 prochains jours : une carte par créneau, la suivante dépasse pour inviter à glisser, cadre plein (favorable aujourd'hui) ou pointillé (autre jour) conservé. Sous le carrousel : « 5 créneaux sur 3 jours dont 2 favorables · glisser pour voir la suite ».
+
 ## 18 octobre 2026 (12h30) — Icônes, réglages kite dans l'en-tête, carrousel 7 jours
 - **Icônes** pour alléger la lecture : devant les intitulés (vent, rafales, mer, période, provenance, marée montante/descendante, air, soleil, eau, aile), devant chaque raison de note (coche si favorable, vent, vagues, lune la nuit, orage, alerte vent de terre), lune à la place de « nuit », pleine/basse mer, passerelle piétonne et portes.
 - Kite : **poids et ailes dans l'en-tête**, à côté du spot (pastille « 75 kg · 9/12 » qui déplie les réglages), communs à tous les onglets ; le rappel en tête des Prévisions est retiré. Noms des spots raccourcis (« Deauville »).
