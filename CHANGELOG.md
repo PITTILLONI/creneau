@@ -1,5 +1,8 @@
 # Historique des versions
 
+## 18 octobre 2026 (17h30) — Passerelle piétonne : 15 min levée / 30 min baissée
+- Cycle corrigé (info locale) : la passerelle piétonne se lève **15 min toutes les 45 min** pendant l'ouverture des portes (15 min levée, 30 min baissée). Ex. ouverture à 13:44 : levées 13:44, 14:29, 15:14… ; au pire une demi-heure d'attente. Toujours supposé démarrer par une levée à l'ouverture (à confirmer).
+
 ## 18 octobre 2026 (17h15) — Le ciel : pluie ou beau temps
 - « Favorable » ne veut pas dire « beau temps » : chaque créneau, session, carte des 7 jours, verdict, journée du calendrier, carte « Maintenant » (Nouméa) et heure du détail indique maintenant **le ciel** avec une icône : Ensoleillé / Ciel dégagé (nuit), Éclaircies, Couvert, Brouillard, **Pluie** ou **Averses possibles avec les millimètres**, Neige, Orage.
 - Pluie = au moins 0,2 mm dans l'heure ou un code de pluie (Météo-France via Open-Meteo, nouvelle donnée `precipitation`) ; sans pluie, c'est le ciel le plus fréquent sur la période. La note n'est pas modifiée par la pluie (l'orage reste éliminatoire).
