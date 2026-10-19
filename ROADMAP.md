@@ -58,6 +58,8 @@ Dernière mise à jour de ce fichier : 18 octobre 2026 (18h35).
   - notification « quelqu'un vient aussi » (push web, installée sur l'écran d'accueil) ;
   - lien naturel avec le journal de sortie et, côté clubs et écoles, les inscriptions encadrées.
 
+- [ ] **Groupes 100 % femmes** pour « J'y serai » et le chat du créneau : option « entre femmes » sur un créneau, visible et rejoignable seulement par les participantes qui l'ont choisie (sécurité, confiance, débutantes). À cadrer : déclaratif ou validé (par un club, une école, une invitation), modération renforcée, et vérifier le cadre légal (non-discrimination pour un service payant) avant de l'ouvrir
+
 - [ ] **Niveau du pratiquant** avec une jauge (débutant → confirmé), dans les réglages de la pastille : seuils de vent et de mer plus prudents pour un débutant, plus larges pour un confirmé (glisse, et éventuellement bateau)
 
 - [ ] SIMBAD (HAROPA) : vent et houle mesurés dans le chenal de Port 2000, à intégrer seulement après autorisation écrite d'HAROPA (CGU art. 6 et 8)
