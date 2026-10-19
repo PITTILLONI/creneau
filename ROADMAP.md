@@ -72,6 +72,7 @@ Dernière mise à jour de ce fichier : 18 octobre 2026 (18h35).
 - [x] Présentation au premier lancement (prénom/nom du testeur, profil, région, lecture des notes, avertissement bêta)
 - [x] Proposition d'installation sur l'écran d'accueil à la 2e ouverture (iPhone, Android)
 - [ ] Diffuser le questionnaire aux clubs et écoles (Deauville, Nouméa) ; option : une colonne par rubrique dans le Sheet
+- [ ] Réduction promise aux testeurs qui ont répondu au questionnaire : l'appliquer au lancement de l'abonnement (liste = noms dans la colonne Contexte des réponses)
 - [ ] Version payante : prix Open-Meteo (usage commercial), accord Ports du Calvados et SHOM, puis comptes + paiement + alertes (chiffrage gardé hors du dépôt public)
 
 - [ ] Faire valider par des pratiquants les coefficients et vents mini/maxi du windsurf, du windfoil et du wingfoil (`SPORTS`)

@@ -664,6 +664,8 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   .sheet input[type=text]{font:inherit;font-size:16px;border:0;border-radius:10px;background:var(--surface-2);color:var(--ink);padding:9px 11px;width:100%;}
   .sheet-done{text-align:center;font-weight:700;color:var(--good);margin:12px 0;}
   .avis-intro{font-weight:700;margin:0 0 6px;}
+  .avis-gift{display:flex;gap:10px;align-items:center;margin:0 0 10px;padding:10px 12px;border-radius:14px;background:var(--good-bg);color:var(--ink);font-size:.92rem;line-height:1.35;}
+  .avis-gift>span:first-child{font-size:1.3rem;flex:none;}
 
   /* pas de zoom : ni double-tap (touch-action), ni pincement (gesturestart, voir le script) ;
      champs à 16 px minimum, sinon Safari zoome tout seul à la saisie */
@@ -880,7 +882,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
     </div>
     <button type="button" class="premium-card" id="premiumOpen">
       <span class="pc-ico" aria-hidden="true">💬</span>
-      <span><b>Votre avis compte</b><small>1 minute pour nous dire ce que vous utilisez et ce qui vous manque (et si une version Premium vous servirait).</small></span>
+      <span><b>Donnez votre avis</b><small>1 minute, et profitez d'une réduction sur l'abonnement à son lancement.</small></span>
     </button>
   </section>
 
@@ -1256,7 +1258,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
             <li><span aria-hidden="true">🧭</span><span>Une <b>aide</b>, pas une garantie : vérifiez sur place.</span></li>
             <li class="only-boat only-dv"><span aria-hidden="true">📻</span><span>Portes : <b>VHF 9</b>.</span></li>
             <li><span aria-hidden="true">🆘</span><span>Urgence en mer : <b class="only-dv">196 ou VHF 16</b><b class="only-nc">16 ou VHF 16</b>.</span></li>
-            <li><span aria-hidden="true">💬</span><span>Un souci, une idée ? Carte <b>Votre avis compte</b>.</span></li>
+            <li><span aria-hidden="true">💬</span><span>Un souci, une idée ? Carte <b>Donnez votre avis</b>.</span></li>
           </ul>
         </section>
       </div>
@@ -1291,8 +1293,9 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
     <dialog class="sheet" id="premiumDlg" aria-labelledby="premiumTitle">
       <form id="premiumForm" method="dialog">
         <div class="sheet-head"><h3 id="premiumTitle">Votre avis sur Crén'eau</h3><button type="button" class="todaybtn" id="premiumClose">Fermer</button></div>
-        <p class="avis-intro" id="avisIntro" hidden>Vous avez utilisé Crén'eau plusieurs fois : merci de nous dire ce que vous en pensez.</p>
-        <p class="muted" style="margin-top:0">4 questions, 1 minute. Crén'eau restera gratuit pour l'essentiel ; vos réponses nous aident à choisir la suite.</p>
+        <p class="avis-intro" id="avisIntro" hidden>Vous utilisez Crén'eau depuis quelques minutes : qu'en pensez-vous ?</p>
+        <p class="avis-gift"><span aria-hidden="true">🎁</span><span><b>Une réduction sur l'abonnement</b> à son lancement, pour chaque testeur qui répond.</span></p>
+        <p class="muted" style="margin-top:0">4 questions, 1 minute. Vos réponses nous aident à choisir la suite.</p>
         <fieldset><legend>Si vous ne pouviez plus utiliser Crén'eau, vous seriez…</legend>
           <label><input type="radio" name="deception" value="Très déçu"> Très déçu(e)</label>
           <label><input type="radio" name="deception" value="Un peu déçu"> Un peu déçu(e)</label>
@@ -3166,7 +3169,7 @@ function maybeOnboard(){
   countVisit();
   let seen = null; try{ seen = localStorage.getItem('onboard'); }catch(e){}
   if(seen!==ONBOARD_V) setTimeout(openOnboard, 400);
-  else if(!maybeInstall()) maybeAvis();   // un seul panneau par ouverture
+  else maybeInstall();   // un seul panneau par ouverture ; l'avis vient après 7 min d'usage
 }
 $('obProfile').addEventListener('click', e => { const b = e.target.closest('button'); if(!b) return; setProfile(b.dataset.p, true); obSync(); });
 $('obRegion').addEventListener('click', e => { const b = e.target.closest('button'); if(!b) return; if(b.dataset.r!==REGION) setRegion(b.dataset.r); obSync(); });
@@ -3235,15 +3238,22 @@ function maybeInstall(){
   if(visits>=2 && (!state || visits >= +state)){ setTimeout(openInstall, 900); return true; }
   return false;
 }
-// Relance de l'avis : à la 3e ouverture, puis une dernière fois 3 ouvertures plus tard.
-function maybeAvis(){
-  let visits = 0, sent = null, next = 3;
-  try{ visits = +localStorage.getItem('visites') || 0; sent = localStorage.getItem('avisEnvoye'); next = localStorage.getItem('avisDemande') ?? 3; }catch(e){}
-  if(sent || next==='stop' || visits < +next) return false;
-  try{ localStorage.setItem('avisDemande', +next >= 6 ? 'stop' : visits + 3); }catch(e){}
-  setTimeout(() => openAvis(true), 900);
-  return true;
-}
+// Demande d'avis : une seule fois, après 7 min d'utilisation cumulée (app à l'écran,
+// toutes ouvertures confondues), jamais par-dessus une autre fenêtre.
+const AVIS_APRES = 7*60000;
+setInterval(() => {
+  if(document.hidden || document.documentElement.classList.contains('locked')) return;
+  let used = 0, sent = null, asked = null;
+  try{
+    used = (+localStorage.getItem('tempsUsage') || 0) + 30000;
+    localStorage.setItem('tempsUsage', used);
+    sent = localStorage.getItem('avisEnvoye'); asked = localStorage.getItem('avisDemande');
+  }catch(e){ return; }
+  if(sent || asked==='stop' || used < AVIS_APRES) return;
+  if(document.querySelector('dialog[open]')) return;   // on attendra la fermeture
+  try{ localStorage.setItem('avisDemande', 'stop'); }catch(e){}
+  openAvis(true);
+}, 30000);
 // une seule fois par session : le rechargement automatique après une mise à jour ne compte pas
 function countVisit(){
   try{
@@ -3344,7 +3354,7 @@ $('premiumForm').addEventListener('submit', async e=>{
 // version.json est réécrit à chaque publication (tools/publier-version.sh). Si la
 // version en ligne diffère de celle de la page, on recharge : sur l'écran
 // d'accueil de l'iPhone, l'app reste ainsi à jour sans manipulation.
-const APP_VERSION = '20261019-102210';
+const APP_VERSION = '20261019-103437';
 async function checkUpdate(){
   try{
     const r = await fetch('version.json?t='+Date.now(), {cache:'no-store'});

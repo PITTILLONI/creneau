@@ -1,5 +1,9 @@
 # Historique des versions
 
+## 19 octobre 2026 — Avis : une seule demande, après 7 minutes, avec réduction promise
+- Le questionnaire s'ouvre de lui-même **une seule fois**, après 7 minutes d'utilisation cumulée (app à l'écran, toutes ouvertures confondues), et jamais par-dessus une autre fenêtre. Fini les relances à la 3e et à la 6e ouverture.
+- « Donnez votre avis et profitez d'une réduction sur l'abonnement à son lancement » : sur la carte, et en tête du questionnaire (🎁). Les réponses contiennent le nom du testeur, qui sert de liste des bénéficiaires.
+
 ## 19 octobre 2026 — Présentation : carte « fait pour vous » aérée
 - Trois lignes au lieu de quatre, sur une colonne, avec des icônes en pastille. Bateau à Deauville : horaires de l'écluse et de la passerelle piétonne, vos caps aux alentours, ceux qui naviguent avec vous (« Bientôt »). Même logique pour la glisse et pour Nouméa.
 

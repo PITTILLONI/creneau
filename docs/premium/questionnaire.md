@@ -1,6 +1,6 @@
 # Questionnaire « Votre avis » — brancher le Google Form
 
-L'app contient un questionnaire (carte « 💬 Votre avis compte », onglet Maintenant). Il envoie
+L'app contient un questionnaire (carte « 💬 Donnez votre avis », onglet Maintenant). Il envoie
 les réponses **directement depuis l'app** vers un Google Form : elles arrivent dans un Google Sheet,
 sans serveur ni compte pour les utilisateurs. Tant que le formulaire n'est pas branché, l'app ouvre
 un e-mail prérempli à la place.
@@ -44,7 +44,8 @@ puis me donner le lien : je renseigne `SURVEY.entries` et retire `SURVEY.single`
   le nombre d'ouvertures depuis l'installation et s'il utilise l'icône de l'écran d'accueil. Pour compter les
   ouvertures par semaine : filtrer la colonne des réponses sur « Ouverture » et regrouper par nom et par date
   (colonne Horodateur).
-- L'avis est redemandé automatiquement à la 3e ouverture, puis une dernière fois à la 6e.
+- L'avis est demandé automatiquement **une seule fois**, après 7 minutes d'utilisation cumulée (app à l'écran), jamais par-dessus une autre fenêtre.
+- Promesse affichée : **une réduction sur l'abonnement à son lancement** pour chaque testeur qui répond. Le nom du testeur est dans la ligne « Contexte » de chaque réponse : c'est la liste des bénéficiaires.
 
 ## Créer le formulaire (5 minutes)
 
