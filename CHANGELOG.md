@@ -1,5 +1,9 @@
 # Historique des versions
 
+## 19 octobre 2026 — Présentation : « c'est fait pour moi »
+- Accroche du premier écran : « Pas une météo de plus : le bon créneau, calculé pour votre zone et votre façon de naviguer. »
+- Dès qu'on choisit son profil et sa zone, une carte apparaît avec son prénom : « Marie, Crén'eau est fait pour Deauville : » et quatre choses que l'app connaît de cette zone (portes du bassin Morny, passerelle piétonne, bouées du Havre, caps en bateau ; plages et leur orientation, poids et ailes, température de l'eau en glisse ; Port Moselle, lagon, marées à Nouméa). Elle change à chaque choix.
+
 ## 19 octobre 2026 — Dernière étape de la présentation allégée
 - « Peut-on s'y fier ? » passe de deux paragraphes à quatre lignes à icônes : une aide, pas une garantie ; portes VHF 9 (bateau à Deauville seulement, plus rien sur l'écluse côté glisse) ; urgence en mer ; carte « Votre avis compte ». La liste des infos encore à confirmer est retirée de la présentation.
 

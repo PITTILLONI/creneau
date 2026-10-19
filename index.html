@@ -690,6 +690,14 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   .ob-foot .dots{max-width:none;justify-content:flex-start;}
   .ob-foot .ins-save{min-width:130px;}
   .ob-replay{margin:0 0 6px;}
+  /* « fait pour moi » : ce que l'app connaît de la zone choisie, avec le prénom */
+  .ob-local{margin:14px 0 4px;padding:12px 14px;border-radius:16px;background:color-mix(in srgb, var(--accent) 12%, var(--surface));border:1px solid color-mix(in srgb, var(--accent) 35%, transparent);}
+  .ob-local:empty{display:none;}
+  .ob-local h4{margin:0 0 8px;font-size:1rem;line-height:1.3;}
+  .ob-local ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:6px 10px;}
+  .ob-local li{display:flex;gap:7px;align-items:flex-start;font-size:.88rem;font-weight:600;line-height:1.3;opacity:0;animation:rise .35s ease forwards;animation-delay:calc(var(--i) * 90ms);}
+  .ob-local li span{flex:none;}
+  @media (prefers-reduced-motion: reduce){ .ob-local li{animation:none;opacity:1;} }
   .ob-list{list-style:none;margin:6px 0 10px;padding:0;display:flex;flex-direction:column;gap:12px;}
   .ob-list li{display:flex;gap:12px;align-items:flex-start;line-height:1.4;}
   .ob-list li>span:first-child{font-size:1.25rem;line-height:1.1;flex:none;width:28px;text-align:center;}
@@ -1175,7 +1183,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
       <div class="ob-slides" id="obSlides">
         <section class="ob-slide" data-step="0">
           <h3 id="obTitle">Bienvenue sur Crén'eau</h3>
-          <p>Le bon créneau pour glisser : savoir en un coup d'œil s'il faut sortir.</p>
+          <p>Pas une météo de plus : <b>le bon créneau, calculé pour votre zone</b> et votre façon de naviguer.</p>
           <div class="ob-name">
             <label>Prénom<input id="obFirst" type="text" autocomplete="given-name" autocapitalize="words" enterkeyhint="next"></label>
             <label>Nom<input id="obLast" type="text" autocomplete="family-name" autocapitalize="words" enterkeyhint="done"></label>
@@ -1191,6 +1199,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
             <button type="button" data-r="dv">Deauville · Côte Fleurie</button>
             <button type="button" data-r="nc">Nouméa</button>
           </div>
+          <div class="ob-local" id="obLocal" aria-live="polite"></div>
         </section>
         <section class="ob-slide" data-step="1">
           <div class="only-boat">
@@ -3026,7 +3035,21 @@ addEventListener('load', ()=>scrollTo(0, 0), {once:true});
 // Vue une fois (localStorage 'onboard'), revoyable depuis Conseils.
 const ONBOARD_V = '2';   // v2 : prénom et nom demandés (testeurs de la bêta)
 let obStep = 0;
+// Ce que Crén'eau connaît de chaque zone : de quoi se dire « c'est fait pour moi »
+const OB_LOCAL = {
+  'dv:boat': ['Deauville', [['🚪','Les portes du bassin Morny'],['🚶','La passerelle piétonne'],['🌊','Les bouées du Havre en direct'],['🧭','Vos caps : Le Havre, Honfleur, Dives…']]],
+  'dv:kite': ['la Côte Fleurie', [['🏖️','Deauville, Trouville, Houlgate, Cabourg'],['🧭','L\'orientation de chaque plage'],['🪁','Votre poids, vos ailes'],['🌡️','La température de l\'eau']]],
+  'nc:boat': ['Nouméa', [['⚓','Port Moselle'],['🏝️','Le lagon, noté sur le vent'],['🌙','Les marées de Nouméa'],['🕐','L\'heure de Nouméa']]],
+  'nc:kite': ['Nouméa', [['🏝️','Anse Vata, Magenta, îlot Maître…'],['🧭','L\'orientation de chaque spot'],['🪁','Votre poids, vos ailes'],['🌙','Les marées du lagon']]]
+};
+function obLocal(){
+  const z = OB_LOCAL[REGION+':'+PROFILE]; if(!z) return;
+  const first = $('obFirst').value.trim().replace(/[&<>"]/g, '');
+  $('obLocal').innerHTML = '<h4>'+(first ? first+', Crén\'eau' : 'Crén\'eau')+' est fait pour '+z[0]+' :</h4><ul>'
+    + z[1].map((x,i) => '<li style="--i:'+i+'"><span aria-hidden="true">'+x[0]+'</span>'+x[1]+'</li>').join('')+'</ul>';
+}
 function obSync(){
+  obLocal();
   $('obPill').innerHTML = $('riderBtn').innerHTML; $('obPillClock').textContent = $('clock').textContent;
   $('obProfile').querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', b.dataset.p===PROFILE));
   $('obRegion').querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', b.dataset.r===REGION));
@@ -3099,6 +3122,7 @@ $('obSlides').addEventListener('scroll', () => {
   obStep = i; obDots();
 }, {passive:true});
 $('obLast').addEventListener('keydown', e => { if(e.key==='Enter'){ e.preventDefault(); $('obNext').click(); } });
+$('obFirst').addEventListener('change', obLocal);
 $('obFirst').addEventListener('keydown', e => { if(e.key==='Enter'){ e.preventDefault(); $('obLast').focus(); } });
 $('obGear').addEventListener('click', () => {
   closeOnboard();
@@ -3251,7 +3275,7 @@ $('premiumForm').addEventListener('submit', async e=>{
 // version.json est réécrit à chaque publication (tools/publier-version.sh). Si la
 // version en ligne diffère de celle de la page, on recharge : sur l'écran
 // d'accueil de l'iPhone, l'app reste ainsi à jour sans manipulation.
-const APP_VERSION = '20261019-093914';
+const APP_VERSION = '20261019-095350';
 async function checkUpdate(){
   try{
     const r = await fetch('version.json?t='+Date.now(), {cache:'no-store'});
