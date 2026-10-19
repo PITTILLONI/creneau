@@ -1,5 +1,8 @@
 # Historique des versions
 
+## 19 octobre 2026 — « Revoir la présentation » réparé
+- Depuis l'onglet Conseils, « Revoir la présentation » ne montrait rien et bloquait l'app : les fenêtres (présentation, installation, avis) étaient rangées dans l'onglet « Maintenant », masqué à ce moment-là, donc ouvertes mais invisibles. Elles sont maintenant hors des onglets et s'affichent depuis n'importe où.
+
 ## 19 octobre 2026 — Bouton d'installation masqué une fois installée
 - Le bouton **« Ajouter à l'écran d'accueil »** des Conseils n'apparaît plus quand l'app est ouverte depuis l'icône de l'écran d'accueil, ni après « C'est fait » ou une installation Android acceptée. Limite : sur iPhone, Safari ne peut pas savoir si l'icône existe déjà ; tant que la personne n'a pas touché « C'est fait », le bouton reste visible dans Safari.
 
