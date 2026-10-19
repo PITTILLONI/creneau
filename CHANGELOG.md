@@ -1,5 +1,8 @@
 # Historique des versions
 
+## 19 octobre 2026 — La présentation montre la pastille matériel
+- Étape « Votre matériel » (glisse) : une réplique de la **pastille** du haut d'écran (icône du sport + tailles d'ailes, à côté de l'heure) montre à quoi elle ressemble, avec vos vrais réglages. « Régler maintenant » remonte en haut, ouvre les réglages et fait clignoter la vraie pastille pour qu'on la retrouve.
+
 ## 19 octobre 2026 — Fenêtres du bas plus visibles
 - Les fenêtres qui montent du bas (présentation, installation, avis) ont leur propre fond, plus clair que la page, un liseré en haut et une ombre ; l'arrière-plan est plus sombre et légèrement flouté. Elles se détachent nettement, en thème sombre comme en clair.
 

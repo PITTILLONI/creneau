@@ -690,6 +690,13 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   .ob-foot .dots{max-width:none;justify-content:flex-start;}
   .ob-foot .ins-save{min-width:130px;}
   .ob-replay{margin:0 0 6px;}
+  /* réplique de la pastille du header (slide « Votre matériel ») pour la reconnaître ensuite */
+  .ob-pillrow{display:flex;align-items:center;gap:8px;margin:2px 0 14px;padding:10px 12px;border-radius:16px;background:var(--ground);border:1px dashed var(--sheet-edge);}
+  .ob-pill{cursor:default;outline:2px solid var(--accent);outline-offset:2px;}
+  .ob-pillclock{margin-left:auto;}
+  .rider.flash{animation:riderFlash 1.6s ease 2;}
+  @keyframes riderFlash{0%,100%{box-shadow:0 0 0 0 transparent;}40%{box-shadow:0 0 0 6px color-mix(in srgb, var(--accent) 45%, transparent);}}
+  @media (prefers-reduced-motion: reduce){ .rider.flash{animation:none;outline:2px solid var(--accent);} }
   .ob-links{display:flex;flex-wrap:wrap;gap:8px;}
   .install p{line-height:1.45;margin:0 0 10px;}
   .install.ios-arrow{margin-bottom:64px;border-radius:22px;}   /* place pour la flèche vers la barre de Safari */
@@ -1191,7 +1198,8 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
           </div>
           <div class="only-kite">
             <h3>Votre matériel</h3>
-            <p>Les notes dépendent de votre sport, votre poids et vos ailes. Réglez-les dans la pastille en haut.</p>
+            <p>Les notes dépendent de votre sport, votre poids et vos ailes. Réglez-les dans cette pastille, en haut de l'écran à côté de l'heure :</p>
+            <div class="ob-pillrow"><span class="rider ob-pill" id="obPill" aria-hidden="true"></span><span class="clock ob-pillclock" aria-hidden="true"><span class="live"></span><span id="obPillClock">09:41</span></span></div>
             <button type="button" class="todaybtn" id="obGear">Régler maintenant</button>
           </div>
         </section>
@@ -3012,6 +3020,7 @@ addEventListener('load', ()=>scrollTo(0, 0), {once:true});
 const ONBOARD_V = '2';   // v2 : prénom et nom demandés (testeurs de la bêta)
 let obStep = 0;
 function obSync(){
+  $('obPill').innerHTML = $('riderBtn').innerHTML; $('obPillClock').textContent = $('clock').textContent;
   $('obProfile').querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', b.dataset.p===PROFILE));
   $('obRegion').querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', b.dataset.r===REGION));
 }
@@ -3087,6 +3096,8 @@ $('obFirst').addEventListener('keydown', e => { if(e.key==='Enter'){ e.preventDe
 $('obGear').addEventListener('click', () => {
   closeOnboard();
   $('riderPanel').hidden = false; $('riderBtn').setAttribute('aria-expanded', 'true');
+  scrollTo({top:0, behavior:'smooth'});
+  replay($('riderBtn'), 'flash');   // montre où se trouve la pastille
 });
 $('obReplay').addEventListener('click', openOnboard);
 $('onboardDlg').addEventListener('cancel', e => {
@@ -3233,7 +3244,7 @@ $('premiumForm').addEventListener('submit', async e=>{
 // version.json est réécrit à chaque publication (tools/publier-version.sh). Si la
 // version en ligne diffère de celle de la page, on recharge : sur l'écran
 // d'accueil de l'iPhone, l'app reste ainsi à jour sans manipulation.
-const APP_VERSION = '20261019-092433';
+const APP_VERSION = '20261019-093322';
 async function checkUpdate(){
   try{
     const r = await fetch('version.json?t='+Date.now(), {cache:'no-store'});
