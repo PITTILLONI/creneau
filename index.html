@@ -690,6 +690,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   .ob-foot .dots{max-width:none;justify-content:flex-start;}
   .ob-foot .ins-save{min-width:130px;}
   .ob-replay{margin:0 0 6px;}
+  html.one-zone .ob-zone,html:not(.one-zone) .ob-onezone{display:none;}
   /* promesse du premier écran : trois tuiles à icône */
   .ob-vp{list-style:none;margin:4px 0 14px;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
   .ob-vp li{display:flex;flex-direction:column;gap:8px;align-items:flex-start;padding:10px;border-radius:14px;background:var(--surface);opacity:0;animation:rise .35s ease forwards;}
@@ -1204,14 +1205,14 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
           <p class="ob-legal">Pour suivre la bêta, votre nom et le nombre de fois où vous ouvrez l'app sont transmis au créateur de l'app (rien d'autre, pas de pub).</p>
         </section>
         <section class="ob-slide" data-step="1">
-          <h3>Où naviguez-vous ?</h3>
+          <h3><span class="ob-zone">Où naviguez-vous ?</span><span class="ob-onezone">Comment naviguez-vous ?</span></h3>
           <div class="ob-q">Vous sortez plutôt…</div>
           <div class="qv-chips ob-choice" id="obProfile">
             <button type="button" data-p="boat">Bateau</button>
             <button type="button" data-p="kite">Kite, windsurf, foil</button>
           </div>
-          <div class="ob-q">Où ?</div>
-          <div class="qv-chips ob-choice" id="obRegion">
+          <div class="ob-q ob-zone">Où ?</div>
+          <div class="qv-chips ob-choice ob-zone" id="obRegion">
             <button type="button" data-r="dv">Deauville · Côte Fleurie</button>
             <button type="button" data-r="nc">Nouméa</button>
           </div>
@@ -1742,6 +1743,29 @@ try{
   const v = localStorage.getItem('spot'); if(v in SPOTS) SPOT = v;
   const r = localStorage.getItem('region'); if(r in REGIONS) REGION = r;
 }catch(e){}
+// Zones proposées : déduites du fuseau horaire du téléphone (pas de localisation demandée).
+// Un téléphone réglé sur Nouméa ne voit que Nouméa, les autres que Deauville.
+// Lien ?zone=nc, ?zone=dv ou ?zone=toutes (pour le créateur) : gardé sur le téléphone.
+const ZONES = (() => {
+  let z = null;
+  try{
+    const q = new URLSearchParams(location.search).get('zone');
+    if(q==='toutes' || q in REGIONS) localStorage.setItem('zone', q);
+    z = localStorage.getItem('zone');
+  }catch(e){}
+  if(z==='toutes') return Object.keys(REGIONS);
+  if(z in REGIONS) return [z];
+  let tz = ''; try{ tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; }catch(e){}
+  return [tz==='Pacific/Noumea' ? 'nc' : 'dv'];
+})();
+if(!ZONES.includes(REGION)) REGION = ZONES[0];
+if(ZONES.length===1){
+  // retirer des listes les ports et spots des autres zones
+  [...$('portSel').options].forEach(o => { if(o.value in REGIONS && !ZONES.includes(o.value)) o.remove(); });
+  $('spotSel').querySelectorAll('option').forEach(o => { if(SPOTS[o.value] && !ZONES.includes(SPOTS[o.value].region)) o.remove(); });
+  $('spotSel').querySelectorAll('optgroup').forEach(g => { if(!g.children.length) g.remove(); });
+  document.documentElement.classList.add('one-zone');
+}
 if(SPOTS[SPOT].region!==REGION) SPOT = Object.keys(SPOTS).find(k => SPOTS[k].region===REGION);
 function RG(){ return REGIONS[REGION]; }
 function TZ(){ return RG().tz; }
@@ -3318,7 +3342,7 @@ $('premiumForm').addEventListener('submit', async e=>{
 // version.json est réécrit à chaque publication (tools/publier-version.sh). Si la
 // version en ligne diffère de celle de la page, on recharge : sur l'écran
 // d'accueil de l'iPhone, l'app reste ainsi à jour sans manipulation.
-const APP_VERSION = '20261019-101942';
+const APP_VERSION = '20261019-102044';
 async function checkUpdate(){
   try{
     const r = await fetch('version.json?t='+Date.now(), {cache:'no-store'});

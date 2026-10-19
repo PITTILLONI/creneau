@@ -1,5 +1,9 @@
 # Historique des versions
 
+## 19 octobre 2026 — Une seule zone par téléphone
+- La zone est déduite du fuseau horaire du téléphone, sans demander la localisation : à Nouméa on ne voit que Nouméa (port et spots), ailleurs que Deauville et la Côte Fleurie. La question « Où ? » disparaît de la présentation (« Comment naviguez-vous ? »).
+- Forcer une zone : lien `?zone=nc`, `?zone=dv`, ou `?zone=toutes` pour garder les deux (gardé sur le téléphone).
+
 ## 19 octobre 2026 — Présentation : hauteur fixe, étapes équilibrées
 - La fenêtre garde une hauteur fixe pendant toute la présentation (celle de l'étape la plus haute) : plus de saut d'une étape à l'autre.
 - Étapes rééquilibrées : les trois promesses du premier écran sont côte à côte ; « Quand peut-on sortir du port ? » devient une liste à icônes (portes et chrono, passerelle piétonne, note du créneau et voilure, VHF 9), idem pour Port Moselle ; icônes des listes dans des pastilles colorées.

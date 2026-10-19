@@ -36,6 +36,8 @@ L'app est pensée pour un **marin** (profil Bateau) ou un **pratiquant de glisse
 | Marées | PDF Ports du Calvados / SHOM, avec coefficients | calculées sur la hauteur d'eau prévue (Open-Meteo), sans coefficient |
 | Urgence | 196 (CROSS), VHF 16 | 16 (COSS NC), VHF 16 ; météo VHF 65/66 |
 
+**Une seule zone par téléphone** : déduite du fuseau horaire (`ZONES`). Un téléphone réglé sur Nouméa ne voit que Nouméa, les autres que Deauville ; aucune localisation n'est demandée. Pour forcer : ouvrir le lien avec `?zone=nc`, `?zone=dv`, ou `?zone=toutes` pour voir les deux (réglage gardé sur le téléphone).
+
 Tout est dans `REGIONS`, `SPOTS` et `DESTS` (`index.html`). Le bouton « Ajouter votre spot / port » des listes ouvre un e-mail prérempli (`requestPlace`).
 
 ## Accès
