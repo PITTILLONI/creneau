@@ -48,6 +48,9 @@ Dernière mise à jour de ce fichier : 18 octobre 2026 (18h35).
 
 - [ ] **19 octobre** : relever les feux vert / rouge de la passerelle piétonne (prévu par l'app : 15:44–15:59, 16:29–16:44, 17:14–17:29, 17:59–18:14, 18:44–18:59) et la durée de la manœuvre, pour confirmer le décalage de 12 min et afficher « en cours de levée / descente »
 
+- [ ] **Journal de sortie** : noter une sortie en un geste (date, spot ou destination, aile / voilure, ressenti), avec les conditions prévues enregistrées automatiquement ; sert de carnet personnel et, à terme, à affiner les notes (et argument Premium)
+- [ ] **Proposer une sortie en un clic** sur un créneau favorable : partager le créneau (date, heure, spot, note, conditions) par message à l'équipage ou aux potes de ride, avec ajout au calendrier ; plus tard, inscriptions via les clubs et écoles
+
 - [ ] **Niveau du pratiquant** avec une jauge (débutant → confirmé), dans les réglages de la pastille : seuils de vent et de mer plus prudents pour un débutant, plus larges pour un confirmé (glisse, et éventuellement bateau)
 
 - [ ] SIMBAD (HAROPA) : vent et houle mesurés dans le chenal de Port 2000, à intégrer seulement après autorisation écrite d'HAROPA (CGU art. 6 et 8)
