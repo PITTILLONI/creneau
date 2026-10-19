@@ -1,5 +1,8 @@
 # Historique des versions
 
+## 19 octobre 2026 — Fenêtres du bas plus visibles
+- Les fenêtres qui montent du bas (présentation, installation, avis) ont leur propre fond, plus clair que la page, un liseré en haut et une ombre ; l'arrière-plan est plus sombre et légèrement flouté. Elles se détachent nettement, en thème sombre comme en clair.
+
 ## 19 octobre 2026 — « Revoir la présentation » réparé
 - Depuis l'onglet Conseils, « Revoir la présentation » ne montrait rien et bloquait l'app : les fenêtres (présentation, installation, avis) étaient rangées dans l'onglet « Maintenant », masqué à ce moment-là, donc ouvertes mais invisibles. Elles sont maintenant hors des onglets et s'affichent depuis n'importe où.
 

@@ -40,6 +40,8 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
     --mid:#a15c00;   --mid-bg:#ffefd2;
     --bad:#c4221a;   --bad-bg:#ffe1de;
     --none:#d3d9e2;
+    /* fenêtres du bas : plus claires que la page pour s'en détacher */
+    --sheet-bg:#ffffff; --sheet-1:#f0f3f7; --sheet-2:#e3e8ef; --sheet-edge:rgba(10,15,26,.08);
     --radius:24px;
     --tab-h:64px;
   }
@@ -51,6 +53,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
       --mid:#f2bf5e;  --mid-bg:#3b2b0c;
       --bad:#ff8f84;  --bad-bg:#43191a;
       --none:#262d3d;
+      --sheet-bg:#171c28; --sheet-1:#222a3a; --sheet-2:#2d3547; --sheet-edge:rgba(255,255,255,.14);
     }
   }
   :root[data-theme="dark"]{
@@ -60,6 +63,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
     --mid:#f2bf5e;  --mid-bg:#3b2b0c;
     --bad:#ff8f84;  --bad-bg:#43191a;
     --none:#262d3d;
+    --sheet-bg:#171c28; --sheet-1:#222a3a; --sheet-2:#2d3547; --sheet-edge:rgba(255,255,255,.14);
   }
 
   *{box-sizing:border-box;}
@@ -645,8 +649,8 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   .premium-card .pc-ico{font-size:1.4rem;}
   .premium-card span{display:flex;flex-direction:column;}
   .premium-card small{color:var(--ink-2);font-size:.85rem;}
-  .sheet{border:0;padding:0 16px calc(env(safe-area-inset-bottom) + 16px);margin:auto auto 0;width:100%;max-width:720px;max-height:90vh;border-radius:22px 22px 0 0;background:var(--ground);color:var(--ink);overflow:auto;}
-  .sheet::backdrop{background:rgba(0,0,0,.5);}
+  .sheet{--ground:var(--sheet-bg);--surface:var(--sheet-1);--surface-2:var(--sheet-2);border:0;border-top:1px solid var(--sheet-edge);box-shadow:0 -10px 40px rgba(0,0,0,.35);padding:0 16px calc(env(safe-area-inset-bottom) + 16px);margin:auto auto 0;width:100%;max-width:720px;max-height:90vh;border-radius:22px 22px 0 0;background:var(--ground);color:var(--ink);overflow:auto;}
+  .sheet::backdrop{background:rgba(0,0,0,.65);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);}
   .sheet-head{position:sticky;top:0;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:16px 0 10px;background:var(--ground);}
   .sheet-head h3{margin:0;font-size:1.3rem;}
   .sheet fieldset{border:0;margin:0 0 12px;padding:12px 14px;background:var(--surface);border-radius:16px;display:flex;flex-direction:column;gap:10px;}
@@ -3229,7 +3233,7 @@ $('premiumForm').addEventListener('submit', async e=>{
 // version.json est réécrit à chaque publication (tools/publier-version.sh). Si la
 // version en ligne diffère de celle de la page, on recharge : sur l'écran
 // d'accueil de l'iPhone, l'app reste ainsi à jour sans manipulation.
-const APP_VERSION = '20261019-092040';
+const APP_VERSION = '20261019-092433';
 async function checkUpdate(){
   try{
     const r = await fetch('version.json?t='+Date.now(), {cache:'no-store'});
