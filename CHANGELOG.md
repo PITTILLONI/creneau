@@ -1,5 +1,9 @@
 # Historique des versions
 
+## 19 octobre 2026 — Présentation : balayage entre les étapes réparé
+- Le passage d'une étape à l'autre en glissant le doigt coupait l'étape suivante pendant le geste, puis la fenêtre sautait à la bonne hauteur. Le défilement libre est remplacé par un vrai geste de balayage : l'étape change d'un coup et la fenêtre prend tout de suite la bonne hauteur. Le prénom et le nom restent obligatoires avant d'avancer.
+- « Fait pour vous » : sous-texte générique (« Selon votre pratique et votre matériel »).
+
 ## 19 octobre 2026 — Premier écran plus visuel
 - La phrase d'accroche devient trois tuiles à icône : 🎯 Le bon créneau (calculé pour votre zone), 🧭 Fait pour vous (votre bateau ou vos ailes, votre poids), 👥 Seul ou à plusieurs (voir qui sort, prévenir ses proches), marquée « Bientôt » puisque ce n'est pas encore dans l'app. « Prévenir ses proches » ajouté à la feuille de route.
 
