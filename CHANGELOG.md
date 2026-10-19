@@ -1,5 +1,9 @@
 # Historique des versions
 
+## 19 octobre 2026 — Présentation : hauteur fixe, étapes équilibrées
+- La fenêtre garde une hauteur fixe pendant toute la présentation (celle de l'étape la plus haute) : plus de saut d'une étape à l'autre.
+- Étapes rééquilibrées : les trois promesses du premier écran sont côte à côte ; « Quand peut-on sortir du port ? » devient une liste à icônes (portes et chrono, passerelle piétonne, note du créneau et voilure, VHF 9), idem pour Port Moselle ; icônes des listes dans des pastilles colorées.
+
 ## 19 octobre 2026 — Présentation : balayage entre les étapes réparé
 - Le passage d'une étape à l'autre en glissant le doigt coupait l'étape suivante pendant le geste, puis la fenêtre sautait à la bonne hauteur. Le défilement libre est remplacé par un vrai geste de balayage : l'étape change d'un coup et la fenêtre prend tout de suite la bonne hauteur. Le prénom et le nom restent obligatoires avant d'avancer.
 - « Fait pour vous » : sous-texte générique (« Selon votre pratique et votre matériel »).
