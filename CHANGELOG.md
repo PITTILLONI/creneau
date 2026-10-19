@@ -1,5 +1,9 @@
 # Historique des versions
 
+## 19 octobre 2026 — Présentation : titres en questions
+- Titres des étapes sous forme de questions : « Quand peut-on sortir du port ? », « Quel est votre matériel ? », « Comment lire une note ? », « Peut-on s'y fier ? ».
+- « Chaque note vient avec sa raison chiffrée » remplacé par un exemple concret : « Sous chaque note, la raison en clair, par exemple « Trop de vent (24 nd) » ou « Mer agitée : vagues de 1,6 m ». Et le temps qu'il fera : soleil, nuages ou pluie. »
+
 ## 19 octobre 2026 — La présentation montre la pastille matériel
 - Étape « Votre matériel » (glisse) : une réplique de la **pastille** du haut d'écran (icône du sport + tailles d'ailes, à côté de l'heure) montre à quoi elle ressemble, avec vos vrais réglages. « Régler maintenant » remonte en haut, ouvre les réglages et fait clignoter la vraie pastille pour qu'on la retrouve.
 

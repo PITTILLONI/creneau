@@ -1191,27 +1191,27 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
         </section>
         <section class="ob-slide" data-step="1">
           <div class="only-boat">
-            <h3 class="only-dv">Portes et passerelle</h3>
+            <h3 class="only-dv">Quand peut-on sortir du port ?</h3>
             <p class="only-dv">La carte <b>Sortie en mer</b> : portes ouvertes ou fermées, chrono, prochaine levée de la passerelle piétonne. Confirmez au VHF 9.</p>
-            <h3 class="only-nc">Port Moselle</h3>
+            <h3 class="only-nc">Quand sortir de Port Moselle ?</h3>
             <p class="only-nc">Pas d'écluse : la note du moment, et les sorties possibles dans l'onglet <b>Sortir</b>.</p>
           </div>
           <div class="only-kite">
-            <h3>Votre matériel</h3>
+            <h3>Quel est votre matériel ?</h3>
             <p>Les notes dépendent de votre sport, votre poids et vos ailes. Réglez-les dans cette pastille, en haut de l'écran à côté de l'heure :</p>
             <div class="ob-pillrow"><span class="rider ob-pill" id="obPill" aria-hidden="true"></span><span class="clock ob-pillclock" aria-hidden="true"><span class="live"></span><span id="obPillClock">09:41</span></span></div>
             <button type="button" class="todaybtn" id="obGear">Régler maintenant</button>
           </div>
         </section>
         <section class="ob-slide" data-step="2">
-          <h3>Lire une note</h3>
+          <h3>Comment lire une note ?</h3>
           <div class="ob-badges"><span class="badge good" data-l="good">Favorable</span><span class="badge mid" data-l="mid">Prudence</span><span class="badge bad" data-l="bad">Déconseillé</span></div>
-          <p>Chaque note vient avec <b>sa raison chiffrée</b> (vent, vagues, nuit, vent de terre…) et le <b>ciel</b> : soleil, nuages, pluie avec les millimètres.</p>
+          <p>Sous chaque note, <b>la raison en clair</b>, par exemple « Trop de vent (24 nd) » ou « Mer agitée : vagues de 1,6 m ». Et <b>le temps qu'il fera</b> : soleil, nuages ou pluie.</p>
           <div class="ob-frames"><span class="ob-frame">Aujourd'hui</span><span class="ob-frame later">Un autre jour</span></div>
           <p>Un créneau favorable est entouré en vert : <b>trait plein</b> aujourd'hui, <b>pointillé</b> un autre jour. Les 7 prochains jours sont dans l'onglet Calendrier.</p>
         </section>
         <section class="ob-slide" data-step="3">
-          <h3>Version bêta</h3>
+          <h3>Peut-on s'y fier ?</h3>
           <p>Crén'eau est une <b>aide à la décision, pas une garantie</b>. Vérifiez toujours sur place, au <b>VHF canal 9</b> (portes) et avec le bulletin météo marine officiel. Urgence en mer : <span class="only-dv">196 ou VHF 16</span><span class="only-nc">16 ou VHF 16</span>.</p>
           <p>Certaines infos sont encore à confirmer (cycle de la passerelle piétonne, marées calculées de Nouméa, réglages windsurf et foil). Dites-nous ce qui cloche ou ce qui manque avec la carte <b>💬 Votre avis compte</b>.</p>
         </section>
@@ -3244,7 +3244,7 @@ $('premiumForm').addEventListener('submit', async e=>{
 // version.json est réécrit à chaque publication (tools/publier-version.sh). Si la
 // version en ligne diffère de celle de la page, on recharge : sur l'écran
 // d'accueil de l'iPhone, l'app reste ainsi à jour sans manipulation.
-const APP_VERSION = '20261019-093322';
+const APP_VERSION = '20261019-093536';
 async function checkUpdate(){
   try{
     const r = await fetch('version.json?t='+Date.now(), {cache:'no-store'});
