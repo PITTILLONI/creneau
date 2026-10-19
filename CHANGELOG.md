@@ -1,5 +1,9 @@
 # Historique des versions
 
+## 19 octobre 2026 — Présentation plus légère, fenêtre ajustée
+- La fenêtre de la présentation prend la hauteur de l'étape affichée (avant : celle de l'étape la plus longue, avec du vide en bas), avec une transition douce.
+- Le premier écran est coupé en deux : « Bienvenue » (accroche, prénom et nom), puis « Où naviguez-vous ? » (profil, zone et la carte « fait pour vous » avec le prénom). 5 étapes au lieu de 4.
+
 ## 19 octobre 2026 — Présentation : « c'est fait pour moi »
 - Accroche du premier écran : « Pas une météo de plus : le bon créneau, calculé pour votre zone et votre façon de naviguer. »
 - Dès qu'on choisit son profil et sa zone, une carte apparaît avec son prénom : « Marie, Crén'eau est fait pour Deauville : » et quatre choses que l'app connaît de cette zone (portes du bassin Morny, passerelle piétonne, bouées du Havre, caps en bateau ; plages et leur orientation, poids et ailes, température de l'eau en glisse ; Port Moselle, lagon, marées à Nouméa). Elle change à chaque choix.

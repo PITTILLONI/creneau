@@ -674,7 +674,8 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   .onboard{display:none;}
   .onboard[open]{display:flex;flex-direction:column;}
   .ob-beta{font-size:.8rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--accent);border:1.5px solid var(--accent);border-radius:999px;padding:2px 10px;}
-  .ob-slides{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;gap:16px;}
+  .ob-slides{display:flex;align-items:flex-start;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scrollbar-width:none;gap:16px;transition:height .3s ease;}
+  @media (prefers-reduced-motion: reduce){ .ob-slides{transition:none;} }
   .ob-slides::-webkit-scrollbar{display:none;}
   .ob-slide{flex:0 0 100%;scroll-snap-align:start;min-width:0;}
   .ob-slide h3{font-size:1.4rem;letter-spacing:-.02em;margin:4px 0 8px;}
@@ -1189,6 +1190,9 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
             <label>Nom<input id="obLast" type="text" autocomplete="family-name" autocapitalize="words" enterkeyhint="done"></label>
           </div>
           <p class="ob-legal">Pour suivre la bêta, votre nom et le nombre de fois où vous ouvrez l'app sont transmis au créateur de l'app (rien d'autre, pas de pub).</p>
+        </section>
+        <section class="ob-slide" data-step="1">
+          <h3>Où naviguez-vous ?</h3>
           <div class="ob-q">Vous sortez plutôt…</div>
           <div class="qv-chips ob-choice" id="obProfile">
             <button type="button" data-p="boat">Bateau</button>
@@ -1201,7 +1205,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
           </div>
           <div class="ob-local" id="obLocal" aria-live="polite"></div>
         </section>
-        <section class="ob-slide" data-step="1">
+        <section class="ob-slide" data-step="2">
           <div class="only-boat">
             <h3 class="only-dv">Quand peut-on sortir du port ?</h3>
             <p class="only-dv">La carte <b>Sortie en mer</b> : portes ouvertes ou fermées, chrono, prochaine levée de la passerelle piétonne. Confirmez au VHF 9.</p>
@@ -1215,14 +1219,14 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
             <button type="button" class="todaybtn" id="obGear">Régler maintenant</button>
           </div>
         </section>
-        <section class="ob-slide" data-step="2">
+        <section class="ob-slide" data-step="3">
           <h3>Comment lire une note ?</h3>
           <div class="ob-badges"><span class="badge good" data-l="good">Favorable</span><span class="badge mid" data-l="mid">Prudence</span><span class="badge bad" data-l="bad">Déconseillé</span></div>
           <p>Sous chaque note, <b>la raison en clair</b>, par exemple « Trop de vent (24 nd) » ou « Mer agitée : vagues de 1,6 m ». Et <b>le temps qu'il fera</b> : soleil, nuages ou pluie.</p>
           <div class="ob-frames"><span class="ob-frame">Aujourd'hui</span><span class="ob-frame later">Un autre jour</span></div>
           <p>Un créneau favorable est entouré en vert : <b>trait plein</b> aujourd'hui, <b>pointillé</b> un autre jour. Les 7 prochains jours sont dans l'onglet Calendrier.</p>
         </section>
-        <section class="ob-slide" data-step="3">
+        <section class="ob-slide" data-step="4">
           <h3>Peut-on s'y fier ?</h3>
           <ul class="ob-list">
             <li><span aria-hidden="true">🧭</span><span>Une <b>aide</b>, pas une garantie : vérifiez sur place.</span></li>
@@ -3047,6 +3051,7 @@ function obLocal(){
   const first = $('obFirst').value.trim().replace(/[&<>"]/g, '');
   $('obLocal').innerHTML = '<h4>'+(first ? first+', Crén\'eau' : 'Crén\'eau')+' est fait pour '+z[0]+' :</h4><ul>'
     + z[1].map((x,i) => '<li style="--i:'+i+'"><span aria-hidden="true">'+x[0]+'</span>'+x[1]+'</li>').join('')+'</ul>';
+  obFit();
 }
 function obSync(){
   obLocal();
@@ -3057,6 +3062,7 @@ function obSync(){
 function obGo(i){
   const slides = $('obSlides').children;
   obStep = Math.max(0, Math.min(slides.length-1, i));
+  obLocal();
   $('obSlides').scrollTo({left: slides[obStep].offsetLeft - $('obSlides').offsetLeft, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'});
   obDots();
 }
@@ -3064,6 +3070,12 @@ function obDots(){
   const n = $('obSlides').children.length;
   $('obDots').innerHTML = Array.from({length:n}, (_,j) => '<button type="button" aria-label="Étape '+(j+1)+'" aria-current="'+(j===obStep)+'"></button>').join('');
   $('obNext').textContent = obStep===n-1 ? 'C’est compris' : 'Suivant';
+  obFit();
+}
+// La fenêtre prend la hauteur de l'étape affichée (et non celle de la plus longue)
+function obFit(){
+  const sl = $('obSlides').children[obStep];
+  if(sl) $('obSlides').style.height = sl.offsetHeight+'px';
 }
 // Testeur de la bêta : prénom + nom, gardés sur le téléphone et envoyés une fois au Google Form.
 function getTester(){ try{ return JSON.parse(localStorage.getItem('testeur')||'null'); }catch(e){ return null; } }
@@ -3275,7 +3287,7 @@ $('premiumForm').addEventListener('submit', async e=>{
 // version.json est réécrit à chaque publication (tools/publier-version.sh). Si la
 // version en ligne diffère de celle de la page, on recharge : sur l'écran
 // d'accueil de l'iPhone, l'app reste ainsi à jour sans manipulation.
-const APP_VERSION = '20261019-095350';
+const APP_VERSION = '20261019-095658';
 async function checkUpdate(){
   try{
     const r = await fetch('version.json?t='+Date.now(), {cache:'no-store'});
