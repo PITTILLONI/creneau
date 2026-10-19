@@ -1,5 +1,8 @@
 # Historique des versions
 
+## 19 octobre 2026 — Présentation : carte « fait pour vous » aérée
+- Trois lignes au lieu de quatre, sur une colonne, avec des icônes en pastille. Bateau à Deauville : horaires de l'écluse et de la passerelle piétonne, vos caps aux alentours, ceux qui naviguent avec vous (« Bientôt »). Même logique pour la glisse et pour Nouméa.
+
 ## 19 octobre 2026 — Une seule zone par téléphone
 - La zone est déduite du fuseau horaire du téléphone, sans demander la localisation : à Nouméa on ne voit que Nouméa (port et spots), ailleurs que Deauville et la Côte Fleurie. La question « Où ? » disparaît de la présentation (« Comment naviguez-vous ? »).
 - Forcer une zone : lien `?zone=nc`, `?zone=dv`, ou `?zone=toutes` pour garder les deux (gardé sur le téléphone).

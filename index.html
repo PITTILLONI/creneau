@@ -701,12 +701,13 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   .ob-soon{display:inline-block;margin-top:4px;font-style:normal;font-size:.68rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--accent);border:1.5px solid var(--accent);border-radius:999px;padding:0 6px;}
   @media (prefers-reduced-motion: reduce){ .ob-vp li{animation:none;opacity:1;} }
   /* « fait pour moi » : ce que l'app connaît de la zone choisie, avec le prénom */
-  .ob-local{margin:14px 0 4px;padding:12px 14px;border-radius:16px;background:color-mix(in srgb, var(--accent) 12%, var(--surface));border:1px solid color-mix(in srgb, var(--accent) 35%, transparent);}
+  .ob-local{margin:18px 0 4px;padding:14px 16px;border-radius:16px;background:color-mix(in srgb, var(--accent) 12%, var(--surface));border:1px solid color-mix(in srgb, var(--accent) 35%, transparent);}
   .ob-local:empty{display:none;}
-  .ob-local h4{margin:0 0 8px;font-size:1rem;line-height:1.3;}
-  .ob-local ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:6px 10px;}
-  .ob-local li{display:flex;gap:7px;align-items:flex-start;font-size:.88rem;font-weight:600;line-height:1.3;opacity:0;animation:rise .35s ease forwards;animation-delay:calc(var(--i) * 90ms);}
-  .ob-local li span{flex:none;}
+  .ob-local h4{margin:0 0 14px;font-size:1rem;line-height:1.3;}
+  .ob-local ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:14px;}
+  .ob-local li{display:flex;gap:12px;align-items:center;font-size:.95rem;font-weight:600;line-height:1.3;opacity:0;animation:rise .35s ease forwards;animation-delay:calc(var(--i) * 90ms);}
+  .ob-local li>span:first-child{flex:none;width:36px;height:36px;border-radius:11px;display:grid;place-items:center;font-size:1.15rem;background:color-mix(in srgb, var(--accent) 18%, transparent);}
+  .ob-local .ob-soon{margin:0 0 0 4px;vertical-align:1px;}
   @media (prefers-reduced-motion: reduce){ .ob-local li{animation:none;opacity:1;} }
   .ob-list{list-style:none;margin:10px 0 10px;padding:0;display:flex;flex-direction:column;gap:12px;}
   .ob-list li{display:flex;gap:12px;align-items:center;line-height:1.35;}
@@ -3086,17 +3087,18 @@ addEventListener('load', ()=>scrollTo(0, 0), {once:true});
 const ONBOARD_V = '2';   // v2 : prénom et nom demandés (testeurs de la bêta)
 let obStep = 0;
 // Ce que Crén'eau connaît de chaque zone : de quoi se dire « c'est fait pour moi »
+const OB_SOON = ' <em class="ob-soon">Bientôt</em>';
 const OB_LOCAL = {
-  'dv:boat': ['Deauville', [['🚪','Les portes du bassin Morny'],['🚶','La passerelle piétonne'],['🌊','Les bouées du Havre en direct'],['🧭','Vos caps : Le Havre, Honfleur, Dives…']]],
-  'dv:kite': ['la Côte Fleurie', [['🏖️','Deauville, Trouville, Houlgate, Cabourg'],['🧭','L\'orientation de chaque plage'],['🪁','Votre poids, vos ailes'],['🌡️','La température de l\'eau']]],
-  'nc:boat': ['Nouméa', [['⚓','Port Moselle'],['🏝️','Le lagon, noté sur le vent'],['🌙','Les marées de Nouméa'],['🕐','L\'heure de Nouméa']]],
-  'nc:kite': ['Nouméa', [['🏝️','Anse Vata, Magenta, îlot Maître…'],['🧭','L\'orientation de chaque spot'],['🪁','Votre poids, vos ailes'],['🌙','Les marées du lagon']]]
+  'dv:boat': ['Deauville', [['🚪','Les horaires de l\'écluse et de la passerelle piétonne'],['🧭','Vos caps aux alentours'],['👥','Ceux qui naviguent avec vous'+OB_SOON]]],
+  'dv:kite': ['la Côte Fleurie', [['🏖️','Vos plages : Deauville, Trouville, Houlgate, Cabourg'],['🪁','L\'aile qu\'il vous faut, selon votre poids'],['👥','Ceux qui rident avec vous'+OB_SOON]]],
+  'nc:boat': ['Nouméa', [['⚓','Port Moselle et les marées du lagon'],['🧭','Vos caps dans le lagon'],['👥','Ceux qui naviguent avec vous'+OB_SOON]]],
+  'nc:kite': ['Nouméa', [['🏝️','Vos spots : Anse Vata, Magenta, îlot Maître…'],['🪁','L\'aile qu\'il vous faut, selon votre poids'],['👥','Ceux qui rident avec vous'+OB_SOON]]]
 };
 function obLocal(){
   const z = OB_LOCAL[REGION+':'+PROFILE]; if(!z) return;
   const first = $('obFirst').value.trim().replace(/[&<>"]/g, '');
   $('obLocal').innerHTML = '<h4>'+(first ? first+', Crén\'eau' : 'Crén\'eau')+' est fait pour '+z[0]+' :</h4><ul>'
-    + z[1].map((x,i) => '<li style="--i:'+i+'"><span aria-hidden="true">'+x[0]+'</span>'+x[1]+'</li>').join('')+'</ul>';
+    + z[1].map((x,i) => '<li style="--i:'+i+'"><span aria-hidden="true">'+x[0]+'</span><span>'+x[1]+'</span></li>').join('')+'</ul>';
   obFit();
 }
 function obSync(){
@@ -3342,7 +3344,7 @@ $('premiumForm').addEventListener('submit', async e=>{
 // version.json est réécrit à chaque publication (tools/publier-version.sh). Si la
 // version en ligne diffère de celle de la page, on recharge : sur l'écran
 // d'accueil de l'iPhone, l'app reste ainsi à jour sans manipulation.
-const APP_VERSION = '20261019-102044';
+const APP_VERSION = '20261019-102210';
 async function checkUpdate(){
   try{
     const r = await fetch('version.json?t='+Date.now(), {cache:'no-store'});
