@@ -1,5 +1,8 @@
 # Historique des versions
 
+## 19 octobre 2026 — Bouton d'installation masqué une fois installée
+- Le bouton **« Ajouter à l'écran d'accueil »** des Conseils n'apparaît plus quand l'app est ouverte depuis l'icône de l'écran d'accueil, ni après « C'est fait » ou une installation Android acceptée. Limite : sur iPhone, Safari ne peut pas savoir si l'icône existe déjà ; tant que la personne n'a pas touché « C'est fait », le bouton reste visible dans Safari.
+
 ## 18 octobre 2026 (19h) — Relance de l'avis, suivi des ouvertures
 - **Relance de l'avis** : le questionnaire s'ouvre de lui-même à la **3e ouverture** (« Vous avez utilisé Crén'eau plusieurs fois… », bouton « Plus tard »), puis une dernière fois à la 6e. Un seul panneau par ouverture (présentation, puis installation, puis avis).
 - **Suivi des ouvertures pour la bêta** : signal « Ouverture · Prénom Nom » envoyé au Google Form au plus toutes les 2 h (nombre d'ouvertures, icône d'écran d'accueil ou navigateur), pour compter l'usage par testeur et par semaine. Pas d'adresse IP ni de localisation. La phrase d'information de la présentation le mentionne.

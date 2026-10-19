@@ -3154,15 +3154,26 @@ $('instLater').addEventListener('click', () => {
   try{ localStorage.setItem('installe', (+localStorage.getItem('visites') || 0) + 3); }catch(e){}
   $('installDlg').close();
 });
-$('instDone').addEventListener('click', () => { try{ localStorage.setItem('installe', 'fait'); }catch(e){} $('installDlg').close(); });
+$('instDone').addEventListener('click', () => { try{ localStorage.setItem('installe', 'fait'); }catch(e){} $('installDlg').close(); syncInstallBtn(); });
 $('instPrompt').addEventListener('click', async () => {
   if(!installEvt) return;
   installEvt.prompt();
   const r = await installEvt.userChoice.catch(()=>null);
   installEvt = null;
-  if(r && r.outcome==='accepted'){ try{ localStorage.setItem('installe', 'fait'); }catch(e){} $('installDlg').close(); }
+  if(r && r.outcome==='accepted'){ try{ localStorage.setItem('installe', 'fait'); }catch(e){} $('installDlg').close(); syncInstallBtn(); }
 });
 $('instOpen').addEventListener('click', openInstall);
+// Bouton « Ajouter à l'écran d'accueil » des Conseils : masqué si l'app tourne déjà depuis
+// l'écran d'accueil, si l'installation a été confirmée (« C'est fait », invite Android acceptée)
+// ou si le navigateur signale l'installation.
+function syncInstallBtn(){
+  let done = false;
+  try{ done = localStorage.getItem('installe')==='fait'; }catch(e){}
+  $('instOpen').hidden = standalone() || done;
+}
+addEventListener('appinstalled', () => { try{ localStorage.setItem('installe', 'fait'); }catch(e){} syncInstallBtn(); });
+matchMedia('(display-mode: standalone)').addEventListener?.('change', syncInstallBtn);
+syncInstallBtn();
 
 /* ---------- Votre avis : désirabilité, outils actuels, ajouts souhaités ---------- */
 // Envoi direct dans le Google Form du propriétaire (réponses dans un Google Sheet).
@@ -3217,7 +3228,7 @@ $('premiumForm').addEventListener('submit', async e=>{
 // version.json est réécrit à chaque publication (tools/publier-version.sh). Si la
 // version en ligne diffère de celle de la page, on recharge : sur l'écran
 // d'accueil de l'iPhone, l'app reste ainsi à jour sans manipulation.
-const APP_VERSION = '20261018-184507';
+const APP_VERSION = '20261019-090539';
 async function checkUpdate(){
   try{
     const r = await fetch('version.json?t='+Date.now(), {cache:'no-store'});
