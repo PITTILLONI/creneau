@@ -690,6 +690,9 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   .ob-foot .dots{max-width:none;justify-content:flex-start;}
   .ob-foot .ins-save{min-width:130px;}
   .ob-replay{margin:0 0 6px;}
+  .ob-list{list-style:none;margin:6px 0 10px;padding:0;display:flex;flex-direction:column;gap:12px;}
+  .ob-list li{display:flex;gap:12px;align-items:flex-start;line-height:1.4;}
+  .ob-list li>span:first-child{font-size:1.25rem;line-height:1.1;flex:none;width:28px;text-align:center;}
   /* réplique de la pastille du header (slide « Votre matériel ») pour la reconnaître ensuite */
   .ob-pillrow{display:flex;align-items:center;gap:8px;margin:2px 0 14px;padding:10px 12px;border-radius:16px;background:var(--ground);border:1px dashed var(--sheet-edge);}
   .ob-pill{cursor:default;outline:2px solid var(--accent);outline-offset:2px;}
@@ -1212,8 +1215,12 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
         </section>
         <section class="ob-slide" data-step="3">
           <h3>Peut-on s'y fier ?</h3>
-          <p>Crén'eau est une <b>aide à la décision, pas une garantie</b>. Vérifiez toujours sur place, au <b>VHF canal 9</b> (portes) et avec le bulletin météo marine officiel. Urgence en mer : <span class="only-dv">196 ou VHF 16</span><span class="only-nc">16 ou VHF 16</span>.</p>
-          <p>Certaines infos sont encore à confirmer (cycle de la passerelle piétonne, marées calculées de Nouméa, réglages windsurf et foil). Dites-nous ce qui cloche ou ce qui manque avec la carte <b>💬 Votre avis compte</b>.</p>
+          <ul class="ob-list">
+            <li><span aria-hidden="true">🧭</span><span>Une <b>aide</b>, pas une garantie : vérifiez sur place.</span></li>
+            <li class="only-boat only-dv"><span aria-hidden="true">📻</span><span>Portes : <b>VHF 9</b>.</span></li>
+            <li><span aria-hidden="true">🆘</span><span>Urgence en mer : <b class="only-dv">196 ou VHF 16</b><b class="only-nc">16 ou VHF 16</b>.</span></li>
+            <li><span aria-hidden="true">💬</span><span>Un souci, une idée ? Carte <b>Votre avis compte</b>.</span></li>
+          </ul>
         </section>
       </div>
       <div class="ob-foot"><div class="dots" id="obDots"></div><button type="button" class="ins-save" id="obNext" autofocus>Suivant</button></div>
@@ -3244,7 +3251,7 @@ $('premiumForm').addEventListener('submit', async e=>{
 // version.json est réécrit à chaque publication (tools/publier-version.sh). Si la
 // version en ligne diffère de celle de la page, on recharge : sur l'écran
 // d'accueil de l'iPhone, l'app reste ainsi à jour sans manipulation.
-const APP_VERSION = '20261019-093536';
+const APP_VERSION = '20261019-093914';
 async function checkUpdate(){
   try{
     const r = await fetch('version.json?t='+Date.now(), {cache:'no-store'});

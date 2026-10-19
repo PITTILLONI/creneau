@@ -1,5 +1,8 @@
 # Historique des versions
 
+## 19 octobre 2026 — Dernière étape de la présentation allégée
+- « Peut-on s'y fier ? » passe de deux paragraphes à quatre lignes à icônes : une aide, pas une garantie ; portes VHF 9 (bateau à Deauville seulement, plus rien sur l'écluse côté glisse) ; urgence en mer ; carte « Votre avis compte ». La liste des infos encore à confirmer est retirée de la présentation.
+
 ## 19 octobre 2026 — Présentation : titres en questions
 - Titres des étapes sous forme de questions : « Quand peut-on sortir du port ? », « Quel est votre matériel ? », « Comment lire une note ? », « Peut-on s'y fier ? ».
 - « Chaque note vient avec sa raison chiffrée » remplacé par un exemple concret : « Sous chaque note, la raison en clair, par exemple « Trop de vent (24 nd) » ou « Mer agitée : vagues de 1,6 m ». Et le temps qu'il fera : soleil, nuages ou pluie. »
