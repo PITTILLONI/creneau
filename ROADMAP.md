@@ -51,6 +51,13 @@ Dernière mise à jour de ce fichier : 18 octobre 2026 (18h35).
 - [ ] **Journal de sortie** : noter une sortie en un geste (date, spot ou destination, aile / voilure, ressenti), avec les conditions prévues enregistrées automatiquement ; sert de carnet personnel et, à terme, à affiner les notes (et argument Premium)
 - [ ] **Proposer une sortie en un clic** sur un créneau favorable : partager le créneau (date, heure, spot, note, conditions) par message à l'équipage ou aux potes de ride, avec ajout au calendrier ; plus tard, inscriptions via les clubs et écoles
 
+- [ ] **« J'y serai » + chat du créneau** : je touche un créneau → « J'y serai » → un chat simple s'ouvre en bottom sheet avec les autres personnes qui ont dit venir sur ce créneau (même spot ou même sortie de port, même plage horaire). Compteur « 3 personnes y seront » sur la carte du créneau. Prévoir :
+  - un serveur temps réel (Firebase ou Supabase, offre gratuite au départ) : GitHub Pages ne suffit plus ;
+  - identité = prénom + nom déjà donnés à l'inscription bêta ;
+  - modération (signaler, supprimer un message), messages effacés après le créneau, mention RGPD dans la présentation ;
+  - notification « quelqu'un vient aussi » (push web, installée sur l'écran d'accueil) ;
+  - lien naturel avec le journal de sortie et, côté clubs et écoles, les inscriptions encadrées.
+
 - [ ] **Niveau du pratiquant** avec une jauge (débutant → confirmé), dans les réglages de la pastille : seuils de vent et de mer plus prudents pour un débutant, plus larges pour un confirmé (glisse, et éventuellement bateau)
 
 - [ ] SIMBAD (HAROPA) : vent et houle mesurés dans le chenal de Port 2000, à intégrer seulement après autorisation écrite d'HAROPA (CGU art. 6 et 8)
