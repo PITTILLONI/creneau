@@ -58,6 +58,8 @@ Dernière mise à jour de ce fichier : 18 octobre 2026 (18h35).
   - notification « quelqu'un vient aussi » (push web, installée sur l'écran d'accueil) ;
   - lien naturel avec le journal de sortie et, côté clubs et écoles, les inscriptions encadrées.
 
+- [ ] **Prévenir ses proches** (sécurité) : avant de partir seul, envoyer en un geste « je sors, retour prévu vers 18:30 » (spot ou destination, bateau ou aile) à un proche, avec rappel si on n'a pas signalé son retour. Annoncé « Bientôt » dans la présentation, avec « voir qui sort »
+
 - [ ] **« On fait une régate ? »** (bateau) : sur un créneau favorable, proposer une régate amicale entre bateaux du port, sur le même principe que les sorties de glisse (« J'y serai » + chat) : départ, parcours simple (bouées, Le Havre, Honfleur…), bateaux inscrits, heure de retour compatible avec la fermeture des portes. Plus tard : classement simple, régates des clubs
 
 - [ ] **Groupes 100 % femmes** pour « J'y serai » et le chat du créneau : option « entre femmes » sur un créneau, visible et rejoignable seulement par les participantes qui l'ont choisie (sécurité, confiance, débutantes). À cadrer : déclaratif ou validé (par un club, une école, une invitation), modération renforcée, et vérifier le cadre légal (non-discrimination pour un service payant) avant de l'ouvrir

@@ -1,5 +1,8 @@
 # Historique des versions
 
+## 19 octobre 2026 — Premier écran plus visuel
+- La phrase d'accroche devient trois tuiles à icône : 🎯 Le bon créneau (calculé pour votre zone), 🧭 Fait pour vous (votre bateau ou vos ailes, votre poids), 👥 Seul ou à plusieurs (voir qui sort, prévenir ses proches), marquée « Bientôt » puisque ce n'est pas encore dans l'app. « Prévenir ses proches » ajouté à la feuille de route.
+
 ## 19 octobre 2026 — Présentation plus légère, fenêtre ajustée
 - La fenêtre de la présentation prend la hauteur de l'étape affichée (avant : celle de l'étape la plus longue, avec du vide en bas), avec une transition douce.
 - Le premier écran est coupé en deux : « Bienvenue » (accroche, prénom et nom), puis « Où naviguez-vous ? » (profil, zone et la carte « fait pour vous » avec le prénom). 5 étapes au lieu de 4.
