@@ -1,5 +1,11 @@
 # Historique des versions
 
+## 20 octobre 2026 — Démo : cours du club
+- Membre d'un club, mode bateau : carte « Cours du club » (étiquette Démo) avec les 3 prochains cours, et « Tout le planning de la semaine » en fenêtre, jour par jour.
+- Chaque cours : horaire, support, niveau, moniteur, places restantes (jauge), et la note Crén'eau du créneau calculée avec la consigne du club pour ce support et ce niveau (pire heure), avec la raison si ce n'est pas favorable.
+- « Je m'inscris » / « Se désinscrire », « Liste d'attente » si complet ; une licence FFVoile de l'année est demandée pour s'inscrire.
+- Démo sans serveur : planning, moniteurs et places fictifs (`CLUBS.demo.cours`), inscriptions gardées sur le téléphone.
+
 ## 20 octobre 2026 — En-tête aux couleurs du club, licence FFVoile
 - Membre d'un club : un bandeau en tête de l'app, aux couleurs du club, avec son sigle et son nom, et l'état de la licence (« Ma licence » à renseigner, ou « Licence 2026 ✓ »).
 - Le bandeau ouvre la fiche club : numéro de licence FFVoile et case « licence prise pour 2026 » (année civile), gardés sur le téléphone, et « Quitter le club ». La licence figure sur les fiches de sortie.

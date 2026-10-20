@@ -292,6 +292,29 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   .clubbar small{flex:none;font-size:.8rem;font-weight:600;padding:3px 8px;border-radius:999px;background:rgba(255,255,255,.18);}
   .clubbar small.todo{background:#fff;color:var(--club, var(--accent));}
   .club-head{display:flex;align-items:center;gap:10px;}
+  /* Cours du club (démo) */
+  .cours{margin-top:12px;padding:14px 16px;border-radius:var(--radius);background:var(--surface);}
+  .cours-h{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:4px;}
+  .cours-h b{font-size:1.05rem;}
+  .cr-tag{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;padding:3px 8px;border-radius:999px;background:var(--surface-2);color:var(--ink-2);}
+  .cr-demo{margin:0 0 10px;font-size:.85rem;color:var(--ink-2);}
+  .cr-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;}
+  .cr{padding:12px 0;border-top:1px solid var(--surface-2);display:flex;flex-direction:column;gap:5px;}
+  .cr:first-child{border-top:0;}
+  .cr-top{display:flex;align-items:center;justify-content:space-between;gap:8px;}
+  .cr-top .badge{grid-row:auto;grid-column:auto;font-size:.8rem;padding:3px 9px;}
+  .badge.none{background:var(--surface-2);color:var(--ink-2);}
+  .cr-what{color:var(--ink-2);font-size:.92rem;}
+  .cr-why{font-size:.88rem;}
+  .cr-bot{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:3px;}
+  .cr-places{display:flex;flex-direction:column;gap:4px;font-size:.85rem;color:var(--ink-2);min-width:0;}
+  .cr-places i{display:block;width:96px;height:5px;border-radius:3px;background:linear-gradient(90deg,var(--accent) calc(var(--p)*100%),var(--surface-2) 0);}
+  .cr-places.full{color:var(--bad);}
+  .cr-bot button{flex:none;height:40px;padding:0 14px;}
+  .cr-bot .ins-save{flex:none;}
+  .cr.mine{background:var(--good-bg);margin:0 -10px;padding:12px 10px;border-radius:12px;border-top-color:transparent;}
+  .cr-day{margin:14px 0 2px;font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-2);}
+  .cours-all{width:100%;margin-top:6px;}
   .club-head .club-logo{background:var(--club, var(--accent));color:#fff;width:38px;height:38px;}
   .placebar{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:36px;}
   .place{font-weight:700;font-size:1rem;letter-spacing:-.01em;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
@@ -897,6 +920,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
       <div class="dl-legend"><span class="free">Portes ouvertes</span><span class="shut">Portes fermées</span></div>
     </div>
     <div class="sortie only-boat" id="sortieCard"></div>
+    <div class="cours only-boat" id="coursCard" hidden></div>
     <div class="today">
       <div class="today-title only-boat only-dv">Aujourd'hui · ouverture des portes du bassin Morny</div>
       <div class="today-title only-nc">Aujourd'hui · marées</div>
@@ -1368,6 +1392,11 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
         <p class="sheet-done" id="clubDone" hidden>Licence enregistrée.</p>
         <div class="ob-links" style="justify-content:center;margin-top:14px"><button type="button" class="todaybtn" id="clubLeave">Quitter le club</button></div>
       </form>
+    </dialog>
+    <dialog class="sheet" id="coursDlg" aria-labelledby="coursTitle">
+      <div class="sheet-head"><h3 id="coursTitle">Cours de la semaine</h3><button type="button" class="todaybtn" id="coursClose">Fermer</button></div>
+      <p class="cr-demo">Démo : planning, moniteurs et places fictifs. Les inscriptions restent sur ce téléphone.</p>
+      <div id="coursAll"></div>
     </dialog>
     <dialog class="sheet" id="sortieDlg" aria-labelledby="sortieTitle">
       <form id="sortieForm">
@@ -1845,7 +1874,16 @@ const CLUBS = {
       deriveur: {label:'Dériveur',  max:{deb:[14,18,1.0], conf:[20,26,1.5]}},
       cata:     {label:'Catamaran', max:{deb:[15,20,1.0], conf:[22,28,1.5]}},
       hab:      {label:'Habitable', keel:true, max:{deb:[18,25,1.5], conf:[25,32,2.5]}}
-    }}
+    },
+    // démo : cours de la semaine type (dow 0 = dimanche), places et inscrits fictifs
+    cours: [
+      {dow:3, h:[14,16], sup:'opti',     niv:'deb',  places:8, mono:'Léa'},
+      {dow:3, h:[16,18], sup:'deriveur', niv:'conf', places:6, mono:'Hugo'},
+      {dow:6, h:[10,12], sup:'opti',     niv:'deb',  places:8, mono:'Léa'},
+      {dow:6, h:[14,17], sup:'cata',     niv:'conf', places:6, mono:'Hugo'},
+      {dow:0, h:[10,13], sup:'hab',      niv:'deb',  places:5, mono:'Marc'},
+      {dow:0, h:[14,16], sup:'deriveur', niv:'deb',  places:8, mono:'Léa'}
+    ]}
 };
 const NIVEAUX = {deb:'Débutant', conf:'Confirmé'};
 const CLUB = (() => {
@@ -2196,7 +2234,7 @@ function cachedFC(key){
   return null;
 }
 function refreshAll(){
-  renderForecast(); renderKiteNow(); renderBoatNow(); renderBuoys(); renderWeek();
+  renderForecast(); renderKiteNow(); renderBoatNow(); renderBuoys(); renderWeek(); renderCours();
   const ahead = browseIdx-(todayIdx ?? 0);
   if(ahead>=0 && ahead<=2) renderDayCond();
 }
@@ -2899,6 +2937,7 @@ async function loadWeek(){
   if(req!==weekReq) return;
   weekHours = {hours, key:fcKey()};
   renderWeek();
+  renderCours();
 }
 function renderWeek(){
   if(!weekHours || weekHours.key!==fcKey()) return;
@@ -3497,6 +3536,105 @@ $('clubPanel').addEventListener('click', e => {
   renderClub();
   refreshAll();
 });
+/* ---------- Cours du club (démo, sans serveur) ---------- */
+// Planning type du club sur les 7 prochains jours, note Crén'eau du créneau calculée avec la
+// consigne du support et du niveau du cours (pire heure). Places et inscrits fictifs, stables
+// pour un cours donné ; mon inscription est gardée sur le téléphone (`inscriptions`).
+function getInscr(){ try{ return JSON.parse(localStorage.getItem('inscriptions')||'{}'); }catch(e){ return {}; } }
+function coursList(){
+  if(!CLUB || !CLUB.cours || todayIdx===null) return [];
+  const mine = getInscr(), now = Date.now(), out = [];
+  const hs = weekHours && weekHours.key===fcKey() ? weekHours.hours : (FC && FC.key===fcKey() ? FC.hours : []);
+  for(let i = todayIdx; i <= Math.min(keys.length-1, todayIdx+6); i++){
+    const [mm, dd] = keys[i].split('-').map(Number), dow = new Date(Date.UTC(2026, mm-1, dd)).getUTCDay();
+    CLUB.cours.filter(c => c.dow===dow).forEach(c => {
+      const id = keys[i]+'-'+c.h[0]+'-'+c.sup;
+      const hours = hoursOfDay(hs, i).filter(h => { const hr = parisParts(h.ts).hour; return hr>=c.h[0] && hr<c.h[1]; });
+      if(hours.length && hours[hours.length-1].ts+3600000 < now) return;   // cours terminé
+      if(i===todayIdx && !hours.length && parisParts(now).hour >= c.h[1]) return;
+      // inscrits fictifs : de 2 à complet selon le cours (un cours sur six complet)
+      const seed = [...id].reduce((a, ch) => (a*31 + ch.charCodeAt(0)) % 9973, 7);
+      const others = seed%6===0 ? c.places : 2 + seed%(c.places-2);
+      const me = mine[id] || null;
+      let x = null;
+      if(hours.length){
+        const sv = [SUPPORT, NIVEAU, PROFILE]; SUPPORT = c.sup; NIVEAU = c.niv; PROFILE = 'boat';
+        const worst = hours.map(h => Object.assign({}, h, scoreBoat(h))).reduce((a, b) => b.score < a.score ? b : a);
+        x = Object.assign(worst, {level: levelOf(worst.score)});
+        x.html = reasonHTML(x);
+        [SUPPORT, NIVEAU, PROFILE] = sv;
+      }
+      out.push({id, i, c, x, me, taken: Math.min(c.places, others + (me==='inscrit' ? 1 : 0)), full: others >= c.places});
+    });
+  }
+  return out;
+}
+function coursRow(k, withDay){
+  const c = k.c, sp = CLUB.supports[c.sup], left = c.places - k.taken;
+  const when = (withDay ? cap(relDay(k.i, todayIdx)==="aujourd'hui" || relDay(k.i, todayIdx)==='demain' ? relDay(k.i, todayIdx) : dayName(k.i, {weekday:'long'}))+' · ' : '')
+    + String(c.h[0]).padStart(2,'0')+':00–'+String(c.h[1]).padStart(2,'0')+':00';
+  const badge = k.x ? '<span class="badge '+k.x.level+'">'+LABELS.boat[k.x.level]+'</span>' : '<span class="badge none">Prévision à venir</span>';
+  const btn = k.me==='inscrit' ? '<button type="button" class="todaybtn" data-cr="'+k.id+'">Se désinscrire</button>'
+    : k.me==='attente' ? '<button type="button" class="todaybtn" data-cr="'+k.id+'">Quitter la liste d\'attente</button>'
+    : k.full ? '<button type="button" class="todaybtn" data-cr="'+k.id+'">Liste d\'attente</button>'
+    : '<button type="button" class="ins-save" data-cr="'+k.id+'">Je m\'inscris</button>';
+  const places = k.me==='inscrit' ? 'Inscrit ✓ · '+k.taken+' sur '+c.places
+    : k.me==='attente' ? 'Complet · vous êtes sur liste d\'attente'
+    : left<=0 ? 'Complet · '+c.places+' places' : left+' place'+(left>1 ? 's' : '')+' sur '+c.places;
+  return '<li class="cr'+(k.me==='inscrit' ? ' mine' : '')+'"><div class="cr-top"><b>'+when+'</b>'+badge+'</div>'
+    + '<div class="cr-what">'+sp.label+' · '+(c.niv==='deb' ? 'débutants' : 'confirmés')+' · avec '+c.mono+'</div>'
+    + (k.x && k.x.level!=='good' ? '<div class="cr-why">'+k.x.html+'</div>' : '')
+    + '<div class="cr-bot"><span class="cr-places'+(left<=0 && k.me!=='inscrit' ? ' full' : '')+'"><i style="--p:'+(k.taken/c.places).toFixed(2)+'"></i>'+places+'</span>'+btn+'</div></li>';
+}
+function renderCours(){
+  const el = $('coursCard');
+  if(!el) return;
+  const list = coursList();
+  el.hidden = !list.length;
+  if(!list.length) return;
+  const mine = list.filter(k => k.me==='inscrit');
+  const show = mine.concat(list.filter(k => k.me!=='inscrit')).slice(0, 3).sort((a, b) => a.i-b.i || a.c.h[0]-b.c.h[0]);
+  el.innerHTML = '<div class="cours-h"><b>Cours du club</b><span class="cr-tag">Démo</span></div>'
+    + '<ul class="cr-list">'+show.map(k => coursRow(k, true)).join('')+'</ul>'
+    + (list.length > show.length ? '<button type="button" class="todaybtn cours-all" data-cr="tout">Tout le planning de la semaine · '+list.length+' cours</button>' : '');
+  if($('coursDlg').open) renderCoursAll(list);
+}
+function renderCoursAll(list){
+  let html = '', day = -1;
+  list.forEach(k => {
+    if(k.i!==day){ if(day>=0) html += '</ul>'; day = k.i; html += '<div class="cr-day">'+cap(relDay(k.i, todayIdx)==="aujourd'hui" || relDay(k.i, todayIdx)==='demain' ? relDay(k.i, todayIdx)+' · '+dayName(k.i, {weekday:'long', day:'numeric', month:'long'}) : dayName(k.i))+'</div><ul class="cr-list">'; }
+    html += coursRow(k, false);
+  });
+  $('coursAll').innerHTML = html + (html ? '</ul>' : '');
+}
+function onCours(e){
+  const b = e.target.closest('[data-cr]'); if(!b) return;
+  if(b.dataset.cr==='tout'){
+    renderCoursAll(coursList());
+    try{ $('coursDlg').showModal(); }catch(err){ $('coursDlg').setAttribute('open',''); }
+    return;
+  }
+  const k = coursList().find(x => x.id===b.dataset.cr); if(!k) return;
+  const mine = getInscr();
+  if(k.me) delete mine[k.id];
+  else {
+    const lic = getLicence();
+    if(!(lic && lic.num && lic.saison===saison())){
+      if(confirm('Une licence FFVoile '+saison()+' est demandée pour s\'inscrire aux cours. La renseigner maintenant ?')){
+        if($('coursDlg').open) $('coursDlg').close();
+        $('clubBar').click();
+      }
+      return;
+    }
+    mine[k.id] = k.full ? 'attente' : 'inscrit';
+  }
+  try{ localStorage.setItem('inscriptions', JSON.stringify(mine)); }catch(err){}
+  renderCours();
+}
+$('coursCard').addEventListener('click', onCours);
+$('coursAll').addEventListener('click', onCours);
+$('coursClose').addEventListener('click', () => $('coursDlg').close());
+
 // Fiche club : licence (numéro et saison), quitter le club
 function leaveClub(){
   if(!confirm('Quitter '+CLUB.name+' ? Les notes reprennent les repères habituels.')) return;
@@ -3639,7 +3777,7 @@ setInterval(renderSortie, 30000);
 // version.json est réécrit à chaque publication (tools/publier-version.sh). Si la
 // version en ligne diffère de celle de la page, on recharge : sur l'écran
 // d'accueil de l'iPhone, l'app reste ainsi à jour sans manipulation.
-const APP_VERSION = '20261020-204856';
+const APP_VERSION = '20261020-205222';
 async function checkUpdate(){
   try{
     const r = await fetch('version.json?t='+Date.now(), {cache:'no-store'});
