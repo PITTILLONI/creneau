@@ -63,7 +63,8 @@ Dernière mise à jour de ce fichier : 18 octobre 2026 (18h35).
 - [ ] **Crén'eau Club** : une seule app, réglée par le club via un lien d'invitation (pas de seconde app)
   - [x] Socle (20 octobre) : `?club=<id>`, consignes de vent du club dans les notes, contact du club dans la fiche de sortie ; club fictif `demo`
   - [ ] Club pilote, gratuit une saison contre retours et droit de le citer (Deauville Yacht Club ou club école de la Côte Fleurie) ; ajouter un vrai club seulement avec son accord
-  - [ ] Seuils par support et par niveau (Optimist débutant, catamaran, habitable…), avec la jauge de niveau
+  - [x] Seuils par support et par niveau (20 octobre) : pastille Support / Niveau, consigne vent, rafales, vagues
+  - [ ] Niveau plus fin avec la jauge de niveau ; consignes réelles fournies par le club pilote
   - [ ] Fiche de sortie reçue par le club : liste des bateaux sur l'eau, retards signalés (serveur, même chantier que le chat du créneau)
   - [ ] Vue moniteur : « séance maintenue / annulée / reportée », envoyée aux adhérents et aux parents
   - [ ] Sorties du club et régates : « J'y serai » et chat réservés aux membres ; fenêtres de course pour le comité

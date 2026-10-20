@@ -396,6 +396,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   html[data-sport]:not([data-sport="kite"]) .only-sport-kite{display:none !important;}
   [data-region="nc"] .only-dv,[data-region="dv"] .only-nc,html:not([data-region]) .only-nc{display:none !important;}
   .rider-panel{padding-bottom:4px;}
+  .club-lim{margin:10px 0 0;color:var(--ink);font-size:.9rem;}
   .rider-panel .weight{margin-top:2px;}
   .quiver{margin-top:8px;background:var(--surface);border-radius:16px;padding:10px 12px 12px 14px;font-size:.95rem;color:var(--ink-2);}
   .quiver > span{font-weight:600;}
@@ -833,8 +834,14 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
         <option value="__add">➕ Ajouter votre spot…</option>
       </select>
     </label>
+    <button type="button" class="rider only-boat" id="clubBtn" aria-expanded="false" aria-controls="clubPanel" hidden></button>
     <button type="button" class="rider only-kite" id="riderBtn" aria-expanded="false" aria-controls="riderPanel" aria-label="Mon poids et mes ailes"></button>
     <div class="clock" aria-label="Heure de Paris"><span class="live" aria-hidden="true"></span><span id="clock">—</span></div>
+  </div>
+  <div class="rider-panel only-boat" id="clubPanel" hidden>
+      <div class="quiver"><span>Support</span><div class="qv-chips" id="supChips" role="group" aria-label="Support"></div></div>
+      <div class="quiver"><span>Niveau</span><div class="qv-chips" id="lvlChips" role="group" aria-label="Niveau"></div>
+        <p class="club-lim" id="clubLim"></p></div>
   </div>
   <div class="rider-panel only-kite" id="riderPanel" hidden>
       <div class="quiver"><span>Sport</span><div class="qv-chips" id="sportChips" role="group" aria-label="Sport"></div></div>
@@ -1422,6 +1429,7 @@ const ICONS = {
   thermo:'<path d="M14 4v10.5a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0z"/>',
   sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M6.3 17.7l-1.4 1.4M19.1 4.9l-1.4 1.4"/>',
   drop:'<path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5S12.5 5.5 12 3c-.5 2.5-2 4.9-4 6.5S5 13 5 15a7 7 0 0 0 7 7z"/>',
+  sail:'<path d="M12 3v14M12 3l6 12h-6M12 6l-5 9h5"/><path d="M4 19h16l-2 2H6z"/>',
   kite:'<path d="M12 2l7 7-7 9-7-9z"/><path d="M12 2v16M5 9h14"/><path d="M12 18c0 2 1.5 3.5 3.5 3.5"/>',
   moon:'<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z"/>',
   cloud:'<path d="M7 18a4.5 4.5 0 1 1 .9-8.9A6 6 0 0 1 19 11a3.5 3.5 0 0 1-.5 7z"/>',
@@ -1803,12 +1811,21 @@ if(ZONES.length===1){
   document.documentElement.classList.add('one-zone');
 }
 if(SPOTS[SPOT].region!==REGION) SPOT = Object.keys(SPOTS).find(k => SPOTS[k].region===REGION);
-// Clubs : consignes de vent du club (au-delà : « Déconseillé ») et contact à terre pour la
-// fiche de sortie. Lien d'invitation ?club=<id>, gardé sur le téléphone ; ?club=aucun le retire.
-// « demo » est fictif : un vrai club n'est ajouté qu'avec son accord.
+// Clubs : consignes du club par support et par niveau, et contact à terre pour la fiche de
+// sortie. Lien d'invitation ?club=<id>, gardé sur le téléphone ; ?club=aucun le retire.
+// max : [vent moyen, rafales (nd), vagues (m)] ; au-delà « Déconseillé », à 3 nd près « Prudence ».
+// keel : habitable, garde la voilure conseillée (calculée pour un voilier de croisière).
+// « demo » est fictif, ses chiffres sont des exemples : un vrai club donne les siens, avec son accord.
 const CLUBS = {
-  demo: {name:'Club de voile démo', region:'dv', maxKn:20, maxGust:28, contact:{name:'Permanence du club', tel:''}}
+  demo: {name:'Club de voile démo', region:'dv', contact:{name:'Permanence du club', tel:''},
+    supports: {
+      opti:     {label:'Optimist',  max:{deb:[12,16,0.8], conf:[18,24,1.2]}},
+      deriveur: {label:'Dériveur',  max:{deb:[14,18,1.0], conf:[20,26,1.5]}},
+      cata:     {label:'Catamaran', max:{deb:[15,20,1.0], conf:[22,28,1.5]}},
+      hab:      {label:'Habitable', keel:true, max:{deb:[18,25,1.5], conf:[25,32,2.5]}}
+    }}
 };
+const NIVEAUX = {deb:'Débutant', conf:'Confirmé'};
 const CLUB = (() => {
   let c = null;
   try{
@@ -1818,6 +1835,18 @@ const CLUB = (() => {
   }catch(e){}
   return CLUBS[c] || null;
 })();
+let SUPPORT = 'hab', NIVEAU = 'conf';
+try{
+  const v = localStorage.getItem('support'), n = localStorage.getItem('niveau');
+  if(CLUB && v in CLUB.supports) SUPPORT = v; else if(CLUB) SUPPORT = Object.keys(CLUB.supports).pop();
+  if(n in NIVEAUX) NIVEAU = n;
+}catch(e){}
+// consigne en vigueur pour ce support et ce niveau (null sans club)
+function clubLim(){
+  if(!CLUB) return null;
+  const sp = CLUB.supports[SUPPORT], [kn, gust, wave] = sp.max[NIVEAU];
+  return {kn, gust, wave, keel: !!sp.keel, label: sp.label+' '+NIVEAUX[NIVEAU].toLowerCase()};
+}
 function RG(){ return REGIONS[REGION]; }
 function TZ(){ return RG().tz; }
 function fcPlace(){ return PROFILE==='kite' ? SPOTS[SPOT] : RG().port; }
@@ -1858,7 +1887,13 @@ function reason(x){
   if(x.level==='good') return x.noWave ? 'Vent modéré ('+kn+' nd)' : 'Vent modéré ('+kn+' nd) et mer peu agitée ('+wave+' m)';
   if(x.why==='nuit') return 'De nuit : visibilité réduite';
   if(x.why==='orage') return 'Orage annoncé : rafales violentes et foudre';
-  if(x.why==='club') return 'Au-delà de la consigne du club : '+kn+' nd, rafales '+gust+' nd (maximum '+CLUB.maxKn+' / '+CLUB.maxGust+')';
+  if(x.why==='club' || x.why==='club-limite'){
+    const L = clubLim();
+    if(x.why==='club-limite') return 'Proche de la consigne du club ('+L.label+') : '+kn+' nd, rafales '+gust+' nd';
+    const over = [x.kn>L.kn ? 'vent '+kn+' nd ('+L.kn+' max)' : '', x.gust>L.gust ? 'rafales '+gust+' nd ('+L.gust+' max)' : '',
+                  x.wave>L.wave && !x.noWave && RG().waves ? 'vagues '+wave+' m ('+num(L.wave,1)+' max)' : ''].filter(Boolean);
+    return 'Au-delà de la consigne du club ('+L.label+') : '+over.join(', ');
+  }
   if(x.why==='vent') return (x.level==='bad' ? 'Trop de vent' : 'Vent soutenu')+' : '+kn+' nd, rafales '+gust+' nd';
   return (x.level==='bad' ? 'Mer forte' : 'Mer agitée')+' : vagues de '+wave+' m';
 }
@@ -1880,7 +1915,12 @@ function scoreBoat(h){
   if(h.gust>40) w = Math.min(w, 15);
   const s = m<=1.25 ? 100 - m*24 : m<=2.5 ? 69 - (m-1.25)*19.2 : Math.max(0, 44 - (m-2.5)*30);
   let score = Math.min(w, s), why = w<s ? 'vent' : 'mer';
-  if(CLUB && (h.kn>CLUB.maxKn || h.gust>CLUB.maxGust) && score>44){ score = 44; why = 'club'; }
+  const L = clubLim();
+  if(L){
+    const over = h.kn>L.kn || h.gust>L.gust || (RG().waves && !h.noWave && h.wave>L.wave);
+    if(over && score>44){ score = 44; why = 'club'; }
+    else if(!over && (h.kn>L.kn-3 || h.gust>L.gust-3) && score>69){ score = 69; why = 'club-limite'; }
+  }
   if(h.night && score>60){ score = 60; why = 'nuit'; }
   if(h.code>=95 && score>15){ score = 15; why = 'orage'; }
   return {score, why};
@@ -2699,7 +2739,8 @@ function allureFor(cap, windFrom){
 }
 function renderSail(cur){
   const el = $('sailCard');
-  if(!cur){ el.innerHTML = ''; $('sailDest').hidden = true; return; }
+  const L = clubLim();
+  if(!cur || (L && !L.keel)){ el.innerHTML = ''; $('sailDest').hidden = true; return; }
   const sp = sailPlan(cur.kn, cur.gust);
   const notes = [];
   if(cur.gust - cur.kn > 8) notes.push('Vent irrégulier (rafales à '+Math.round(cur.gust)+' nd) : la voilure est calculée sur les rafales.');
@@ -3399,6 +3440,32 @@ $('premiumForm').addEventListener('submit', async e=>{
   location.href = 'mailto:'+to+'?subject='+encodeURIComponent("Crén'eau · mon avis")+'&body='+encodeURIComponent(body);
 });
 
+/* ---------- Club : support et niveau (pastille de l'en-tête, mode bateau) ---------- */
+function renderClub(){
+  const L = clubLim();
+  $('clubBtn').hidden = !L;
+  if(!L){ $('clubPanel').hidden = true; return; }
+  $('clubBtn').innerHTML = ico('sail')+CLUB.supports[SUPPORT].label+' · '+(NIVEAU==='deb' ? 'déb.' : 'conf.');
+  $('clubBtn').setAttribute('aria-label', CLUB.name+' : '+L.label+', modifier');
+  $('supChips').innerHTML = Object.entries(CLUB.supports).map(([k, v]) => '<button type="button" data-sup="'+k+'" aria-pressed="'+(k===SUPPORT)+'">'+v.label+'</button>').join('');
+  $('lvlChips').innerHTML = Object.entries(NIVEAUX).map(([k, v]) => '<button type="button" data-lvl="'+k+'" aria-pressed="'+(k===NIVEAU)+'">'+v+'</button>').join('');
+  $('clubLim').innerHTML = 'Consigne de <b>'+CLUB.name+'</b> : '+L.kn+' nd, rafales '+L.gust+' nd'+(RG().waves ? ', vagues '+num(L.wave,1)+' m' : '')+' maximum.';
+}
+$('clubBtn').addEventListener('click', () => {
+  const open = $('clubPanel').hidden;
+  $('clubPanel').hidden = !open;
+  $('clubBtn').setAttribute('aria-expanded', open);
+});
+$('clubPanel').addEventListener('click', e => {
+  const b = e.target.closest('button'); if(!b) return;
+  if(b.dataset.sup) SUPPORT = b.dataset.sup;
+  if(b.dataset.lvl) NIVEAU = b.dataset.lvl;
+  try{ localStorage.setItem('support', SUPPORT); localStorage.setItem('niveau', NIVEAU); }catch(err){}
+  renderClub();
+  refreshAll();
+});
+renderClub();
+
 /* ---------- Fiche de sortie : prévenir quelqu'un à terre ---------- */
 // Sans serveur : la fiche part par SMS (ou le partage du téléphone) au contact choisi,
 // la sortie en cours est gardée sur le téléphone jusqu'à « Je suis rentré ».
@@ -3450,7 +3517,7 @@ function openSortie(){
   const dests = DESTS[REGION].map(d => d.name).concat(['Balade devant le port']);
   f.elements.dest.innerHTML = dests.map(d => '<option>'+soEsc(d)+'</option>').join('');
   if(dests.includes(pref.dest)) f.elements.dest.value = pref.dest;
-  f.elements.bateau.value = pref.bateau || '';
+  f.elements.bateau.value = pref.bateau || (CLUB ? CLUB.supports[SUPPORT].label+' du club' : '');
   f.elements.pob.value = pref.pob || 2;
   f.elements.contact.value = pref.contact || (CLUB ? CLUB.contact.name : '');
   f.elements.tel.value = pref.tel || (CLUB ? CLUB.contact.tel : '');
@@ -3459,7 +3526,8 @@ function openSortie(){
   const q = Math.round(mm/15)*15, t = (hh + (q===60 ? 1 : 0))%24;
   f.elements.retour.value = String(t).padStart(2,'0')+':'+String(q%60).padStart(2,'0');
   $('sortieClub').hidden = !CLUB;
-  if(CLUB) $('sortieClub').innerHTML = '<span aria-hidden="true">⚓</span><span><b>'+soEsc(CLUB.name)+'</b> : sortie déconseillée au-delà de '+CLUB.maxKn+' nd, rafales '+CLUB.maxGust+' nd.</span>';
+  const L = clubLim();
+  if(L) $('sortieClub').innerHTML = '<span aria-hidden="true">⚓</span><span><b>'+soEsc(CLUB.name)+'</b>, '+L.label+' : '+L.kn+' nd, rafales '+L.gust+' nd'+(RG().waves ? ', vagues '+num(L.wave,1)+' m' : '')+' maximum.</span>';
   try{ $('sortieDlg').showModal(); }catch(e){ $('sortieDlg').setAttribute('open',''); }
 }
 $('sortieClose').addEventListener('click', () => $('sortieDlg').close());
@@ -3501,7 +3569,7 @@ setInterval(renderSortie, 30000);
 // version.json est réécrit à chaque publication (tools/publier-version.sh). Si la
 // version en ligne diffère de celle de la page, on recharge : sur l'écran
 // d'accueil de l'iPhone, l'app reste ainsi à jour sans manipulation.
-const APP_VERSION = '20261020-203646';
+const APP_VERSION = '20261020-204207';
 async function checkUpdate(){
   try{
     const r = await fetch('version.json?t='+Date.now(), {cache:'no-store'});

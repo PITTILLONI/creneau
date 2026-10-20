@@ -1,5 +1,11 @@
 # Historique des versions
 
+## 20 octobre 2026 — Club : consignes par support et par niveau
+- Avec un lien club, une pastille dans l'en-tête (mode bateau) règle le **support** (Optimist, dériveur, catamaran, habitable) et le **niveau** (débutant, confirmé), comme la pastille de la glisse.
+- Chaque couple a sa consigne : vent moyen, rafales et vagues maximum. Au-delà : « Déconseillé » avec ce qui dépasse (« vent 14 nd (12 max), rafales 19 nd (16 max) ») ; à 3 nœuds de la limite : « Prudence ».
+- La voilure conseillée (voilier de croisière) ne s'affiche que pour un habitable. La fiche de sortie rappelle la consigne et propose « Optimist du club » comme bateau.
+- Chiffres du club démo donnés en exemple : un vrai club fournit les siens.
+
 ## 20 octobre 2026 — Fiche de sortie et premiers pas « Crén'eau Club »
 - **Je pars en mer** (mode bateau) : bateau, personnes à bord, destination, retour prévu et qui prévenir. La fiche part par SMS (ou le partage du téléphone) avec les conditions au départ et l'heure à partir de laquelle s'inquiéter (retour + 1 h), puis qui appeler : CROSS 196 ou VHF 16 (Nouméa : le 16).
 - Tant qu'on n'est pas rentré, un bandeau « En mer » rappelle le retour prévu ; il passe au rouge une fois l'heure dépassée. « Retour +1 h » et « Je suis rentré » préviennent aussi le contact. Le bateau et le contact sont retenus pour la fois suivante.
