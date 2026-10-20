@@ -1,5 +1,11 @@
 # Historique des versions
 
+## 20 octobre 2026 — Moins de texte : boutons « i », Calendrier hiérarchisé
+- Sans club, le bandeau et la pastille du club s'affichaient vides : corrigé (l'attribut `hidden` l'emporte désormais sur le style des éléments).
+- Bouton **« i »** à côté des titres de section : le texte explicatif s'ouvre dans une fenêtre au lieu d'encombrer la page. Bouées (source et définitions), créneaux à venir, heure par heure (calcul de la note, qui remplace les deux blocs « Comment est calculé… »), cette semaine, cours du club.
+- Bas de page : les avertissements restent visibles ; liens officiels et sources passent dans « Sources et liens utiles ».
+- Calendrier en trois blocs titrés et séparés : **Cette semaine** (« le meilleur créneau de chaque jour »), **Cours du club**, **Détail d'un jour** (« choisissez une date : horaires et conditions »), à la place de « Les 7 prochains jours » et « Un autre jour ».
+
 ## 20 octobre 2026 — Club d'exemple réaliste, cours dans le Calendrier
 - Club de démonstration remplacé par un exemple réaliste mais fictif, le **Yacht Club des Planches** (code `ycp`, `demo` marche toujours) : guidon aux couleurs du club dans le bandeau, icône « i ».
 - La fiche club montre les infos pratiques (club-house, horaires d'accueil, téléphone, e-mail, canal VHF des cours) et « Les infos du club » (régate, stage, assemblée générale), avant la licence. Numéro de téléphone dans la plage réservée par l'Arcep aux œuvres de fiction.

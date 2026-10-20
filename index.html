@@ -114,6 +114,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   .ins-state.good{background:var(--good-bg);color:var(--good);} .ins-state.mid{background:var(--mid-bg);color:var(--mid);} .ins-state.bad{background:var(--bad-bg);color:var(--bad);}
   #insForm{display:flex;flex-direction:column;gap:10px;}
   #insForm[hidden]{display:none;}
+  [hidden]{display:none !important;}
   #insForm label{display:flex;flex-direction:column;gap:4px;font-size:.9rem;font-weight:600;color:var(--ink-2);}
   #insForm input{height:46px;border:0;border-radius:12px;background:var(--surface-2);color:var(--ink);font:inherit;font-size:1rem;padding:0 12px;-webkit-appearance:none;appearance:none;}
   .ins-actions{display:flex;gap:10px;align-items:center;}
@@ -303,7 +304,8 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   .club-news small{font-weight:700;color:var(--ink-2);font-size:.78rem;text-transform:uppercase;letter-spacing:.04em;}
   .club-news b{color:var(--ink);font-size:1rem;}
   /* Cours du club (démo) */
-  .cours{margin-top:12px;padding:14px 16px;border-radius:var(--radius);background:var(--surface);}
+  .cours-in{padding:4px 16px;border-radius:var(--radius);background:var(--surface);}
+  .cours .cr-tag{vertical-align:middle;margin-left:4px;}
   .cours-h{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:4px;}
   .cours-h b{font-size:1.05rem;}
   .cr-tag{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;padding:3px 8px;border-radius:999px;background:var(--surface-2);color:var(--ink-2);}
@@ -328,7 +330,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   .cours-next{display:flex;flex-direction:column;gap:3px;margin-top:12px;padding:12px 16px;border-radius:var(--radius);background:var(--good-bg);color:var(--ink);text-decoration:none;}
   .cours-next small{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--good);}
   .cours-next span{color:var(--ink-2);font-size:.9rem;}
-  #calendrier .cours{margin-top:18px;}
+
   .club-head .club-logo{background:var(--club, var(--accent));color:#fff;width:38px;height:38px;}
   .placebar{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:36px;}
   .place{font-weight:700;font-size:1rem;letter-spacing:-.01em;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
@@ -512,6 +514,19 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   .cond .sub{font-size:.85rem;color:var(--ink-2);}
 
   .h3{font-size:1.1rem;font-weight:700;margin:26px 0 10px;}
+  /* En-tête de section : titre, sous-titre d'une ligne, bouton « i » pour le détail */
+  .sec-h{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:26px 0 10px;}
+  .sec-h .h3{margin:0;}
+  .sec-sub{margin:2px 0 0;font-size:.9rem;color:var(--ink-2);}
+  .sec-h.big{margin-top:30px;padding-top:22px;border-top:1px solid var(--surface-2);}
+  .sec-h.big .h3{font-size:1.3rem;}
+  .sec-h.big.first{margin-top:0;padding-top:0;border-top:0;}
+  .info-i{flex:none;display:grid;place-items:center;width:28px;height:28px;padding:0;border-radius:50%;border:1.5px solid var(--ink-2);background:transparent;color:var(--ink-2);font:italic 700 .85rem/1 Georgia,serif;cursor:pointer;}
+  #infoBody ul,#infoBody ol{padding-left:20px;}
+  #infoBody li{margin:6px 0;}
+  #infoBody .links{margin-top:6px;}
+  #infoBody .links a{background:var(--surface);}
+  .src-btn{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;min-height:48px;padding:0 14px;border:0;border-radius:14px;background:var(--surface);color:var(--ink);font:inherit;font-weight:600;cursor:pointer;}
   .slots-help{margin:-4px 0 12px;}
   .win .meta b{color:var(--ink);font-weight:600;}
   .windows{display:flex;flex-direction:column;gap:8px;}
@@ -942,9 +957,9 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
       <div class="tides" id="todayTides"></div>
     </div>
     <div class="buoys only-boat only-dv">
-      <div class="h3">Bouées au large · mesures en direct</div>
+      <div class="sec-h"><div class="h3">Bouées au large · mesures en direct</div><button type="button" class="info-i" data-info="buoySrc" aria-label="En savoir plus">i</button></div>
       <div id="buoyList"><div class="muted">Chargement des bouées…</div></div>
-      <p class="muted buoy-src" id="buoySrc"></p>
+      <p class="muted buoy-src" id="buoySrc" hidden></p>
     </div>
     <button type="button" class="premium-card" id="premiumOpen">
       <span class="pc-ico" aria-hidden="true">💬</span>
@@ -965,12 +980,12 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
     <div class="sail only-boat" id="sailCard"></div>
     <details class="tuto only-boat" id="sailDest" hidden><summary><span>Allure et réglages selon ta destination</span><small><span class="only-dv">Le Havre, Honfleur, Dives, Ouistreham, le large</span><span class="only-nc">îlots Canard, Maître, Signal, phare Amédée, Prony</span></small></summary><div class="tuto-body" id="sailDestBody"></div></details>
 
-    <div class="h3" id="slotsTitle">Créneaux d'écluse à venir</div>
-    <p class="muted slots-help" id="slotsHelp"></p>
+    <div class="sec-h"><div class="h3" id="slotsTitle">Créneaux d'écluse à venir</div><button type="button" class="info-i" data-info="slotsHelp" aria-label="En savoir plus">i</button></div>
+    <p class="muted slots-help" id="slotsHelp" hidden></p>
     <div class="windows" id="windows"><div class="muted">Chargement…</div></div>
     <p class="win-count" id="winCount"></p>
 
-    <div class="h3">Heure par heure</div>
+    <div class="sec-h"><div class="h3">Heure par heure</div><button type="button" class="info-i" data-info="infoHours" aria-label="En savoir plus">i</button></div>
     <div class="strip-wrap">
       <div class="strip" id="strip" role="list"></div>
       <div class="strip-detail" id="stripDetail">Touchez une heure pour le détail.</div>
@@ -982,7 +997,8 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
       </div>
     </div>
 
-    <details class="tuto only-kite"><summary><span>Comment est calculée la note ?</span><small>force, régularité et orientation du vent</small></summary><div class="tuto-body">
+    <div id="infoHours" hidden>
+      <div class="only-kite"><h4>Comment est calculée la note ?</h4>
       <p>Pour la plage de <span class="spotName">Deauville</span>, orientée <span class="spotFaces">nord-nord-ouest</span>. Chaque heure de jour est notée sur :</p>
       <ul>
         <li><b>Vent moyen</b> : calculé pour ton <b>sport</b>, ton poids et <b>ton matériel</b> (pastille en haut). Une aile ou voile de S m² est à son idéal vers poids × coef ÷ S nœuds : coef 2,2 en kite, 1,34 en windsurf, 1 en windfoil et en wingfoil. Elle navigue d'environ −12 % à +40-50 % autour. Vent minimum = celui où ta plus grande tire assez (au moins 9 nd en kite twin-tip, 7 en foil, 11 en windsurf pour planer, 7 en windfoil, 10 en wingfoil) ; maximum = le haut de plage de ta plus petite (25 nd en windfoil, 35 sinon).</li>
@@ -993,8 +1009,8 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
         <li>Une session est une suite d'heures notées « bon » (à défaut « moyen »).</li>
       </ul>
       <p>Vérifier aussi les zones et périodes autorisées par la mairie (règles de plage en saison) et l'heure de la marée : à marée haute la plage est étroite.</p>
-    </div></details>
-    <details class="tuto only-boat"><summary><span>Comment est calculé le confort ?</span><small>vent, rafales et vagues pour notre bateau de 13 m</small></summary><div class="tuto-body">
+    </div>
+      <div class="only-boat"><h4>Comment est calculée la note ?</h4>
       <p>Réglé pour notre bateau de 13 m. Chaque heure prend la note la plus basse entre le vent et l'état de la mer :</p>
       <ul>
         <li><b>Vent moyen</b> : favorable jusqu'à 17 nœuds (force 4-5), prudence jusqu'à 27 (force 6), déconseillé au-delà. Rafales au-delà de 34 nœuds : déconseillé.</li>
@@ -1003,8 +1019,9 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
         <li>Un créneau d'écluse prend la note de sa pire heure.</li>
       </ul>
       <p>Vent : consolidé entre 5 modèles (médiane, Météo-France AROME/ARPEGE comptant double, avec ECMWF, ICON, UKMO et GFS) pour qu'une erreur isolée ne fausse pas la note. Vagues et houle : modèle MFWAM de Météo-France. Données servies par Open-Meteo, mises à jour toutes les heures. Ces prévisions ne remplacent pas le bulletin météo marine officiel.</p>
-    </div></details>
-    <div class="muted" id="fcSource" style="margin-top:10px;"></div>
+    </div>
+    </div>
+    <p class="muted" id="fcSource" hidden></p>
   </section>
 
   <section id="conseils" aria-labelledby="t-tips">
@@ -1231,11 +1248,20 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
 
   <section id="calendrier" aria-labelledby="t-cal">
     <h2 id="t-cal" class="sr">Calendrier</h2>
-    <div class="h3" style="margin-top:0">Les 7 prochains jours</div>
+    <div class="sec-h big first"><div><div class="h3">Cette semaine</div><p class="sec-sub"><span class="only-boat">Le meilleur créneau de chaque jour</span><span class="only-kite">La meilleure session de chaque jour</span></p></div><button type="button" class="info-i" data-info="infoWeek" aria-label="En savoir plus">i</button></div>
     <div class="wk" id="weekStrip" role="list"><div class="muted">Chargement…</div></div>
     <p class="muted wk-sum" id="weekSum"></p>
+    <div id="infoWeek" hidden>
+      <p>Chaque carte résume un jour : la note de son meilleur <span class="only-boat">créneau</span><span class="only-kite">moment</span>, ses horaires et le ciel.</p>
+      <ul>
+        <li><b>Cadre vert plein</b> : favorable aujourd'hui.</li>
+        <li><b>Cadre vert pointillé</b> : favorable un autre jour.</li>
+        <li>Touchez un jour pour voir son détail plus bas.</li>
+        <li>Au-delà de 3 jours, c'est une tendance : à revérifier la veille.</li>
+      </ul>
+    </div>
     <div class="cours only-boat" id="coursCard" hidden></div>
-    <div class="cal-h"><div class="h3">Un autre jour</div><button class="todaybtn" id="gotoToday" hidden>Aujourd'hui</button></div>
+    <div class="sec-h big"><div><div class="h3">Détail d'un jour</div><p class="sec-sub">Choisissez une date : horaires et conditions</p></div><button class="todaybtn" id="gotoToday" hidden>Aujourd'hui</button></div>
     <div class="daynav">
       <button id="prevDay" aria-label="Jour précédent">‹</button>
       <label class="datefield">
@@ -1395,6 +1421,10 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
         <p class="sheet-done" id="premiumDone" hidden>Merci ! Votre avis est bien reçu.</p>
       </form>
     </dialog>
+    <dialog class="sheet" id="infoDlg" aria-labelledby="infoTitle">
+      <div class="sheet-head"><h3 id="infoTitle"></h3><button type="button" class="todaybtn" id="infoClose">Fermer</button></div>
+      <div id="infoBody"></div>
+    </dialog>
     <dialog class="sheet" id="clubDlg" aria-labelledby="clubTitle">
       <form id="clubForm">
         <div class="sheet-head"><div class="club-head"><span class="club-logo" id="clubLogo" aria-hidden="true"></span><h3 id="clubTitle"></h3></div><button type="button" class="todaybtn" id="clubClose">Fermer</button></div>
@@ -1435,6 +1465,8 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
     <div class="warn only-boat only-dv"><b>Horaires théoriques.</b> Toujours confirmer avant une manœuvre via le <b>VHF canal 9</b> ou la cabine de l'écluse au <a href="tel:+33698718392">06 98 71 83 92</a>.</div>
     <div class="warn only-kite only-dv"><b>Prévisions indicatives.</b> Vérifier le vent sur place avant de gréer. Urgence en mer : <a href="tel:196">196</a> (CROSS) ou VHF canal 16.</div>
     <div class="warn only-nc"><b>Prévisions indicatives.</b> Urgence en mer : le <a href="tel:16">16</a> depuis un téléphone ou la <b>VHF canal 16</b> (COSS NC, ex-MRCC Nouméa). Météo marine en VHF sur les canaux <b>65</b> et <b>66</b>.</div>
+    <button type="button" class="src-btn" data-info="infoSources" data-title="Sources et liens utiles"><span>Sources et liens utiles</span><span class="info-i" aria-hidden="true">i</span></button>
+    <div id="infoSources" hidden>
     <div class="links">
       <a class="only-dv" href="https://meteofrance.com/meteo-marine" target="_blank" rel="noopener">Bulletin météo marine officiel — Météo-France ↗</a>
       <a class="only-dv" href="https://maree.shom.fr/harbor/DEAUVILLE" target="_blank" rel="noopener">Marées de Deauville — SHOM ↗</a>
@@ -1446,6 +1478,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
     <div class="only-kite only-dv">Vent, vagues et température de l'eau : Météo-France (AROME/ARPEGE, MFWAM, courants) via Open-Meteo. Marées : SHOM, via Ports du Calvados (autorisation n° 2024-282). Projet indépendant, non affilié à la mairie de Deauville, au SHOM ni à Météo-France.</div>
     <div class="only-boat only-dv">Horaires des portes et marées : document officiel Ports du Calvados, calculé avec le SHOM (autorisation n° 2024-282). Porte à la cote 5,50 m. Données 2026 uniquement. Projet indépendant, non affilié à Ports du Calvados, à la mairie de Deauville, au SHOM ni à Météo-France.</div>
     <div class="only-nc">Vent consolidé sur 5 modèles et température de l'eau (Météo-France, courants) via Open-Meteo. Marées calculées à partir de la hauteur d'eau prévue (modèle), sans coefficient : à vérifier sur l'annuaire du SHOM. Vagues non affichées dans le lagon. Spots d'après les écoles de kite locales. Projet indépendant, non affilié à Météo-France, au SHOM ni au gouvernement de la Nouvelle-Calédonie.</div>
+    </div>
   </footer>
 </div>
 
@@ -3003,7 +3036,7 @@ function renderWeek(){
   }
   $('weekStrip').innerHTML = cards.join('');
   $('weekSum').textContent = nGood
-    ? nGood+' '+(kite ? (nGood>1 ? 'sessions navigables' : 'session navigable') : RG().gates ? (nGood>1 ? 'créneaux favorables' : 'créneau favorable') : (nGood>1 ? 'sorties favorables' : 'sortie favorable'))+' sur 7 jours · au-delà de 3 jours, tendance à revérifier'
+    ? nGood+' '+(kite ? (nGood>1 ? 'sessions navigables' : 'session navigable') : RG().gates ? (nGood>1 ? 'créneaux favorables' : 'créneau favorable') : (nGood>1 ? 'sorties favorables' : 'sortie favorable'))+' sur 7 jours'
     : (kite ? 'Aucune session navigable sur 7 jours avec ton matériel' : RG().gates ? 'Aucun créneau favorable sur 7 jours' : 'Aucune sortie favorable sur 7 jours');
 }
 $('weekStrip').addEventListener('click', e=>{
@@ -3642,9 +3675,11 @@ function renderCours(){
     }
     html += coursRow(k, false);
   });
-  el.innerHTML = '<div class="cours-h"><b>Cours du club</b><span class="cr-tag">Démo</span></div>'
-    + '<p class="cr-demo">Planning, moniteurs et places fictifs. Les inscriptions restent sur ce téléphone.</p>'
-    + html + '</ul>';
+  el.innerHTML = '<div class="sec-h big"><div><div class="h3">Cours du club <span class="cr-tag">Démo</span></div><p class="sec-sub">Les séances de la semaine et leurs places</p></div>'
+    + '<button type="button" class="info-i" data-info="coursInfo" aria-label="En savoir plus">i</button></div>'
+    + '<div id="coursInfo" hidden><p>Pour chaque séance : la note Crén\'eau du créneau, calculée avec la consigne du club pour ce support et ce niveau, et les places restantes.</p>'
+    + '<p>Démo : planning, moniteurs et places fictifs. Les inscriptions restent sur ce téléphone.</p></div>'
+    + '<div class="cours-in">'+html+'</ul></div>';
 }
 function onCours(e){
   const b = e.target.closest('[data-cr]'); if(!b) return;
@@ -3718,6 +3753,20 @@ $('clubJoin').addEventListener('click', () => {
   try{ localStorage.setItem('club', code); }catch(e){}
   location.reload();
 });
+
+/* ---------- Boutons « i » : le détail d'une section dans une fenêtre ---------- */
+// data-info = id d'un bloc masqué (texte fixe ou rempli par le rendu) ; titre = celui de la
+// section, ou data-title.
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-info]'); if(!b) return;
+  const src = $(b.dataset.info); if(!src) return;
+  const h = b.closest('.sec-h');
+  $('infoTitle').textContent = b.dataset.title || (h && h.querySelector('.h3').firstChild.textContent.trim()) || 'En savoir plus';
+  $('infoBody').innerHTML = src.innerHTML;
+  $('infoBody').querySelectorAll('[id]').forEach(x => x.removeAttribute('id'));
+  try{ $('infoDlg').showModal(); }catch(err){ $('infoDlg').setAttribute('open',''); }
+});
+$('infoClose').addEventListener('click', () => $('infoDlg').close());
 
 /* ---------- Fiche de sortie : prévenir quelqu'un à terre ---------- */
 // Sans serveur : la fiche part par SMS (ou le partage du téléphone) au contact choisi,
@@ -3823,7 +3872,7 @@ setInterval(renderSortie, 30000);
 // version.json est réécrit à chaque publication (tools/publier-version.sh). Si la
 // version en ligne diffère de celle de la page, on recharge : sur l'écran
 // d'accueil de l'iPhone, l'app reste ainsi à jour sans manipulation.
-const APP_VERSION = '20261020-205509';
+const APP_VERSION = '20261020-210307';
 async function checkUpdate(){
   try{
     const r = await fetch('version.json?t='+Date.now(), {cache:'no-store'});
