@@ -292,6 +292,16 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   .clubbar small{flex:none;font-size:.8rem;font-weight:600;padding:3px 8px;border-radius:999px;background:rgba(255,255,255,.18);}
   .clubbar small.todo{background:#fff;color:var(--club, var(--accent));}
   .club-head{display:flex;align-items:center;gap:10px;}
+  .club-i{flex:none;display:grid;place-items:center;width:20px;height:20px;border-radius:50%;border:1.5px solid rgba(255,255,255,.75);font:700 .75rem/1 Georgia,serif;font-style:italic;}
+  .club-info{list-style:none;margin:0 0 4px;padding:12px 14px;background:var(--surface);border-radius:16px;display:flex;flex-direction:column;gap:10px;font-size:.95rem;}
+  .club-info li{display:flex;align-items:center;gap:10px;}
+  .club-info a{color:var(--accent);font-weight:600;text-decoration:none;}
+  .ci-ico{flex:none;display:grid;place-items:center;width:30px;height:30px;border-radius:9px;background:var(--surface-2);}
+  .ci-ico svg{width:17px;height:17px;fill:none;stroke:var(--accent);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+  .club-news{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;}
+  .club-news li{display:flex;flex-direction:column;gap:2px;padding:10px 14px;background:var(--surface);border-radius:14px;border-left:4px solid var(--club, var(--accent));font-size:.9rem;color:var(--ink-2);}
+  .club-news small{font-weight:700;color:var(--ink-2);font-size:.78rem;text-transform:uppercase;letter-spacing:.04em;}
+  .club-news b{color:var(--ink);font-size:1rem;}
   /* Cours du club (démo) */
   .cours{margin-top:12px;padding:14px 16px;border-radius:var(--radius);background:var(--surface);}
   .cours-h{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:4px;}
@@ -305,6 +315,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   .cr-top .badge{grid-row:auto;grid-column:auto;font-size:.8rem;padding:3px 9px;}
   .badge.none{background:var(--surface-2);color:var(--ink-2);}
   .cr-what{color:var(--ink-2);font-size:.92rem;}
+  .cr-title{font-weight:600;}
   .cr-why{font-size:.88rem;}
   .cr-bot{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:3px;}
   .cr-places{display:flex;flex-direction:column;gap:4px;font-size:.85rem;color:var(--ink-2);min-width:0;}
@@ -314,7 +325,10 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   .cr-bot .ins-save{flex:none;}
   .cr.mine{background:var(--good-bg);margin:0 -10px;padding:12px 10px;border-radius:12px;border-top-color:transparent;}
   .cr-day{margin:14px 0 2px;font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-2);}
-  .cours-all{width:100%;margin-top:6px;}
+  .cours-next{display:flex;flex-direction:column;gap:3px;margin-top:12px;padding:12px 16px;border-radius:var(--radius);background:var(--good-bg);color:var(--ink);text-decoration:none;}
+  .cours-next small{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--good);}
+  .cours-next span{color:var(--ink-2);font-size:.9rem;}
+  #calendrier .cours{margin-top:18px;}
   .club-head .club-logo{background:var(--club, var(--accent));color:#fff;width:38px;height:38px;}
   .placebar{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:36px;}
   .place{font-weight:700;font-size:1rem;letter-spacing:-.01em;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
@@ -920,7 +934,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
       <div class="dl-legend"><span class="free">Portes ouvertes</span><span class="shut">Portes fermées</span></div>
     </div>
     <div class="sortie only-boat" id="sortieCard"></div>
-    <div class="cours only-boat" id="coursCard" hidden></div>
+    <a class="cours-next only-boat" id="coursNext" href="#calendrier" hidden></a>
     <div class="today">
       <div class="today-title only-boat only-dv">Aujourd'hui · ouverture des portes du bassin Morny</div>
       <div class="today-title only-nc">Aujourd'hui · marées</div>
@@ -1220,6 +1234,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
     <div class="h3" style="margin-top:0">Les 7 prochains jours</div>
     <div class="wk" id="weekStrip" role="list"><div class="muted">Chargement…</div></div>
     <p class="muted wk-sum" id="weekSum"></p>
+    <div class="cours only-boat" id="coursCard" hidden></div>
     <div class="cal-h"><div class="h3">Un autre jour</div><button class="todaybtn" id="gotoToday" hidden>Aujourd'hui</button></div>
     <div class="daynav">
       <button id="prevDay" aria-label="Jour précédent">‹</button>
@@ -1383,7 +1398,9 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
     <dialog class="sheet" id="clubDlg" aria-labelledby="clubTitle">
       <form id="clubForm">
         <div class="sheet-head"><div class="club-head"><span class="club-logo" id="clubLogo" aria-hidden="true"></span><h3 id="clubTitle"></h3></div><button type="button" class="todaybtn" id="clubClose">Fermer</button></div>
-        <fieldset><legend>Ma licence FFVoile</legend>
+        <div id="clubInfo"></div>
+        <div id="clubNews"></div>
+        <fieldset style="margin-top:14px"><legend>Ma licence FFVoile</legend>
           <label class="other">Numéro de licence <input type="text" name="licence" placeholder="ex. 1234567A" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="12"></label>
           <label><input type="checkbox" name="valide"> <span>Licence prise pour <span id="clubSaison"></span></span></label>
           <p class="muted" style="margin:0;font-size:.85rem">Gardée sur votre téléphone. Elle figure sur vos fiches de sortie ; le club la vérifiera à l'inscription aux cours.</p>
@@ -1392,11 +1409,6 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
         <p class="sheet-done" id="clubDone" hidden>Licence enregistrée.</p>
         <div class="ob-links" style="justify-content:center;margin-top:14px"><button type="button" class="todaybtn" id="clubLeave">Quitter le club</button></div>
       </form>
-    </dialog>
-    <dialog class="sheet" id="coursDlg" aria-labelledby="coursTitle">
-      <div class="sheet-head"><h3 id="coursTitle">Cours de la semaine</h3><button type="button" class="todaybtn" id="coursClose">Fermer</button></div>
-      <p class="cr-demo">Démo : planning, moniteurs et places fictifs. Les inscriptions restent sur ce téléphone.</p>
-      <div id="coursAll"></div>
     </dialog>
     <dialog class="sheet" id="sortieDlg" aria-labelledby="sortieTitle">
       <form id="sortieForm">
@@ -1480,7 +1492,6 @@ const ICONS = {
   thermo:'<path d="M14 4v10.5a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0z"/>',
   sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M6.3 17.7l-1.4 1.4M19.1 4.9l-1.4 1.4"/>',
   drop:'<path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5S12.5 5.5 12 3c-.5 2.5-2 4.9-4 6.5S5 13 5 15a7 7 0 0 0 7 7z"/>',
-  sail:'<path d="M12 3v14M12 3l6 12h-6M12 6l-5 9h5"/><path d="M4 19h16l-2 2H6z"/>',
   kite:'<path d="M12 2l7 7-7 9-7-9z"/><path d="M12 2v16M5 9h14"/><path d="M12 18c0 2 1.5 3.5 3.5 3.5"/>',
   moon:'<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z"/>',
   cloud:'<path d="M7 18a4.5 4.5 0 1 1 .9-8.9A6 6 0 0 1 19 11a3.5 3.5 0 0 1-.5 7z"/>',
@@ -1868,23 +1879,34 @@ if(SPOTS[SPOT].region!==REGION) SPOT = Object.keys(SPOTS).find(k => SPOTS[k].reg
 // keel : habitable, garde la voilure conseillée (calculée pour un voilier de croisière).
 // « demo » est fictif, ses chiffres sont des exemples : un vrai club donne les siens, avec son accord.
 const CLUBS = {
-  demo: {name:'Club de voile démo', short:'CVD', color:'#0b5cad', region:'dv', contact:{name:'Permanence du club', tel:''},
+  // Exemple réaliste mais fictif (nom, numéros, planning, actus) : pas un vrai club.
+  // Téléphone dans la plage 01 99 00 xx xx, réservée par l'Arcep aux œuvres de fiction.
+  ycp: {name:'Yacht Club des Planches', short:'YCP', color:'#12355b', burgee:['#12355b','#ffffff','#c8102e'], region:'dv',
+    contact:{name:'Permanence du YCP', tel:'01 99 00 14 80'},
+    info:{lieu:'Club-house, bassin Morny, Deauville', accueil:'Mer., sam. et dim. · 9 h 30 – 18 h', mail:'accueil@yc-planches.example', vhf:'VHF 72 pendant les cours'},
+    actus:[
+      {quand:'Sam. 24 oct.', titre:'Régate d\'automne', txt:'Départ 11 h devant la jetée, briefing 9 h 30 au club-house. Inscription à l\'accueil jusqu\'à vendredi.'},
+      {quand:'26 – 30 oct.', titre:'Stage de la Toussaint', txt:'Optimist et ILCA, tous les matins. Quelques places encore.'},
+      {quand:'Sam. 14 nov.', titre:'Assemblée générale', txt:'18 h au club-house, suivie du pot de fin de saison.'}
+    ],
     supports: {
-      opti:     {label:'Optimist',  max:{deb:[12,16,0.8], conf:[18,24,1.2]}},
-      deriveur: {label:'Dériveur',  max:{deb:[14,18,1.0], conf:[20,26,1.5]}},
-      cata:     {label:'Catamaran', max:{deb:[15,20,1.0], conf:[22,28,1.5]}},
-      hab:      {label:'Habitable', keel:true, max:{deb:[18,25,1.5], conf:[25,32,2.5]}}
+      opti: {label:'Optimist',  max:{deb:[12,16,0.8], conf:[18,24,1.2]}},
+      ilca: {label:'ILCA',      max:{deb:[14,18,1.0], conf:[22,28,1.5]}},
+      cata: {label:'Catamaran', max:{deb:[15,20,1.0], conf:[22,28,1.5]}},
+      j80:  {label:'J/80',      max:{deb:[16,22,1.2], conf:[22,28,2.0]}},
+      hab:  {label:'Croiseur',  keel:true, max:{deb:[18,25,1.5], conf:[25,32,2.5]}}
     },
-    // démo : cours de la semaine type (dow 0 = dimanche), places et inscrits fictifs
+    // semaine type (dow 0 = dimanche) ; places et inscrits fictifs
     cours: [
-      {dow:3, h:[14,16], sup:'opti',     niv:'deb',  places:8, mono:'Léa'},
-      {dow:3, h:[16,18], sup:'deriveur', niv:'conf', places:6, mono:'Hugo'},
-      {dow:6, h:[10,12], sup:'opti',     niv:'deb',  places:8, mono:'Léa'},
-      {dow:6, h:[14,17], sup:'cata',     niv:'conf', places:6, mono:'Hugo'},
-      {dow:0, h:[10,13], sup:'hab',      niv:'deb',  places:5, mono:'Marc'},
-      {dow:0, h:[14,16], sup:'deriveur', niv:'deb',  places:8, mono:'Léa'}
+      {dow:3, h:[14,16], sup:'opti', niv:'deb',  places:8, mono:'Léa',  titre:'École de voile · Optimist 7–10 ans'},
+      {dow:3, h:[16,18], sup:'ilca', niv:'conf', places:6, mono:'Hugo', titre:'Entraînement ILCA'},
+      {dow:6, h:[10,12], sup:'opti', niv:'deb',  places:8, mono:'Léa',  titre:'École de voile · Optimist 7–10 ans'},
+      {dow:6, h:[14,17], sup:'cata', niv:'conf', places:6, mono:'Hugo', titre:'Catamaran perfectionnement'},
+      {dow:0, h:[10,13], sup:'j80',  niv:'deb',  places:4, mono:'Marc', titre:'Découverte J/80 · adultes'},
+      {dow:0, h:[14,18], sup:'hab',  niv:'deb',  places:5, mono:'Marc', titre:'Croisière côtière vers Honfleur'}
     ]}
 };
+CLUBS.demo = CLUBS.ycp;   // ancien code de démonstration
 const NIVEAUX = {deb:'Débutant', conf:'Confirmé'};
 const CLUB = (() => {
   let c = null;
@@ -3504,6 +3526,13 @@ $('premiumForm').addEventListener('submit', async e=>{
 /* ---------- Club : bandeau, licence, support et niveau ---------- */
 // La licence FFVoile vaut pour l'année civile
 function saison(){ return new Date().getFullYear(); }
+function clubLogo(){
+  if(!CLUB.burgee) return CLUB.short;
+  const [a, b, c] = CLUB.burgee;
+  return '<svg viewBox="0 0 32 24" width="26" height="20" aria-hidden="true"><defs><clipPath id="bgc"><path d="M3 2L30 12L3 22z"/></clipPath></defs>'
+    + '<g clip-path="url(#bgc)"><rect width="32" height="24" fill="'+a+'"/><rect y="9.5" width="32" height="5" fill="'+b+'"/><circle cx="10" cy="12" r="3" fill="'+c+'"/></g>'
+    + '<path d="M3 2L30 12L3 22z" fill="none" stroke="#fff" stroke-opacity=".5"/><path d="M2 1v22" stroke="#fff" stroke-width="1.5"/></svg>';
+}
 function getLicence(){ try{ return JSON.parse(localStorage.getItem('licence')||'null'); }catch(e){ return null; } }
 function renderClub(){
   const L = clubLim();
@@ -3511,7 +3540,8 @@ function renderClub(){
   if(CLUB){
     const lic = getLicence(), ok = lic && lic.num && lic.saison===saison();
     document.documentElement.style.setProperty('--club', CLUB.color);
-    $('clubBar').innerHTML = '<span class="club-logo" aria-hidden="true">'+CLUB.short+'</span><b>'+CLUB.name+'</b>'
+    $('clubBar').innerHTML = '<span class="club-logo" aria-hidden="true">'+clubLogo()+'</span><b>'+CLUB.name+'</b>'
+      + (CLUB.info ? '<span class="club-i" aria-hidden="true">i</span>' : '')
       + (ok ? '<small>Licence '+lic.saison+' ✓</small>' : '<small class="todo">Ma licence</small>');
     $('clubBar').setAttribute('aria-label', CLUB.name+(ok ? ', licence '+lic.num : ', licence à renseigner')+' : ouvrir la fiche club');
   }
@@ -3582,38 +3612,42 @@ function coursRow(k, withDay){
     : k.me==='attente' ? 'Complet · vous êtes sur liste d\'attente'
     : left<=0 ? 'Complet · '+c.places+' places' : left+' place'+(left>1 ? 's' : '')+' sur '+c.places;
   return '<li class="cr'+(k.me==='inscrit' ? ' mine' : '')+'"><div class="cr-top"><b>'+when+'</b>'+badge+'</div>'
+    + (c.titre ? '<div class="cr-title">'+c.titre+'</div>' : '')
     + '<div class="cr-what">'+sp.label+' · '+(c.niv==='deb' ? 'débutants' : 'confirmés')+' · avec '+c.mono+'</div>'
     + (k.x && k.x.level!=='good' ? '<div class="cr-why">'+k.x.html+'</div>' : '')
     + '<div class="cr-bot"><span class="cr-places'+(left<=0 && k.me!=='inscrit' ? ' full' : '')+'"><i style="--p:'+(k.taken/c.places).toFixed(2)+'"></i>'+places+'</span>'+btn+'</div></li>';
 }
+// Calendrier : le planning de la semaine, jour par jour. Maintenant : rappel du prochain
+// cours où l'on est inscrit.
 function renderCours(){
   const el = $('coursCard');
   if(!el) return;
-  const list = coursList();
+  const list = coursList(), next = list.find(k => k.me==='inscrit');
   el.hidden = !list.length;
+  $('coursNext').hidden = !next;
+  if(next){
+    const d = relDay(next.i, todayIdx);
+    $('coursNext').innerHTML = '<small>Votre prochain cours</small><b>'+cap(d==="aujourd'hui" || d==='demain' ? d : dayName(next.i, {weekday:'long'}))
+      + ' · '+String(next.c.h[0]).padStart(2,'0')+':00–'+String(next.c.h[1]).padStart(2,'0')+':00</b>'
+      + '<span>'+(next.c.titre || CLUB.supports[next.c.sup].label)+(next.x ? ' · '+LABELS.boat[next.x.level] : '')+'</span>';
+  }
   if(!list.length) return;
-  const mine = list.filter(k => k.me==='inscrit');
-  const show = mine.concat(list.filter(k => k.me!=='inscrit')).slice(0, 3).sort((a, b) => a.i-b.i || a.c.h[0]-b.c.h[0]);
-  el.innerHTML = '<div class="cours-h"><b>Cours du club</b><span class="cr-tag">Démo</span></div>'
-    + '<ul class="cr-list">'+show.map(k => coursRow(k, true)).join('')+'</ul>'
-    + (list.length > show.length ? '<button type="button" class="todaybtn cours-all" data-cr="tout">Tout le planning de la semaine · '+list.length+' cours</button>' : '');
-  if($('coursDlg').open) renderCoursAll(list);
-}
-function renderCoursAll(list){
   let html = '', day = -1;
   list.forEach(k => {
-    if(k.i!==day){ if(day>=0) html += '</ul>'; day = k.i; html += '<div class="cr-day">'+cap(relDay(k.i, todayIdx)==="aujourd'hui" || relDay(k.i, todayIdx)==='demain' ? relDay(k.i, todayIdx)+' · '+dayName(k.i, {weekday:'long', day:'numeric', month:'long'}) : dayName(k.i))+'</div><ul class="cr-list">'; }
+    if(k.i!==day){
+      if(day>=0) html += '</ul>';
+      day = k.i;
+      const d = relDay(k.i, todayIdx);
+      html += '<div class="cr-day">'+(d==="aujourd'hui" || d==='demain' ? cap(d)+' · '+dayName(k.i, {weekday:'long', day:'numeric', month:'long'}) : cap(dayName(k.i)))+'</div><ul class="cr-list">';
+    }
     html += coursRow(k, false);
   });
-  $('coursAll').innerHTML = html + (html ? '</ul>' : '');
+  el.innerHTML = '<div class="cours-h"><b>Cours du club</b><span class="cr-tag">Démo</span></div>'
+    + '<p class="cr-demo">Planning, moniteurs et places fictifs. Les inscriptions restent sur ce téléphone.</p>'
+    + html + '</ul>';
 }
 function onCours(e){
   const b = e.target.closest('[data-cr]'); if(!b) return;
-  if(b.dataset.cr==='tout'){
-    renderCoursAll(coursList());
-    try{ $('coursDlg').showModal(); }catch(err){ $('coursDlg').setAttribute('open',''); }
-    return;
-  }
   const k = coursList().find(x => x.id===b.dataset.cr); if(!k) return;
   const mine = getInscr();
   if(k.me) delete mine[k.id];
@@ -3621,7 +3655,6 @@ function onCours(e){
     const lic = getLicence();
     if(!(lic && lic.num && lic.saison===saison())){
       if(confirm('Une licence FFVoile '+saison()+' est demandée pour s\'inscrire aux cours. La renseigner maintenant ?')){
-        if($('coursDlg').open) $('coursDlg').close();
         $('clubBar').click();
       }
       return;
@@ -3632,8 +3665,11 @@ function onCours(e){
   renderCours();
 }
 $('coursCard').addEventListener('click', onCours);
-$('coursAll').addEventListener('click', onCours);
-$('coursClose').addEventListener('click', () => $('coursDlg').close());
+$('coursNext').addEventListener('click', e => {
+  e.preventDefault();
+  setTab(sections.findIndex(x => x.id==='calendrier'), true);
+  $('coursCard').scrollIntoView({block:'start'}); scrollBy(0, -150);
+});
 
 // Fiche club : licence (numéro et saison), quitter le club
 function leaveClub(){
@@ -3643,7 +3679,17 @@ function leaveClub(){
 }
 $('clubBar').addEventListener('click', () => {
   const f = $('clubForm'), lic = getLicence() || {};
-  $('clubLogo').textContent = CLUB.short; $('clubTitle').textContent = CLUB.name;
+  $('clubLogo').innerHTML = clubLogo(); $('clubTitle').textContent = CLUB.name;
+  const I = CLUB.info, row = (ic, t, href) => '<li><span class="ci-ico" aria-hidden="true">'+ic+'</span>'+(href ? '<a href="'+href+'">'+t+'</a>' : '<span>'+t+'</span>')+'</li>';
+  $('clubInfo').innerHTML = I ? '<ul class="club-info">'
+    + row('<svg viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-12a7 7 0 0 1 14 0c0 5.8-7 12-7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>', I.lieu)
+    + row('<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>', 'Accueil : '+I.accueil)
+    + (CLUB.contact.tel ? row('<svg viewBox="0 0 24 24"><path d="M5 3h4l2 5-2.5 1.5a11 11 0 0 0 6 6L16 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 5a2 2 0 0 1 2-2"/></svg>', CLUB.contact.tel, 'tel:'+CLUB.contact.tel.replace(/\s/g, '')) : '')
+    + row('<svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>', I.mail, 'mailto:'+I.mail)
+    + row('<svg viewBox="0 0 24 24"><rect x="7" y="7" width="10" height="14" rx="2"/><path d="M10 7V3M10 11h4M10 15h4"/></svg>', I.vhf)
+    + '</ul>' : '';
+  $('clubNews').innerHTML = CLUB.actus ? '<div class="cr-day">Les infos du club</div><ul class="club-news">'
+    + CLUB.actus.map(a => '<li><small>'+a.quand+'</small><b>'+a.titre+'</b><span>'+a.txt+'</span></li>').join('')+'</ul>' : '';
   $('clubSaison').textContent = saison();
   f.elements.licence.value = lic.num || '';
   f.elements.valide.checked = lic.saison===saison();
@@ -3777,7 +3823,7 @@ setInterval(renderSortie, 30000);
 // version.json est réécrit à chaque publication (tools/publier-version.sh). Si la
 // version en ligne diffère de celle de la page, on recharge : sur l'écran
 // d'accueil de l'iPhone, l'app reste ainsi à jour sans manipulation.
-const APP_VERSION = '20261020-205222';
+const APP_VERSION = '20261020-205509';
 async function checkUpdate(){
   try{
     const r = await fetch('version.json?t='+Date.now(), {cache:'no-store'});

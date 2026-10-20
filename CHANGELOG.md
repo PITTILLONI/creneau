@@ -1,5 +1,11 @@
 # Historique des versions
 
+## 20 octobre 2026 — Club d'exemple réaliste, cours dans le Calendrier
+- Club de démonstration remplacé par un exemple réaliste mais fictif, le **Yacht Club des Planches** (code `ycp`, `demo` marche toujours) : guidon aux couleurs du club dans le bandeau, icône « i ».
+- La fiche club montre les infos pratiques (club-house, horaires d'accueil, téléphone, e-mail, canal VHF des cours) et « Les infos du club » (régate, stage, assemblée générale), avant la licence. Numéro de téléphone dans la plage réservée par l'Arcep aux œuvres de fiction.
+- Supports du club : Optimist, ILCA, catamaran, J/80, croiseur ; cours avec un intitulé (« École de voile · Optimist 7–10 ans », « Croisière côtière vers Honfleur »…).
+- Les cours passent dans l'onglet **Calendrier**, sous les 7 prochains jours, jour par jour. Dans Maintenant, seulement « Votre prochain cours » si l'on est inscrit (le toucher ouvre le Calendrier).
+
 ## 20 octobre 2026 — Démo : cours du club
 - Membre d'un club, mode bateau : carte « Cours du club » (étiquette Démo) avec les 3 prochains cours, et « Tout le planning de la semaine » en fenêtre, jour par jour.
 - Chaque cours : horaire, support, niveau, moniteur, places restantes (jauge), et la note Crén'eau du créneau calculée avec la consigne du club pour ce support et ce niveau (pire heure), avec la raison si ce n'est pas favorable.
