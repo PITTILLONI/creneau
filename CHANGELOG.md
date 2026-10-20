@@ -1,5 +1,9 @@
 # Historique des versions
 
+## 20 octobre 2026 — En-tête aux couleurs du club, licence FFVoile
+- Membre d'un club : un bandeau en tête de l'app, aux couleurs du club, avec son sigle et son nom, et l'état de la licence (« Ma licence » à renseigner, ou « Licence 2026 ✓ »).
+- Le bandeau ouvre la fiche club : numéro de licence FFVoile et case « licence prise pour 2026 » (année civile), gardés sur le téléphone, et « Quitter le club ». La licence figure sur les fiches de sortie.
+
 ## 20 octobre 2026 — Rejoindre un club depuis l'app
 - Onglet Conseils : bouton « Rejoindre un club » (code donné par le club), puis « Quitter … ». Nécessaire sur iPhone : l'app de l'écran d'accueil ne partage pas le stockage de Safari, un lien `?club=` ouvert dans Safari ne l'atteint pas.
 

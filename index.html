@@ -285,6 +285,14 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   .appname p{margin:0;font-size:.82rem;color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
   .appbar-in{display:flex;flex-direction:column;gap:8px;width:100%;max-width:720px;margin-inline:auto;}
   .appbar .seg{margin-bottom:0;}
+  /* Bandeau du club (membres) : couleurs et sigle du club, ouvre la fiche club */
+  .clubbar{display:flex;align-items:center;gap:10px;width:100%;border:0;border-radius:14px;padding:7px 12px 7px 7px;background:var(--club, var(--accent));color:#fff;font:inherit;text-align:left;cursor:pointer;}
+  .club-logo{flex:none;display:grid;place-items:center;width:30px;height:30px;border-radius:9px;background:rgba(255,255,255,.18);font-weight:800;font-size:.72rem;letter-spacing:.02em;}
+  .clubbar b{flex:1;min-width:0;font-size:.95rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .clubbar small{flex:none;font-size:.8rem;font-weight:600;padding:3px 8px;border-radius:999px;background:rgba(255,255,255,.18);}
+  .clubbar small.todo{background:#fff;color:var(--club, var(--accent));}
+  .club-head{display:flex;align-items:center;gap:10px;}
+  .club-head .club-logo{background:var(--club, var(--accent));color:#fff;width:38px;height:38px;}
   .placebar{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:36px;}
   .place{font-weight:700;font-size:1rem;letter-spacing:-.01em;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
   .place select{
@@ -800,6 +808,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
 </form>
 <header class="appbar" id="appbar"><div class="appbar-in">
   <h1 class="sr">Crén'eau</h1>
+  <button type="button" class="clubbar" id="clubBar" hidden></button>
   <div class="seg" role="group" aria-label="Profil">
     <span class="seg-ind" aria-hidden="true"></span>
     <button data-p="boat" aria-pressed="true">Bateau</button>
@@ -1347,6 +1356,19 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
         <p class="sheet-done" id="premiumDone" hidden>Merci ! Votre avis est bien reçu.</p>
       </form>
     </dialog>
+    <dialog class="sheet" id="clubDlg" aria-labelledby="clubTitle">
+      <form id="clubForm">
+        <div class="sheet-head"><div class="club-head"><span class="club-logo" id="clubLogo" aria-hidden="true"></span><h3 id="clubTitle"></h3></div><button type="button" class="todaybtn" id="clubClose">Fermer</button></div>
+        <fieldset><legend>Ma licence FFVoile</legend>
+          <label class="other">Numéro de licence <input type="text" name="licence" placeholder="ex. 1234567A" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="12"></label>
+          <label><input type="checkbox" name="valide"> <span>Licence prise pour <span id="clubSaison"></span></span></label>
+          <p class="muted" style="margin:0;font-size:.85rem">Gardée sur votre téléphone. Elle figure sur vos fiches de sortie ; le club la vérifiera à l'inscription aux cours.</p>
+        </fieldset>
+        <button type="submit" class="ins-save premium-send">Enregistrer</button>
+        <p class="sheet-done" id="clubDone" hidden>Licence enregistrée.</p>
+        <div class="ob-links" style="justify-content:center;margin-top:14px"><button type="button" class="todaybtn" id="clubLeave">Quitter le club</button></div>
+      </form>
+    </dialog>
     <dialog class="sheet" id="sortieDlg" aria-labelledby="sortieTitle">
       <form id="sortieForm">
         <div class="sheet-head"><h3 id="sortieTitle">Je pars en mer</h3><button type="button" class="todaybtn" id="sortieClose">Fermer</button></div>
@@ -1817,7 +1839,7 @@ if(SPOTS[SPOT].region!==REGION) SPOT = Object.keys(SPOTS).find(k => SPOTS[k].reg
 // keel : habitable, garde la voilure conseillée (calculée pour un voilier de croisière).
 // « demo » est fictif, ses chiffres sont des exemples : un vrai club donne les siens, avec son accord.
 const CLUBS = {
-  demo: {name:'Club de voile démo', region:'dv', contact:{name:'Permanence du club', tel:''},
+  demo: {name:'Club de voile démo', short:'CVD', color:'#0b5cad', region:'dv', contact:{name:'Permanence du club', tel:''},
     supports: {
       opti:     {label:'Optimist',  max:{deb:[12,16,0.8], conf:[18,24,1.2]}},
       deriveur: {label:'Dériveur',  max:{deb:[14,18,1.0], conf:[20,26,1.5]}},
@@ -3440,9 +3462,20 @@ $('premiumForm').addEventListener('submit', async e=>{
   location.href = 'mailto:'+to+'?subject='+encodeURIComponent("Crén'eau · mon avis")+'&body='+encodeURIComponent(body);
 });
 
-/* ---------- Club : support et niveau (pastille de l'en-tête, mode bateau) ---------- */
+/* ---------- Club : bandeau, licence, support et niveau ---------- */
+// La licence FFVoile vaut pour l'année civile
+function saison(){ return new Date().getFullYear(); }
+function getLicence(){ try{ return JSON.parse(localStorage.getItem('licence')||'null'); }catch(e){ return null; } }
 function renderClub(){
   const L = clubLim();
+  $('clubBar').hidden = !CLUB;
+  if(CLUB){
+    const lic = getLicence(), ok = lic && lic.num && lic.saison===saison();
+    document.documentElement.style.setProperty('--club', CLUB.color);
+    $('clubBar').innerHTML = '<span class="club-logo" aria-hidden="true">'+CLUB.short+'</span><b>'+CLUB.name+'</b>'
+      + (ok ? '<small>Licence '+lic.saison+' ✓</small>' : '<small class="todo">Ma licence</small>');
+    $('clubBar').setAttribute('aria-label', CLUB.name+(ok ? ', licence '+lic.num : ', licence à renseigner')+' : ouvrir la fiche club');
+  }
   $('clubBtn').hidden = !L;
   if(!L){ $('clubPanel').hidden = true; return; }
   $('clubBtn').innerHTML = ico('sail')+CLUB.supports[SUPPORT].label+' · '+(NIVEAU==='deb' ? 'déb.' : 'conf.');
@@ -3464,16 +3497,37 @@ $('clubPanel').addEventListener('click', e => {
   renderClub();
   refreshAll();
 });
+// Fiche club : licence (numéro et saison), quitter le club
+function leaveClub(){
+  if(!confirm('Quitter '+CLUB.name+' ? Les notes reprennent les repères habituels.')) return;
+  try{ localStorage.removeItem('club'); }catch(e){}
+  location.reload();
+}
+$('clubBar').addEventListener('click', () => {
+  const f = $('clubForm'), lic = getLicence() || {};
+  $('clubLogo').textContent = CLUB.short; $('clubTitle').textContent = CLUB.name;
+  $('clubSaison').textContent = saison();
+  f.elements.licence.value = lic.num || '';
+  f.elements.valide.checked = lic.saison===saison();
+  $('clubDone').hidden = true;
+  try{ $('clubDlg').showModal(); }catch(e){ $('clubDlg').setAttribute('open',''); }
+});
+$('clubClose').addEventListener('click', () => $('clubDlg').close());
+$('clubLeave').addEventListener('click', leaveClub);
+$('clubForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const f = e.target, num = f.elements.licence.value.trim().toUpperCase().replace(/\s+/g, '');
+  try{ num ? localStorage.setItem('licence', JSON.stringify({num, saison: f.elements.valide.checked ? saison() : null})) : localStorage.removeItem('licence'); }catch(err){}
+  renderClub();
+  $('clubDone').hidden = false;
+  setTimeout(() => $('clubDlg').close(), 1200);
+});
 renderClub();
 // Rejoindre ou quitter un club depuis l'app : sur iPhone, l'app de l'écran d'accueil ne
 // partage pas le stockage de Safari, un lien ?club= ouvert dans Safari ne l'atteint pas.
 $('clubJoin').textContent = CLUB ? 'Quitter '+CLUB.name : 'Rejoindre un club';
 $('clubJoin').addEventListener('click', () => {
-  if(CLUB){
-    if(!confirm('Quitter '+CLUB.name+' ? Les notes reprennent les repères habituels.')) return;
-    try{ localStorage.removeItem('club'); }catch(e){}
-    return location.reload();
-  }
+  if(CLUB) return leaveClub();
   const code = (prompt('Code du club (donné par votre club) :') || '').trim().toLowerCase();
   if(!code) return;
   if(!(code in CLUBS)) return alert('Code inconnu. Vérifiez-le auprès de votre club.');
@@ -3558,6 +3612,7 @@ $('sortieForm').addEventListener('submit', async e => {
     + qui+(t ? ' part' : ' pars')+' en mer'+(s.bateau ? ' sur « '+s.bateau+' »' : '')+', '+s.pob+' personne'+(s.pob>1 ? 's' : '')+' à bord.\n'
     + 'Départ de '+RG().port.name+' à '+epochHHMM(s.depart)+', vers : '+s.dest+'.\n'
     + 'Retour prévu vers '+epochHHMM(s.retour)+'.\n'
+    + (CLUB && getLicence()?.num ? CLUB.name+', licence FFVoile '+getLicence().num+'.\n' : '')
     + (h ? 'Prévu au départ : vent '+Math.round(h.kn)+' nd '+dirName(h.dir)+', rafales '+Math.round(h.gust)+' nd'+(h.wave!=null && RG().waves ? ', vagues '+num(h.wave,1)+' m' : '')+'.\n' : '')
     + 'Sans nouvelles à '+epochHHMM(s.retour+3600000)+' : m\'appeler, puis prévenir '+soUrgence()+'.\n'
     + '(Crén\'eau)';
@@ -3584,7 +3639,7 @@ setInterval(renderSortie, 30000);
 // version.json est réécrit à chaque publication (tools/publier-version.sh). Si la
 // version en ligne diffère de celle de la page, on recharge : sur l'écran
 // d'accueil de l'iPhone, l'app reste ainsi à jour sans manipulation.
-const APP_VERSION = '20261020-204332';
+const APP_VERSION = '20261020-204856';
 async function checkUpdate(){
   try{
     const r = await fetch('version.json?t='+Date.now(), {cache:'no-store'});

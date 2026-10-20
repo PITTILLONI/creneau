@@ -62,6 +62,8 @@ Dernière mise à jour de ce fichier : 18 octobre 2026 (18h35).
 - [ ] Prévenir ses proches, suite : version glisse (spot, aile), alerte automatique au contact si le retour n'est pas signalé (demande un serveur et des notifications)
 - [ ] **Crén'eau Club** : une seule app, réglée par le club via un lien d'invitation (pas de seconde app)
   - [x] Socle (20 octobre) : `?club=<id>`, consignes de vent du club dans les notes, contact du club dans la fiche de sortie ; club fictif `demo`
+  - [x] En-tête aux couleurs du club et licence FFVoile déclarée (20 octobre) ; vérification par le club à faire avec le serveur
+  - [ ] Cours du club : planning, places restantes, inscription (démo d'abord, puis serveur)
   - [ ] Club pilote, gratuit une saison contre retours et droit de le citer (Deauville Yacht Club ou club école de la Côte Fleurie) ; ajouter un vrai club seulement avec son accord
   - [x] Seuils par support et par niveau (20 octobre) : pastille Support / Niveau, consigne vent, rafales, vagues
   - [ ] Niveau plus fin avec la jauge de niveau ; consignes réelles fournies par le club pilote
