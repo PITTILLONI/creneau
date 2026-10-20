@@ -1,5 +1,8 @@
 # Historique des versions
 
+## 20 octobre 2026 — « i » sans cercle
+- Les boutons « i » (sections, sources, bandeau du club) n'ont plus de cercle autour : un simple « i » italique, un peu plus grand.
+
 ## 20 octobre 2026 — Moins de texte : boutons « i », Calendrier hiérarchisé
 - Sans club, le bandeau et la pastille du club s'affichaient vides : corrigé (l'attribut `hidden` l'emporte désormais sur le style des éléments).
 - Bouton **« i »** à côté des titres de section : le texte explicatif s'ouvre dans une fenêtre au lieu d'encombrer la page. Bouées (source et définitions), créneaux à venir, heure par heure (calcul de la note, qui remplace les deux blocs « Comment est calculé… »), cette semaine, cours du club.

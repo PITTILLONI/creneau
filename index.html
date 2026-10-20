@@ -293,7 +293,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   .clubbar small{flex:none;font-size:.8rem;font-weight:600;padding:3px 8px;border-radius:999px;background:rgba(255,255,255,.18);}
   .clubbar small.todo{background:#fff;color:var(--club, var(--accent));}
   .club-head{display:flex;align-items:center;gap:10px;}
-  .club-i{flex:none;display:grid;place-items:center;width:20px;height:20px;border-radius:50%;border:1.5px solid rgba(255,255,255,.75);font:700 .75rem/1 Georgia,serif;font-style:italic;}
+  .club-i{flex:none;display:grid;place-items:center;width:20px;height:20px;opacity:.85;font:italic 700 1.05rem/1 Georgia,serif;}
   .club-info{list-style:none;margin:0 0 4px;padding:12px 14px;background:var(--surface);border-radius:16px;display:flex;flex-direction:column;gap:10px;font-size:.95rem;}
   .club-info li{display:flex;align-items:center;gap:10px;}
   .club-info a{color:var(--accent);font-weight:600;text-decoration:none;}
@@ -521,7 +521,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   .sec-h.big{margin-top:30px;padding-top:22px;border-top:1px solid var(--surface-2);}
   .sec-h.big .h3{font-size:1.3rem;}
   .sec-h.big.first{margin-top:0;padding-top:0;border-top:0;}
-  .info-i{flex:none;display:grid;place-items:center;width:28px;height:28px;padding:0;border-radius:50%;border:1.5px solid var(--ink-2);background:transparent;color:var(--ink-2);font:italic 700 .85rem/1 Georgia,serif;cursor:pointer;}
+  .info-i{flex:none;display:grid;place-items:center;width:32px;height:32px;padding:0;border:0;background:transparent;color:var(--ink-2);font:italic 700 1.15rem/1 Georgia,serif;cursor:pointer;}
   #infoBody ul,#infoBody ol{padding-left:20px;}
   #infoBody li{margin:6px 0;}
   #infoBody .links{margin-top:6px;}
@@ -3872,7 +3872,7 @@ setInterval(renderSortie, 30000);
 // version.json est réécrit à chaque publication (tools/publier-version.sh). Si la
 // version en ligne diffère de celle de la page, on recharge : sur l'écran
 // d'accueil de l'iPhone, l'app reste ainsi à jour sans manipulation.
-const APP_VERSION = '20261020-210307';
+const APP_VERSION = '20261020-210958';
 async function checkUpdate(){
   try{
     const r = await fetch('version.json?t='+Date.now(), {cache:'no-store'});
