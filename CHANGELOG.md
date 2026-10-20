@@ -1,5 +1,10 @@
 # Historique des versions
 
+## 20 octobre 2026 — Fiche de sortie et premiers pas « Crén'eau Club »
+- **Je pars en mer** (mode bateau) : bateau, personnes à bord, destination, retour prévu et qui prévenir. La fiche part par SMS (ou le partage du téléphone) avec les conditions au départ et l'heure à partir de laquelle s'inquiéter (retour + 1 h), puis qui appeler : CROSS 196 ou VHF 16 (Nouméa : le 16).
+- Tant qu'on n'est pas rentré, un bandeau « En mer » rappelle le retour prévu ; il passe au rouge une fois l'heure dépassée. « Retour +1 h » et « Je suis rentré » préviennent aussi le contact. Le bateau et le contact sont retenus pour la fois suivante.
+- **Clubs** : lien d'invitation `?club=<id>` (`?club=aucun` pour le retirer). Le club fixe ses consignes de vent (au-delà : « Déconseillé », raison « Au-delà de la consigne du club ») et préremplit son contact dans la fiche. Seul un club fictif `demo` existe pour l'instant.
+
 ## 19 octobre 2026 — Avis : une seule demande, après 7 minutes, avec réduction promise
 - Le questionnaire s'ouvre de lui-même **une seule fois**, après 7 minutes d'utilisation cumulée (app à l'écran, toutes ouvertures confondues), et jamais par-dessus une autre fenêtre. Fini les relances à la 3e et à la 6e ouverture.
 - « Donnez votre avis et profitez d'une réduction sur l'abonnement à son lancement » : sur la carte, et en tête du questionnaire (🎁). Les réponses contiennent le nom du testeur, qui sert de liste des bénéficiaires.

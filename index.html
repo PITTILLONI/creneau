@@ -664,6 +664,17 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   .sheet input[type=text]{font:inherit;font-size:16px;border:0;border-radius:10px;background:var(--surface-2);color:var(--ink);padding:9px 11px;width:100%;}
   .sheet-done{text-align:center;font-weight:700;color:var(--good);margin:12px 0;}
   .avis-intro{font-weight:700;margin:0 0 6px;}
+  .sheet select,.sheet input[type=number],.sheet input[type=time],.sheet input[type=tel]{font:inherit;font-size:16px;border:0;border-radius:10px;background:var(--surface-2);color:var(--ink);padding:9px 11px;width:100%;min-height:42px;}
+  .so-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  /* Fiche de sortie : bouton, puis bandeau « En mer » tant qu'on n'est pas rentré */
+  .sortie .premium-card{margin:12px 0 0;border-style:solid;border-color:var(--surface-2);background:var(--surface);}
+  .sortie.on{margin-top:12px;padding:14px 16px;border-radius:var(--radius);background:var(--good-bg);}
+  .sortie.on.late{background:var(--bad-bg);}
+  .so-k{font-weight:700;font-size:.8rem;text-transform:uppercase;letter-spacing:.05em;color:var(--good);}
+  .sortie.late .so-k{color:var(--bad);}
+  .so-v{margin:4px 0 12px;line-height:1.4;}
+  .so-act{display:flex;gap:8px;}
+  .so-act .todaybtn{flex:none;}
   .avis-gift{display:flex;gap:10px;align-items:center;margin:0 0 10px;padding:10px 12px;border-radius:14px;background:var(--good-bg);color:var(--ink);font-size:.92rem;line-height:1.35;}
   .avis-gift>span:first-child{font-size:1.3rem;flex:none;}
 
@@ -869,6 +880,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
       </div>
       <div class="dl-legend"><span class="free">Portes ouvertes</span><span class="shut">Portes fermées</span></div>
     </div>
+    <div class="sortie only-boat" id="sortieCard"></div>
     <div class="today">
       <div class="today-title only-boat only-dv">Aujourd'hui · ouverture des portes du bassin Morny</div>
       <div class="today-title only-nc">Aujourd'hui · marées</div>
@@ -1328,6 +1340,26 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
         <p class="sheet-done" id="premiumDone" hidden>Merci ! Votre avis est bien reçu.</p>
       </form>
     </dialog>
+    <dialog class="sheet" id="sortieDlg" aria-labelledby="sortieTitle">
+      <form id="sortieForm">
+        <div class="sheet-head"><h3 id="sortieTitle">Je pars en mer</h3><button type="button" class="todaybtn" id="sortieClose">Fermer</button></div>
+        <p class="muted" style="margin-top:0">Quelqu'un à terre connaît votre retour prévu. Sans nouvelles, il sait quoi faire.</p>
+        <p class="avis-gift" id="sortieClub" hidden></p>
+        <fieldset>
+          <label class="other">Bateau <input type="text" name="bateau" placeholder="nom du bateau" autocomplete="off"></label>
+          <div class="so-row">
+            <label class="other">Personnes à bord <input type="number" name="pob" min="1" max="99" value="2" inputmode="numeric" required></label>
+            <label class="other">Retour prévu vers <input type="time" name="retour" required></label>
+          </div>
+          <label class="other">Destination <select name="dest"></select></label>
+        </fieldset>
+        <fieldset><legend>Qui prévenir ?</legend>
+          <label class="other">Nom <input type="text" name="contact" placeholder="un proche, le club, la capitainerie" autocomplete="off"></label>
+          <label class="other">Téléphone <input type="tel" name="tel" placeholder="06 12 34 56 78" autocomplete="tel"></label>
+        </fieldset>
+        <button type="submit" class="ins-save premium-send" id="sortieSend">Envoyer la fiche</button>
+      </form>
+    </dialog>
 
   <footer>
     <div class="warn only-boat only-dv"><b>Horaires théoriques.</b> Toujours confirmer avant une manœuvre via le <b>VHF canal 9</b> ou la cabine de l'écluse au <a href="tel:+33698718392">06 98 71 83 92</a>.</div>
@@ -1771,6 +1803,21 @@ if(ZONES.length===1){
   document.documentElement.classList.add('one-zone');
 }
 if(SPOTS[SPOT].region!==REGION) SPOT = Object.keys(SPOTS).find(k => SPOTS[k].region===REGION);
+// Clubs : consignes de vent du club (au-delà : « Déconseillé ») et contact à terre pour la
+// fiche de sortie. Lien d'invitation ?club=<id>, gardé sur le téléphone ; ?club=aucun le retire.
+// « demo » est fictif : un vrai club n'est ajouté qu'avec son accord.
+const CLUBS = {
+  demo: {name:'Club de voile démo', region:'dv', maxKn:20, maxGust:28, contact:{name:'Permanence du club', tel:''}}
+};
+const CLUB = (() => {
+  let c = null;
+  try{
+    const q = new URLSearchParams(location.search).get('club');
+    if(q==='aucun') localStorage.removeItem('club'); else if(q in CLUBS) localStorage.setItem('club', q);
+    c = localStorage.getItem('club');
+  }catch(e){}
+  return CLUBS[c] || null;
+})();
 function RG(){ return REGIONS[REGION]; }
 function TZ(){ return RG().tz; }
 function fcPlace(){ return PROFILE==='kite' ? SPOTS[SPOT] : RG().port; }
@@ -1811,6 +1858,7 @@ function reason(x){
   if(x.level==='good') return x.noWave ? 'Vent modéré ('+kn+' nd)' : 'Vent modéré ('+kn+' nd) et mer peu agitée ('+wave+' m)';
   if(x.why==='nuit') return 'De nuit : visibilité réduite';
   if(x.why==='orage') return 'Orage annoncé : rafales violentes et foudre';
+  if(x.why==='club') return 'Au-delà de la consigne du club : '+kn+' nd, rafales '+gust+' nd (maximum '+CLUB.maxKn+' / '+CLUB.maxGust+')';
   if(x.why==='vent') return (x.level==='bad' ? 'Trop de vent' : 'Vent soutenu')+' : '+kn+' nd, rafales '+gust+' nd';
   return (x.level==='bad' ? 'Mer forte' : 'Mer agitée')+' : vagues de '+wave+' m';
 }
@@ -1832,6 +1880,7 @@ function scoreBoat(h){
   if(h.gust>40) w = Math.min(w, 15);
   const s = m<=1.25 ? 100 - m*24 : m<=2.5 ? 69 - (m-1.25)*19.2 : Math.max(0, 44 - (m-2.5)*30);
   let score = Math.min(w, s), why = w<s ? 'vent' : 'mer';
+  if(CLUB && (h.kn>CLUB.maxKn || h.gust>CLUB.maxGust) && score>44){ score = 44; why = 'club'; }
   if(h.night && score>60){ score = 60; why = 'nuit'; }
   if(h.code>=95 && score>15){ score = 15; why = 'orage'; }
   return {score, why};
@@ -3350,11 +3399,109 @@ $('premiumForm').addEventListener('submit', async e=>{
   location.href = 'mailto:'+to+'?subject='+encodeURIComponent("Crén'eau · mon avis")+'&body='+encodeURIComponent(body);
 });
 
+/* ---------- Fiche de sortie : prévenir quelqu'un à terre ---------- */
+// Sans serveur : la fiche part par SMS (ou le partage du téléphone) au contact choisi,
+// la sortie en cours est gardée sur le téléphone jusqu'à « Je suis rentré ».
+// Le contact reçoit l'heure à partir de laquelle s'inquiéter : retour prévu + 1 h.
+const soEsc = t => String(t).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function getSortie(){ try{ return JSON.parse(localStorage.getItem('sortie')||'null'); }catch(e){ return null; } }
+function setSortie(v){ try{ v ? localStorage.setItem('sortie', JSON.stringify(v)) : localStorage.removeItem('sortie'); }catch(e){} renderSortie(); }
+// heure « HH:MM » de la zone affichée -> prochain instant correspondant
+function soAt(hm){
+  const toMin = t => { const [a, b] = t.split(':').map(Number); return a*60+b; };
+  let d = toMin(hm) - toMin(epochHHMM(Date.now()));
+  if(d <= 0) d += 1440;
+  return Date.now() + d*60000;
+}
+function soNow(){
+  if(!FC || FC.key!=='port:'+REGION) return null;
+  const now = Date.now();
+  return FC.hours.find(x => now>=x.ts && now<x.ts+3600000) || null;
+}
+async function soSend(text, tel){
+  const num = (tel||'').replace(/[^\d+]/g, '');
+  if(num){ location.href = 'sms:'+num+'?&body='+encodeURIComponent(text); return true; }
+  if(navigator.share){
+    try{ await navigator.share({text}); return true; }catch(e){ if(e.name==='AbortError') return false; }
+  }
+  try{ await navigator.clipboard.writeText(text); alert('Message copié : collez-le dans votre messagerie.'); return true; }catch(e){}
+  prompt('Copiez ce message :', text);
+  return true;
+}
+function soUrgence(){ return REGION==='nc' ? 'le 16 (COSS Nouvelle-Calédonie) ou la VHF 16' : 'le CROSS au 196 ou la VHF 16'; }
+function renderSortie(){
+  const el = $('sortieCard'), s = getSortie();
+  if(!s){
+    el.className = 'sortie only-boat';
+    el.innerHTML = '<button type="button" class="premium-card" data-so="ouvrir"><span class="pc-ico" aria-hidden="true">⛵</span>'
+      + '<span><b>Je pars en mer</b><small>'+(CLUB ? 'Fiche de sortie pour le club ou un proche' : 'Prévenir un proche de votre retour prévu')+'</small></span></button>';
+    return;
+  }
+  const late = Date.now() > s.retour;
+  el.className = 'sortie only-boat on'+(late ? ' late' : '');
+  el.innerHTML = '<div class="so-k">'+(late ? 'Retour prévu dépassé' : 'En mer')+(s.bateau ? ' · '+soEsc(s.bateau) : '')+'</div>'
+    + '<div class="so-v">Retour prévu vers <b>'+epochHHMM(s.retour)+'</b>'+(s.contact ? ' · fiche envoyée à '+soEsc(s.contact) : '')
+    + (late ? '. Rentré ? Dites-le. Retardé ? Prévenez.' : '')+'</div>'
+    + '<div class="so-act"><button type="button" class="todaybtn" data-so="plus">Retour +1 h</button><button type="button" class="ins-save" data-so="rentre">Je suis rentré</button></div>';
+}
+function openSortie(){
+  const f = $('sortieForm');
+  let pref = {}; try{ pref = JSON.parse(localStorage.getItem('sortiePrefs')||'{}'); }catch(e){}
+  const dests = DESTS[REGION].map(d => d.name).concat(['Balade devant le port']);
+  f.elements.dest.innerHTML = dests.map(d => '<option>'+soEsc(d)+'</option>').join('');
+  if(dests.includes(pref.dest)) f.elements.dest.value = pref.dest;
+  f.elements.bateau.value = pref.bateau || '';
+  f.elements.pob.value = pref.pob || 2;
+  f.elements.contact.value = pref.contact || (CLUB ? CLUB.contact.name : '');
+  f.elements.tel.value = pref.tel || (CLUB ? CLUB.contact.tel : '');
+  // retour par défaut : dans 3 h, au quart d'heure
+  const [hh, mm] = epochHHMM(Date.now() + 3*3600000).split(':').map(Number);
+  const q = Math.round(mm/15)*15, t = (hh + (q===60 ? 1 : 0))%24;
+  f.elements.retour.value = String(t).padStart(2,'0')+':'+String(q%60).padStart(2,'0');
+  $('sortieClub').hidden = !CLUB;
+  if(CLUB) $('sortieClub').innerHTML = '<span aria-hidden="true">⚓</span><span><b>'+soEsc(CLUB.name)+'</b> : sortie déconseillée au-delà de '+CLUB.maxKn+' nd, rafales '+CLUB.maxGust+' nd.</span>';
+  try{ $('sortieDlg').showModal(); }catch(e){ $('sortieDlg').setAttribute('open',''); }
+}
+$('sortieClose').addEventListener('click', () => $('sortieDlg').close());
+$('sortieForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const f = e.target, v = n => f.elements[n].value.trim();
+  const s = {depart: Date.now(), retour: soAt(f.elements.retour.value), bateau: v('bateau'), pob: +v('pob') || 1,
+             dest: v('dest'), contact: v('contact'), tel: v('tel')};
+  try{ localStorage.setItem('sortiePrefs', JSON.stringify({bateau:s.bateau, pob:s.pob, dest:s.dest, contact:s.contact, tel:s.tel})); }catch(err){}
+  const t = getTester(), qui = t ? t.first+' '+t.last : 'Je';
+  const h = soNow();
+  const text = '⛵ Fiche de sortie\n'
+    + qui+(t ? ' part' : ' pars')+' en mer'+(s.bateau ? ' sur « '+s.bateau+' »' : '')+', '+s.pob+' personne'+(s.pob>1 ? 's' : '')+' à bord.\n'
+    + 'Départ de '+RG().port.name+' à '+epochHHMM(s.depart)+', vers : '+s.dest+'.\n'
+    + 'Retour prévu vers '+epochHHMM(s.retour)+'.\n'
+    + (h ? 'Prévu au départ : vent '+Math.round(h.kn)+' nd '+dirName(h.dir)+', rafales '+Math.round(h.gust)+' nd'+(h.wave!=null && RG().waves ? ', vagues '+num(h.wave,1)+' m' : '')+'.\n' : '')
+    + 'Sans nouvelles à '+epochHHMM(s.retour+3600000)+' : m\'appeler, puis prévenir '+soUrgence()+'.\n'
+    + '(Crén\'eau)';
+  if(!await soSend(text, s.tel)) return;
+  $('sortieDlg').close();
+  setSortie(s);
+});
+$('sortieCard').addEventListener('click', async e => {
+  const b = e.target.closest('[data-so]'); if(!b) return;
+  const s = getSortie();
+  if(b.dataset.so==='ouvrir') return openSortie();
+  if(!s) return;
+  if(b.dataset.so==='plus'){
+    s.retour = Math.max(s.retour, Date.now()) + 3600000;
+    if(await soSend('⛵ Je rentre plus tard que prévu : retour vers '+epochHHMM(s.retour)+'. Sans nouvelles à '+epochHHMM(s.retour+3600000)+' : m\'appeler, puis prévenir '+soUrgence()+'. (Crén\'eau)', s.tel)) setSortie(s);
+  } else if(b.dataset.so==='rentre'){
+    if(await soSend('⚓ Bien rentré au port à '+epochHHMM(Date.now())+', tout va bien. Fin de la sortie. (Crén\'eau)', s.tel)) setSortie(null);
+  }
+});
+renderSortie();
+setInterval(renderSortie, 30000);
+
 /* ---------- Mise à jour automatique ---------- */
 // version.json est réécrit à chaque publication (tools/publier-version.sh). Si la
 // version en ligne diffère de celle de la page, on recharge : sur l'écran
 // d'accueil de l'iPhone, l'app reste ainsi à jour sans manipulation.
-const APP_VERSION = '20261019-103437';
+const APP_VERSION = '20261020-203646';
 async function checkUpdate(){
   try{
     const r = await fetch('version.json?t='+Date.now(), {cache:'no-store'});

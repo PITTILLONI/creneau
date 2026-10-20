@@ -58,7 +58,18 @@ Dernière mise à jour de ce fichier : 18 octobre 2026 (18h35).
   - notification « quelqu'un vient aussi » (push web, installée sur l'écran d'accueil) ;
   - lien naturel avec le journal de sortie et, côté clubs et écoles, les inscriptions encadrées.
 
-- [ ] **Prévenir ses proches** (sécurité) : avant de partir seul, envoyer en un geste « je sors, retour prévu vers 18:30 » (spot ou destination, bateau ou aile) à un proche, avec rappel si on n'a pas signalé son retour. Annoncé « Bientôt » dans la présentation, avec « voir qui sort »
+- [x] **Prévenir ses proches**, version bateau sans serveur (20 octobre) : fiche « Je pars en mer » par SMS, bandeau « En mer », « Retour +1 h », « Je suis rentré »
+- [ ] Prévenir ses proches, suite : version glisse (spot, aile), alerte automatique au contact si le retour n'est pas signalé (demande un serveur et des notifications)
+- [ ] **Crén'eau Club** : une seule app, réglée par le club via un lien d'invitation (pas de seconde app)
+  - [x] Socle (20 octobre) : `?club=<id>`, consignes de vent du club dans les notes, contact du club dans la fiche de sortie ; club fictif `demo`
+  - [ ] Club pilote, gratuit une saison contre retours et droit de le citer (Deauville Yacht Club ou club école de la Côte Fleurie) ; ajouter un vrai club seulement avec son accord
+  - [ ] Seuils par support et par niveau (Optimist débutant, catamaran, habitable…), avec la jauge de niveau
+  - [ ] Fiche de sortie reçue par le club : liste des bateaux sur l'eau, retards signalés (serveur, même chantier que le chat du créneau)
+  - [ ] Vue moniteur : « séance maintenue / annulée / reportée », envoyée aux adhérents et aux parents
+  - [ ] Sorties du club et régates : « J'y serai » et chat réservés aux membres ; fenêtres de course pour le comité
+  - [ ] Mode écran du club-house (simple adresse sur la télé : créneaux du jour, portes, vent)
+  - [ ] Page d'administration web pour le club (membres, seuils, flotte, abonnement)
+  - [ ] Modèle : licence annuelle par club, premium offert aux adhérents ; s'ajoute à l'abonnement individuel
 
 - [ ] **« On fait une régate ? »** (bateau) : sur un créneau favorable, proposer une régate amicale entre bateaux du port, sur le même principe que les sorties de glisse (« J'y serai » + chat) : départ, parcours simple (bouées, Le Havre, Honfleur…), bateaux inscrits, heure de retour compatible avec la fermeture des portes. Plus tard : classement simple, régates des clubs
 
