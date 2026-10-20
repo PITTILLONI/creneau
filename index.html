@@ -962,7 +962,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
 
   <section id="conseils" aria-labelledby="t-tips">
     <h2 id="t-tips"><span class="only-kite">Bonnes pratiques</span><span class="only-boat">Bonnes pratiques bateau</span></h2>
-    <div class="ob-links"><button type="button" class="todaybtn ob-replay" id="obReplay">Revoir la présentation</button><button type="button" class="todaybtn ob-replay" id="instOpen">Ajouter à l'écran d'accueil</button></div>
+    <div class="ob-links"><button type="button" class="todaybtn ob-replay" id="obReplay">Revoir la présentation</button><button type="button" class="todaybtn ob-replay" id="instOpen">Ajouter à l'écran d'accueil</button><button type="button" class="todaybtn ob-replay" id="clubJoin">Rejoindre un club</button></div>
     <div class="only-kite">
     <div class="insur" id="insur">
       <div class="insur-head"><span class="h3" style="margin:0">Mon assurance</span><button class="todaybtn" id="insEdit">Modifier</button></div>
@@ -3465,6 +3465,21 @@ $('clubPanel').addEventListener('click', e => {
   refreshAll();
 });
 renderClub();
+// Rejoindre ou quitter un club depuis l'app : sur iPhone, l'app de l'écran d'accueil ne
+// partage pas le stockage de Safari, un lien ?club= ouvert dans Safari ne l'atteint pas.
+$('clubJoin').textContent = CLUB ? 'Quitter '+CLUB.name : 'Rejoindre un club';
+$('clubJoin').addEventListener('click', () => {
+  if(CLUB){
+    if(!confirm('Quitter '+CLUB.name+' ? Les notes reprennent les repères habituels.')) return;
+    try{ localStorage.removeItem('club'); }catch(e){}
+    return location.reload();
+  }
+  const code = (prompt('Code du club (donné par votre club) :') || '').trim().toLowerCase();
+  if(!code) return;
+  if(!(code in CLUBS)) return alert('Code inconnu. Vérifiez-le auprès de votre club.');
+  try{ localStorage.setItem('club', code); }catch(e){}
+  location.reload();
+});
 
 /* ---------- Fiche de sortie : prévenir quelqu'un à terre ---------- */
 // Sans serveur : la fiche part par SMS (ou le partage du téléphone) au contact choisi,
@@ -3569,7 +3584,7 @@ setInterval(renderSortie, 30000);
 // version.json est réécrit à chaque publication (tools/publier-version.sh). Si la
 // version en ligne diffère de celle de la page, on recharge : sur l'écran
 // d'accueil de l'iPhone, l'app reste ainsi à jour sans manipulation.
-const APP_VERSION = '20261020-204207';
+const APP_VERSION = '20261020-204332';
 async function checkUpdate(){
   try{
     const r = await fetch('version.json?t='+Date.now(), {cache:'no-store'});

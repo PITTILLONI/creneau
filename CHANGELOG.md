@@ -1,5 +1,8 @@
 # Historique des versions
 
+## 20 octobre 2026 — Rejoindre un club depuis l'app
+- Onglet Conseils : bouton « Rejoindre un club » (code donné par le club), puis « Quitter … ». Nécessaire sur iPhone : l'app de l'écran d'accueil ne partage pas le stockage de Safari, un lien `?club=` ouvert dans Safari ne l'atteint pas.
+
 ## 20 octobre 2026 — Club : consignes par support et par niveau
 - Avec un lien club, une pastille dans l'en-tête (mode bateau) règle le **support** (Optimist, dériveur, catamaran, habitable) et le **niveau** (débutant, confirmé), comme la pastille de la glisse.
 - Chaque couple a sa consigne : vent moyen, rafales et vagues maximum. Au-delà : « Déconseillé » avec ce qui dépasse (« vent 14 nd (12 max), rafales 19 nd (16 max) ») ; à 3 nœuds de la limite : « Prudence ».
