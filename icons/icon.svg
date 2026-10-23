@@ -1,8 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <rect width="512" height="512" rx="112" fill="#0057ff"/>
-  <path d="M96 236h320" stroke="#fff" stroke-width="30" stroke-linecap="round"/>
-  <path d="M136 236v-56M376 236v-56" stroke="#fff" stroke-width="30" stroke-linecap="round"/>
-  <path d="M136 180h240" stroke="#fff" stroke-width="20" stroke-linecap="round" opacity=".55"/>
-  <path d="M80 330c29 22 58 22 88 0s59-22 88 0 59 22 88 0 59-22 88 0" fill="none" stroke="#fff" stroke-width="30" stroke-linecap="round"/>
-  <path d="M80 396c29 22 58 22 88 0s59-22 88 0 59 22 88 0 59-22 88 0" fill="none" stroke="#fff" stroke-width="30" stroke-linecap="round" opacity=".55"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><title>Crén'eau</title><rect width="256" height="256" rx="56" fill="#0057ff"/><g transform="translate(48.52 43.52) scale(0.66)"><path fill="#fff" d="M207.95 63.97A104 104 0 1 0 207.95 192.03L170.13 162.48A56 56 0 1 1 170.13 93.52Z"/><circle fill="#6fdba0" cx="206" cy="128" r="24"/></g></svg>

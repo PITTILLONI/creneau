@@ -1,0 +1,32 @@
+{
+  "brand": "Crén'eau",
+  "tagline": "Le bon créneau pour glisser",
+  "brief": "Une app pour les marins et les riders (kite, windsurf, foil) de Deauville et de Nouméa : elle dit quand sortir — écluse, passerelle piétonne, vent, mer — et pourquoi. Le logo remplace l'ancienne icône passerelle + vagues de « Port de Deauville » : il doit parler à la voile comme à la glisse, et aux clubs.",
+  "adjectives": ["fiable", "local", "clair", "vif"],
+  "criteria": "Lisible à 16 px et sur l'écran d'accueil, en une couleur, à l'écart des clichés (ancre, rose des vents, vague générique), animable.",
+  "industry": "consumer-app",
+  "mockups": ["app-icon", "favicon-tab", "sticker", "tshirt", "signage", "social"],
+  "nav": ["Maintenant", "Sortir", "Calendrier"],
+  "brand_color": "#0057ff",
+  "greyscale": false,
+  "designer": "Crén'eau",
+  "round": 2,
+  "concepts": [
+    {
+      "name": "La fenêtre",
+      "symbol": "kit/creneau-symbole.svg",
+      "lockup": "kit/creneau-horizontal.svg",
+      "symbol_on_tile": "kit/creneau-symbole-blanc.svg",
+      "lockup_on_dark": "kit/creneau-horizontal-sombre.svg",
+      "tile_color": "#0057ff",
+      "idea": "Un C en cadran : l'ouverture, c'est le créneau ; le point vert, c'est vous, dedans.",
+      "rationale": [
+        "Le point a l'épaisseur de l'anneau et roule sur sa piste : un morceau du cadran sorti pour vous",
+        "Bleu de l'app pour l'anneau, vert « favorable » des notes pour le point",
+        "Version épaissie pour l'icône et les petites tailles"
+      ]
+    }
+  ],
+  "recommendation": "La fenêtre : la plus nette en petit, valable pour le bateau, la glisse et les clubs, et facile à animer (le point qui entre dans le créneau).",
+  "next_steps": ["Icônes de l'app remplacées", "Animation d'ouverture (le point entre dans le créneau)", "Dépôt de marque à vérifier (INPI)"]
+}
