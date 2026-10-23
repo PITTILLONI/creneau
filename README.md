@@ -6,7 +6,7 @@ Bateau ou kitesurf à Deauville et sur la Côte Fleurie, et à **Nouméa** : sav
 
 Savoir en un coup d'œil, depuis son téléphone :
 
-L'app est pensée pour un **marin** (profil Bateau) ou un **pratiquant de glisse** (profil Glisse : kite, windsurf, windfoil ou wingfoil, choisi dans l'en-tête avec le poids et le matériel). Chaque onglet de la barre du bas (Maintenant, Sortir, Conseils, Calendrier) est un écran à part.
+L'app est pensée pour un **marin** (profil Bateau) ou un **pratiquant de glisse** (profil Glisse : kite, windsurf, windfoil ou wingfoil, choisi dans l'en-tête avec le poids et le matériel). Chaque onglet de la barre du bas (Maintenant, Prévisions, Conseils, Calendrier, les mêmes dans les deux profils) est un écran à part. Les notes disent partout *Favorable / Prudence / Déconseillé*.
 
 **Bateau**
 1. **Sortie en mer (bassins Morny et des Yachts)** : ouvert ou fermé aux bateaux, chrono jusqu'à l'ouverture ou la fermeture des portes, état de la passerelle piétonne (cycle 15 min levée / 30 min baissée pendant l’ouverture des portes, première levée 12 min après l’ouverture, prochaine levée, VHF 9) et des portes, frise de la journée ;
@@ -19,7 +19,7 @@ L'app est pensée pour un **marin** (profil Bateau) ou un **pratiquant de glisse
 **Kitesurf**
 1. **Spot en direct** : vent (force, direction, orientation par rapport à la plage), **taille d'aile idéale** selon le **poids du rider** (réglable), **température de l'eau** et combinaison conseillée, rafales et régularité, marée montante/descendante, air, coucher du soleil ;
 2. **Choix de la plage** : Deauville, Trouville-sur-Mer, Houlgate, Cabourg (position et orientation propres à chaque plage, à affiner sur le terrain : `SPOTS` dans `index.html`) ;
-3. **Prévisions** : sessions *Navigable / Limite / Pas navigable* sur 3 jours, heure par heure ;
+3. **Prévisions** : sessions *Favorable / Prudence / Déconseillé* sur 3 jours, heure par heure (rafales de 35 nd ou plus, ou plus de 12 nd d'écart avec le vent moyen : Déconseillé) ;
 4. **Conseils** : trois carrousels illustrés (décoller son aile en 10 étapes, atterrir et porter son aile, réussir son water start sans s'agripper à la barre), **mon assurance** (stockée seulement sur le téléphone), priorités sur l'eau, sécurité, règles locales ;
 5. **Calendrier** : marées de n'importe quel jour, avec les conditions prévues (meilleure session, aile, eau, heure par heure) jusqu'à J+15.
 
