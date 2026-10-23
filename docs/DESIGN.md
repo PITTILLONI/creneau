@@ -10,6 +10,8 @@ Méthode : skill `design-combo`. UI UX Pro Max fixe le plancher (accessibilité,
 - **Six tailles de texte** (`--fs-1` à `--fs-6` : 13 · 15 · 17 · 20 · 26 · 36 px) ; seuls les grands chiffres (état, compte à rebours, vent) ont leur propre taille en `clamp()`. Rien sous 13 px.
 - **Icônes au trait** du jeu `ICONS` (24 px, trait 2), jamais d'emoji dans l'interface ; dans le HTML écrit en dur : `<span data-ico="nom"></span>`.
 - **Un seul vocabulaire de notes** dans les deux modes : Favorable / Prudence / Déconseillé.
+- **Le logo est un témoin** : dans l'en-tête, le petit C du logo accompagne l'heure ; son point est vert s'il reste un créneau favorable aujourd'hui, gris sinon (`favLeftToday`).
+- **La couleur est réservée à l'état** : le sélecteur Bateau / Glisse est gris, les réglages et l'avis vivent en bas de Conseils.
 - **Plat** : pas d'ombres ni de bordures. Les surfaces se distinguent par un léger écart de ton.
 - **Tactile** : toutes les cibles font au moins 44 px, la barre d'onglets est en bas (zone du pouce) et respecte les zones sûres de l'iPhone (`safe-area-inset`).
 - **Clair et sombre** suivent le réglage du téléphone.

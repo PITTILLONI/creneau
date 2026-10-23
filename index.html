@@ -343,8 +343,11 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   .placebar .clock{padding:6px 12px;font-size:var(--fs-2);}
   .clock{display:flex;align-items:center;gap:8px;background:var(--surface);border-radius:999px;padding:8px 14px;font-weight:700;font-size:var(--fs-3);flex:0 0 auto;}
   .appbar.scrolled .clock{background:var(--surface-2);}
-  .live{position:relative;width:8px;height:8px;border-radius:50%;background:var(--good);}
-  .live::after{content:"";position:absolute;inset:-4px;border-radius:50%;background:var(--good);opacity:.35;animation:ping 2s cubic-bezier(0,0,.2,1) infinite;}
+  /* Le logo comme témoin : point vert s'il reste un créneau favorable aujourd'hui, gris sinon. */
+  .live-logo{width:18px;height:18px;flex:none;}
+  .live-logo path{fill:none;stroke:var(--accent);stroke-width:3.2;}
+  .live-logo circle{fill:var(--ink-2);opacity:.55;transition:fill .3s ease,opacity .3s ease;}
+  .clock.fav .live-logo circle{fill:var(--good);opacity:1;}
   @keyframes ping{75%,100%{transform:scale(2.2);opacity:0;}}
 
   h2{font-size:var(--fs-5);font-weight:700;margin:0 0 14px;letter-spacing:-.03em;}
@@ -365,10 +368,10 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   .gate p{min-height:1.4em;color:var(--bad);font-weight:600;text-align:center;margin:0;}
 
   /* profile switch */
-  .seg{position:relative;display:grid;grid-template-columns:1fr 1fr;background:var(--surface);border-radius:16px;padding:4px;margin-bottom:16px;}
-  .seg button{position:relative;z-index:1;border:0;background:none;height:44px;border-radius:12px;font-weight:700;font-size:var(--fs-3);color:var(--ink-2);cursor:pointer;transition:color .25s ease,transform .18s cubic-bezier(.2,.8,.2,1);}
-  .seg button[aria-pressed="true"]{color:var(--accent-ink);}
-  .seg-ind{position:absolute;z-index:0;top:4px;left:4px;width:calc(50% - 4px);height:44px;border-radius:12px;background:var(--accent);transition:transform .35s cubic-bezier(.2,.8,.2,1);}
+  .seg{position:relative;display:grid;grid-template-columns:1fr 1fr;background:var(--surface-2);border-radius:14px;padding:3px;margin-bottom:16px;}
+  .seg button{position:relative;z-index:1;border:0;background:none;height:38px;border-radius:11px;font-weight:700;font-size:var(--fs-2);color:var(--ink-2);cursor:pointer;transition:color .25s ease,transform .18s cubic-bezier(.2,.8,.2,1);}
+  .seg button[aria-pressed="true"]{color:var(--ink);}
+  .seg-ind{position:absolute;z-index:0;top:3px;left:3px;width:calc(50% - 3px);height:38px;border-radius:11px;background:var(--surface);transition:transform .35s cubic-bezier(.2,.8,.2,1);}
   [data-profile="kite"] .seg-ind{transform:translateX(100%);}
   [data-profile="kite"] .only-boat,[data-profile="kite"] .only-boat-v,[data-profile="boat"] .only-kite,html:not([data-profile]) .only-kite{display:none;}
 
@@ -441,7 +444,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   .rider[aria-expanded="true"]{background:var(--accent);color:var(--accent-ink);}
   .rider[aria-expanded="true"] .ico{color:inherit;}
   .placebar .place{flex:1;min-width:0;}
-  @media (max-width:359px){ .placebar .clock{padding:6px 9px;} .placebar .clock .live{display:none;} .rider{padding:6px 10px;} }
+  @media (max-width:359px){ .placebar .clock{padding:6px 9px;} .placebar .clock .live-logo{display:none;} .rider{padding:6px 10px;} }
   html[data-sport]:not([data-sport="kite"]) .only-sport-kite{display:none !important;}
   [data-region="nc"] .only-dv,[data-region="dv"] .only-nc,html:not([data-region]) .only-nc{display:none !important;}
   .rider-panel{padding-bottom:4px;}
@@ -456,7 +459,10 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   .qv-chips button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);}
 
   /* passerelle chrono */
-  .br-up{color:var(--good);} .br-down{color:var(--mid);} .br-storm{color:var(--bad);font-weight:600;}
+  .br-up{color:var(--good);} .br-down{color:var(--mid);}
+  .part .pv small{display:block;margin-top:3px;font-size:var(--fs-1);font-weight:500;color:var(--ink-2);}
+  .pass-warn{display:flex;gap:8px;align-items:flex-start;margin:12px 0 0;padding:10px 12px;border-radius:14px;background:var(--bad-bg);color:var(--ink);font-size:var(--fs-2);line-height:1.35;}
+  .pass-warn .ico{color:var(--bad);margin:2px 0 0;}
   .sky{display:inline-flex;align-items:center;gap:5px;}
   .sky .ico{margin:0;color:var(--accent);}
   .sky.wet .ico{color:var(--mid);}
@@ -520,7 +526,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   .sec-h{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:26px 0 10px;}
   .sec-h .h3{margin:0;}
   .sec-sub{margin:2px 0 0;font-size:var(--fs-2);color:var(--ink-2);}
-  .sec-h.big{margin-top:30px;padding-top:22px;border-top:1px solid var(--surface-2);}
+  .sec-h.big{margin-top:40px;}
   .sec-h.big .h3{font-size:var(--fs-5);}
   .sec-h.big.first{margin-top:0;padding-top:0;border-top:0;}
   .info-i{flex:none;display:grid;place-items:center;width:32px;height:32px;padding:0;border:0;background:transparent;color:var(--ink-2);font:italic 700 1.15rem/1 Georgia,serif;cursor:pointer;}
@@ -673,7 +679,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   .sync.err .spin{display:none;}
   @keyframes spin{to{transform:rotate(360deg);}}
   .sync button{margin-left:auto;border:0;border-radius:999px;background:var(--surface-2);color:var(--ink);font-weight:700;font-size:var(--fs-2);padding:4px 12px;cursor:pointer;}
-  html.syncing .clock .live, html.syncing .clock .live::after{background:var(--accent);}
+  html.syncing .clock .live-logo circle{fill:var(--accent);opacity:1;}
   @media (prefers-reduced-motion: reduce){
     html.syncing .appbar::after{animation:none;background:var(--accent);opacity:.6;}
     .sync .spin{animation-duration:2.4s;}
@@ -709,7 +715,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   .val .ico{margin-right:2px;}
 
   /* Premium : carte d'intérêt et questionnaire */
-  .premium-card{display:flex;align-items:center;gap:12px;width:100%;margin-top:14px;padding:12px 16px;border:1px dashed var(--accent);border-radius:var(--radius);background:transparent;color:var(--ink);text-align:left;cursor:pointer;font:inherit;}
+  .premium-card{display:flex;align-items:center;gap:12px;width:100%;margin-top:14px;padding:12px 16px;border:0;border-radius:var(--radius);background:var(--surface);color:var(--ink);text-align:left;cursor:pointer;font:inherit;}
   .premium-card .pc-ico{font-size:var(--fs-5);}
   .premium-card span{display:flex;flex-direction:column;}
   .premium-card small{color:var(--ink-2);font-size:var(--fs-2);}
@@ -778,7 +784,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   .ob-soon{display:inline-block;margin-top:4px;font-style:normal;font-size:var(--fs-1);font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--accent);border:1.5px solid var(--accent);border-radius:999px;padding:0 6px;}
   @media (prefers-reduced-motion: reduce){ .ob-vp li{animation:none;opacity:1;} }
   /* « fait pour moi » : ce que l'app connaît de la zone choisie, avec le prénom */
-  .ob-local{margin:18px 0 4px;padding:14px 16px;border-radius:16px;background:color-mix(in srgb, var(--accent) 12%, var(--surface));border:1px solid color-mix(in srgb, var(--accent) 35%, transparent);}
+  .ob-local{margin:18px 0 4px;padding:14px 16px;border-radius:16px;background:color-mix(in srgb, var(--accent) 12%, var(--surface));}
   .ob-local:empty{display:none;}
   .ob-local h4{margin:0 0 14px;font-size:var(--fs-3);line-height:1.3;}
   .ob-local ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:14px;}
@@ -790,13 +796,15 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   .ob-list li{display:flex;gap:12px;align-items:center;line-height:1.35;}
   .ob-list li>span:first-child{flex:none;width:38px;height:38px;border-radius:12px;display:grid;place-items:center;font-size:var(--fs-4);background:color-mix(in srgb, var(--accent) 16%, transparent);}
   /* réplique de la pastille du header (slide « Votre matériel ») pour la reconnaître ensuite */
-  .ob-pillrow{display:flex;align-items:center;gap:8px;margin:2px 0 14px;padding:10px 12px;border-radius:16px;background:var(--ground);border:1px dashed var(--sheet-edge);}
+  .ob-pillrow{display:flex;align-items:center;gap:8px;margin:2px 0 14px;padding:10px 12px;border-radius:16px;background:var(--ground);}
   .ob-pill{cursor:default;outline:2px solid var(--accent);outline-offset:2px;}
   .ob-pillclock{margin-left:auto;}
   .rider.flash{animation:riderFlash 1.6s ease 2;}
   @keyframes riderFlash{0%,100%{box-shadow:0 0 0 0 transparent;}40%{box-shadow:0 0 0 6px color-mix(in srgb, var(--accent) 45%, transparent);}}
   @media (prefers-reduced-motion: reduce){ .rider.flash{animation:none;outline:2px solid var(--accent);} }
   .ob-links{display:flex;flex-wrap:wrap;gap:8px;}
+  .app-links{margin-top:14px;}
+  .buoy-offline{margin:4px 0 0;}
   .install p{line-height:1.45;margin:0 0 10px;}
   .install.ios-arrow{margin-bottom:64px;border-radius:22px;}   /* place pour la flèche vers la barre de Safari */
   .inst-steps ol{margin:0 0 10px;padding-left:22px;display:flex;flex-direction:column;gap:8px;line-height:1.4;}
@@ -929,7 +937,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
     </label>
     <button type="button" class="rider only-boat" id="clubBtn" aria-expanded="false" aria-controls="clubPanel" hidden></button>
     <button type="button" class="rider only-kite" id="riderBtn" aria-expanded="false" aria-controls="riderPanel" aria-label="Mon poids et mes ailes"></button>
-    <div class="clock" aria-label="Heure de Paris"><span class="live" aria-hidden="true"></span><span id="clock">—</span></div>
+    <div class="clock" id="clockPill" aria-label="Heure de Paris"><svg class="live-logo" viewBox="0 0 24 24" aria-hidden="true"><path d="M18.55 7.41A8 8 0 1 0 18.55 16.59"/><circle cx="20" cy="12" r="2.3"/></svg><span id="clock">—</span></div>
   </div>
   <div class="rider-panel only-boat" id="clubPanel" hidden>
       <div class="quiver"><span>Support</span><div class="qv-chips" id="supChips" role="group" aria-label="Support"></div></div>
@@ -971,9 +979,10 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
       <div class="chrono" id="pChrono" role="timer" aria-live="off">--:--</div>
       <div class="progress" aria-hidden="true"><i id="pProgress"></i></div>
       <div class="parts">
-        <div class="part"><span class="pk"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 16h18M6 16v-5M18 16v-5M3 11c3 0 6-4 9-4s6 4 9 4"/></svg>1 · Passerelle piétonne</span><span class="pv" id="pBridge"></span></div>
-        <div class="part"><span class="pk"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M12 4v16"/></svg>2 · Portes du bassin Morny</span><span class="pv" id="pGates"></span></div>
+        <div class="part"><span class="pk"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 16h18M6 16v-5M18 16v-5M3 11c3 0 6-4 9-4s6 4 9 4"/></svg>Passerelle piétonne</span><span class="pv" id="pBridge"></span></div>
+        <div class="part"><span class="pk"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M12 4v16"/></svg>Portes du bassin Morny</span><span class="pv" id="pGates"></span></div>
       </div>
+      <p class="pass-warn" id="pWarn" role="note" hidden></p>
       <div class="dayline" aria-hidden="true">
         <div class="dl-track" id="pDay"></div>
         <div class="dl-scale"><span>0h</span><span>6h</span><span>12h</span><span>18h</span><span>24h</span></div>
@@ -993,10 +1002,6 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
       <div id="buoyList"><div class="muted">Chargement des bouées…</div></div>
       <p class="muted buoy-src" id="buoySrc" hidden></p>
     </div>
-    <button type="button" class="premium-card" id="premiumOpen">
-      <span class="pc-ico" aria-hidden="true" data-ico="chat"></span>
-      <span><b>Donnez votre avis</b><small>1 minute, et profitez d'une réduction sur l'abonnement à son lancement.</small></span>
-    </button>
   </section>
 
   <section id="sortir" aria-labelledby="t-out">
@@ -1058,7 +1063,6 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
 
   <section id="conseils" aria-labelledby="t-tips">
     <h2 id="t-tips"><span class="only-kite">Bonnes pratiques</span><span class="only-boat">Bonnes pratiques bateau</span></h2>
-    <div class="ob-links"><button type="button" class="todaybtn ob-replay" id="obReplay">Revoir la présentation</button><button type="button" class="todaybtn ob-replay" id="instOpen">Ajouter à l'écran d'accueil</button><button type="button" class="todaybtn ob-replay" id="clubJoin">Rejoindre un club</button></div>
     <div class="only-kite">
     <div class="insur" id="insur">
       <div class="insur-head"><span class="h3" style="margin:0">Mon assurance</span><button class="todaybtn" id="insEdit">Modifier</button></div>
@@ -1276,6 +1280,12 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
       <li>Urgence : <b>VHF canal 16</b> (« Mayday » si danger de mort), ou le <span class="only-dv"><a href="tel:196">196</a> depuis un téléphone (CROSS)</span><span class="only-nc"><a href="tel:16">16</a> depuis un téléphone (COSS NC)</span>.</li>
     </ol></div></details>
     </div>
+    <div class="sec-h big"><div class="h3">L'app</div></div>
+    <button type="button" class="premium-card" id="premiumOpen">
+      <span class="pc-ico" aria-hidden="true" data-ico="chat"></span>
+      <span><b>Donnez votre avis</b><small>1 minute, et profitez d'une réduction sur l'abonnement à son lancement.</small></span>
+    </button>
+    <div class="ob-links app-links"><button type="button" class="todaybtn ob-replay" id="obReplay">Revoir la présentation</button><button type="button" class="todaybtn ob-replay" id="instOpen">Ajouter à l'écran d'accueil</button><button type="button" class="todaybtn ob-replay" id="clubJoin">Rejoindre un club</button></div>
   </section>
 
   <section id="calendrier" aria-labelledby="t-cal">
@@ -1366,7 +1376,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
           <div class="only-kite">
             <h3>Quel est votre matériel ?</h3>
             <p>Les notes dépendent de votre sport, votre poids et vos ailes. Réglez-les dans cette pastille, en haut de l'écran à côté de l'heure :</p>
-            <div class="ob-pillrow"><span class="rider ob-pill" id="obPill" aria-hidden="true"></span><span class="clock ob-pillclock" aria-hidden="true"><span class="live"></span><span id="obPillClock">09:41</span></span></div>
+            <div class="ob-pillrow"><span class="rider ob-pill" id="obPill" aria-hidden="true"></span><span class="clock ob-pillclock fav" aria-hidden="true"><svg class="live-logo" viewBox="0 0 24 24" aria-hidden="true"><path d="M18.55 7.41A8 8 0 1 0 18.55 16.59"/><circle cx="20" cy="12" r="2.3"/></svg><span id="obPillClock">09:41</span></span></div>
             <button type="button" class="todaybtn" id="obGear">Régler maintenant</button>
           </div>
         </section>
@@ -1383,7 +1393,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
             <li><span aria-hidden="true" data-ico="compass"></span><span>Une <b>aide</b>, pas une garantie : vérifiez sur place.</span></li>
             <li class="only-boat only-dv"><span aria-hidden="true" data-ico="radio"></span><span>Portes : <b>VHF 9</b>.</span></li>
             <li><span aria-hidden="true" data-ico="alert"></span><span>Urgence en mer : <b class="only-dv">196 ou VHF 16</b><b class="only-nc">16 ou VHF 16</b>.</span></li>
-            <li><span aria-hidden="true" data-ico="chat"></span><span>Un souci, une idée ? Carte <b>Donnez votre avis</b>.</span></li>
+            <li><span aria-hidden="true" data-ico="chat"></span><span>Un souci, une idée ? <b>Donnez votre avis</b>, en bas de Conseils.</span></li>
           </ul>
         </section>
       </div>
@@ -1751,33 +1761,51 @@ function stormGust(now){
   const hs = FC.hours.filter(h => h.ts>now-3600000 && h.ts<now+3600000);
   return hs.length ? Math.max(...hs.map(h => h.gust)) : 0;
 }
+function favLeftToday(now){
+  if(!FC || FC.key!==fcKey() || todayIdx==null) return false;
+  const end = absToEpoch((todayIdx+1)*1440);
+  const gated = PROFILE!=='kite' && RG().gates;
+  return FC.hours.some(h => {
+    if(h.ts+3600000<=now || h.ts>=end) return false;
+    if(PROFILE==='kite' && h.night) return false;
+    if(gated && !epochIntervals.some(iv => !iv.unknown && h.ts<iv.e && h.ts+3600000>iv.s)) return false;
+    return scoreHour(h).level==='good';
+  });
+}
+function renderLiveLogo(now){
+  const fav = favLeftToday(now);
+  $('clockPill').classList.toggle('fav', fav);
+  $('clockPill').setAttribute('aria-label', 'Heure de Paris · '+(fav ? 'créneau favorable aujourd\u2019hui' : 'pas de créneau favorable d\u2019ici ce soir'));
+}
 function renderPassage(now, active, next){
   let cls, state, label, gates, bridge;
   const storm = stormGust(now)>=STORM_GUST;
-  const stormTxt = '<span class="br-storm">Coup de vent (rafales '+Math.round(stormGust(now))+' nd) : manœuvres de l\u2019écluse et de la passerelle piétonne possiblement modifiées, confirmez au VHF 9</span><br>';
+  const warn = $('pWarn');
+  warn.hidden = !storm;
+  if(storm) warn.innerHTML = ico('alert')+'<span><b>Coup de vent</b> (rafales '+Math.round(stormGust(now))+' nd) : l\u2019écluse et la passerelle piétonne peuvent être manœuvrées autrement. Confirmez au VHF 9.</span>';
+  const sm = t => '<small>'+t+'</small>';
   const at = ts => '<b>'+epochHHMM(ts)+'</b>';
   if(active && active.unknown){
     cls='mid'; state='Incertain'; label='Fermeture des portes au plus tard dans';
-    gates='Ouverture absente du PDF<br>fermeture à '+at(active.e);
-    bridge='Horaires non publiés<br>confirmer au VHF canal 9';
+    gates='Ouverture absente du PDF'+sm('fermeture à '+epochHHMM(active.e));
+    bridge='Horaires non publiés'+sm('confirmer au VHF 9');
     passTarget = active.e; passFrom = active.s;
   } else if(active){
     cls='good'; state='Ouvert'; label='Fermeture des portes dans';
-    gates='Ouvertes<br>jusqu’à '+at(active.e);
+    gates='Ouvertes jusqu’à '+at(active.e);
     const b = bridgeCycle(now, active), last = b.change>=active.e;
     bridge = b.up
-      ? '<b class="br-up">Levée prévue</b> jusqu\u2019à '+at(b.change)+' ('+fmtIn(b.change-now)+')<br>cycle 15 min levée / 30 min baissée · VHF 9'
-      : '<b class="br-down">Baissée prévue</b> · '+(last ? 'plus de levée avant la fermeture' : 'prochaine levée à '+at(b.change)+' ('+fmtIn(b.change-now)+')')+'<br>cycle 15 min levée / 30 min baissée · VHF 9';
-    if(storm){ cls='mid'; state='À confirmer'; bridge = stormTxt + bridge; }
+      ? '<b class="br-up">Levée</b> jusqu\u2019à '+at(b.change)+sm(fmtIn(b.change-now)+' · prévision, VHF 9')
+      : '<b class="br-down">Baissée</b>'+(last ? sm('plus de levée avant la fermeture') : ', levée à '+at(b.change)+sm(fmtIn(b.change-now)+' · prévision, VHF 9'));
+    if(storm){ cls='mid'; state='À confirmer'; }
     passTarget = active.e; passFrom = active.s;
   } else if(next){
     const prev = [...epochIntervals].reverse().find(iv => iv.e<=now);
     const ndIdx = keyIndex[parisParts(next.s).key];
     const day = ndIdx===todayIdx ? '' : relDay(ndIdx,todayIdx)+' ';
     cls='bad'; state='Fermé'; label='Ouverture des portes dans';
-    gates='Fermées<br>ouvrent '+day+'à '+at(next.s);
-    bridge='Première levée vers '+at(next.s + BRIDGE_OFFSET)+', puis 15 min levée / 30 min baissée<br>ponctuelles possibles avant · VHF 9';
-    if(storm) bridge = stormTxt + bridge;
+    gates='Fermées, ouvrent '+day+'à '+at(next.s);
+    bridge='Levée vers '+at(next.s + BRIDGE_OFFSET)+sm('puis toutes les 45 min · VHF 9');
     passTarget = next.s; passFrom = prev ? prev.e : null;
   } else {
     cls='bad'; state='Fermé'; label=''; gates='Plus d’ouverture prévue en 2026'; bridge='Levées ponctuelles · VHF 9';
@@ -1821,6 +1849,7 @@ function updateNow(){
   } else { passTarget = null; $('pState').textContent = '—'; }   // pas d'écluse
   renderTides($('todayTides'), todayIdx);
   if(FC){ renderKiteNow(); renderBoatNow(); }
+  renderLiveLogo(now);
 }
 
 // Windows touching a given day (including the ones that started the evening before).
@@ -2347,6 +2376,7 @@ function cachedFC(key){
 }
 function refreshAll(){
   renderForecast(); renderKiteNow(); renderBoatNow(); renderBuoys(); renderWeek(); renderCours();
+  updateNow();   // alerte coup de vent et logo de l'en-tête dépendent des prévisions qui viennent d'arriver
   const ahead = browseIdx-(todayIdx ?? 0);
   if(ahead>=0 && ahead<=2) renderDayCond();
 }
@@ -2521,15 +2551,13 @@ function sparkline(obs){
 function renderBuoys(){
   if(!BUOYS) return;
   const now = Date.now();
-  const fcNow = FC && FC.key==='port' ? FC.hours.find(h => now>=h.ts && now<h.ts+3600000) : null;
-  $('buoyList').innerHTML = BUOYS.buoys.map(b => {
+  // la clé des prévisions bateau est « port:<région> » (l'ancienne comparaison à « port » ne trouvait jamais rien)
+  const fcNow = FC && FC.key==='port:'+REGION ? FC.hours.find(h => now>=h.ts && now<h.ts+3600000) : null;
+  const isOff = b => { const obs = b.obs.filter(o => o.h!=null), last = obs[obs.length-1]; return !last || now-last.t*1000 > BUOY_STALE; };
+  const off = BUOYS.buoys.filter(isOff);
+  $('buoyList').innerHTML = BUOYS.buoys.filter(b => !isOff(b)).map(b => {
     const obs = b.obs.filter(o => o.h!=null);
     const last = obs[obs.length-1];
-    if(!last || now-last.t*1000 > BUOY_STALE){
-      const since = last ? new Date(last.t*1000).toLocaleDateString('fr-FR',{day:'numeric', month:'long', timeZone:'Europe/Paris'}) : null;
-      return '<div class="buoy off"><div class="buoy-head"><span class="buoy-name">'+b.name+'</span><span class="buoy-age">hors service</span></div>'
-        + '<p>'+(since ? 'Pas de mesure depuis le '+since+' (bouée en maintenance).' : 'Pas de mesure disponible.')+'</p></div>';
-    }
     // tendance sur 3 h
     const before = obs.find(o => o.t >= last.t-3*3600);
     const d = before ? last.h - before.h : 0;
@@ -2545,7 +2573,8 @@ function renderBuoys(){
       + '<div class="buoy-main"><b>'+num(last.h,1)+' m</b><span>vagues · '+trend+'</span></div>'
       + '<div class="conds">'+cells.map(cellHTML).join('')+'</div>'
       + cmp + sparkline(b.obs) + '</div>';
-  }).join('');
+  }).join('') + (off.length ? '<p class="muted buoy-offline">'+(off.length===BUOYS.buoys.length ? 'Pas de mesure en ce moment : ' : 'Hors service : ')
+      + off.map(b => b.name).join(', ')+'.</p>' : '');
   $('buoySrc').innerHTML = 'Houlographes à l’entrée de l’estuaire de la Seine, à 12-13 km au nord de Deauville. « Vagues » = hauteur significative (H1/3), comparable aux prévisions. '
     + 'Source : Port du Havre et Cerema, <a href="https://candhis.cerema.fr/" target="_blank" rel="noopener">Candhis</a> (Licence Ouverte), relevé à '+epochHHMM(BUOYS.updated*1000)+'.';
 }
@@ -3930,7 +3959,7 @@ setInterval(renderSortie, 30000);
 // version.json est réécrit à chaque publication (tools/publier-version.sh). Si la
 // version en ligne diffère de celle de la page, on recharge : sur l'écran
 // d'accueil de l'iPhone, l'app reste ainsi à jour sans manipulation.
-const APP_VERSION = '20261023-145206';
+const APP_VERSION = '20261023-150905';
 async function checkUpdate(){
   try{
     const r = await fetch('version.json?t='+Date.now(), {cache:'no-store'});

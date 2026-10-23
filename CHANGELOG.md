@@ -1,5 +1,14 @@
 # Historique des versions
 
+## 23 octobre 2026 — Hiérarchie : l'essentiel d'abord, logo témoin dans l'en-tête
+- **Logo témoin** : dans l'en-tête, le petit C du logo remplace le point de l'heure ; son point est vert s'il reste un créneau favorable aujourd'hui (bateau : portes ouvertes ; glisse : de jour), gris sinon.
+- **Passerelle piétonne** : l'heure d'abord (« Levée vers 19:24 »), le détail en petit (« puis toutes les 45 min · VHF 9 »). Plus de numérotation 1 / 2.
+- **Coup de vent** : l'alerte a sa propre ligne, sous la passerelle piétonne et les portes, au lieu de s'entasser dans la demi-carte ; elle s'affiche dès l'arrivée des prévisions.
+- **Bouées** : celles qui ne mesurent rien tiennent en une ligne (« Pas de mesure en ce moment : … »). Correction : la comparaison « Prévu à cette heure (Météo-France) » ne s'affichait jamais.
+- **Donnez votre avis**, « Revoir la présentation », « Ajouter à l'écran d'accueil » et « Rejoindre un club » descendent en bas de Conseils, sous « L'app ». L'écran Maintenant ne montre plus que la mer, le port et l'écluse.
+- **Bateau / Glisse** : sélecteur plus discret (gris, plus bas), qui laisse la couleur à l'état du port.
+- Nettoyage : plus de carte en pointillés, de filet entre les sections ni de cadre dans la présentation.
+
 ## 23 octobre 2026 — Cohérence : texte plus grand, mêmes mots, mêmes onglets, icônes
 - Texte plus lisible dehors : six tailles au lieu d'une trentaine, le texte des cartes passe de 13,6 à 15 px (13 · 15 · 17 · 20 · 26 · 36 px, plus les grands chiffres).
 - Un seul vocabulaire de notes : **Favorable / Prudence / Déconseillé** aussi en glisse (avant : Navigable / Limite / Pas navigable).
