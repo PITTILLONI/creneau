@@ -846,9 +846,38 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   .slot .lv{display:block;font-style:normal;font-weight:700;font-size:.8rem;margin-top:2px;}
   .slot .lv.good{color:var(--good);} .slot .lv.mid{color:var(--mid);} .slot .lv.bad{color:var(--bad);}
   .slot.now .lv{color:inherit;}
+  /* Ouverture : le point vert trace le cadran puis se pose dans le créneau (logo « La fenêtre »). */
+  .splash{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:var(--ground);transition:opacity .28s ease;}
+  .splash.out{opacity:0;pointer-events:none;}
+  .splash svg{width:112px;height:112px;}
+  .splash .sp-ring{fill:none;stroke:var(--accent);stroke-width:38;stroke-dasharray:390;stroke-dashoffset:390;}
+  .splash .sp-dot{fill:var(--good);transform-box:view-box;transform-origin:128px 128px;transform:rotate(-35deg);}
 </style>
 </head>
 <body>
+<div class="splash" id="splash" aria-hidden="true">
+  <svg viewBox="0 0 256 256"><path class="sp-ring" d="M191.07 83.83A77 77 0 1 0 191.07 172.17"/><g class="sp-dot"><circle cx="205" cy="128" r="19"/></g></svg>
+</div>
+<script>
+// Une fois par session ; rien si « Réduire les animations » ou si l'animation n'est pas prise en charge.
+(function(){
+  const el = document.getElementById('splash');
+  let seen = false;
+  try{ seen = sessionStorage.getItem('splash')==='1'; sessionStorage.setItem('splash','1'); }catch(e){}
+  const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(seen || still || !el.animate){ el.remove(); return; }
+  const ring = el.querySelector('.sp-ring'), dot = el.querySelector('.sp-dot');
+  const draw = {duration:760, easing:'cubic-bezier(.45,0,.25,1)', fill:'forwards'};
+  ring.animate([{strokeDashoffset:390},{strokeDashoffset:0}], draw);
+  // Le point suit la plume (-35° -> -325°), puis glisse dans l'ouverture (-360°) avec un léger rebond.
+  dot.animate([{transform:'rotate(-35deg)'},{transform:'rotate(-325deg)'}], draw).finished
+    .then(() => dot.animate([{transform:'rotate(-325deg)'},{transform:'rotate(-364deg)', offset:.7},{transform:'rotate(-360deg)'}],
+      {duration:300, easing:'ease-out', fill:'forwards'}).finished)
+    .then(() => new Promise(r => setTimeout(r, 160)))
+    .then(() => { el.classList.add('out'); setTimeout(() => el.remove(), 320); })
+    .catch(() => el.remove());
+})();
+</script>
 <form id="gate" class="gate" autocomplete="off">
   <img src="icons/icon.svg" alt="" width="64" height="64">
   <h1>Crén'eau</h1>
@@ -3884,7 +3913,7 @@ setInterval(renderSortie, 30000);
 // version.json est réécrit à chaque publication (tools/publier-version.sh). Si la
 // version en ligne diffère de celle de la page, on recharge : sur l'écran
 // d'accueil de l'iPhone, l'app reste ainsi à jour sans manipulation.
-const APP_VERSION = '20261023-143433';
+const APP_VERSION = '20261023-143925';
 async function checkUpdate(){
   try{
     const r = await fetch('version.json?t='+Date.now(), {cache:'no-store'});

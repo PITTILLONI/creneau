@@ -1,5 +1,8 @@
 # Historique des versions
 
+## 23 octobre 2026 — Animation d'ouverture
+- À l'ouverture de l'app, le point vert du logo trace le cadran bleu, puis se pose dans le créneau (environ 1,2 s, une fois par session). Rien ne s'affiche si « Réduire les animations » est activé sur le téléphone.
+
 ## 23 octobre 2026 — Nouveau logo « La fenêtre »
 - Nouvelle icône : un C en cadran dont l'ouverture est le créneau, avec un point vert, vous, dedans. Elle remplace la passerelle et les vagues de l'époque « Port de Deauville », qui ne parlaient ni de la glisse, ni de Nouméa, ni des clubs.
 - Icône de l'écran d'accueil (iPhone et Android, version adaptative ajoutée), onglet du navigateur et écran du mot de passe mis à jour.

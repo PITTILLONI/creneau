@@ -47,4 +47,4 @@ Le nom est dessiné en **Geist Bold** (licence libre OFL, la police de l'app), a
 ## Points ouverts
 
 - Recherche d'antériorité de marque (INPI, EUIPO) avant tout dépôt : non faite.
-- Animation d'ouverture : le point qui roule sur l'anneau puis s'arrête dans le créneau.
+- Animation d'ouverture faite (23 octobre) : le point trace l'anneau (tracé SVG, `stroke-dashoffset`) puis se pose dans le créneau ; code en tête de `index.html` (`#splash`).

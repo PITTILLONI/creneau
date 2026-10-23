@@ -17,7 +17,7 @@ Une seule page avec trois sections et une barre d'onglets fixe en bas : **Mainte
 
 ## Mouvement
 
-Seulement là où il a un sens : l'état qui change se réanime, l'indicateur d'onglet et de profil glisse, les créneaux apparaissent en cascade, le compte à rebours pulse à moins de 15 minutes, et un appui renvoie un léger retour visuel. Tout est coupé quand « Réduire les animations » est activé.
+Seulement là où il a un sens : à l'ouverture, le point vert du logo trace le cadran puis se pose dans le créneau (une fois par session) ; l'état qui change se réanime, l'indicateur d'onglet et de profil glisse, les créneaux apparaissent en cascade, le compte à rebours pulse à moins de 15 minutes, et un appui renvoie un léger retour visuel. Tout est coupé quand « Réduire les animations » est activé.
 
 ## Écarts assumés aux règles Taste
 
