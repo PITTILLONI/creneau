@@ -1,5 +1,8 @@
 # Historique des versions
 
+## 23 octobre 2026 — Nom du port raccourci dans l'en-tête
+- Le choix du port affiche « Deauville » ou « Nouméa » : sur iPhone, avec la pastille du club, « Deauville · bassin Morny » était coupé en « Deauvil ». Le bassin reste nommé dans la carte de passage.
+
 ## 23 octobre 2026 — Hiérarchie : l'essentiel d'abord, logo témoin dans l'en-tête
 - **Logo témoin** : dans l'en-tête, le petit C du logo remplace le point de l'heure ; son point est vert s'il reste un créneau favorable aujourd'hui (bateau : portes ouvertes ; glisse : de jour), gris sinon.
 - **Passerelle piétonne** : l'heure d'abord (« Levée vers 19:24 »), le détail en petit (« puis toutes les 45 min · VHF 9 »). Plus de numérotation 1 / 2.

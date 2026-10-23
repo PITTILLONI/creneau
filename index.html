@@ -910,8 +910,8 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
     <label class="place only-boat">
       <span class="sr">Choisir le port</span>
       <select id="portSel" aria-label="Choisir le port">
-        <option value="dv">Deauville · bassin Morny</option>
-        <option value="nc">Nouméa · Port Moselle</option>
+        <option value="dv">Deauville</option>
+        <option value="nc">Nouméa</option>
         <option value="__add">+ Ajouter votre port…</option>
       </select>
     </label>
@@ -3959,7 +3959,7 @@ setInterval(renderSortie, 30000);
 // version.json est réécrit à chaque publication (tools/publier-version.sh). Si la
 // version en ligne diffère de celle de la page, on recharge : sur l'écran
 // d'accueil de l'iPhone, l'app reste ainsi à jour sans manipulation.
-const APP_VERSION = '20261023-150905';
+const APP_VERSION = '20261023-152914';
 async function checkUpdate(){
   try{
     const r = await fetch('version.json?t='+Date.now(), {cache:'no-store'});
