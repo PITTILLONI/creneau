@@ -104,7 +104,8 @@ Dernière mise à jour de ce fichier : 23 octobre 2026.
 - [x] Alerte coup de vent sur la carte de passage (rafales ≥ 35 nd : « À confirmer », VHF 9) (23 octobre)
 - [ ] Vérifier l'**orientation de chaque plage** (Trouville, Houlgate, Cabourg) sur le terrain
 - [ ] Faire valider par le rider les plafonds de la glisse : rafales ≥ 35 nd et écart vent/rafales > 12 nd → Pas navigable (`GLISSE_GUST_MAX`, `GLISSE_SPREAD_MAX`, 23 octobre)
-- [ ] Audit UX / UI : lots 2 (échelle typo, vocabulaire des notes, onglets, emojis → icônes) et 3 (hiérarchie, logo vivant dans l'en-tête) — `docs/audit-ux-2026-10-23.md`
+- [x] Audit UX / UI lot 2 (23 octobre) : échelle typo, vocabulaire des notes, onglets, emojis → icônes
+- [ ] Audit UX / UI lot 3 : hiérarchie (carte passerelle piétonne, avis, bouées, Conseils), logo vivant dans l'en-tête, sélecteur Bateau / Glisse — `docs/audit-ux-2026-10-23.md`
 - [ ] Vérifier les **seuils kite** sur le terrain (plage −12 % / +50 % autour du vent idéal de chaque aile, planchers 9 nd twin-tip / 7 nd foil)
 - [ ] Rappeler les **zones et périodes de kite** autorisées par la mairie en saison
 - [ ] Confirmer le gréement du bateau (sloop ? nombre de ris, trinquette, gennaker) pour affiner la voilure conseillée

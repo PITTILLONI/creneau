@@ -1,5 +1,11 @@
 # Historique des versions
 
+## 23 octobre 2026 — Cohérence : texte plus grand, mêmes mots, mêmes onglets, icônes
+- Texte plus lisible dehors : six tailles au lieu d'une trentaine, le texte des cartes passe de 13,6 à 15 px (13 · 15 · 17 · 20 · 26 · 36 px, plus les grands chiffres).
+- Un seul vocabulaire de notes : **Favorable / Prudence / Déconseillé** aussi en glisse (avant : Navigable / Limite / Pas navigable).
+- Mêmes onglets dans les deux modes : **Maintenant · Prévisions · Conseils · Calendrier** (avant : Spot et Sortir selon le mode).
+- Les emojis de l'interface (présentation, carte avis, fiche de sortie, club) deviennent des icônes au trait, comme le reste de l'app ; « Le bon créneau » prend le symbole du logo. Les SMS de la fiche de sortie gardent leurs emojis.
+
 ## 23 octobre 2026 — Glisse : plus de session dans la tempête, zoom autorisé
 - Glisse (kite, windsurf, windfoil, wingfoil) : rafales de 35 nd ou plus → « Pas navigable », avec « Rafales trop fortes : 46 nd (au-delà de 35) : rester à terre », et plus aucune taille d'aile proposée. Un écart de plus de 12 nd entre vent moyen et rafales donne aussi « Pas navigable » (avant : « Limite »). Constaté pendant la tempête du 23 octobre : 31 nd, rafales 46 nd, noté « Limite » avec une aile de 7 m².
 - Le zoom à deux doigts est de nouveau possible (accessibilité).

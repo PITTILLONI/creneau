@@ -42,6 +42,8 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
     --none:#d3d9e2;
     /* fenêtres du bas : plus claires que la page pour s'en détacher */
     --sheet-bg:#ffffff; --sheet-1:#f0f3f7; --sheet-2:#e3e8ef; --sheet-edge:rgba(10,15,26,.08);
+    /* échelle de texte : 6 tailles (+ chiffres héros en clamp) */
+    --fs-1:.8125rem; --fs-2:.9375rem; --fs-3:1.0625rem; --fs-4:1.25rem; --fs-5:1.625rem; --fs-6:2.25rem;
     --radius:24px;
     --tab-h:64px;
   }
@@ -85,38 +87,38 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
 
   /* voilure bateau */
   .sail{background:var(--surface);border-radius:var(--radius);padding:16px;margin-top:12px;}
-  .sail-head .k{font-size:.85rem;font-weight:600;color:var(--ink-2);}
-  .sail-plan{font-size:1.5rem;font-weight:700;letter-spacing:-.03em;line-height:1.15;margin:4px 0 2px;}
-  .sail-sub{font-size:.92rem;color:var(--ink-2);}
+  .sail-head .k{font-size:var(--fs-2);font-weight:600;color:var(--ink-2);}
+  .sail-plan{font-size:var(--fs-5);font-weight:700;letter-spacing:-.03em;line-height:1.15;margin:4px 0 2px;}
+  .sail-sub{font-size:var(--fs-2);color:var(--ink-2);}
   .sail-notes{margin:12px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px;}
-  .sail-notes li{background:var(--mid-bg);border-radius:12px;padding:8px 12px;font-size:.9rem;}
+  .sail-notes li{background:var(--mid-bg);border-radius:12px;padding:8px 12px;font-size:var(--fs-2);}
   .sail-dest-t{font-weight:700;margin:16px 0 8px;}
   .sail-dest{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;}
   .sail-dest li{background:var(--surface-2);border-radius:14px;padding:10px 12px;display:grid;grid-template-columns:1fr auto;gap:2px 10px;align-items:center;}
-  .sail-dest .dest b{display:block;font-size:1rem;}
-  .sail-dest .dest span{font-size:.82rem;color:var(--ink-2);}
-  .sail-dest p{grid-column:1/3;margin:4px 0 0;font-size:.88rem;color:var(--ink-2);}
-  .allure{font-weight:700;font-size:.85rem;padding:5px 10px;border-radius:999px;white-space:nowrap;background:var(--surface);}
+  .sail-dest .dest b{display:block;font-size:var(--fs-3);}
+  .sail-dest .dest span{font-size:var(--fs-2);color:var(--ink-2);}
+  .sail-dest p{grid-column:1/3;margin:4px 0 0;font-size:var(--fs-2);color:var(--ink-2);}
+  .allure{font-weight:700;font-size:var(--fs-2);padding:5px 10px;border-radius:999px;white-space:nowrap;background:var(--surface);}
   .allure.a0{background:var(--bad-bg);color:var(--bad);}
   .allure.a1,.allure.a2{background:var(--mid-bg);color:var(--mid);}
   .allure.a3,.allure.a4{background:var(--good-bg);color:var(--good);}
   .allure.a5{background:var(--mid-bg);color:var(--mid);}
-  .sail-foot{margin:12px 0 0;font-size:.82rem;}
+  .sail-foot{margin:12px 0 0;font-size:var(--fs-2);}
 
   /* assurance */
   .insur{background:var(--surface);border-radius:var(--radius);padding:16px;margin-bottom:22px;}
   .insur-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px;}
-  .ins-row{display:flex;justify-content:space-between;gap:12px;padding:6px 0;font-size:.98rem;}
+  .ins-row{display:flex;justify-content:space-between;gap:12px;padding:6px 0;font-size:var(--fs-3);}
   .ins-row span:first-child{color:var(--ink-2);}
   .ins-row span:last-child{font-weight:700;text-align:right;overflow-wrap:anywhere;}
   .ins-call{display:flex;align-items:center;justify-content:center;height:48px;margin-top:10px;border-radius:14px;background:var(--accent);color:var(--accent-ink);font-weight:700;text-decoration:none;}
-  .ins-state{display:inline-block;font-weight:700;font-size:.85rem;padding:4px 10px;border-radius:999px;margin-bottom:6px;}
+  .ins-state{display:inline-block;font-weight:700;font-size:var(--fs-2);padding:4px 10px;border-radius:999px;margin-bottom:6px;}
   .ins-state.good{background:var(--good-bg);color:var(--good);} .ins-state.mid{background:var(--mid-bg);color:var(--mid);} .ins-state.bad{background:var(--bad-bg);color:var(--bad);}
   #insForm{display:flex;flex-direction:column;gap:10px;}
   #insForm[hidden]{display:none;}
   [hidden]{display:none !important;}
-  #insForm label{display:flex;flex-direction:column;gap:4px;font-size:.9rem;font-weight:600;color:var(--ink-2);}
-  #insForm input{height:46px;border:0;border-radius:12px;background:var(--surface-2);color:var(--ink);font:inherit;font-size:1rem;padding:0 12px;-webkit-appearance:none;appearance:none;}
+  #insForm label{display:flex;flex-direction:column;gap:4px;font-size:var(--fs-2);font-weight:600;color:var(--ink-2);}
+  #insForm input{height:46px;border:0;border-radius:12px;background:var(--surface-2);color:var(--ink);font:inherit;font-size:var(--fs-3);padding:0 12px;-webkit-appearance:none;appearance:none;}
   .ins-actions{display:flex;gap:10px;align-items:center;}
   .ins-save{flex:1;height:46px;border:0;border-radius:12px;background:var(--accent);color:var(--accent-ink);font-weight:700;cursor:pointer;}
 
@@ -178,15 +180,15 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   .tuto{background:var(--surface);border-radius:var(--radius);padding:0;margin-top:12px;overflow:hidden;}
   .tuto > summary{list-style:none;display:flex;flex-direction:column;gap:2px;padding:14px 48px 14px 16px;position:relative;cursor:pointer;min-height:56px;}
   .tuto > summary::-webkit-details-marker{display:none;}
-  .tuto > summary span{font-size:1.08rem;font-weight:700;}
-  .tuto > summary small{font-size:.85rem;color:var(--ink-2);font-weight:500;}
+  .tuto > summary span{font-size:var(--fs-3);font-weight:700;}
+  .tuto > summary small{font-size:var(--fs-2);color:var(--ink-2);font-weight:500;}
   .tuto > summary::after{content:"";position:absolute;right:18px;top:50%;width:10px;height:10px;border-right:2.5px solid var(--ink-2);border-bottom:2.5px solid var(--ink-2);transform:translateY(-70%) rotate(45deg);transition:transform .25s ease;}
   .tuto[open] > summary::after{transform:translateY(-30%) rotate(-135deg);}
   .tuto .carousel{border-radius:0;padding-top:0;}
   .tuto-body{padding:0 16px 14px;}
-  .tuto-body ul,.tuto-body ol{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;font-size:.95rem;color:var(--ink-2);}
+  .tuto-body ul,.tuto-body ol{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;font-size:var(--fs-3);color:var(--ink-2);}
   .tuto-body li b{color:var(--ink);}
-  .tuto-body p{font-size:.95rem;color:var(--ink-2);margin:0 0 8px;}
+  .tuto-body p{font-size:var(--fs-3);color:var(--ink-2);margin:0 0 8px;}
   .tuto[open] .carousel{animation:rise .35s cubic-bezier(.2,.8,.2,1) both;}
 
 
@@ -199,7 +201,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   .an-lead{stroke:#0d1f26;stroke-width:.35;}
   .an-dot{fill:#0d1f26;stroke:#fff;stroke-width:.35;}
   .tag{position:absolute;transform:translate(-50%,-50%);background:rgba(255,255,255,.94);color:#0d1f26;
-    font-size:.66rem;font-weight:700;line-height:1.15;padding:3px 8px;border-radius:10px;white-space:normal;
+    font-size:var(--fs-1);font-weight:700;line-height:1.15;padding:3px 8px;border-radius:10px;white-space:normal;
     width:max-content;max-width:44%;text-align:center;box-shadow:0 0 0 1px rgba(13,31,38,.12);pointer-events:none;}
   .tag-wind{background:#0b5ed7;color:#fff;box-shadow:none;}
   .tag-back{transform:none;display:flex;align-items:center;gap:4px;max-width:none;white-space:nowrap;}
@@ -207,21 +209,21 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   .tag-le{background:#f07c1b;color:#fff;box-shadow:none;}
   .tag-good{background:#16784a;color:#fff;box-shadow:none;}
   .tag-bad{background:#c0281f;color:#fff;box-shadow:none;}
-  @media (min-width:480px){ .tag{font-size:.78rem;padding:4px 9px;} }
+  @media (min-width:480px){ .tag{font-size:var(--fs-1);padding:4px 9px;} }
 
   /* carrousel de décollage */
   .carousel{background:var(--surface);border-radius:var(--radius);padding:12px 0 10px;}
   .slides{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding:0 12px;scrollbar-width:none;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;}
   .slides::-webkit-scrollbar{display:none;}
   .slide{flex:0 0 100%;scroll-snap-align:center;margin:0;}
-  .slide figcaption{font-size:.98rem;line-height:1.45;padding:10px 4px 0;min-height:6.2em;}
-  .slide figcaption b{display:block;font-size:1.1rem;margin-bottom:2px;}
+  .slide figcaption{font-size:var(--fs-3);line-height:1.45;padding:10px 4px 0;min-height:6.2em;}
+  .slide figcaption b{display:block;font-size:var(--fs-4);margin-bottom:2px;}
   .ill{width:100%;height:auto;display:block;}
   .ill-img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:14px;display:block;background:var(--surface-2);}
   .ill-img + .ill{display:none;}
   .slide{position:relative;}
   .wind-chip{display:none;position:absolute;top:10px;left:10px;align-items:center;gap:6px;padding:5px 10px 5px 8px;border-radius:999px;
-    background:rgba(5,7,12,.72);color:#fff;font-size:.82rem;font-weight:700;}
+    background:rgba(5,7,12,.72);color:#fff;font-size:var(--fs-2);font-weight:700;}
   .wind-chip svg{width:16px;height:16px;}
   .ill-img ~ .wind-chip{display:flex;}   /* l'illustration Krea remplace le dessin quand elle existe */
   .ill-sand{fill:var(--surface-2);}
@@ -257,7 +259,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   .ill-arrowhead{fill:none;stroke:var(--good);stroke-width:4;stroke-linecap:round;stroke-linejoin:round;}
   .ill-zenith{fill:var(--good);}
   .car-nav{display:flex;align-items:center;justify-content:space-between;padding:8px 12px 0;}
-  .car-btn{width:44px;height:44px;border-radius:12px;border:0;background:var(--surface-2);font-size:1.4rem;font-weight:700;cursor:pointer;}
+  .car-btn{width:44px;height:44px;border-radius:12px;border:0;background:var(--surface-2);font-size:var(--fs-5);font-weight:700;cursor:pointer;}
   .car-btn:disabled{opacity:.35;}
   .dots{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;max-width:70%;}
   .carousel + .h3{margin-top:26px;}
@@ -282,70 +284,70 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   .appbar.scrolled{background:var(--surface);box-shadow:0 1px 0 var(--surface-2);}
   .appicon{width:36px;height:36px;border-radius:9px;flex:0 0 36px;}
   .appname{flex:1;min-width:0;}
-  .appname h1{font-size:1.15rem;line-height:1.15;font-weight:700;margin:0;letter-spacing:-.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-  .appname p{margin:0;font-size:.82rem;color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .appname h1{font-size:var(--fs-4);line-height:1.15;font-weight:700;margin:0;letter-spacing:-.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .appname p{margin:0;font-size:var(--fs-2);color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
   .appbar-in{display:flex;flex-direction:column;gap:8px;width:100%;max-width:720px;margin-inline:auto;}
   .appbar .seg{margin-bottom:0;}
   /* Bandeau du club (membres) : couleurs et sigle du club, ouvre la fiche club */
   .clubbar{display:flex;align-items:center;gap:10px;width:100%;border:0;border-radius:14px;padding:7px 12px 7px 7px;background:var(--club, var(--accent));color:#fff;font:inherit;text-align:left;cursor:pointer;}
-  .club-logo{flex:none;display:grid;place-items:center;width:30px;height:30px;border-radius:9px;background:rgba(255,255,255,.18);font-weight:800;font-size:.72rem;letter-spacing:.02em;}
-  .clubbar b{flex:1;min-width:0;font-size:.95rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-  .clubbar small{flex:none;font-size:.8rem;font-weight:600;padding:3px 8px;border-radius:999px;background:rgba(255,255,255,.18);}
+  .club-logo{flex:none;display:grid;place-items:center;width:30px;height:30px;border-radius:9px;background:rgba(255,255,255,.18);font-weight:800;font-size:var(--fs-1);letter-spacing:.02em;}
+  .clubbar b{flex:1;min-width:0;font-size:var(--fs-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .clubbar small{flex:none;font-size:var(--fs-1);font-weight:600;padding:3px 8px;border-radius:999px;background:rgba(255,255,255,.18);}
   .clubbar small.todo{background:#fff;color:var(--club, var(--accent));}
   .club-head{display:flex;align-items:center;gap:10px;}
   .club-i{flex:none;display:grid;place-items:center;width:20px;height:20px;opacity:.85;font:italic 700 1.05rem/1 Georgia,serif;}
-  .club-info{list-style:none;margin:0 0 4px;padding:12px 14px;background:var(--surface);border-radius:16px;display:flex;flex-direction:column;gap:10px;font-size:.95rem;}
+  .club-info{list-style:none;margin:0 0 4px;padding:12px 14px;background:var(--surface);border-radius:16px;display:flex;flex-direction:column;gap:10px;font-size:var(--fs-3);}
   .club-info li{display:flex;align-items:center;gap:10px;}
   .club-info a{color:var(--accent);font-weight:600;text-decoration:none;}
   .ci-ico{flex:none;display:grid;place-items:center;width:30px;height:30px;border-radius:9px;background:var(--surface-2);}
   .ci-ico svg{width:17px;height:17px;fill:none;stroke:var(--accent);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
   .club-news{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;}
-  .club-news li{display:flex;flex-direction:column;gap:2px;padding:10px 14px;background:var(--surface);border-radius:14px;border-left:4px solid var(--club, var(--accent));font-size:.9rem;color:var(--ink-2);}
-  .club-news small{font-weight:700;color:var(--ink-2);font-size:.78rem;text-transform:uppercase;letter-spacing:.04em;}
-  .club-news b{color:var(--ink);font-size:1rem;}
+  .club-news li{display:flex;flex-direction:column;gap:2px;padding:10px 14px;background:var(--surface);border-radius:14px;border-left:4px solid var(--club, var(--accent));font-size:var(--fs-2);color:var(--ink-2);}
+  .club-news small{font-weight:700;color:var(--ink-2);font-size:var(--fs-1);text-transform:uppercase;letter-spacing:.04em;}
+  .club-news b{color:var(--ink);font-size:var(--fs-3);}
   /* Cours du club (démo) */
   .cours-in{padding:4px 16px;border-radius:var(--radius);background:var(--surface);}
   .cours .cr-tag{vertical-align:middle;margin-left:4px;}
   .cours-h{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:4px;}
-  .cours-h b{font-size:1.05rem;}
-  .cr-tag{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;padding:3px 8px;border-radius:999px;background:var(--surface-2);color:var(--ink-2);}
-  .cr-demo{margin:0 0 10px;font-size:.85rem;color:var(--ink-2);}
+  .cours-h b{font-size:var(--fs-3);}
+  .cr-tag{font-size:var(--fs-1);font-weight:700;text-transform:uppercase;letter-spacing:.05em;padding:3px 8px;border-radius:999px;background:var(--surface-2);color:var(--ink-2);}
+  .cr-demo{margin:0 0 10px;font-size:var(--fs-2);color:var(--ink-2);}
   .cr-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;}
   .cr{padding:12px 0;border-top:1px solid var(--surface-2);display:flex;flex-direction:column;gap:5px;}
   .cr:first-child{border-top:0;}
   .cr-top{display:flex;align-items:center;justify-content:space-between;gap:8px;}
-  .cr-top .badge{grid-row:auto;grid-column:auto;font-size:.8rem;padding:3px 9px;}
+  .cr-top .badge{grid-row:auto;grid-column:auto;font-size:var(--fs-1);padding:3px 9px;}
   .badge.none{background:var(--surface-2);color:var(--ink-2);}
-  .cr-what{color:var(--ink-2);font-size:.92rem;}
+  .cr-what{color:var(--ink-2);font-size:var(--fs-2);}
   .cr-title{font-weight:600;}
-  .cr-why{font-size:.88rem;}
+  .cr-why{font-size:var(--fs-2);}
   .cr-bot{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:3px;}
-  .cr-places{display:flex;flex-direction:column;gap:4px;font-size:.85rem;color:var(--ink-2);min-width:0;}
+  .cr-places{display:flex;flex-direction:column;gap:4px;font-size:var(--fs-2);color:var(--ink-2);min-width:0;}
   .cr-places i{display:block;width:96px;height:5px;border-radius:3px;background:linear-gradient(90deg,var(--accent) calc(var(--p)*100%),var(--surface-2) 0);}
   .cr-places.full{color:var(--bad);}
   .cr-bot button{flex:none;height:40px;padding:0 14px;}
   .cr-bot .ins-save{flex:none;}
   .cr.mine{background:var(--good-bg);margin:0 -10px;padding:12px 10px;border-radius:12px;border-top-color:transparent;}
-  .cr-day{margin:14px 0 2px;font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-2);}
+  .cr-day{margin:14px 0 2px;font-size:var(--fs-1);font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-2);}
   .cours-next{display:flex;flex-direction:column;gap:3px;margin-top:12px;padding:12px 16px;border-radius:var(--radius);background:var(--good-bg);color:var(--ink);text-decoration:none;}
-  .cours-next small{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--good);}
-  .cours-next span{color:var(--ink-2);font-size:.9rem;}
+  .cours-next small{font-size:var(--fs-1);font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--good);}
+  .cours-next span{color:var(--ink-2);font-size:var(--fs-2);}
 
   .club-head .club-logo{background:var(--club, var(--accent));color:#fff;width:38px;height:38px;}
   .placebar{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:36px;}
-  .place{font-weight:700;font-size:1rem;letter-spacing:-.01em;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .place{font-weight:700;font-size:var(--fs-3);letter-spacing:-.01em;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
   .place select{
     border:0;background:transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239aa4b8' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") no-repeat right 0 center/16px;
-    color:var(--ink);font:inherit;font-weight:700;font-size:1rem;padding:6px 22px 6px 0;-webkit-appearance:none;appearance:none;cursor:pointer;max-width:100%;
+    color:var(--ink);font:inherit;font-weight:700;font-size:var(--fs-3);padding:6px 22px 6px 0;-webkit-appearance:none;appearance:none;cursor:pointer;max-width:100%;
   }
-  .placebar .clock{padding:6px 12px;font-size:.92rem;}
-  .clock{display:flex;align-items:center;gap:8px;background:var(--surface);border-radius:999px;padding:8px 14px;font-weight:700;font-size:1rem;flex:0 0 auto;}
+  .placebar .clock{padding:6px 12px;font-size:var(--fs-2);}
+  .clock{display:flex;align-items:center;gap:8px;background:var(--surface);border-radius:999px;padding:8px 14px;font-weight:700;font-size:var(--fs-3);flex:0 0 auto;}
   .appbar.scrolled .clock{background:var(--surface-2);}
   .live{position:relative;width:8px;height:8px;border-radius:50%;background:var(--good);}
   .live::after{content:"";position:absolute;inset:-4px;border-radius:50%;background:var(--good);opacity:.35;animation:ping 2s cubic-bezier(0,0,.2,1) infinite;}
   @keyframes ping{75%,100%{transform:scale(2.2);opacity:0;}}
 
-  h2{font-size:1.6rem;font-weight:700;margin:0 0 14px;letter-spacing:-.03em;}
+  h2{font-size:var(--fs-5);font-weight:700;margin:0 0 14px;letter-spacing:-.03em;}
 
   /* verrou */
   .gate{display:none;}
@@ -355,16 +357,16 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
     max-width:360px;margin:12vh auto 0;padding:0 8px;
   }
   .gate img{width:64px;height:64px;border-radius:16px;align-self:center;}
-  .gate h1{text-align:center;font-size:1.6rem;letter-spacing:-.03em;margin:4px 0 0;}
+  .gate h1{text-align:center;font-size:var(--fs-5);letter-spacing:-.03em;margin:4px 0 0;}
   .gate-tag{text-align:center;margin:2px 0 14px;color:var(--ink-2);font-weight:600;}
   .gate label{font-weight:600;color:var(--ink-2);}
-  .gate input{height:52px;border:0;border-radius:14px;background:var(--surface);color:var(--ink);font:inherit;font-size:1.1rem;padding:0 16px;}
-  .gate button{height:52px;border:0;border-radius:14px;background:var(--accent);color:var(--accent-ink);font:inherit;font-size:1.1rem;font-weight:700;cursor:pointer;}
+  .gate input{height:52px;border:0;border-radius:14px;background:var(--surface);color:var(--ink);font:inherit;font-size:var(--fs-4);padding:0 16px;}
+  .gate button{height:52px;border:0;border-radius:14px;background:var(--accent);color:var(--accent-ink);font:inherit;font-size:var(--fs-4);font-weight:700;cursor:pointer;}
   .gate p{min-height:1.4em;color:var(--bad);font-weight:600;text-align:center;margin:0;}
 
   /* profile switch */
   .seg{position:relative;display:grid;grid-template-columns:1fr 1fr;background:var(--surface);border-radius:16px;padding:4px;margin-bottom:16px;}
-  .seg button{position:relative;z-index:1;border:0;background:none;height:44px;border-radius:12px;font-weight:700;font-size:1rem;color:var(--ink-2);cursor:pointer;transition:color .25s ease,transform .18s cubic-bezier(.2,.8,.2,1);}
+  .seg button{position:relative;z-index:1;border:0;background:none;height:44px;border-radius:12px;font-weight:700;font-size:var(--fs-3);color:var(--ink-2);cursor:pointer;transition:color .25s ease,transform .18s cubic-bezier(.2,.8,.2,1);}
   .seg button[aria-pressed="true"]{color:var(--accent-ink);}
   .seg-ind{position:absolute;z-index:0;top:4px;left:4px;width:calc(50% - 4px);height:44px;border-radius:12px;background:var(--accent);transition:transform .35s cubic-bezier(.2,.8,.2,1);}
   [data-profile="kite"] .seg-ind{transform:translateX(100%);}
@@ -379,16 +381,16 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
     padding:18px 18px 20px;
     display:flex;flex-direction:column;gap:2px;
   }
-  .tile .what{font-size:1rem;font-weight:600;color:var(--ink-2);display:flex;align-items:center;gap:8px;}
+  .tile .what{font-size:var(--fs-3);font-weight:600;color:var(--ink-2);display:flex;align-items:center;gap:8px;}
   .tile .what::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--none);transition:background-color .45s ease;}
   .tile.good .what::before{background:var(--good);} .tile.bad .what::before{background:var(--bad);} .tile.mid .what::before{background:var(--mid);}
   .tile{position:relative;overflow:hidden;}
   .tile::after{content:"";position:absolute;right:-40px;bottom:-60px;width:180px;height:180px;border-radius:50%;background:currentColor;opacity:.05;pointer-events:none;}
   .tile.good::after{color:var(--good);} .tile.bad::after{color:var(--bad);} .tile.mid::after{color:var(--mid);}
   .tile .state{font-size:clamp(2.4rem,11vw,3.2rem);font-weight:700;line-height:1;letter-spacing:-.045em;margin-top:6px;}
-  .tile .next{font-size:1.05rem;margin-top:8px;}
+  .tile .next{font-size:var(--fs-3);margin-top:8px;}
   .tile .next b{font-weight:700;}
-  .tile .count{font-size:1.6rem;font-weight:700;letter-spacing:-.03em;margin-top:2px;}
+  .tile .count{font-size:var(--fs-5);font-weight:700;letter-spacing:-.03em;margin-top:2px;}
 
   /* passage bassin Morny : fond neutre, la couleur ne marque que l'état (ouvert/fermé),
      pour ne pas la confondre avec la note des conditions de mer */
@@ -396,45 +398,45 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   .tile.pass::after{display:none;}
   .tile.pass .part{background:var(--surface-2);}
   .parts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px;}
-  .part{display:flex;flex-direction:column;gap:2px;background:color-mix(in srgb, var(--surface) 70%, transparent);border-radius:14px;padding:10px 12px;font-size:.92rem;line-height:1.35;}
-  .part .pk{font-weight:600;font-size:.82rem;color:var(--ink-2);}
-  .part .pv b{font-size:1.05rem;}
+  .part{display:flex;flex-direction:column;gap:2px;background:color-mix(in srgb, var(--surface) 70%, transparent);border-radius:14px;padding:10px 12px;font-size:var(--fs-2);line-height:1.35;}
+  .part .pk{font-weight:600;font-size:var(--fs-2);color:var(--ink-2);}
+  .part .pv b{font-size:var(--fs-3);}
   .dl-legend .shut::before{background:color-mix(in srgb, var(--bad) 45%, var(--surface));}
 
   /* spot kite */
   .kite-now{background:var(--surface);border-radius:var(--radius);padding:18px;transition:background-color .45s ease;}
   .kite-now.good{background:var(--good-bg);} .kite-now.mid{background:var(--mid-bg);} .kite-now.bad{background:var(--bad-bg);}
-  .kite-now .what{font-size:1rem;font-weight:600;color:var(--ink-2);}
+  .kite-now .what{font-size:var(--fs-3);font-weight:600;color:var(--ink-2);}
   .spot-pick{display:flex;align-items:center;gap:10px;}
   .spot-pick select{
     flex:1;min-width:0;height:44px;border:0;border-radius:12px;padding:0 40px 0 14px;
     background:var(--surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239aa4b8' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") no-repeat right 12px center/18px;
-    color:var(--ink);font:inherit;font-size:1.1rem;font-weight:700;-webkit-appearance:none;appearance:none;cursor:pointer;
+    color:var(--ink);font:inherit;font-size:var(--fs-4);font-weight:700;-webkit-appearance:none;appearance:none;cursor:pointer;
   }
   .kn-main{display:flex;align-items:baseline;gap:10px;margin-top:6px;}
   .kn-arrow{width:44px;height:44px;align-self:center;transition:transform .8s cubic-bezier(.2,.8,.2,1);}
   .kn-speed{font-size:clamp(3.6rem,20vw,5rem);font-weight:700;line-height:1;letter-spacing:-.05em;}
-  .kn-unit{font-size:1.2rem;font-weight:700;color:var(--ink-2);}
-  .kn-sub{font-size:1.02rem;font-weight:600;margin-top:4px;}
+  .kn-unit{font-size:var(--fs-4);font-weight:700;color:var(--ink-2);}
+  .kn-sub{font-size:var(--fs-3);font-weight:600;margin-top:4px;}
   .kn-verdict{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:12px;font-weight:600;}
   .kn-verdict .badge{grid-row:auto;grid-column:auto;background:var(--surface);}
   .kgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px;}
   .kkey{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px;}
   .key{background:var(--surface);border-radius:16px;padding:12px 14px;}
-  .key .k{font-size:.85rem;font-weight:600;color:var(--ink-2);}
-  .key .v{font-size:2.4rem;font-weight:700;letter-spacing:-.04em;line-height:1.05;margin:2px 0;}
-  .key .sub{font-size:.85rem;color:var(--ink-2);}
-  .weight{display:flex;align-items:center;gap:10px;margin-top:10px;font-size:.95rem;color:var(--ink-2);background:var(--surface);border-radius:16px;padding:8px 8px 8px 14px;}
+  .key .k{font-size:var(--fs-2);font-weight:600;color:var(--ink-2);}
+  .key .v{font-size:var(--fs-6);font-weight:700;letter-spacing:-.04em;line-height:1.05;margin:2px 0;}
+  .key .sub{font-size:var(--fs-2);color:var(--ink-2);}
+  .weight{display:flex;align-items:center;gap:10px;margin-top:10px;font-size:var(--fs-3);color:var(--ink-2);background:var(--surface);border-radius:16px;padding:8px 8px 8px 14px;}
   .weight span:first-child{flex:1;font-weight:600;}
-  .weight b{color:var(--ink);font-size:1.05rem;}
-  .weight button{width:40px;height:40px;border-radius:12px;border:0;background:var(--surface);font-size:1.3rem;font-weight:700;cursor:pointer;}
+  .weight b{color:var(--ink);font-size:var(--fs-3);}
+  .weight button{width:40px;height:40px;border-radius:12px;border:0;background:var(--surface);font-size:var(--fs-5);font-weight:700;cursor:pointer;}
   .weight button{background:var(--surface-2);}
   .key.target .v{color:var(--mid);}
   .wkd .t .ico{margin-right:3px;color:var(--mid);}
-  .kn-note{margin:8px 0 0;font-size:.88rem;color:var(--ink-2);}
+  .kn-note{margin:8px 0 0;font-size:var(--fs-2);color:var(--ink-2);}
   .boatnow .what{margin-bottom:6px;}
   .boatnow .kn-verdict{margin-top:6px;}
-  .rider{flex:none;display:inline-flex;align-items:center;gap:6px;border:0;border-radius:999px;background:var(--surface);color:var(--ink);font-weight:700;font-size:.88rem;padding:6px 12px;min-height:36px;cursor:pointer;white-space:nowrap;}
+  .rider{flex:none;display:inline-flex;align-items:center;gap:6px;border:0;border-radius:999px;background:var(--surface);color:var(--ink);font-weight:700;font-size:var(--fs-2);padding:6px 12px;min-height:36px;cursor:pointer;white-space:nowrap;}
   .rider .ico{margin:0;color:var(--accent);}
   .rider[aria-expanded="true"]{background:var(--accent);color:var(--accent-ink);}
   .rider[aria-expanded="true"] .ico{color:inherit;}
@@ -443,12 +445,12 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   html[data-sport]:not([data-sport="kite"]) .only-sport-kite{display:none !important;}
   [data-region="nc"] .only-dv,[data-region="dv"] .only-nc,html:not([data-region]) .only-nc{display:none !important;}
   .rider-panel{padding-bottom:4px;}
-  .club-lim{margin:10px 0 0;color:var(--ink);font-size:.9rem;}
+  .club-lim{margin:10px 0 0;color:var(--ink);font-size:var(--fs-2);}
   .rider-panel .weight{margin-top:2px;}
-  .quiver{margin-top:8px;background:var(--surface);border-radius:16px;padding:10px 12px 12px 14px;font-size:.95rem;color:var(--ink-2);}
+  .quiver{margin-top:8px;background:var(--surface);border-radius:16px;padding:10px 12px 12px 14px;font-size:var(--fs-3);color:var(--ink-2);}
   .quiver > span{font-weight:600;}
   .qv-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}
-  .qv-chips button{min-width:44px;height:36px;padding:0 10px;border-radius:10px;border:2px solid var(--surface-2);background:transparent;color:var(--ink-2);font-weight:700;font-size:.9rem;cursor:pointer;}
+  .qv-chips button{min-width:44px;height:36px;padding:0 10px;border-radius:10px;border:2px solid var(--surface-2);background:transparent;color:var(--ink-2);font-weight:700;font-size:var(--fs-2);cursor:pointer;}
   #sportChips button{display:inline-flex;align-items:center;gap:4px;}
   #sportChips .ico{margin:0;}
   .qv-chips button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);}
@@ -459,7 +461,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   .sky .ico{margin:0;color:var(--accent);}
   .sky.wet .ico{color:var(--mid);}
   .wkd .sk .ico{margin:0;width:1em;height:1em;}
-  .pass .chrono-label{font-size:1.05rem;font-weight:600;margin-top:14px;}
+  .pass .chrono-label{font-size:var(--fs-3);font-weight:600;margin-top:14px;}
   .pass .chrono{font-size:clamp(3.2rem,17vw,4.6rem);font-weight:700;line-height:1;letter-spacing:-.05em;margin-top:2px;}
   .pass.good .chrono{color:var(--good);} .pass.mid .chrono{color:var(--mid);} .pass.bad .chrono{color:var(--bad);}
   .pass .chrono.soon{animation:pulse 1.2s ease-in-out infinite;}
@@ -471,8 +473,8 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   .dl-track .dl-seg{position:absolute;top:0;bottom:0;background:var(--good);}
   .dl-track .dl-seg.unknown{background:var(--none);}
   .dl-track .nowmark{position:absolute;top:0;bottom:0;width:4px;margin-left:-2px;border-radius:2px;background:var(--ink);box-shadow:0 0 0 2px var(--surface);}
-  .dl-scale{display:flex;justify-content:space-between;font-size:.78rem;color:var(--ink-2);margin-top:4px;}
-  .dl-legend{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:.85rem;color:var(--ink-2);margin-top:6px;}
+  .dl-scale{display:flex;justify-content:space-between;font-size:var(--fs-1);color:var(--ink-2);margin-top:4px;}
+  .dl-legend{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:var(--fs-2);color:var(--ink-2);margin-top:6px;}
   .dl-legend span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px;}
   .dl-legend .free::before{background:var(--good);} .dl-legend .inter::before{background:var(--mid);}
   .tile.good{background:var(--good-bg);} .tile.good .state{color:var(--good);}
@@ -480,22 +482,22 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   .tile.mid{background:var(--mid-bg);}   .tile.mid .state{color:var(--mid);}
 
   .today{margin-top:14px;background:var(--surface);border-radius:var(--radius);padding:16px 18px;}
-  .today-title{font-size:.95rem;font-weight:600;color:var(--ink-2);margin-bottom:10px;}
+  .today-title{font-size:var(--fs-3);font-weight:600;color:var(--ink-2);margin-bottom:10px;}
   .slots{display:flex;flex-wrap:wrap;gap:8px;}
   .slot{
     background:var(--surface-2);border-radius:12px;padding:8px 12px;
-    font-weight:700;font-size:1.05rem;white-space:nowrap;
+    font-weight:700;font-size:var(--fs-3);white-space:nowrap;
   }
-  .slot small{display:block;font-weight:500;font-size:.8rem;color:var(--ink-2);}
+  .slot small{display:block;font-weight:500;font-size:var(--fs-1);color:var(--ink-2);}
   .slot.now{background:var(--accent);color:var(--accent-ink);}
   .slot.now small{color:inherit;opacity:.85;}
-  .tides{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:14px;font-size:.95rem;color:var(--ink-2);}
+  .tides{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:14px;font-size:var(--fs-3);color:var(--ink-2);}
   .tides b{color:var(--ink);font-weight:700;}
 
   /* go out */
   .verdict{background:var(--surface);border-radius:var(--radius);padding:18px;}
   .verdict.good{background:var(--good-bg);} .verdict.mid{background:var(--mid-bg);} .verdict.bad{background:var(--bad-bg);}
-  .verdict .v-label{font-size:1rem;font-weight:600;color:var(--ink-2);}
+  .verdict .v-label{font-size:var(--fs-3);font-weight:600;color:var(--ink-2);}
   .verdict .v-word{font-size:clamp(2.4rem,11vw,3.2rem);font-weight:700;line-height:1;letter-spacing:-.045em;margin:6px 0 6px;}
   .verdict.good .v-word{color:var(--good);} .verdict.mid .v-word{color:var(--mid);} .verdict.bad .v-word{color:var(--bad);}
   .gauge{position:relative;height:12px;margin:16px 0 8px;display:grid;grid-template-columns:45fr 25fr 30fr;gap:4px;}
@@ -504,22 +506,22 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   .verdict.bad .gauge b:nth-child(1),.verdict.mid .gauge b:nth-child(2),.verdict.good .gauge b:nth-child(3){opacity:1;}
   .gauge i{position:absolute;top:50%;width:24px;height:24px;border-radius:50%;background:var(--surface);
     border:5px solid var(--ink);transform:translate(-50%,-50%);transition:left .7s cubic-bezier(.2,.8,.2,1);}
-  .gauge-scale{display:flex;justify-content:space-between;font-size:.8rem;color:var(--ink-2);}
+  .gauge-scale{display:flex;justify-content:space-between;font-size:var(--fs-1);color:var(--ink-2);}
   .conds{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px;}
   .cond{background:var(--surface);border-radius:14px;padding:10px 12px;}
   .verdict:not(.good):not(.mid):not(.bad) .cond{background:var(--surface-2);}
-  .cond .k{font-size:.85rem;color:var(--ink-2);}
-  .cond .val{font-size:1.25rem;font-weight:800;display:flex;align-items:center;gap:6px;}
+  .cond .k{font-size:var(--fs-2);color:var(--ink-2);}
+  .cond .val{font-size:var(--fs-4);font-weight:800;display:flex;align-items:center;gap:6px;}
   .arrow{width:18px;height:18px;flex:0 0 18px;transition:transform .6s cubic-bezier(.2,.8,.2,1);}
-  .cond .sub{font-size:.85rem;color:var(--ink-2);}
+  .cond .sub{font-size:var(--fs-2);color:var(--ink-2);}
 
-  .h3{font-size:1.1rem;font-weight:700;margin:26px 0 10px;}
+  .h3{font-size:var(--fs-4);font-weight:700;margin:26px 0 10px;}
   /* En-tête de section : titre, sous-titre d'une ligne, bouton « i » pour le détail */
   .sec-h{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:26px 0 10px;}
   .sec-h .h3{margin:0;}
-  .sec-sub{margin:2px 0 0;font-size:.9rem;color:var(--ink-2);}
+  .sec-sub{margin:2px 0 0;font-size:var(--fs-2);color:var(--ink-2);}
   .sec-h.big{margin-top:30px;padding-top:22px;border-top:1px solid var(--surface-2);}
-  .sec-h.big .h3{font-size:1.3rem;}
+  .sec-h.big .h3{font-size:var(--fs-5);}
   .sec-h.big.first{margin-top:0;padding-top:0;border-top:0;}
   .info-i{flex:none;display:grid;place-items:center;width:32px;height:32px;padding:0;border:0;background:transparent;color:var(--ink-2);font:italic 700 1.15rem/1 Georgia,serif;cursor:pointer;}
   #infoBody ul,#infoBody ol{padding-left:20px;}
@@ -534,10 +536,10 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
     display:grid;grid-template-columns:auto 1fr auto;gap:4px 12px;align-items:center;
     background:var(--surface);border-radius:14px;padding:12px 14px;
   }
-  .win .when{font-weight:700;font-size:1.05rem;white-space:nowrap;}
-  .win .day{font-size:.85rem;color:var(--ink-2);}
-  .win .meta{font-size:.9rem;color:var(--ink-2);grid-column:1 / 3;}
-  .badge{font-weight:700;font-size:.9rem;padding:5px 10px;border-radius:999px;white-space:nowrap;grid-row:1 / 3;grid-column:3;}
+  .win .when{font-weight:700;font-size:var(--fs-3);white-space:nowrap;}
+  .win .day{font-size:var(--fs-2);color:var(--ink-2);}
+  .win .meta{font-size:var(--fs-2);color:var(--ink-2);grid-column:1 / 3;}
+  .badge{font-weight:700;font-size:var(--fs-2);padding:5px 10px;border-radius:999px;white-space:nowrap;grid-row:1 / 3;grid-column:3;}
   .badge.good{background:var(--good-bg);color:var(--good);}
   .badge.mid{background:var(--mid-bg);color:var(--mid);}
   .badge.bad{background:var(--bad-bg);color:var(--bad);}
@@ -552,7 +554,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   .windows > .win .day{grid-column:1 / 3;grid-row:2;}
   .windows > .win .meta{grid-column:1 / 3;grid-row:3;margin-top:4px;}
   .windows > .muted{flex:1;}
-  .win-count{font-size:.85rem;color:var(--ink-2);margin:6px 0 0;}
+  .win-count{font-size:var(--fs-2);color:var(--ink-2);margin:6px 0 0;}
 
   .strip-wrap{background:var(--surface);border-radius:var(--radius);padding:14px 0 12px;}
   .strip{display:flex;gap:3px;overflow-x:auto;padding:0 14px 6px;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
@@ -564,20 +566,20 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   .hour .bar{width:100%;height:44px;border-radius:9px;background:var(--none);transform-origin:bottom;}
   .hour.good .bar{background:var(--good);} .hour.mid .bar{background:var(--mid);} .hour.bad .bar{background:var(--bad);}
   .hour.night .bar{opacity:.55;}
-  .hour .t{font-size:.72rem;color:var(--ink-2);height:1em;}
+  .hour .t{font-size:var(--fs-1);color:var(--ink-2);height:1em;}
   .hour.sel .bar{outline:3px solid var(--ink);outline-offset:1px;}
   .hour.daystart{margin-left:10px;}
-  .strip-detail{padding:8px 14px 0;font-size:.95rem;min-height:2.9em;}
-  .legend{display:flex;flex-wrap:wrap;gap:6px 14px;padding:8px 14px 0;font-size:.85rem;color:var(--ink-2);}
+  .strip-detail{padding:8px 14px 0;font-size:var(--fs-3);min-height:2.9em;}
+  .legend{display:flex;flex-wrap:wrap;gap:6px 14px;padding:8px 14px 0;font-size:var(--fs-2);color:var(--ink-2);}
   .legend span::before{content:"";display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px;background:var(--c);}
 
   details{margin-top:14px;background:var(--surface);border-radius:14px;padding:12px 14px;}
   summary{font-weight:700;cursor:pointer;min-height:28px;}
-  details p, details li{font-size:.95rem;color:var(--ink-2);}
+  details p, details li{font-size:var(--fs-3);color:var(--ink-2);}
   details ul{padding-left:18px;margin:8px 0;}
 
-  .note{background:var(--mid-bg);color:var(--ink);border-radius:14px;padding:12px 14px;font-size:.95rem;margin-top:12px;}
-  .muted{color:var(--ink-2);font-size:.95rem;}
+  .note{background:var(--mid-bg);color:var(--ink);border-radius:14px;padding:12px 14px;font-size:var(--fs-3);margin-top:12px;}
+  .muted{color:var(--ink-2);font-size:var(--fs-3);}
 
   /* day browser */
   .daynav{display:grid;grid-template-columns:48px 1fr 48px;gap:8px;align-items:center;margin-bottom:10px;}
@@ -585,20 +587,20 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
     height:48px;border-radius:14px;border:0;background:var(--surface);color:var(--ink);
     font:inherit;font-weight:700;
   }
-  .daynav button{font-size:1.4rem;cursor:pointer;}
+  .daynav button{font-size:var(--fs-5);cursor:pointer;}
   .daynav input{width:100%;padding:0 12px;text-align:center;-webkit-appearance:none;appearance:none;min-width:0;}
   /* date affichée = champ de date (toucher ouvre le calendrier du téléphone) */
   .cal-h{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:26px 0 10px;}
   .cal-h .h3{margin:0;}
   .cal-h .todaybtn{min-height:36px;padding:6px 14px;}
-  .datefield{position:relative;display:flex;align-items:center;justify-content:center;gap:8px;height:48px;border-radius:14px;background:var(--surface);font-weight:700;font-size:1.02rem;min-width:0;cursor:pointer;}
+  .datefield{position:relative;display:flex;align-items:center;justify-content:center;gap:8px;height:48px;border-radius:14px;background:var(--surface);font-weight:700;font-size:var(--fs-3);min-width:0;cursor:pointer;}
   .datefield span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
   .datefield .ico{margin:0;color:var(--accent);}
   .datefield input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;font-size:16px;}
   .datefield:focus-within{outline:3px solid var(--accent);outline-offset:2px;}
-  .todaybtn{border:0;background:var(--surface-2);border-radius:999px;padding:8px 14px;font-weight:600;font-size:.9rem;cursor:pointer;min-height:40px;}
+  .todaybtn{border:0;background:var(--surface-2);border-radius:999px;padding:8px 14px;font-weight:600;font-size:var(--fs-2);cursor:pointer;min-height:40px;}
 
-  footer{font-size:.9rem;color:var(--ink-2);display:flex;flex-direction:column;gap:10px;}
+  footer{font-size:var(--fs-2);color:var(--ink-2);display:flex;flex-direction:column;gap:10px;}
   footer .warn{background:var(--surface);border-radius:14px;padding:12px 14px;color:var(--ink);}
   footer a{color:var(--ink);font-weight:600;}
   .links{display:flex;flex-direction:column;gap:8px;}
@@ -614,7 +616,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   }
   .tabbar a{
     display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
-    min-height:52px;text-decoration:none;color:var(--ink-2);font-size:.8rem;font-weight:600;border-radius:12px;
+    min-height:52px;text-decoration:none;color:var(--ink-2);font-size:var(--fs-1);font-weight:600;border-radius:12px;
   }
   .tabbar a svg{width:24px;height:24px;}
   .tabbar a{position:relative;z-index:1;transition:color .25s ease;}
@@ -664,13 +666,13 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
     background:linear-gradient(90deg,transparent 0,var(--accent) 40%,var(--accent) 60%,transparent 100%) 0 0/40% 100% no-repeat;}
   html.syncing .appbar::after{opacity:1;animation:syncbar 1.1s linear infinite;}
   @keyframes syncbar{from{background-position:-60% 0;}to{background-position:160% 0;}}
-  .sync{display:none;align-items:center;gap:8px;font-size:.85rem;font-weight:600;color:var(--ink-2);min-height:22px;}
+  .sync{display:none;align-items:center;gap:8px;font-size:var(--fs-2);font-weight:600;color:var(--ink-2);min-height:22px;}
   html.syncing .sync, .sync.err{display:flex;}
   .sync.err{color:var(--bad);}
   .sync .spin{width:14px;height:14px;border-radius:50%;border:2px solid var(--surface-2);border-top-color:var(--accent);animation:spin .8s linear infinite;flex:0 0 14px;}
   .sync.err .spin{display:none;}
   @keyframes spin{to{transform:rotate(360deg);}}
-  .sync button{margin-left:auto;border:0;border-radius:999px;background:var(--surface-2);color:var(--ink);font-weight:700;font-size:.85rem;padding:4px 12px;cursor:pointer;}
+  .sync button{margin-left:auto;border:0;border-radius:999px;background:var(--surface-2);color:var(--ink);font-weight:700;font-size:var(--fs-2);padding:4px 12px;cursor:pointer;}
   html.syncing .clock .live, html.syncing .clock .live::after{background:var(--accent);}
   @media (prefers-reduced-motion: reduce){
     html.syncing .appbar::after{animation:none;background:var(--accent);opacity:.6;}
@@ -681,23 +683,24 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   .buoy{background:var(--surface);border-radius:var(--radius);padding:14px 16px;margin-top:10px;}
   .buoy-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;}
   .buoy-name{font-weight:700;flex:1 1 auto;min-width:0;}
-  .buoy-age{flex:none;display:inline-flex;align-items:center;gap:6px;font-size:.82rem;font-weight:600;color:var(--ink-2);white-space:nowrap;background:var(--surface-2);border-radius:999px;padding:3px 10px;}
+  .buoy-age{flex:none;display:inline-flex;align-items:center;gap:6px;font-size:var(--fs-2);font-weight:600;color:var(--ink-2);white-space:nowrap;background:var(--surface-2);border-radius:999px;padding:3px 10px;}
   .buoy-age.fresh::before{content:"";flex:none;width:7px;height:7px;border-radius:50%;background:var(--good);}
   .buoy-main{display:flex;align-items:baseline;gap:8px;margin-top:6px;}
-  .buoy-main b{font-size:2rem;font-weight:800;letter-spacing:-.03em;}
-  .buoy-main span{color:var(--ink-2);font-size:.92rem;}
+  .buoy-main b{font-size:var(--fs-6);font-weight:800;letter-spacing:-.03em;}
+  .buoy-main span{color:var(--ink-2);font-size:var(--fs-2);}
   .buoy .conds{grid-template-columns:repeat(3,1fr);margin-top:10px;gap:8px;}
   .buoy .cond{background:var(--surface-2);padding:8px 10px;}
-  .buoy .cond .val{font-size:1.05rem;}
-  .buoy-cmp{margin:10px 0 0;font-size:.9rem;}
+  .buoy .cond .val{font-size:var(--fs-3);}
+  .buoy-cmp{margin:10px 0 0;font-size:var(--fs-2);}
   .buoy-spark{display:block;width:100%;height:44px;margin-top:10px;color:var(--accent);}
-  .buoy-spark-l{display:flex;justify-content:space-between;font-size:.75rem;color:var(--ink-2);}
+  .buoy-spark-l{display:flex;justify-content:space-between;font-size:var(--fs-1);color:var(--ink-2);}
   .buoy.off{padding:12px 16px;}
-  .buoy.off p{margin:4px 0 0;font-size:.9rem;color:var(--ink-2);}
-  .buoy-src{font-size:.82rem;margin-top:8px;}
+  .buoy.off p{margin:4px 0 0;font-size:var(--fs-2);color:var(--ink-2);}
+  .buoy-src{font-size:var(--fs-2);margin-top:8px;}
 
   /* icônes */
   .ico{width:1.05em;height:1.05em;flex:none;vertical-align:-.17em;margin-right:5px;}
+  .ob-vp-i .ico,.ob-local li>span:first-child .ico,.ob-list li>span:first-child .ico,.pc-ico .ico,.avis-gift>span:first-child .ico{width:22px;height:22px;margin:0;vertical-align:middle;color:var(--accent);}
   .k .ico,.pk .ico{color:var(--accent);}
   .why{display:inline-flex;align-items:flex-start;gap:6px;}
   .why .ico{margin:0;margin-top:.12em;}
@@ -707,16 +710,16 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
 
   /* Premium : carte d'intérêt et questionnaire */
   .premium-card{display:flex;align-items:center;gap:12px;width:100%;margin-top:14px;padding:12px 16px;border:1px dashed var(--accent);border-radius:var(--radius);background:transparent;color:var(--ink);text-align:left;cursor:pointer;font:inherit;}
-  .premium-card .pc-ico{font-size:1.4rem;}
+  .premium-card .pc-ico{font-size:var(--fs-5);}
   .premium-card span{display:flex;flex-direction:column;}
-  .premium-card small{color:var(--ink-2);font-size:.85rem;}
+  .premium-card small{color:var(--ink-2);font-size:var(--fs-2);}
   .sheet{overscroll-behavior:contain;--ground:var(--sheet-bg);--surface:var(--sheet-1);--surface-2:var(--sheet-2);border:0;border-top:1px solid var(--sheet-edge);box-shadow:0 -10px 40px rgba(0,0,0,.35);padding:0 16px calc(env(safe-area-inset-bottom) + 16px);margin:auto auto 0;width:100%;max-width:720px;max-height:90vh;border-radius:22px 22px 0 0;background:var(--ground);color:var(--ink);overflow:auto;}
   .sheet::backdrop{background:rgba(0,0,0,.65);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);}
   .sheet-head{position:sticky;top:0;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:16px 0 10px;background:var(--ground);}
-  .sheet-head h3{margin:0;font-size:1.3rem;}
+  .sheet-head h3{margin:0;font-size:var(--fs-5);}
   .sheet fieldset{border:0;margin:0 0 12px;padding:12px 14px;background:var(--surface);border-radius:16px;display:flex;flex-direction:column;gap:10px;}
   .sheet legend{font-weight:700;padding:0;margin-bottom:4px;float:left;width:100%;}
-  .sheet fieldset label{display:flex;gap:10px;align-items:flex-start;font-size:.95rem;}
+  .sheet fieldset label{display:flex;gap:10px;align-items:flex-start;font-size:var(--fs-3);}
   .sheet input[type=checkbox],.sheet input[type=radio]{width:20px;height:20px;flex:none;margin:1px 0 0;accent-color:var(--accent);}
   .sheet-note{display:flex;flex-direction:column;gap:6px;font-weight:600;margin-bottom:12px;}
   .sheet textarea{font:inherit;font-size:16px;border:0;border-radius:12px;background:var(--surface);color:var(--ink);padding:10px 12px;}
@@ -731,13 +734,13 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   .sortie .premium-card{margin:12px 0 0;border-style:solid;border-color:var(--surface-2);background:var(--surface);}
   .sortie.on{margin-top:12px;padding:14px 16px;border-radius:var(--radius);background:var(--good-bg);}
   .sortie.on.late{background:var(--bad-bg);}
-  .so-k{font-weight:700;font-size:.8rem;text-transform:uppercase;letter-spacing:.05em;color:var(--good);}
+  .so-k{font-weight:700;font-size:var(--fs-1);text-transform:uppercase;letter-spacing:.05em;color:var(--good);}
   .sortie.late .so-k{color:var(--bad);}
   .so-v{margin:4px 0 12px;line-height:1.4;}
   .so-act{display:flex;gap:8px;}
   .so-act .todaybtn{flex:none;}
-  .avis-gift{display:flex;gap:10px;align-items:center;margin:0 0 10px;padding:10px 12px;border-radius:14px;background:var(--good-bg);color:var(--ink);font-size:.92rem;line-height:1.35;}
-  .avis-gift>span:first-child{font-size:1.3rem;flex:none;}
+  .avis-gift{display:flex;gap:10px;align-items:center;margin:0 0 10px;padding:10px 12px;border-radius:14px;background:var(--good-bg);color:var(--ink);font-size:var(--fs-2);line-height:1.35;}
+  .avis-gift>span:first-child{font-size:var(--fs-5);flex:none;}
 
   /* pas de zoom : ni double-tap (touch-action), ni pincement (gesturestart, voir le script) ;
      champs à 16 px minimum, sinon Safari zoome tout seul à la saisie */
@@ -747,18 +750,18 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   /* onboarding (premier lancement) */
   .onboard{display:none;}
   .onboard[open]{display:flex;flex-direction:column;}
-  .ob-beta{font-size:.8rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--accent);border:1.5px solid var(--accent);border-radius:999px;padding:2px 10px;}
+  .ob-beta{font-size:var(--fs-1);font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--accent);border:1.5px solid var(--accent);border-radius:999px;padding:2px 10px;}
   .ob-slides{display:flex;align-items:flex-start;overflow:hidden;touch-action:pan-y;gap:16px;}
   .ob-slides::-webkit-scrollbar{display:none;}
   .ob-slide{flex:0 0 100%;scroll-snap-align:start;min-width:0;}
-  .ob-slide h3{font-size:1.4rem;letter-spacing:-.02em;margin:4px 0 8px;}
+  .ob-slide h3{font-size:var(--fs-5);letter-spacing:-.02em;margin:4px 0 8px;}
   .ob-slide p{margin:0 0 10px;line-height:1.45;}
   .ob-q{font-weight:700;margin:14px 0 6px;}
-  .ob-choice button{min-height:44px;font-size:.95rem;}
+  .ob-choice button{min-height:44px;font-size:var(--fs-3);}
   .ob-badges{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 12px;}
   .ob-badges .badge{grid-row:auto;grid-column:auto;}
   .ob-frames{display:flex;gap:10px;margin:4px 0 12px;}
-  .ob-frame{padding:10px 14px;border-radius:14px;background:var(--surface);outline:3px solid var(--good);outline-offset:-3px;font-weight:700;font-size:.9rem;}
+  .ob-frame{padding:10px 14px;border-radius:14px;background:var(--surface);outline:3px solid var(--good);outline-offset:-3px;font-weight:700;font-size:var(--fs-2);}
   .ob-frame.later{outline-style:dashed;}
   .ob-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0 4px;}
   .ob-foot .dots{max-width:none;justify-content:flex-start;}
@@ -769,23 +772,23 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   .ob-vp{list-style:none;margin:4px 0 14px;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
   .ob-vp li{display:flex;flex-direction:column;gap:8px;align-items:flex-start;padding:10px;border-radius:14px;background:var(--surface);opacity:0;animation:rise .35s ease forwards;}
   .ob-vp li:nth-child(2){animation-delay:.09s;} .ob-vp li:nth-child(3){animation-delay:.18s;}
-  .ob-vp-i{flex:none;width:38px;height:38px;border-radius:12px;display:grid;place-items:center;font-size:1.3rem;background:color-mix(in srgb, var(--accent) 16%, transparent);}
-  .ob-vp b{display:block;font-size:.92rem;line-height:1.2;}
-  .ob-vp small{display:block;color:var(--ink-2);font-size:.78rem;line-height:1.3;margin-top:3px;}
-  .ob-soon{display:inline-block;margin-top:4px;font-style:normal;font-size:.68rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--accent);border:1.5px solid var(--accent);border-radius:999px;padding:0 6px;}
+  .ob-vp-i{flex:none;width:38px;height:38px;border-radius:12px;display:grid;place-items:center;font-size:var(--fs-5);background:color-mix(in srgb, var(--accent) 16%, transparent);}
+  .ob-vp b{display:block;font-size:var(--fs-2);line-height:1.2;}
+  .ob-vp small{display:block;color:var(--ink-2);font-size:var(--fs-1);line-height:1.3;margin-top:3px;}
+  .ob-soon{display:inline-block;margin-top:4px;font-style:normal;font-size:var(--fs-1);font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--accent);border:1.5px solid var(--accent);border-radius:999px;padding:0 6px;}
   @media (prefers-reduced-motion: reduce){ .ob-vp li{animation:none;opacity:1;} }
   /* « fait pour moi » : ce que l'app connaît de la zone choisie, avec le prénom */
   .ob-local{margin:18px 0 4px;padding:14px 16px;border-radius:16px;background:color-mix(in srgb, var(--accent) 12%, var(--surface));border:1px solid color-mix(in srgb, var(--accent) 35%, transparent);}
   .ob-local:empty{display:none;}
-  .ob-local h4{margin:0 0 14px;font-size:1rem;line-height:1.3;}
+  .ob-local h4{margin:0 0 14px;font-size:var(--fs-3);line-height:1.3;}
   .ob-local ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:14px;}
-  .ob-local li{display:flex;gap:12px;align-items:center;font-size:.95rem;font-weight:600;line-height:1.3;opacity:0;animation:rise .35s ease forwards;animation-delay:calc(var(--i) * 90ms);}
-  .ob-local li>span:first-child{flex:none;width:36px;height:36px;border-radius:11px;display:grid;place-items:center;font-size:1.15rem;background:color-mix(in srgb, var(--accent) 18%, transparent);}
+  .ob-local li{display:flex;gap:12px;align-items:center;font-size:var(--fs-3);font-weight:600;line-height:1.3;opacity:0;animation:rise .35s ease forwards;animation-delay:calc(var(--i) * 90ms);}
+  .ob-local li>span:first-child{flex:none;width:36px;height:36px;border-radius:11px;display:grid;place-items:center;font-size:var(--fs-4);background:color-mix(in srgb, var(--accent) 18%, transparent);}
   .ob-local .ob-soon{margin:0 0 0 4px;vertical-align:1px;}
   @media (prefers-reduced-motion: reduce){ .ob-local li{animation:none;opacity:1;} }
   .ob-list{list-style:none;margin:10px 0 10px;padding:0;display:flex;flex-direction:column;gap:12px;}
   .ob-list li{display:flex;gap:12px;align-items:center;line-height:1.35;}
-  .ob-list li>span:first-child{flex:none;width:38px;height:38px;border-radius:12px;display:grid;place-items:center;font-size:1.2rem;background:color-mix(in srgb, var(--accent) 16%, transparent);}
+  .ob-list li>span:first-child{flex:none;width:38px;height:38px;border-radius:12px;display:grid;place-items:center;font-size:var(--fs-4);background:color-mix(in srgb, var(--accent) 16%, transparent);}
   /* réplique de la pastille du header (slide « Votre matériel ») pour la reconnaître ensuite */
   .ob-pillrow{display:flex;align-items:center;gap:8px;margin:2px 0 14px;padding:10px 12px;border-radius:16px;background:var(--ground);border:1px dashed var(--sheet-edge);}
   .ob-pill{cursor:default;outline:2px solid var(--accent);outline-offset:2px;}
@@ -798,7 +801,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   .install.ios-arrow{margin-bottom:64px;border-radius:22px;}   /* place pour la flèche vers la barre de Safari */
   .inst-steps ol{margin:0 0 10px;padding-left:22px;display:flex;flex-direction:column;gap:8px;line-height:1.4;}
   .inst-steps .ico{color:var(--accent);margin:0 2px;}
-  .inst-note{font-size:.85rem;color:var(--ink-2);}
+  .inst-note{font-size:var(--fs-2);color:var(--ink-2);}
   .inst-steps .ins-save{width:100%;margin-bottom:12px;}
   .inst-actions{display:flex;gap:10px;justify-content:flex-end;padding:8px 0 4px;}
   .inst-row{display:flex;align-items:center;gap:10px;margin-top:6px;padding:10px 14px;border-radius:12px;background:var(--surface);font-weight:600;width:max-content;max-width:100%;}
@@ -807,43 +810,43 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   .inst-arrow{display:none;}
   .install.ios[open] ~ .inst-arrow-fixed, .inst-arrow.on{display:flex;}
   .inst-arrow{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom) + 4px);transform:translateX(-50%);flex-direction:column;align-items:center;gap:2px;
-    color:var(--accent);font-weight:800;font-size:.78rem;text-align:center;z-index:1;pointer-events:none;animation:instBounce 1.2s ease-in-out infinite;}
+    color:var(--accent);font-weight:800;font-size:var(--fs-1);text-align:center;z-index:1;pointer-events:none;animation:instBounce 1.2s ease-in-out infinite;}
   .inst-arrow svg{width:30px;height:30px;}
   @keyframes instBounce{50%{transform:translate(-50%,6px);}}
   @media (prefers-reduced-motion: reduce){ .inst-arrow{animation:none;} }
   .ob-name{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0 4px;}
-  .ob-name label{display:flex;flex-direction:column;gap:4px;font-size:.88rem;font-weight:600;color:var(--ink-2);}
-  .ob-name input{font:inherit;font-size:1rem;height:46px;border:0;border-radius:12px;background:var(--surface);color:var(--ink);padding:0 12px;min-width:0;}
+  .ob-name label{display:flex;flex-direction:column;gap:4px;font-size:var(--fs-2);font-weight:600;color:var(--ink-2);}
+  .ob-name input{font:inherit;font-size:var(--fs-3);height:46px;border:0;border-radius:12px;background:var(--surface);color:var(--ink);padding:0 12px;min-width:0;}
   .ob-name input.err{outline:2px solid var(--bad);}
-  .ob-legal{font-size:.8rem;color:var(--ink-2);margin:4px 0 0 !important;}
+  .ob-legal{font-size:var(--fs-1);color:var(--ink-2);margin:4px 0 0 !important;}
 
   /* calendrier : carrousel des 7 prochains jours */
   .wk{display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x proximity;padding:3px 3px 6px;margin:0 -3px;scrollbar-width:none;-webkit-overflow-scrolling:touch;}
   .wk::-webkit-scrollbar{display:none;}
   .wkd{flex:0 0 104px;scroll-snap-align:start;display:flex;flex-direction:column;align-items:flex-start;gap:4px;padding:10px 11px;border:0;border-radius:14px;background:var(--surface);color:var(--ink);font:inherit;text-align:left;cursor:pointer;outline-offset:-3px;}
-  .wkd .d{font-size:.82rem;font-weight:700;color:var(--ink-2);text-transform:capitalize;}
-  .wkd .l{display:flex;align-items:center;gap:5px;font-weight:700;font-size:.9rem;}
+  .wkd .d{font-size:var(--fs-2);font-weight:700;color:var(--ink-2);text-transform:capitalize;}
+  .wkd .l{display:flex;align-items:center;gap:5px;font-weight:700;font-size:var(--fs-2);}
   .wkd .l .ico{margin:0;}
   .wkd .l.good{color:var(--good);} .wkd .l.mid{color:var(--mid);} .wkd .l.bad{color:var(--bad);}
-  .wkd .t{font-size:.8rem;color:var(--ink-2);line-height:1.3;}
+  .wkd .t{font-size:var(--fs-1);color:var(--ink-2);line-height:1.3;}
   .wkd.fav{outline:3px solid var(--good);}
   .wkd.fav.later{outline-style:dashed;}
   .wkd.sel{background:var(--surface-2);}
-  .wk-sum{margin:4px 0 0;font-size:.88rem;}
+  .wk-sum{margin:4px 0 0;font-size:var(--fs-2);}
   #calendrier .daynav{margin-top:0;}
 
   /* calendrier : conditions du jour choisi */
   .daycond{margin-top:12px;background:var(--surface);border-radius:var(--radius);padding:16px 18px;}
   .daycond .dc-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
   .daycond .dc-head .badge{grid-row:auto;grid-column:auto;}
-  .daycond .dc-when{font-weight:700;font-size:1.05rem;}
+  .daycond .dc-when{font-weight:700;font-size:var(--fs-3);}
   .daycond .dc-why{margin:6px 0 0;font-weight:600;}
   .daycond .conds{margin-top:14px;}
   .daycond .cond{background:var(--surface-2);}
   .daycond .strip{padding:0 0 6px;margin-top:14px;}
-  .daycond .strip-detail{padding:8px 0 0;font-size:.92rem;color:var(--ink-2);min-height:2.6em;}
-  .daycond .dc-src{margin-top:10px;font-size:.82rem;}
-  .slot .lv{display:block;font-style:normal;font-weight:700;font-size:.8rem;margin-top:2px;}
+  .daycond .strip-detail{padding:8px 0 0;font-size:var(--fs-2);color:var(--ink-2);min-height:2.6em;}
+  .daycond .dc-src{margin-top:10px;font-size:var(--fs-2);}
+  .slot .lv{display:block;font-style:normal;font-weight:700;font-size:var(--fs-1);margin-top:2px;}
   .slot .lv.good{color:var(--good);} .slot .lv.mid{color:var(--mid);} .slot .lv.bad{color:var(--bad);}
   .slot.now .lv{color:inherit;}
   /* Ouverture : le point vert trace le cadran puis se pose dans le créneau (logo « La fenêtre »). */
@@ -901,7 +904,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
       <select id="portSel" aria-label="Choisir le port">
         <option value="dv">Deauville · bassin Morny</option>
         <option value="nc">Nouméa · Port Moselle</option>
-        <option value="__add">➕ Ajouter votre port…</option>
+        <option value="__add">+ Ajouter votre port…</option>
       </select>
     </label>
     <label class="place only-kite">
@@ -921,7 +924,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
           <option value="maitre">Îlot Maître</option>
           <option value="moselle">Port Moselle</option>
         </optgroup>
-        <option value="__add">➕ Ajouter votre spot…</option>
+        <option value="__add">+ Ajouter votre spot…</option>
       </select>
     </label>
     <button type="button" class="rider only-boat" id="clubBtn" aria-expanded="false" aria-controls="clubPanel" hidden></button>
@@ -991,7 +994,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
       <p class="muted buoy-src" id="buoySrc" hidden></p>
     </div>
     <button type="button" class="premium-card" id="premiumOpen">
-      <span class="pc-ico" aria-hidden="true">💬</span>
+      <span class="pc-ico" aria-hidden="true" data-ico="chat"></span>
       <span><b>Donnez votre avis</b><small>1 minute, et profitez d'une réduction sur l'abonnement à son lancement.</small></span>
     </button>
   </section>
@@ -1209,7 +1212,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
     </div></details>
     <details class="tuto only-nc"><summary><span>Règles et précautions à Nouméa</span><small>alizé, corail, réserves</small></summary><div class="tuto-body">
       <ul>
-        <li><b>Anse Vata · Méridien</b> : avec l'alizé (est-sud-est) le vent y est <b>offshore</b> : réservé aux riders confirmés qui savent remonter au vent. L'app le note « Pas navigable ».</li>
+        <li><b>Anse Vata · Méridien</b> : avec l'alizé (est-sud-est) le vent y est <b>offshore</b> : réservé aux riders confirmés qui savent remonter au vent. L'app le note « Déconseillé ».</li>
         <li><b>Anse Vata · Aquarêve</b> : vent de côté, plus accessible, mais décollage délicat.</li>
         <li><b>Patates de corail</b> à marée basse à l'Anse Vata : naviguer de préférence à mi-marée ou marée haute, chaussons conseillés.</li>
         <li><b>Anse Vata</b> : la grande plage (tournée vers le sud-ouest) ; avec l'alizé le vent y est de côté-terre, plus favorable vers l'Aquarêve. Rester attentif à la dérive vers le large.</li>
@@ -1319,9 +1322,9 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
         <section class="ob-slide" data-step="0">
           <h3 id="obTitle">Bienvenue sur Crén'eau</h3>
           <ul class="ob-vp">
-            <li><span class="ob-vp-i" aria-hidden="true">🎯</span><span><b>Le bon créneau</b><small>Calculé pour votre zone</small></span></li>
-            <li><span class="ob-vp-i" aria-hidden="true">🧭</span><span><b>Fait pour vous</b><small>Selon votre pratique et votre matériel</small></span></li>
-            <li><span class="ob-vp-i" aria-hidden="true">👥</span><span><b>Seul ou à plusieurs <em class="ob-soon">Bientôt</em></b><small>Voir qui sort, prévenir ses proches</small></span></li>
+            <li><span class="ob-vp-i" aria-hidden="true" data-ico="slot"></span><span><b>Le bon créneau</b><small>Calculé pour votre zone</small></span></li>
+            <li><span class="ob-vp-i" aria-hidden="true" data-ico="compass"></span><span><b>Fait pour vous</b><small>Selon votre pratique et votre matériel</small></span></li>
+            <li><span class="ob-vp-i" aria-hidden="true" data-ico="users"></span><span><b>Seul ou à plusieurs <em class="ob-soon">Bientôt</em></b><small>Voir qui sort, prévenir ses proches</small></span></li>
           </ul>
           <div class="ob-name">
             <label>Prénom<input id="obFirst" type="text" autocomplete="given-name" autocapitalize="words" enterkeyhint="next"></label>
@@ -1347,17 +1350,17 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
           <div class="only-boat">
             <h3 class="only-dv">Quand peut-on sortir du port ?</h3>
             <ul class="ob-list only-dv">
-              <li><span aria-hidden="true">🚪</span><span>Portes du bassin Morny <b>ouvertes ou fermées</b>, avec le chrono</span></li>
-              <li><span aria-hidden="true">🚶</span><span>Prochaine <b>levée de la passerelle piétonne</b></span></li>
-              <li><span aria-hidden="true">⛵</span><span>La <b>note du créneau</b> pour sortir, et la voilure conseillée</span></li>
-              <li><span aria-hidden="true">📻</span><span>Confirmez toujours au <b>VHF 9</b></span></li>
+              <li><span aria-hidden="true" data-ico="gate"></span><span>Portes du bassin Morny <b>ouvertes ou fermées</b>, avec le chrono</span></li>
+              <li><span aria-hidden="true" data-ico="bridge"></span><span>Prochaine <b>levée de la passerelle piétonne</b></span></li>
+              <li><span aria-hidden="true" data-ico="sail"></span><span>La <b>note du créneau</b> pour sortir, et la voilure conseillée</span></li>
+              <li><span aria-hidden="true" data-ico="radio"></span><span>Confirmez toujours au <b>VHF 9</b></span></li>
             </ul>
             <h3 class="only-nc">Quand sortir de Port Moselle ?</h3>
             <ul class="ob-list only-nc">
-              <li><span aria-hidden="true">⚓</span><span>Pas d'écluse : <b>la note du moment</b> en sortant de Port Moselle</span></li>
-              <li><span aria-hidden="true">📅</span><span>Les <b>sorties possibles</b> des prochains jours dans l'onglet Sortir</span></li>
-              <li><span aria-hidden="true">🌙</span><span>Les <b>marées</b> du lagon</span></li>
-              <li><span aria-hidden="true">⛵</span><span>La <b>voilure conseillée</b> et les caps du lagon</span></li>
+              <li><span aria-hidden="true" data-ico="anchor"></span><span>Pas d'écluse : <b>la note du moment</b> en sortant de Port Moselle</span></li>
+              <li><span aria-hidden="true" data-ico="calendar"></span><span>Les <b>sorties possibles</b> des prochains jours dans l'onglet Prévisions</span></li>
+              <li><span aria-hidden="true" data-ico="tideUp"></span><span>Les <b>marées</b> du lagon</span></li>
+              <li><span aria-hidden="true" data-ico="sail"></span><span>La <b>voilure conseillée</b> et les caps du lagon</span></li>
             </ul>
           </div>
           <div class="only-kite">
@@ -1377,10 +1380,10 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
         <section class="ob-slide" data-step="4">
           <h3>Peut-on s'y fier ?</h3>
           <ul class="ob-list">
-            <li><span aria-hidden="true">🧭</span><span>Une <b>aide</b>, pas une garantie : vérifiez sur place.</span></li>
-            <li class="only-boat only-dv"><span aria-hidden="true">📻</span><span>Portes : <b>VHF 9</b>.</span></li>
-            <li><span aria-hidden="true">🆘</span><span>Urgence en mer : <b class="only-dv">196 ou VHF 16</b><b class="only-nc">16 ou VHF 16</b>.</span></li>
-            <li><span aria-hidden="true">💬</span><span>Un souci, une idée ? Carte <b>Donnez votre avis</b>.</span></li>
+            <li><span aria-hidden="true" data-ico="compass"></span><span>Une <b>aide</b>, pas une garantie : vérifiez sur place.</span></li>
+            <li class="only-boat only-dv"><span aria-hidden="true" data-ico="radio"></span><span>Portes : <b>VHF 9</b>.</span></li>
+            <li><span aria-hidden="true" data-ico="alert"></span><span>Urgence en mer : <b class="only-dv">196 ou VHF 16</b><b class="only-nc">16 ou VHF 16</b>.</span></li>
+            <li><span aria-hidden="true" data-ico="chat"></span><span>Un souci, une idée ? Carte <b>Donnez votre avis</b>.</span></li>
           </ul>
         </section>
       </div>
@@ -1416,7 +1419,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
       <form id="premiumForm" method="dialog">
         <div class="sheet-head"><h3 id="premiumTitle">Votre avis sur Crén'eau</h3><button type="button" class="todaybtn" id="premiumClose">Fermer</button></div>
         <p class="avis-intro" id="avisIntro" hidden>Vous utilisez Crén'eau depuis quelques minutes : qu'en pensez-vous ?</p>
-        <p class="avis-gift"><span aria-hidden="true">🎁</span><span><b>Une réduction sur l'abonnement</b> à son lancement, pour chaque testeur qui répond.</span></p>
+        <p class="avis-gift"><span aria-hidden="true" data-ico="gift"></span><span><b>Une réduction sur l'abonnement</b> à son lancement, pour chaque testeur qui répond.</span></p>
         <p class="muted" style="margin-top:0">4 questions, 1 minute. Vos réponses nous aident à choisir la suite.</p>
         <fieldset><legend>Si vous ne pouviez plus utiliser Crén'eau, vous seriez…</legend>
           <label><input type="radio" name="deception" value="Très déçu"> Très déçu(e)</label>
@@ -1462,7 +1465,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
         <fieldset style="margin-top:14px"><legend>Ma licence FFVoile</legend>
           <label class="other">Numéro de licence <input type="text" name="licence" placeholder="ex. 1234567A" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="12"></label>
           <label><input type="checkbox" name="valide"> <span>Licence prise pour <span id="clubSaison"></span></span></label>
-          <p class="muted" style="margin:0;font-size:.85rem">Gardée sur votre téléphone. Elle figure sur vos fiches de sortie ; le club la vérifiera à l'inscription aux cours.</p>
+          <p class="muted" style="margin:0;font-size:var(--fs-2)">Gardée sur votre téléphone. Elle figure sur vos fiches de sortie ; le club la vérifiera à l'inscription aux cours.</p>
         </fieldset>
         <button type="submit" class="ins-save premium-send">Enregistrer</button>
         <p class="sheet-done" id="clubDone" hidden>Licence enregistrée.</p>
@@ -1515,11 +1518,11 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   <span class="ind" aria-hidden="true"></span>
   <a href="#maintenant" aria-current="true">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
-    <span data-boat="Maintenant" data-kite="Spot">Maintenant</span>
+    <span>Maintenant</span>
   </a>
   <a href="#sortir">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 18c2 1.5 4 1.5 6 0s4-1.5 6 0 4 1.5 6 0"/><path d="M12 3v11"/><path d="M12 4l6 8h-6"/><path d="M5 14h14"/></svg>
-    <span data-boat="Sortir" data-kite="Prévisions">Sortir</span>
+    <span>Prévisions</span>
   </a>
   <a href="#conseils">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 4v5c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V7z"/><path d="M9 12l2 2 4-4"/></svg>
@@ -1567,13 +1570,22 @@ const ICONS = {
   check:'<circle cx="12" cy="12" r="9"/><path d="m8.5 12 2.5 2.5 4.5-5"/>',
   star:'<path d="m12 2.5 2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5-4.8-4.6 6.6-.9z"/>',
   gate:'<rect x="4" y="4" width="16" height="16" rx="2"/><path d="M12 4v16"/>',
-  bridge:'<path d="M3 16h18M6 16v-5M18 16v-5M3 11c3 0 6-4 9-4s6 4 9 4"/>'
+  bridge:'<path d="M3 16h18M6 16v-5M18 16v-5M3 11c3 0 6-4 9-4s6 4 9 4"/>',
+  slot:'<path d="M18.55 7.41A8 8 0 1 0 18.55 16.59"/><circle cx="20" cy="12" r="1.8" fill="currentColor" stroke="none"/>',
+  chat:'<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/>',
+  users:'<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.6a3.5 3.5 0 0 1 0 6.8M18 14.2a6.5 6.5 0 0 1 3.5 5.8"/>',
+  radio:'<rect x="3" y="9" width="18" height="12" rx="2"/><path d="M7 9l10-6"/><circle cx="8" cy="15" r="2"/><path d="M14 13h4M14 17h4"/>',
+  anchor:'<circle cx="12" cy="5" r="2"/><path d="M12 7v14M8 11h8M4 14a8 8 0 0 0 16 0"/>',
+  calendar:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>',
+  gift:'<rect x="3" y="8" width="18" height="5" rx="1"/><path d="M5 13v8h14v-8M12 8v13M12 8c-2-4-6-4-6-1.5S9 8 12 8c3 0 6-.5 6-1.5S14 4 12 8z"/>',
+  pin:'<path d="M12 21s-7-6.2-7-12a7 7 0 0 1 14 0c0 5.8-7 12-7 12z"/><circle cx="12" cy="9" r="2.5"/>'
 };
 function ico(name, label){
   if(!ICONS[name]) return '';
   return '<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"'
     + (label ? ' role="img" aria-label="'+label+'"><title>'+label+'</title>' : ' aria-hidden="true">')+ICONS[name]+'</svg>';
 }
+document.querySelectorAll('[data-ico]').forEach(el => { el.innerHTML = ico(el.dataset.ico); });
 // Intitulés des tuiles : une icône devant chaque libellé connu.
 const K_ICON = {'Vent':'wind', 'Rafales':'wind', 'Mer':'waves', 'Vague max':'waves', 'Période':'timer', 'Viennent du':'compass',
   'Marée':'tideUp', 'Air':'thermo', 'Soleil':'sun', 'Ciel':'sunCloud', 'Eau':'drop', 'Aile à sortir':'kite', 'Aile au plus fort':'kite', 'Aile cible':'kite'};
@@ -1876,7 +1888,7 @@ function renderTides(container, dayIdx){
     const day = ev.filter(e => parisParts(e.ts).key===keys[dayIdx]);
     const fmt = type => day.filter(e => e.type===type).map(e => epochHHMM(e.ts)).join(' · ') || '—';
     container.innerHTML = '<span>'+ico('tideUp')+'Pleine mer <b>'+fmt('PM')+'</b></span><span>'+ico('tideDown')+'Basse mer <b>'+fmt('BM')+'</b></span>'
-      + '<span class="muted" style="font-size:.85rem">calculées (modèle), à vérifier sur l’annuaire SHOM</span>';
+      + '<span class="muted" style="font-size:var(--fs-2)">calculées (modèle), à vérifier sur l’annuaire SHOM</span>';
     return;
   }
   const d = DATA[keys[dayIdx]];
@@ -2016,7 +2028,7 @@ try{ if(localStorage.getItem('profil')==='kite') PROFILE = 'kite'; }catch(e){}
 // Libellés explicites : la note dit ce qu'on peut faire, pas seulement « bon / mauvais ».
 const LABELS = {
   boat: {good:'Favorable', mid:'Prudence', bad:'Déconseillé'},
-  kite: {good:'Navigable', mid:'Limite', bad:'Pas navigable'}
+  kite: {good:'Favorable', mid:'Prudence', bad:'Déconseillé'}
 };
 const LEVELS = new Proxy({}, {get:(o, l) => LABELS[PROFILE][l]});
 // Pourquoi cette note, en une phrase.
@@ -2391,7 +2403,7 @@ function renderForecast(){
     + (cur.noWave ? '<div class="cond">'+kLabel('Mer')+'<div class="val">'+(RG().waves ? '—' : 'Lagon')+'</div><div class="sub">'+(RG().waves ? 'vagues indisponibles pour le moment : note sur le vent' : 'vagues non prévues (barrière de corail) : note sur le vent')+'</div></div>'
       : '<div class="cond">'+kLabel('Mer')+'<div class="val">'+num(cur.wave,1)+' m</div><div class="sub">houle '+num(cur.swell,1)+' m · '+Math.round(cur.period||0)+' s</div></div>')
     + (cur.sky ? '<div class="cond" style="grid-column:1/3">'+kLabel('Ciel')+'<div class="val">'+skyHTML(cur.sky)+'</div></div>' : '')
-    + '<div class="cond" style="grid-column:1/3"><div class="k">'+(cur.level==='good' ? 'Pourquoi' : 'Ce qui limite')+'</div><div class="sub" style="color:var(--ink);font-size:1rem;font-weight:600">'+reasonHTML(cur)+'</div></div>'
+    + '<div class="cond" style="grid-column:1/3"><div class="k">'+(cur.level==='good' ? 'Pourquoi' : 'Ce qui limite')+'</div><div class="sub" style="color:var(--ink);font-size:var(--fs-3);font-weight:600">'+reasonHTML(cur)+'</div></div>'
     + bestTxt;
   } else {
     v.className = 'verdict only-boat-v';
@@ -2428,13 +2440,13 @@ function renderForecast(){
         hint = ' Le vent ne dépasse pas '+Math.round(top)+' nd'+(tg ? ' : il faudrait '+(tg==='Foil' ? 'un foil' : 'une '+tg) : '')+'.';
       }
     }
-    list.innerHTML = '<div class="muted">'+(kite ? 'Pas de session navigable de jour dans les 3 prochains jours avec ton matériel.'+hint : RG().gates ? 'Aucun créneau dans la période de prévision.' : 'Pas de sortie favorable de jour dans les 3 prochains jours.')+'</div>';
+    list.innerHTML = '<div class="muted">'+(kite ? 'Pas de session favorable de jour dans les 3 prochains jours avec ton matériel.'+hint : RG().gates ? 'Aucun créneau dans la période de prévision.' : 'Pas de sortie favorable de jour dans les 3 prochains jours.')+'</div>';
   }
   const sig = PROFILE+slots.map(w=>w.s+w.level).join();
   if(sig!==list.dataset.sig){ stagger(list); list.dataset.sig = sig; list.scrollLeft = 0; }
   const nFav = slots.filter(w => w.level==='good').length;
   $('winCount').textContent = slots.length>1
-    ? slots.length+' '+(kite ? 'sessions' : RG().gates ? 'créneaux' : 'sorties')+' sur 3 jours'+(nFav ? ' dont '+nFav+' '+(kite ? (nFav>1 ? 'navigables' : 'navigable') : (nFav>1 ? 'favorables' : 'favorable')) : '')+' · glisser pour voir la suite'
+    ? slots.length+' '+(kite ? 'sessions' : RG().gates ? 'créneaux' : 'sorties')+' sur 3 jours'+(nFav ? ' dont '+nFav+' '+(kite ? (nFav>1 ? 'favorables' : 'favorable') : (nFav>1 ? 'favorables' : 'favorable')) : '')+' · glisser pour voir la suite'
     : '';
 
   // Bande horaire
@@ -3082,8 +3094,8 @@ function renderWeek(){
   }
   $('weekStrip').innerHTML = cards.join('');
   $('weekSum').textContent = nGood
-    ? nGood+' '+(kite ? (nGood>1 ? 'sessions navigables' : 'session navigable') : RG().gates ? (nGood>1 ? 'créneaux favorables' : 'créneau favorable') : (nGood>1 ? 'sorties favorables' : 'sortie favorable'))+' sur 7 jours'
-    : (kite ? 'Aucune session navigable sur 7 jours avec ton matériel' : RG().gates ? 'Aucun créneau favorable sur 7 jours' : 'Aucune sortie favorable sur 7 jours');
+    ? nGood+' '+(kite ? (nGood>1 ? 'sessions favorables' : 'session favorable') : RG().gates ? (nGood>1 ? 'créneaux favorables' : 'créneau favorable') : (nGood>1 ? 'sorties favorables' : 'sortie favorable'))+' sur 7 jours'
+    : (kite ? 'Aucune session favorable sur 7 jours avec ton matériel' : RG().gates ? 'Aucun créneau favorable sur 7 jours' : 'Aucune sortie favorable sur 7 jours');
 }
 $('weekStrip').addEventListener('click', e=>{
   const d = e.target.closest('.wkd');
@@ -3191,7 +3203,7 @@ async function renderDayCond(){
       : (()=>{ const hs = dayHs.filter(h=>!h.night).length ? dayHs.filter(h=>!h.night) : dayHs;
           // la raison de l'heure la plus proche de naviguer (et l'aile cible qui va avec)
           const x = hs.reduce((m,h)=>h.score>m.score?h:m, hs[0]);
-          return {level:'bad', when: kite ? 'Pas de session navigable de jour' : 'Pas de sortie favorable de jour', why:dayReason(x), x, hs}; })();
+          return {level:'bad', when: kite ? 'Pas de session favorable de jour' : 'Pas de sortie favorable de jour', why:dayReason(x), x, hs}; })();
   } else {
     const ivs = windowsOfDay(idx).filter(iv => !iv.unknown).map(iv => Object.assign({iv}, rateIv(iv) || {})).filter(x => x.level);
     const best = ivs.length ? ivs.reduce((m,w)=>w.score>m.score?w:m, ivs[0]) : null;
@@ -3344,16 +3356,16 @@ let obStep = 0;
 // Ce que Crén'eau connaît de chaque zone : de quoi se dire « c'est fait pour moi »
 const OB_SOON = ' <em class="ob-soon">Bientôt</em>';
 const OB_LOCAL = {
-  'dv:boat': ['Deauville', [['🚪','Les horaires de l\'écluse et de la passerelle piétonne'],['🧭','Vos caps aux alentours'],['👥','Ceux qui naviguent avec vous'+OB_SOON]]],
-  'dv:kite': ['la Côte Fleurie', [['🏖️','Vos plages : Deauville, Trouville, Houlgate, Cabourg'],['🪁','L\'aile qu\'il vous faut, selon votre poids'],['👥','Ceux qui rident avec vous'+OB_SOON]]],
-  'nc:boat': ['Nouméa', [['⚓','Port Moselle et les marées du lagon'],['🧭','Vos caps dans le lagon'],['👥','Ceux qui naviguent avec vous'+OB_SOON]]],
-  'nc:kite': ['Nouméa', [['🏝️','Vos spots : Anse Vata, Magenta, îlot Maître…'],['🪁','L\'aile qu\'il vous faut, selon votre poids'],['👥','Ceux qui rident avec vous'+OB_SOON]]]
+  'dv:boat': ['Deauville', [['gate','Les horaires de l\'écluse et de la passerelle piétonne'],['compass','Vos caps aux alentours'],['users','Ceux qui naviguent avec vous'+OB_SOON]]],
+  'dv:kite': ['la Côte Fleurie', [['pin','Vos plages : Deauville, Trouville, Houlgate, Cabourg'],['kite','L\'aile qu\'il vous faut, selon votre poids'],['users','Ceux qui rident avec vous'+OB_SOON]]],
+  'nc:boat': ['Nouméa', [['anchor','Port Moselle et les marées du lagon'],['compass','Vos caps dans le lagon'],['users','Ceux qui naviguent avec vous'+OB_SOON]]],
+  'nc:kite': ['Nouméa', [['pin','Vos spots : Anse Vata, Magenta, îlot Maître…'],['kite','L\'aile qu\'il vous faut, selon votre poids'],['users','Ceux qui rident avec vous'+OB_SOON]]]
 };
 function obLocal(){
   const z = OB_LOCAL[REGION+':'+PROFILE]; if(!z) return;
   const first = $('obFirst').value.trim().replace(/[&<>"]/g, '');
   $('obLocal').innerHTML = '<h4>'+(first ? first+', Crén\'eau' : 'Crén\'eau')+' est fait pour '+z[0]+' :</h4><ul>'
-    + z[1].map((x,i) => '<li style="--i:'+i+'"><span aria-hidden="true">'+x[0]+'</span><span>'+x[1]+'</span></li>').join('')+'</ul>';
+    + z[1].map((x,i) => '<li style="--i:'+i+'"><span>'+ico(x[0])+'</span><span>'+x[1]+'</span></li>').join('')+'</ul>';
   obFit();
 }
 function obSync(){
@@ -3848,7 +3860,7 @@ function renderSortie(){
   const el = $('sortieCard'), s = getSortie();
   if(!s){
     el.className = 'sortie only-boat';
-    el.innerHTML = '<button type="button" class="premium-card" data-so="ouvrir"><span class="pc-ico" aria-hidden="true">⛵</span>'
+    el.innerHTML = '<button type="button" class="premium-card" data-so="ouvrir"><span class="pc-ico">'+ico('sail')+'</span>'
       + '<span><b>Je pars en mer</b><small>'+(CLUB ? 'Fiche de sortie pour le club ou un proche' : 'Prévenir un proche de votre retour prévu')+'</small></span></button>';
     return;
   }
@@ -3875,7 +3887,7 @@ function openSortie(){
   f.elements.retour.value = String(t).padStart(2,'0')+':'+String(q%60).padStart(2,'0');
   $('sortieClub').hidden = !CLUB;
   const L = clubLim();
-  if(L) $('sortieClub').innerHTML = '<span aria-hidden="true">⚓</span><span><b>'+soEsc(CLUB.name)+'</b>, '+L.label+' : '+L.kn+' nd, rafales '+L.gust+' nd'+(RG().waves ? ', vagues '+num(L.wave,1)+' m' : '')+' maximum.</span>';
+  if(L) $('sortieClub').innerHTML = '<span>'+ico('anchor')+'</span><span><b>'+soEsc(CLUB.name)+'</b>, '+L.label+' : '+L.kn+' nd, rafales '+L.gust+' nd'+(RG().waves ? ', vagues '+num(L.wave,1)+' m' : '')+' maximum.</span>';
   try{ $('sortieDlg').showModal(); }catch(e){ $('sortieDlg').setAttribute('open',''); }
 }
 $('sortieClose').addEventListener('click', () => $('sortieDlg').close());
@@ -3918,7 +3930,7 @@ setInterval(renderSortie, 30000);
 // version.json est réécrit à chaque publication (tools/publier-version.sh). Si la
 // version en ligne diffère de celle de la page, on recharge : sur l'écran
 // d'accueil de l'iPhone, l'app reste ainsi à jour sans manipulation.
-const APP_VERSION = '20261023-144847';
+const APP_VERSION = '20261023-145206';
 async function checkUpdate(){
   try{
     const r = await fetch('version.json?t='+Date.now(), {cache:'no-store'});
