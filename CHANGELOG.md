@@ -1,5 +1,10 @@
 # Historique des versions
 
+## 23 octobre 2026 — Glisse : plus de session dans la tempête, zoom autorisé
+- Glisse (kite, windsurf, windfoil, wingfoil) : rafales de 35 nd ou plus → « Pas navigable », avec « Rafales trop fortes : 46 nd (au-delà de 35) : rester à terre », et plus aucune taille d'aile proposée. Un écart de plus de 12 nd entre vent moyen et rafales donne aussi « Pas navigable » (avant : « Limite »). Constaté pendant la tempête du 23 octobre : 31 nd, rafales 46 nd, noté « Limite » avec une aile de 7 m².
+- Le zoom à deux doigts est de nouveau possible (accessibilité).
+- Audit UX / UI complet : `docs/audit-ux-2026-10-23.md`.
+
 ## 23 octobre 2026 — Animation d'ouverture
 - À l'ouverture de l'app, le point vert du logo trace le cadran bleu, puis se pose dans le créneau (environ 1,2 s, une fois par session). Rien ne s'affiche si « Réduire les animations » est activé sur le téléphone.
 

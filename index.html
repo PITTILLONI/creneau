@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Crén'eau — le bon créneau pour glisser</title>
 <meta name="description" content="Bateau et kitesurf à Deauville et sur la Côte Fleurie : le bon créneau pour sortir — portes du bassin Morny, vent, vagues, marées, bouées et spots de kite.">
 <meta name="theme-color" content="#f2f4f7" media="(prefers-color-scheme: light)">
@@ -2030,6 +2030,7 @@ function reason(x){
         return 'Vent trop faible : '+num(x.knMin ?? x.kn, 1)+' nd, il en faut au moins '+Math.round(windRange().lo)+' avec '+quiverLabel('max')+(tg ? ' · '+SP().gear+' cible : '+tg : ''); }
       case 'très fort': { const tg = targetKite(x.kn);
         return kn>35 ? 'Vent très fort ('+kn+' nd) : rester à terre' : 'Trop de vent ('+kn+' nd) même pour '+quiverLabel('min')+(tg ? ' · '+SP().gear+' cible : '+tg : ' : surtoilé'); }
+      case 'rafales fortes': return 'Rafales trop fortes : '+gust+' nd (au-delà de '+GLISSE_GUST_MAX+') : rester à terre';
       case 'rafaleux': return 'Vent irrégulier : rafales à '+gust+' nd pour '+kn+' nd de moyenne';
       case 'offshore, dangereux': return 'Vent de terre (offshore) : dangereux, il pousse vers le large';
       case 'side-off': return 'Vent de côté-terre (side-off) : risque de dérive vers le large';
@@ -2088,6 +2089,8 @@ function orientation(dir){
   return d<=20 ? 'onshore' : d<=60 ? 'side-on' : d<=95 ? 'side-shore' : d<=120 ? 'side-off' : 'offshore';
 }
 // Kitesurf : il faut du vent, régulier, venant de la mer ou de côté, et de jour.
+// Au-delà, on ne sort pas, quelle que soit l'aile (tempête du 23 octobre 2026 : 31 nd, rafales 46, notée « Limite »).
+const GLISSE_GUST_MAX = 35, GLISSE_SPREAD_MAX = 12;
 function scoreKite(h){
   const kn = h.kn;
   // plage de vent calculée pour le poids du rider et ses ailes (voir windRange)
@@ -2097,7 +2100,8 @@ function scoreKite(h){
   let why = kn<lo ? 'trop faible' : kn>hi ? 'très fort' : '';
   const cap = (v, reason) => { if(score>v){ score = v; why = reason; } };
   const spread = h.gust - kn;
-  if(spread>12) cap(45, 'rafaleux'); else if(spread>8) cap(65, 'rafaleux');
+  if(h.gust>=GLISSE_GUST_MAX) cap(15, 'rafales fortes');
+  else if(spread>GLISSE_SPREAD_MAX) cap(35, 'rafaleux'); else if(spread>8) cap(65, 'rafaleux');
   const o = orientation(h.dir);
   if(o==='offshore') cap(0, 'offshore, dangereux');
   else if(o==='side-off') cap(40, 'side-off');
@@ -2405,7 +2409,7 @@ function renderForecast(){
     const today = parisParts(w.s).key===parisParts(now).key || w.s<=now;
     el.className = 'win'+(w.level==='good' ? (today ? ' best' : ' best later') : '');
     const meta = kite
-      ? gearCap()+' : '+kiteSize((w.knMin+w.kn)/2).val+' · vent '+Math.round(w.knMin)+'–'+Math.round(w.kn)+' nd '+dirName(w.dir)+' (raf. '+Math.round(w.gust)+') · '+orientation(w.dir)+(w.noWave ? '' : ' · vagues '+num(w.wave,1)+' m')
+      ? gearCap()+' : '+kiteSize((w.knMin+w.kn)/2, w.gust).val+' · vent '+Math.round(w.knMin)+'–'+Math.round(w.kn)+' nd '+dirName(w.dir)+' (raf. '+Math.round(w.gust)+') · '+orientation(w.dir)+(w.noWave ? '' : ' · vagues '+num(w.wave,1)+' m')
       : 'Vent '+Math.round(w.kn)+' nd '+dirName(w.dir)+' (raf. '+Math.round(w.gust)+')'+(w.noWave ? '' : ' · vagues '+num(w.wave,1)+' m');
     el.innerHTML = '<div class="when">'+epochHHMM(w.s)+' – '+epochHHMM(w.e)+'</div>'
       + '<div class="day">'+whenLabel(w.s)+(w.night?' '+NIGHT():'')+'</div>'
@@ -2447,7 +2451,7 @@ function renderForecast(){
     b.innerHTML = '<span class="lock"></span><span class="bar"></span><span class="t">'+label+'</span>';
     const detail = whenLabel(h.ts)+' '+String(p.hour).padStart(2,'0')+'h : <b>'+LEVELS[h.level]+'</b>'+' — '+reason(h).charAt(0).toLowerCase()+reason(h).slice(1)
       + ' — vent '+Math.round(h.kn)+' nd '+dirName(h.dir)+', rafales '+Math.round(h.gust)+' nd'
-      + (kite ? ', '+orientation(h.dir)+', '+(kiteSize(h.kn).target ? SP().gear+' cible ' : SP().gear+' ')+kiteSize(h.kn).val : '')+(h.noWave ? '' : ', vagues '+num(h.wave,1)+' m')
+      + (kite ? ', '+orientation(h.dir)+', '+(kiteSize(h.kn, h.gust).target ? SP().gear+' cible ' : SP().gear+' ')+kiteSize(h.kn, h.gust).val : '')+(h.noWave ? '' : ', vagues '+num(h.wave,1)+' m')
       + (open && !kite ? ' · écluse ouverte' : '')+(h.night ? ' · nuit' : '')+(sky([h]) ? ' · '+sky([h]).text.toLowerCase() : '')
     b.setAttribute('aria-label', detail.replace(/<[^>]+>/g,''));
     b.addEventListener('click', ()=>{
@@ -2636,7 +2640,8 @@ function targetKite(kn){
 }
 function quiverLabel(which){ return 'ta '+fmtSz(which==='max' ? Math.max(...quiver()) : Math.min(...quiver()))+' m²'; }
 // L'aile / la voile / la wing à sortir pour ce vent, parmi les miennes.
-function kiteSize(kn){
+function kiteSize(kn, gust){
+  if(gust>=GLISSE_GUST_MAX) return {val:'—', sub:'rafales à '+Math.round(gust)+' nd : rester à terre'};
   const S = SP(), q = quiver();
   const need = RIDER_KG*S.coef/Math.max(kn, 1);
   const {lo, hi} = windRange();
@@ -2763,7 +2768,7 @@ function renderKiteNow(){
   PROFILE = prevProf;
 
   const spread = Math.round(h.gust - h.kn);
-  const size = kiteSize(h.kn);
+  const size = kiteSize(h.kn, h.gust);
   const tide = tideState(now);
   const d = DATA[keys[todayIdx]];
   const sun = FC.days.find(([a,b]) => now < b) || [];
@@ -3050,7 +3055,7 @@ function renderWeek(){
       good = ss.filter(w => w.level==='good').length;
       best = ss.length ? ss.reduce((m,w)=>w.score>m.score?w:m, ss[0]) : null;
       const over = idx===t && !ss.length && !dayHs.some(h => !h.night && h.ts+3600000>now);   // plus d'heure de jour à venir
-      if(best) when = epochHHMM(best.s).slice(0,2)+'h–'+epochHHMM(best.e).slice(0,2)+'h'+(kite ? ' · '+kiteSize((best.knMin+best.kn)/2).val : '');
+      if(best) when = epochHHMM(best.s).slice(0,2)+'h–'+epochHHMM(best.e).slice(0,2)+'h'+(kite ? ' · '+kiteSize((best.knMin+best.kn)/2, best.gust).val : '');
       if(over) when = 'journée terminée';
       else if(!best && dayHs.length){ const pool = dayHs.filter(h=>!h.night).length ? dayHs.filter(h=>!h.night) : dayHs; best = Object.assign({}, pool.reduce((m,h)=>h.score>m.score?h:m, pool[0]), {level:'bad'});
         // vent trop faible ou trop fort pour mes ailes : l'aile qu'il faudrait
@@ -3182,7 +3187,7 @@ async function renderDayCond(){
     const ss = kiteSessions(dayHs.filter(h => !h.night));
     const best = ss.length ? ss.reduce((m,w)=>w.score>m.score?w:m, ss[0]) : null;
     head = best
-      ? {level:best.level, when:(kite ? 'Session ' : 'Sortie possible ')+epochHHMM(best.s)+' – '+epochHHMM(best.e)+(kite ? ' · '+kiteSize((best.knMin+best.kn)/2).val : ''), why:dayReason(best), x:best, hs:best.hs}
+      ? {level:best.level, when:(kite ? 'Session ' : 'Sortie possible ')+epochHHMM(best.s)+' – '+epochHHMM(best.e)+(kite ? ' · '+kiteSize((best.knMin+best.kn)/2, best.gust).val : ''), why:dayReason(best), x:best, hs:best.hs}
       : (()=>{ const hs = dayHs.filter(h=>!h.night).length ? dayHs.filter(h=>!h.night) : dayHs;
           // la raison de l'heure la plus proche de naviguer (et l'aile cible qui va avec)
           const x = hs.reduce((m,h)=>h.score>m.score?h:m, hs[0]);
@@ -3207,7 +3212,7 @@ async function renderDayCond(){
     ['Mer', noWave ? '—' : 'jusqu’à '+num(sm.wave,1)+' m', noWave ? (RG().waves ? 'vagues pas encore prévues' : 'lagon : vagues non prévues') : 'houle '+num(sm.swell,1)+' m']
   ];
   if(kite){
-    const sz = kiteSize(top.kn);
+    const sz = kiteSize(top.kn, top.gust);
     const ssts = base.map(h=>h.sst).filter(v=>v!=null);
     const sst = ssts.length ? ssts.reduce((a,b)=>a+b,0)/ssts.length : null;
     cells.push([gearCap()+(sz.target ? ' cible' : ' au plus fort'), sz.val, sz.sub]);
@@ -3238,7 +3243,7 @@ async function renderDayCond(){
     const why = dayReason(h);
     const detail = String(p.hour).padStart(2,'0')+'h : <b>'+LEVELS[h.level]+'</b> — '+why.charAt(0).toLowerCase()+why.slice(1)
       + ' — vent '+Math.round(h.kn)+' nd '+dirName(h.dir)+', rafales '+Math.round(h.gust)+' nd'
-      + (kite ? ', '+orientation(h.dir)+', '+(kiteSize(h.kn).target ? SP().gear+' cible ' : SP().gear+' ')+kiteSize(h.kn).val : '')+(h.noWave ? '' : ', vagues '+num(h.wave,1)+' m')
+      + (kite ? ', '+orientation(h.dir)+', '+(kiteSize(h.kn, h.gust).target ? SP().gear+' cible ' : SP().gear+' ')+kiteSize(h.kn, h.gust).val : '')+(h.noWave ? '' : ', vagues '+num(h.wave,1)+' m')
       + (open && !kite ? ' · portes ouvertes' : '')+(h.night ? ' · nuit' : '')+(sky([h]) ? ' · '+sky([h]).text.toLowerCase() : '')
     b.setAttribute('aria-label', detail.replace(/<[^>]+>/g,''));
     b.addEventListener('click', ()=>{
@@ -3913,7 +3918,7 @@ setInterval(renderSortie, 30000);
 // version.json est réécrit à chaque publication (tools/publier-version.sh). Si la
 // version en ligne diffère de celle de la page, on recharge : sur l'écran
 // d'accueil de l'iPhone, l'app reste ainsi à jour sans manipulation.
-const APP_VERSION = '20261023-143925';
+const APP_VERSION = '20261023-144847';
 async function checkUpdate(){
   try{
     const r = await fetch('version.json?t='+Date.now(), {cache:'no-store'});
