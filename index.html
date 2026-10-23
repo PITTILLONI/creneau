@@ -445,6 +445,8 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   .rider[aria-expanded="true"] .ico{color:inherit;}
   .placebar .place{flex:1;min-width:0;}
   @media (max-width:359px){ .placebar .clock{padding:6px 9px;} .placebar .clock .live-logo{display:none;} .rider{padding:6px 10px;} }
+  /* téléphone étroit + pastille du club : l'heure est déjà dans la barre d'état, on garde le logo témoin pour laisser la place au port */
+  @media (max-width:429px){ .placebar:has(#clubBtn:not([hidden])) #clock{display:none;} .placebar:has(#clubBtn:not([hidden])) .clock{padding:6px 9px;} }
   html[data-sport]:not([data-sport="kite"]) .only-sport-kite{display:none !important;}
   [data-region="nc"] .only-dv,[data-region="dv"] .only-nc,html:not([data-region]) .only-nc{display:none !important;}
   .rider-panel{padding-bottom:4px;}
@@ -3959,7 +3961,7 @@ setInterval(renderSortie, 30000);
 // version.json est réécrit à chaque publication (tools/publier-version.sh). Si la
 // version en ligne diffère de celle de la page, on recharge : sur l'écran
 // d'accueil de l'iPhone, l'app reste ainsi à jour sans manipulation.
-const APP_VERSION = '20261023-152914';
+const APP_VERSION = '20261023-153108';
 async function checkUpdate(){
   try{
     const r = await fetch('version.json?t='+Date.now(), {cache:'no-store'});

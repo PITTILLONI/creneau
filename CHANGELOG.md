@@ -1,7 +1,7 @@
 # Historique des versions
 
 ## 23 octobre 2026 — Nom du port raccourci dans l'en-tête
-- Le choix du port affiche « Deauville » ou « Nouméa » : sur iPhone, avec la pastille du club, « Deauville · bassin Morny » était coupé en « Deauvil ». Le bassin reste nommé dans la carte de passage.
+- Le choix du port affiche « Deauville » ou « Nouméa » : sur iPhone, avec la pastille du club, « Deauville · bassin Morny » était coupé en « Deauvil ». Le bassin reste nommé dans la carte de passage. Sur un téléphone étroit avec la pastille du club, l'heure (déjà dans la barre d'état) laisse sa place ; le logo témoin reste.
 
 ## 23 octobre 2026 — Hiérarchie : l'essentiel d'abord, logo témoin dans l'en-tête
 - **Logo témoin** : dans l'en-tête, le petit C du logo remplace le point de l'heure ; son point est vert s'il reste un créneau favorable aujourd'hui (bateau : portes ouvertes ; glisse : de jour), gris sinon.
