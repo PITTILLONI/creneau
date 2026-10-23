@@ -1,5 +1,9 @@
 # Historique des versions
 
+## 23 octobre 2026 — Passerelle piétonne : « prévue » et alerte coup de vent
+- La passerelle piétonne affiche « Levée prévue » / « Baissée prévue » : c'est un calcul (horaire des portes + cycle 15 min / 30 min), pas un relevé en direct.
+- Coup de vent (rafales prévues d'au moins 35 nd dans l'heure) : le statut passe à « À confirmer », en orange, avec « manœuvres de l'écluse et de la passerelle piétonne possiblement modifiées, confirmez au VHF 9 ». Constaté pendant la tempête du 23 octobre (rafales à 54 nd) : passerelle piétonne baissée à 11:00, alors qu'une levée était prévue de 10:54 à 11:09.
+
 ## 20 octobre 2026 — « i » sans cercle
 - Les boutons « i » (sections, sources, bandeau du club) n'ont plus de cercle autour : un simple « i » italique, un peu plus grand.
 

@@ -1,7 +1,7 @@
 # Avancement
 
 Site : <https://pittilloni.github.io/creneau/>
-Dernière mise à jour de ce fichier : 18 octobre 2026 (18h35).
+Dernière mise à jour de ce fichier : 23 octobre 2026.
 
 ## Fait
 
@@ -100,6 +100,8 @@ Dernière mise à jour de ce fichier : 18 octobre 2026 (18h35).
 - [x] Cycle de la passerelle piétonne : 15 min levée / 30 min baissée pendant l'ouverture des portes, « prochaine levée dans X min »
 - [x] Calage de la passerelle piétonne confirmé le 18 octobre (descente 17:56, levée 18:26 comme prévu)
 - [ ] Revérifier le calage un jour où les portes ouvrent à une autre heure (le décalage de 12 min est-il fixe ?)
+  - 23 octobre (portes 06:57, tempête, rafales 54 nd) : passerelle piétonne baissée à 11:00 alors qu'une levée était prévue de 10:54 à 11:09. Tempête ou calage ? À refaire par temps calme
+- [x] Alerte coup de vent sur la carte de passage (rafales ≥ 35 nd : « À confirmer », VHF 9) (23 octobre)
 - [ ] Vérifier l'**orientation de chaque plage** (Trouville, Houlgate, Cabourg) sur le terrain
 - [ ] Vérifier les **seuils kite** sur le terrain (plage −12 % / +50 % autour du vent idéal de chaque aile, planchers 9 nd twin-tip / 7 nd foil)
 - [ ] Rappeler les **zones et périodes de kite** autorisées par la mairie en saison

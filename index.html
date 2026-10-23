@@ -454,7 +454,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   .qv-chips button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);}
 
   /* passerelle chrono */
-  .br-up{color:var(--good);} .br-down{color:var(--mid);}
+  .br-up{color:var(--good);} .br-down{color:var(--mid);} .br-storm{color:var(--bad);font-weight:600;}
   .sky{display:inline-flex;align-items:center;gap:5px;}
   .sky .ico{margin:0;color:var(--accent);}
   .sky.wet .ico{color:var(--mid);}
@@ -1702,8 +1702,18 @@ function bridgeCycle(now, iv){
   const change = Math.min(iv.e, now - t + (up ? BRIDGE_UP : period));
   return {up, change};
 }
+// Coup de vent : le port peut laisser la passerelle piétonne baissée ou suspendre les passages
+// (constaté le 23 octobre 2026, rafales à 54 nd : passerelle baissée pendant une levée prévue).
+const STORM_GUST = 35;
+function stormGust(now){
+  if(!FC || FC.key!==fcKey()) return 0;
+  const hs = FC.hours.filter(h => h.ts>now-3600000 && h.ts<now+3600000);
+  return hs.length ? Math.max(...hs.map(h => h.gust)) : 0;
+}
 function renderPassage(now, active, next){
   let cls, state, label, gates, bridge;
+  const storm = stormGust(now)>=STORM_GUST;
+  const stormTxt = '<span class="br-storm">Coup de vent (rafales '+Math.round(stormGust(now))+' nd) : manœuvres de l\u2019écluse et de la passerelle piétonne possiblement modifiées, confirmez au VHF 9</span><br>';
   const at = ts => '<b>'+epochHHMM(ts)+'</b>';
   if(active && active.unknown){
     cls='mid'; state='Incertain'; label='Fermeture des portes au plus tard dans';
@@ -1715,8 +1725,9 @@ function renderPassage(now, active, next){
     gates='Ouvertes<br>jusqu’à '+at(active.e);
     const b = bridgeCycle(now, active), last = b.change>=active.e;
     bridge = b.up
-      ? '<b class="br-up">Levée</b> jusqu\u2019à '+at(b.change)+' ('+fmtIn(b.change-now)+')<br>cycle 15 min levée / 30 min baissée · VHF 9'
-      : '<b class="br-down">Baissée</b> · '+(last ? 'plus de levée avant la fermeture' : 'prochaine levée à '+at(b.change)+' ('+fmtIn(b.change-now)+')')+'<br>cycle 15 min levée / 30 min baissée · VHF 9';
+      ? '<b class="br-up">Levée prévue</b> jusqu\u2019à '+at(b.change)+' ('+fmtIn(b.change-now)+')<br>cycle 15 min levée / 30 min baissée · VHF 9'
+      : '<b class="br-down">Baissée prévue</b> · '+(last ? 'plus de levée avant la fermeture' : 'prochaine levée à '+at(b.change)+' ('+fmtIn(b.change-now)+')')+'<br>cycle 15 min levée / 30 min baissée · VHF 9';
+    if(storm){ cls='mid'; state='À confirmer'; bridge = stormTxt + bridge; }
     passTarget = active.e; passFrom = active.s;
   } else if(next){
     const prev = [...epochIntervals].reverse().find(iv => iv.e<=now);
@@ -1725,6 +1736,7 @@ function renderPassage(now, active, next){
     cls='bad'; state='Fermé'; label='Ouverture des portes dans';
     gates='Fermées<br>ouvrent '+day+'à '+at(next.s);
     bridge='Première levée vers '+at(next.s + BRIDGE_OFFSET)+', puis 15 min levée / 30 min baissée<br>ponctuelles possibles avant · VHF 9';
+    if(storm) bridge = stormTxt + bridge;
     passTarget = next.s; passFrom = prev ? prev.e : null;
   } else {
     cls='bad'; state='Fermé'; label=''; gates='Plus d’ouverture prévue en 2026'; bridge='Levées ponctuelles · VHF 9';
@@ -3872,7 +3884,7 @@ setInterval(renderSortie, 30000);
 // version.json est réécrit à chaque publication (tools/publier-version.sh). Si la
 // version en ligne diffère de celle de la page, on recharge : sur l'écran
 // d'accueil de l'iPhone, l'app reste ainsi à jour sans manipulation.
-const APP_VERSION = '20261020-210958';
+const APP_VERSION = '20261023-110419';
 async function checkUpdate(){
   try{
     const r = await fetch('version.json?t='+Date.now(), {cache:'no-store'});
