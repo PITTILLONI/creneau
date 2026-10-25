@@ -1,5 +1,9 @@
 # Historique des versions
 
+## 25 octobre 2026 — Passerelle piétonne : horaire fixe
+- Relevé sur place le 25 octobre (portes ouvertes à 07:08) : passerelle piétonne levée à 12:29, baissée avant 12:49. L'app la donnait baissée jusqu'à 12:35 : le calage « première levée 12 min après l'ouverture des portes » ne tient pas quand les portes ouvrent à une autre heure.
+- Nouveau calcul : la passerelle piétonne suit un **horaire fixe** à l'heure de Paris, levée 15 min à hh:26, hh:11, hh:56 (45 min tombe pile 32 fois dans une journée), quelle que soit l'heure d'ouverture des portes. Il colle aux relevés du 18 octobre (baissée 17:56, levée 18:26) et du 25 octobre (levée 12:26–12:41). `BRIDGE_PHASE`, `bridgeCycle`, `bridgeFirstUp` dans `index.html`. À confirmer avec une heure exacte un autre jour.
+
 ## 23 octobre 2026 — Nom du port raccourci dans l'en-tête
 - Le choix du port affiche « Deauville » ou « Nouméa » : sur iPhone, avec la pastille du club, « Deauville · bassin Morny » était coupé en « Deauvil ». Le bassin reste nommé dans la carte de passage. Sur un téléphone étroit avec la pastille du club, l'heure (déjà dans la barre d'état) laisse sa place ; le logo témoin reste.
 

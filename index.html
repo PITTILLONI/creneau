@@ -1743,17 +1743,25 @@ function tickChrono(){
 // Passage d'un bateau par le bassin Morny : il faut les portes ouvertes ET la
 // passerelle piétonne levée. Pendant l'ouverture des portes, la passerelle
 // piétonne alterne 15 min levée / 30 min baissée (info locale, 18 octobre 2026).
-// Calé sur le terrain le 18 octobre (portes ouvertes à 13:44) : baissée à 17:56, levée à 18:26
-// comme prévu. Première levée 12 min après l'ouverture des portes, puis toutes les 45 min.
-// À revérifier un autre jour (autre heure d'ouverture des portes).
-const BRIDGE_UP = 15*60000, BRIDGE_DOWN = 30*60000, BRIDGE_OFFSET = 12*60000;
+// Horaire fixe à l'heure de Paris, indépendant de l'heure d'ouverture des portes :
+// levées à hh:26, hh:11, hh:56 (45 min divise 24 h, donc la même grille chaque jour).
+// Relevés : 18 octobre (portes 13:44) baissée à 17:56, levée à 18:26 ; 25 octobre
+// (portes 07:08) levée à 12:29, baissée avant 12:49 — l'ancien calage « 12 min après
+// l'ouverture des portes » la donnait baissée jusqu'à 12:35. À revérifier sur d'autres jours.
+const BRIDGE_UP = 15*60000, BRIDGE_DOWN = 30*60000, BRIDGE_PHASE = 26*60000;
+function bridgePhase(ts){
+  const period = BRIDGE_UP + BRIDGE_DOWN;
+  return (((ts + parisOffsetMin(ts)*60000 - BRIDGE_PHASE) % period) + period) % period;
+}
 function bridgeCycle(now, iv){
-  const start = iv.s + BRIDGE_OFFSET;
-  if(now < start) return {up:false, change:Math.min(iv.e, start)};
-  const period = BRIDGE_UP + BRIDGE_DOWN, t = (now - start) % period;
-  const up = t < BRIDGE_UP;
-  const change = Math.min(iv.e, now - t + (up ? BRIDGE_UP : period));
+  const t = bridgePhase(now), up = t < BRIDGE_UP;
+  const change = Math.min(iv.e, now - t + (up ? BRIDGE_UP : BRIDGE_UP + BRIDGE_DOWN));
   return {up, change};
+}
+// Première levée à partir de l'ouverture des portes (l'ouverture elle-même si elle tombe pendant une levée).
+function bridgeFirstUp(iv){
+  const t = bridgePhase(iv.s);
+  return t < BRIDGE_UP ? iv.s : iv.s - t + BRIDGE_UP + BRIDGE_DOWN;
 }
 // Coup de vent : le port peut laisser la passerelle piétonne baissée ou suspendre les passages
 // (constaté le 23 octobre 2026, rafales à 54 nd : passerelle baissée pendant une levée prévue).
@@ -1807,7 +1815,7 @@ function renderPassage(now, active, next){
     const day = ndIdx===todayIdx ? '' : relDay(ndIdx,todayIdx)+' ';
     cls='bad'; state='Fermé'; label='Ouverture des portes dans';
     gates='Fermées, ouvrent '+day+'à '+at(next.s);
-    bridge='Levée vers '+at(next.s + BRIDGE_OFFSET)+sm('puis toutes les 45 min · VHF 9');
+    bridge='Levée vers '+at(bridgeFirstUp(next))+sm('puis toutes les 45 min · VHF 9');
     passTarget = next.s; passFrom = prev ? prev.e : null;
   } else {
     cls='bad'; state='Fermé'; label=''; gates='Plus d’ouverture prévue en 2026'; bridge='Levées ponctuelles · VHF 9';
@@ -3961,7 +3969,7 @@ setInterval(renderSortie, 30000);
 // version.json est réécrit à chaque publication (tools/publier-version.sh). Si la
 // version en ligne diffère de celle de la page, on recharge : sur l'écran
 // d'accueil de l'iPhone, l'app reste ainsi à jour sans manipulation.
-const APP_VERSION = '20261023-153108';
+const APP_VERSION = '20261025-125006';
 async function checkUpdate(){
   try{
     const r = await fetch('version.json?t='+Date.now(), {cache:'no-store'});
