@@ -101,6 +101,7 @@ Dernière mise à jour de ce fichier : 23 octobre 2026.
 - [x] Calage de la passerelle piétonne confirmé le 18 octobre (descente 17:56, levée 18:26 comme prévu)
 - [x] Revérifier le calage un jour où les portes ouvrent à une autre heure : le 25 octobre (portes 07:08), le décalage de 12 min était faux ; horaire fixe hh:26 / hh:11 / hh:56 adopté
 - [ ] Relever l'heure exacte d'une levée et d'une descente un autre jour pour confirmer l'horaire fixe
+- [ ] Comprendre la levée après la fermeture des portes (25 octobre : portes fermées 12:54, levée vers 12:59 — la grille prévoyait 12:56 —, restée levée en continu jusqu'à 13:32). Sans effet pour les bateaux (portes fermées), mais utile pour les piétons. Se reproduit-elle à chaque fermeture ?
   - 23 octobre (portes 06:57, tempête, rafales 54 nd) : passerelle piétonne baissée à 11:00 alors qu'une levée était prévue de 10:54 à 11:09. Tempête ou calage ? À refaire par temps calme
 - [x] Alerte coup de vent sur la carte de passage (rafales ≥ 35 nd : « À confirmer », VHF 9) (23 octobre)
 - [ ] Vérifier l'**orientation de chaque plage** (Trouville, Houlgate, Cabourg) sur le terrain
