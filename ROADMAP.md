@@ -25,6 +25,9 @@ Dernière mise à jour de ce fichier : 23 octobre 2026.
 - [x] Calendrier : carrousel des 7 prochains jours (créneaux favorables / sessions navigables)
 - [x] Icônes sur les intitulés et les raisons des notes ; réglages kite (poids, ailes) dans l'en-tête
 - [x] Région Nouméa (bateau et kite) : fuseau, spots, marées calculées, lagon noté sur le vent seul
+- [x] Région Brésil, kite seul (5 novembre) : Tatajuba et Barra Grande, marées calculées au spot, lien Windguru par spot
+- [ ] Brésil : faire confirmer sur place l'orientation des plages (side-off par vent d'est-sud-est ?) et les infos des fiches
+- [ ] Windguru : widget officiel intégré (iframe) ou données de la station de Tatajuba, si Windguru donne son accord (support@windguru.cz)
 - [x] « Ajouter votre spot / port » : e-mail prérempli
 - [x] Profil Glisse : kite, windsurf, windfoil, wingfoil (matériel et plages de vent par sport)
 - [x] Interface mobile d'abord : barre d'onglets, grandes zones tactiles, mode sombre automatique

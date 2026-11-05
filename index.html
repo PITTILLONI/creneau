@@ -448,7 +448,11 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
   /* téléphone étroit + pastille du club : l'heure est déjà dans la barre d'état, on garde le logo témoin pour laisser la place au port */
   @media (max-width:429px){ .placebar:has(#clubBtn:not([hidden])) #clock{display:none;} .placebar:has(#clubBtn:not([hidden])) .clock{padding:6px 9px;} }
   html[data-sport]:not([data-sport="kite"]) .only-sport-kite{display:none !important;}
-  [data-region="nc"] .only-dv,[data-region="dv"] .only-nc,html:not([data-region]) .only-nc{display:none !important;}
+  html[data-region]:not([data-region="dv"]) .only-dv,html:not([data-region="nc"]) .only-nc,html:not([data-region="br"]) .only-br,
+  [data-region="dv"] .no-gates,html:not([data-region]) .no-gates{display:none !important;}
+  /* région glisse seule (Brésil) : pas de profil Bateau à choisir */
+  html.kite-only .seg,html.kite-only #obProfile [data-p="boat"]{display:none !important;}
+  .kn-wg{display:inline-flex;align-items:center;gap:6px;margin-top:12px;font-size:var(--fs-2);font-weight:600;color:var(--accent);text-decoration:none;}
   .rider-panel{padding-bottom:4px;}
   .club-lim{margin:10px 0 0;color:var(--ink);font-size:var(--fs-2);}
   .rider-panel .weight{margin-top:2px;}
@@ -934,6 +938,10 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
           <option value="maitre">Îlot Maître</option>
           <option value="moselle">Port Moselle</option>
         </optgroup>
+        <optgroup label="Brésil">
+          <option value="tatajuba">Tatajuba</option>
+          <option value="barragrande">Barra Grande</option>
+        </optgroup>
         <option value="__add">+ Ajouter votre spot…</option>
       </select>
     </label>
@@ -971,6 +979,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
       <div class="kn-verdict" id="knVerdict"></div>
       <div class="kkey" id="kKey"></div>
       <div class="kgrid" id="kGrid"></div>
+      <a class="kn-wg" id="knWg" target="_blank" rel="noopener" hidden>Comparer avec Windguru ↗</a>
     </div>
 
     <div class="only-boat only-nc" id="boatNowWrap"><div class="tile boatnow" id="boatNow"><div class="muted">Prévisions en cours de chargement…</div></div></div>
@@ -995,7 +1004,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
     <a class="cours-next only-boat" id="coursNext" href="#calendrier" hidden></a>
     <div class="today">
       <div class="today-title only-boat only-dv">Aujourd'hui · ouverture des portes du bassin Morny</div>
-      <div class="today-title only-nc">Aujourd'hui · marées</div>
+      <div class="today-title no-gates">Aujourd'hui · marées</div>
       <div class="slots only-boat only-dv" id="todaySlots"></div>
       <div class="tides" id="todayTides"></div>
     </div>
@@ -1212,8 +1221,8 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
         <li><b>Jamais seul</b> : prévenir quelqu'un de son heure de retour.</li>
         <li><b>Orage annoncé = pas de session</b>, et sortir de l'eau aux premiers signes (rafales, foudre).</li>
         <li><b>Savoir se larguer</b> : largueur (quick release), puis leash si nécessaire. Le tester avant de partir.</li>
-        <li><b>Rester loin des digues, de l'entrée du port et du chenal de la Touques</b> : trafic de bateaux.</li>
-        <li><b>En difficulté</b> : auto-sauvetage avec l'aile, grands signes avec le bras. Urgence en mer : <span class="only-dv"><a href="tel:196">196</a> depuis un téléphone (CROSS)</span><span class="only-nc"><a href="tel:16">16</a> depuis un téléphone (COSS NC)</span> ou VHF canal 16.</li>
+        <li class="only-dv"><b>Rester loin des digues, de l'entrée du port et du chenal de la Touques</b> : trafic de bateaux.</li>
+        <li><b>En difficulté</b> : auto-sauvetage avec l'aile, grands signes avec le bras. Urgence en mer : <span class="only-dv"><a href="tel:196">196</a> depuis un téléphone (CROSS)</span><span class="only-nc"><a href="tel:16">16</a> depuis un téléphone (COSS NC)</span><span class="only-br"><a href="tel:193">193</a> (pompiers, sauvetage en mer) ou <a href="tel:185">185</a> (Marine brésilienne)</span> ou VHF canal 16.</li>
       </ul>
     </div></details>
     <details class="tuto only-nc"><summary><span>Règles et précautions à Nouméa</span><small>alizé, corail, réserves</small></summary><div class="tuto-body">
@@ -1226,6 +1235,16 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
         <li><b>Port Moselle</b> : départ depuis la marina vers la baie de la Moselle ; avec l'alizé le vent vient de terre (offshore, rafaleux en passant sur la ville) : prudence, respecter le chenal et les règles du port. Orientation (265°) à confirmer sur place.</li>
         <li><b>Îlot Maître</b> : 15 min en bateau, vent onshore, à mi-marée ou marée haute. <b>Réserve naturelle</b> : respecter les zones et les tortues. L'orientation de la plage (110°) est à confirmer sur place.</li>
         <li>Se renseigner auprès des écoles de kite locales sur les zones autorisées et les règles du moment.</li>
+      </ul>
+    </div></details>
+    <details class="tuto only-br"><summary><span>Règles et précautions au Brésil</span><small>alizé, marée, embouchures</small></summary><div class="tuto-body">
+      <ul>
+        <li><b>Saison du vent</b> : de juillet à janvier environ, alizé d'est régulier, souvent plus fort l'après-midi. Les deux plages sont tournées vers le nord : vent de côté, il devient <b>side-off</b> quand il passe à l'est-sud-est (l'app le note alors « Déconseillé » : orientation à confirmer sur place).</li>
+        <li><b>Marée</b> : plus de 2 m d'écart en vives-eaux. À marée basse, grands plans d'eau plats et très peu profonds (gare aux chutes) ; le clapot revient quand la mer monte. L'app donne les heures de pleine et basse mer, calculées : à vérifier sur place.</li>
+        <li><b>Tatajuba</b> : spot d'eau plate à l'embouchure de la rivière, vagues côté océan. Le <b>courant</b> de l'embouchure est fort à la marée descendante : rester loin du chenal.</li>
+        <li><b>Barra Grande</b> : très fréquenté par les écoles ; Macapá est à environ 2 km sous le vent pour un downwind.</li>
+        <li><b>Soleil</b> : très fort près de l'équateur, lycra et crème. Eau chaude : shorty ou lycra suffisent.</li>
+        <li>Se renseigner auprès des écoles locales sur les zones de pratique et les règles du moment.</li>
       </ul>
     </div></details>
     <details class="tuto only-dv"><summary><span>Règles locales</span><small>zones et horaires de pratique</small></summary><div class="tuto-body">
@@ -1317,7 +1336,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
     </div>
     <div class="today" id="dayCard">
       <div class="today-title only-boat only-dv">Ouverture des portes du bassin Morny</div>
-      <div class="today-title only-nc">Marées</div>
+      <div class="today-title no-gates">Marées</div>
       <div class="slots only-boat only-dv" id="daySlots"></div>
       <div class="tides" id="dayTides"></div>
     </div>
@@ -1355,6 +1374,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
           <div class="qv-chips ob-choice ob-zone" id="obRegion">
             <button type="button" data-r="dv">Deauville · Côte Fleurie</button>
             <button type="button" data-r="nc">Nouméa</button>
+            <button type="button" data-r="br">Brésil · kite</button>
           </div>
           <div class="ob-local" id="obLocal" aria-live="polite"></div>
         </section>
@@ -1394,7 +1414,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
           <ul class="ob-list">
             <li><span aria-hidden="true" data-ico="compass"></span><span>Une <b>aide</b>, pas une garantie : vérifiez sur place.</span></li>
             <li class="only-boat only-dv"><span aria-hidden="true" data-ico="radio"></span><span>Portes : <b>VHF 9</b>.</span></li>
-            <li><span aria-hidden="true" data-ico="alert"></span><span>Urgence en mer : <b class="only-dv">196 ou VHF 16</b><b class="only-nc">16 ou VHF 16</b>.</span></li>
+            <li><span aria-hidden="true" data-ico="alert"></span><span>Urgence en mer : <b class="only-dv">196 ou VHF 16</b><b class="only-nc">16 ou VHF 16</b><b class="only-br">193 ou VHF 16</b>.</span></li>
             <li><span aria-hidden="true" data-ico="chat"></span><span>Un souci, une idée ? <b>Donnez votre avis</b>, en bas de Conseils.</span></li>
           </ul>
         </section>
@@ -1509,6 +1529,7 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
     <div class="warn only-boat only-dv"><b>Horaires théoriques.</b> Toujours confirmer avant une manœuvre via le <b>VHF canal 9</b> ou la cabine de l'écluse au <a href="tel:+33698718392">06 98 71 83 92</a>.</div>
     <div class="warn only-kite only-dv"><b>Prévisions indicatives.</b> Vérifier le vent sur place avant de gréer. Urgence en mer : <a href="tel:196">196</a> (CROSS) ou VHF canal 16.</div>
     <div class="warn only-nc"><b>Prévisions indicatives.</b> Urgence en mer : le <a href="tel:16">16</a> depuis un téléphone ou la <b>VHF canal 16</b> (COSS NC, ex-MRCC Nouméa). Météo marine en VHF sur les canaux <b>65</b> et <b>66</b>.</div>
+    <div class="warn only-br"><b>Prévisions indicatives.</b> Vérifier le vent sur place avant de gréer. Urgence : <a href="tel:193">193</a> (pompiers, sauvetage en mer), <a href="tel:185">185</a> (Marine brésilienne) ou VHF canal 16.</div>
     <button type="button" class="src-btn" data-info="infoSources" data-title="Sources et liens utiles"><span>Sources et liens utiles</span><span class="info-i" aria-hidden="true">i</span></button>
     <div id="infoSources" hidden>
     <div class="links">
@@ -1518,10 +1539,15 @@ const PASS_HASH = '4a097e40adf104cb7f5a50789f7b5d662aaf7c51b104c3c7faef33f8a1f42
       <a class="only-boat only-dv" href="tel:+33231983001">Capitainerie · 02 31 98 30 01</a>
       <a class="only-nc" href="https://meteo.nc" target="_blank" rel="noopener">Météo officielle — Météo-France Nouvelle-Calédonie ↗</a>
       <a class="only-nc" href="https://maree.shom.fr/harbor/NOUMEA" target="_blank" rel="noopener">Marées de Nouméa — SHOM ↗</a>
+      <a class="only-br" href="https://www.windguru.cz/1076319" target="_blank" rel="noopener">Tatajuba — prévisions Windguru ↗</a>
+      <a class="only-br" href="https://www.windguru.cz/station/16378" target="_blank" rel="noopener">Lagune de Tatajuba — station de vent Windguru ↗</a>
+      <a class="only-br" href="https://www.windguru.cz/122798" target="_blank" rel="noopener">Barra Grande — prévisions Windguru ↗</a>
+      <a class="only-br" href="https://www.marinha.mil.br/chm/tabuas-de-mare" target="_blank" rel="noopener">Tables des marées — Marine brésilienne ↗</a>
     </div>
     <div class="only-kite only-dv">Vent, vagues et température de l'eau : Météo-France (AROME/ARPEGE, MFWAM, courants) via Open-Meteo. Marées : SHOM, via Ports du Calvados (autorisation n° 2024-282). Projet indépendant, non affilié à la mairie de Deauville, au SHOM ni à Météo-France.</div>
     <div class="only-boat only-dv">Horaires des portes et marées : document officiel Ports du Calvados, calculé avec le SHOM (autorisation n° 2024-282). Porte à la cote 5,50 m. Données 2026 uniquement. Projet indépendant, non affilié à Ports du Calvados, à la mairie de Deauville, au SHOM ni à Météo-France.</div>
     <div class="only-nc">Vent consolidé sur 5 modèles et température de l'eau (Météo-France, courants) via Open-Meteo. Marées calculées à partir de la hauteur d'eau prévue (modèle), sans coefficient : à vérifier sur l'annuaire du SHOM. Vagues non affichées dans le lagon. Spots d'après les écoles de kite locales. Projet indépendant, non affilié à Météo-France, au SHOM ni au gouvernement de la Nouvelle-Calédonie.</div>
+    <div class="only-br">Vent consolidé sur 5 modèles (Météo-France, ECMWF, ICON, UKMO, GFS), vagues Météo-France MFWAM et température de l'eau via Open-Meteo. Marées calculées à partir de la hauteur d'eau prévue (modèle), sans coefficient : à vérifier sur les tables de la Marine brésilienne. Windguru en lien, pour comparer (pas d'accès public à ses données). Projet indépendant, non affilié à Windguru, à Météo-France ni à la Marine brésilienne.</div>
     </div>
   </footer>
 </div>
@@ -1892,15 +1918,18 @@ function tideCell(tide, now, d){
     tide ? (tide.next.type==='PM' ? 'pleine mer ' : 'basse mer ')+epochHHMM(tide.next.ts)+' ('+fmtIn(tide.next.ts-now)+')'
       + (RG().gates && d ? ' · coef. '+(d.c.filter(Boolean).join('/')||'—') : '') : ''];
 }
-/* ---------- Marées de Nouméa (calculées) ---------- */
+/* ---------- Marées calculées (Nouméa, Brésil) ---------- */
 // Pas d'annuaire embarqué : pleines et basses mers = extremums de la hauteur d'eau horaire
 // (Open-Meteo, sea_level_height_msl), affinés par interpolation parabolique. Pas de coefficient.
-const NCT = {};   // index du jour -> {events} ou promesse
+// Lieu de calcul : le port de la région, ou le spot dans une région glisse seule (spots éloignés).
+function tidePlace(){ return RG().kiteOnly ? SPOTS[SPOT] : RG().port; }
+const NCT = {};   // lieu + index du jour -> {events} ou promesse
 function ncTideDay(idx, onReady){
-  if(NCT[idx] && NCT[idx].events) return NCT[idx].events;
-  if(!NCT[idx]){
-    NCT[idx] = getJSON('https://marine-api.open-meteo.com/v1/marine?latitude='+RG().port.seaLat+'&longitude='+RG().port.seaLon
-      + '&hourly=sea_level_height_msl&timeformat=unixtime&timezone='+encodeURIComponent(REGIONS.nc.tz)
+  const P = tidePlace(), k = P.seaLat+','+P.seaLon+':'+idx;
+  if(NCT[k] && NCT[k].events) return NCT[k].events;
+  if(!NCT[k]){
+    NCT[k] = getJSON('https://marine-api.open-meteo.com/v1/marine?latitude='+P.seaLat+'&longitude='+P.seaLon
+      + '&hourly=sea_level_height_msl&timeformat=unixtime&timezone='+encodeURIComponent(TZ())
       + '&start_date='+isoDay(Math.max(0, idx-1))+'&end_date='+isoDay(idx+1))
       .then(j => {
         const t = j.hourly.time, v = j.hourly.sea_level_height_msl, ev = [];
@@ -1912,12 +1941,12 @@ function ncTideDay(idx, onReady){
           const den = a - 2*b + c, off = den ? .5*(a-c)/den : 0;
           ev.push({type: hi ? 'PM' : 'BM', ts:(t[i] + off*3600)*1000, h: b - .25*(a-c)*off});
         }
-        NCT[idx] = {events: ev};
+        NCT[k] = {events: ev};
         if(onReady) onReady();
         return ev;
       })
-      .catch(() => { delete NCT[idx]; });
-  } else if(onReady && NCT[idx].then) NCT[idx].then(onReady);
+      .catch(() => { delete NCT[k]; });
+  } else if(onReady && NCT[k].then) NCT[k].then(onReady);
   return null;
 }
 function renderTides(container, dayIdx){
@@ -1927,7 +1956,7 @@ function renderTides(container, dayIdx){
     const day = ev.filter(e => parisParts(e.ts).key===keys[dayIdx]);
     const fmt = type => day.filter(e => e.type===type).map(e => epochHHMM(e.ts)).join(' · ') || '—';
     container.innerHTML = '<span>'+ico('tideUp')+'Pleine mer <b>'+fmt('PM')+'</b></span><span>'+ico('tideDown')+'Basse mer <b>'+fmt('BM')+'</b></span>'
-      + '<span class="muted" style="font-size:var(--fs-2)">calculées (modèle), à vérifier sur l’annuaire SHOM</span>';
+      + '<span class="muted" style="font-size:var(--fs-2)">calculées (modèle), à vérifier sur '+RG().tideRef+'</span>';
     return;
   }
   const d = DATA[keys[dayIdx]];
@@ -1946,8 +1975,10 @@ function renderTides(container, dayIdx){
 const REGIONS = {
   dv: {name:'Deauville', tz:'Europe/Paris', gates:true, waves:true,
        port:{name:'Deauville · bassin Morny', lat:49.367, lon:0.072, seaLat:49.40, seaLon:0.05}},
-  nc: {name:'Nouméa', tz:'Pacific/Noumea', gates:false, waves:false,
-       port:{name:'Nouméa · Port Moselle', lat:-22.278, lon:166.441, seaLat:-22.30, seaLon:166.44}}
+  nc: {name:'Nouméa', tz:'Pacific/Noumea', gates:false, waves:false, city:'Nouméa', tideRef:'l’annuaire SHOM',
+       port:{name:'Nouméa · Port Moselle', lat:-22.278, lon:166.441, seaLat:-22.30, seaLon:166.44}},
+  // Brésil (Ceará, Piauí) : glisse seule (kiteOnly), pas de port ; marées calculées au spot.
+  br: {name:'Brésil', tz:'America/Fortaleza', gates:false, waves:true, kiteOnly:true, city:'Fortaleza', tideRef:'les tables de la Marine brésilienne'}
 };
 const SPOTS = {
   deauville: {region:'dv', name:'Deauville',         lat:49.364, lon:0.070,  seaLat:49.40, seaLon:0.05,  onshore:335, faces:'nord-nord-ouest'},
@@ -1967,7 +1998,13 @@ const SPOTS = {
               note:'15 min en bateau. Vent onshore, à mi-marée ou marée haute. Réserve naturelle : attention aux tortues.'},
   // trait de côte OpenStreetMap autour de la marina : face à l'ouest (~265°), peu net à cause des quais
   moselle:   {region:'nc', name:'Port Moselle', lat:-22.278, lon:166.441, seaLat:-22.28, seaLon:166.43, onshore:265, faces:'ouest (à confirmer)',
-              note:'Marina, départ vers la baie de la Moselle. Avec l’alizé le vent vient de terre et passe sur la ville : offshore et rafaleux. Respecter le chenal et les règles du port.'}
+              note:'Marina, départ vers la baie de la Moselle. Avec l’alizé le vent vient de terre et passe sur la ville : offshore et rafaleux. Respecter le chenal et les règles du port.'},
+  // Brésil : orientation calculée sur le trait de côte OpenStreetMap (Tatajuba 355°, Barra Grande 0°) ;
+  // wg = numéro du spot Windguru (lien pour comparer, pas de données importées)
+  tatajuba:  {region:'br', name:'Tatajuba', lat:-2.852, lon:-40.694, seaLat:-2.82, seaLon:-40.69, onshore:355, faces:'nord', wg:1076319,
+              note:'Embouchure de la rivière : eau plate et peu profonde à marée basse, vagues côté océan. Alizé d’est, de côté. Fort courant dans le chenal à la marée descendante.'},
+  barragrande: {region:'br', name:'Barra Grande', lat:-2.913, lon:-41.420, seaLat:-2.88, seaLon:-41.42, onshore:0, faces:'nord', wg:122798,
+              note:'Plage tournée vers le nord, alizé d’est de côté. À marée basse, grand plan d’eau plat et très peu profond ; plus de clapot quand la mer monte. Macapá à 2 km sous le vent.'}
 };
 let SPOT = 'deauville', REGION = 'dv';
 try{
@@ -1987,7 +2024,7 @@ const ZONES = (() => {
   if(z==='toutes') return Object.keys(REGIONS);
   if(z in REGIONS) return [z];
   let tz = ''; try{ tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; }catch(e){}
-  return [tz==='Pacific/Noumea' ? 'nc' : 'dv'];
+  return [tz==='Pacific/Noumea' ? 'nc' : /^America\/(Fortaleza|Recife|Belem|Maceio|Bahia|Araguaina|Sao_Paulo|Santarem|Manaus|Cuiaba|Campo_Grande|Porto_Velho|Boa_Vista|Rio_Branco|Noronha)$/.test(tz) ? 'br' : 'dv'];
 })();
 if(!ZONES.includes(REGION)) REGION = ZONES[0];
 if(ZONES.length===1){
@@ -2063,6 +2100,7 @@ let FC = null;
 let PROFILE = 'boat';
 var tabsReady = false;
 try{ if(localStorage.getItem('profil')==='kite') PROFILE = 'kite'; }catch(e){}
+if(RG().kiteOnly) PROFILE = 'kite';
 
 // Libellés explicites : la note dit ce qu'on peut faire, pas seulement « bon / mauvais ».
 const LABELS = {
@@ -2813,6 +2851,9 @@ function renderKiteNow(){
   $('knSub').textContent = 'Vent de '+dirName(h.dir)+' · '+orientation(h.dir)+' · rafales '+Math.round(h.gust)+' nd';
   $('knNote').textContent = SPOTS[SPOT].note || '';
   $('knNote').hidden = !SPOTS[SPOT].note;
+  const wg = SPOTS[SPOT].wg;
+  $('knWg').hidden = !wg;
+  if(wg) $('knWg').href = 'https://www.windguru.cz/'+wg;
   $('kiteNow').className = 'kite-now only-kite '+x.level;
   const prevProf = PROFILE; PROFILE = 'kite';
   $('knVerdict').innerHTML = '<span class="badge '+x.level+'">'+LABELS.kite[x.level]+'</span>'+reasonHTML(x);
@@ -2979,15 +3020,17 @@ function renderSail(cur){
 function applyRegion(){
   SHOW_TZ = TZ();
   document.documentElement.dataset.region = REGION;
+  document.documentElement.classList.toggle('kite-only', !!RG().kiteOnly);
   $('portSel').value = REGION;
   $('spotSel').value = SPOT;
-  document.querySelector('.clock').setAttribute('aria-label', 'Heure de '+(REGION==='nc' ? 'Nouméa' : 'Paris'));
+  document.querySelector('.clock').setAttribute('aria-label', 'Heure de '+(RG().city || 'Paris'));
 }
 function setRegion(r, spot){
   REGION = r;
   SPOT = spot || (SPOTS[SPOT].region===r ? SPOT : Object.keys(SPOTS).find(k => SPOTS[k].region===r));
   try{ localStorage.setItem('region', r); localStorage.setItem('spot', SPOT); }catch(e){}
   applyRegion();
+  if(RG().kiteOnly && PROFILE!=='kite') setProfile('kite', true);
   document.querySelectorAll('.spotName').forEach(el => el.textContent = SPOTS[SPOT].name);
   document.querySelectorAll('.spotFaces').forEach(el => el.textContent = SPOTS[SPOT].faces);
   weekHours = null;
@@ -3021,6 +3064,7 @@ function setSpot(v){
   $('spotSel').value = v;
   document.querySelectorAll('.spotName').forEach(el => el.textContent = SPOTS[v].name);
   document.querySelectorAll('.spotFaces').forEach(el => el.textContent = SPOTS[v].faces);
+  if(RG().kiteOnly) renderBrowse(browseIdx);   // marées calculées au spot
   if(PROFILE==='kite'){
     replay($('kiteNow'), 'enter');
     ensureForecast();
@@ -3033,6 +3077,7 @@ $('spotSel').addEventListener('change', e => {
 });
 
 function setProfile(p, animate){
+  if(RG().kiteOnly) p = 'kite';   // pas de port dans cette région
   PROFILE = p;
   try{ localStorage.setItem('profil', p); }catch(e){}
   document.documentElement.dataset.profile = p;
@@ -3398,7 +3443,8 @@ const OB_LOCAL = {
   'dv:boat': ['Deauville', [['gate','Les horaires de l\'écluse et de la passerelle piétonne'],['compass','Vos caps aux alentours'],['users','Ceux qui naviguent avec vous'+OB_SOON]]],
   'dv:kite': ['la Côte Fleurie', [['pin','Vos plages : Deauville, Trouville, Houlgate, Cabourg'],['kite','L\'aile qu\'il vous faut, selon votre poids'],['users','Ceux qui rident avec vous'+OB_SOON]]],
   'nc:boat': ['Nouméa', [['anchor','Port Moselle et les marées du lagon'],['compass','Vos caps dans le lagon'],['users','Ceux qui naviguent avec vous'+OB_SOON]]],
-  'nc:kite': ['Nouméa', [['pin','Vos spots : Anse Vata, Magenta, îlot Maître…'],['kite','L\'aile qu\'il vous faut, selon votre poids'],['users','Ceux qui rident avec vous'+OB_SOON]]]
+  'nc:kite': ['Nouméa', [['pin','Vos spots : Anse Vata, Magenta, îlot Maître…'],['kite','L\'aile qu\'il vous faut, selon votre poids'],['users','Ceux qui rident avec vous'+OB_SOON]]],
+  'br:kite': ['le Brésil', [['pin','Vos spots : Tatajuba, Barra Grande'],['tideUp','Les marées, qui changent tout sur ces plages'],['kite','L\'aile qu\'il vous faut, selon votre poids']]]
 };
 function obLocal(){
   const z = OB_LOCAL[REGION+':'+PROFILE]; if(!z) return;
@@ -3969,7 +4015,7 @@ setInterval(renderSortie, 30000);
 // version.json est réécrit à chaque publication (tools/publier-version.sh). Si la
 // version en ligne diffère de celle de la page, on recharge : sur l'écran
 // d'accueil de l'iPhone, l'app reste ainsi à jour sans manipulation.
-const APP_VERSION = '20261025-125006';
+const APP_VERSION = '20261105-104919';
 async function checkUpdate(){
   try{
     const r = await fetch('version.json?t='+Date.now(), {cache:'no-store'});

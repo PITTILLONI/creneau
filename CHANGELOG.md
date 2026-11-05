@@ -1,5 +1,13 @@
 # Historique des versions
 
+## 5 novembre 2026 — Brésil (kite seul) et Windguru
+- Nouvelle région **Brésil**, glisse seule : **Tatajuba** (Ceará) et **Barra Grande** (Piauí). Pas de port : le choix Bateau / Glisse disparaît de l'en-tête et de la présentation (`kiteOnly`). Fuseau America/Fortaleza ; un téléphone sur un fuseau brésilien voit le Brésil, sinon lien `?zone=br`.
+- Orientation des plages calculée sur le trait de côte OpenStreetMap (toutes deux face au nord) : alizé d'est = side-shore, est-sud-est = side-off. À confirmer sur place.
+- Marées calculées comme à Nouméa, mais au spot choisi (80 km entre les deux) ; le cache des marées est désormais par lieu, plus seulement par jour.
+- Conseils « Règles et précautions au Brésil » (saison, marée, embouchure, soleil), urgences 193 / 185 / VHF 16.
+- **Windguru** : lien « Comparer avec Windguru » sur la carte du spot et dans les sources (prévisions Tatajuba et Barra Grande, station de la lagune de Tatajuba). Pas d'import de données : pas d'API publique.
+- Correction : « Rester loin du chenal de la Touques » ne s'affiche plus qu'à Deauville.
+
 ## 25 octobre 2026 — Passerelle piétonne : horaire fixe
 - Relevé sur place le 25 octobre (portes ouvertes à 07:08) : passerelle piétonne levée à 12:29, baissée avant 12:49. L'app la donnait baissée jusqu'à 12:35 : le calage « première levée 12 min après l'ouverture des portes » ne tient pas quand les portes ouvrent à une autre heure.
 - Nouveau calcul : la passerelle piétonne suit un **horaire fixe** à l'heure de Paris, levée 15 min à hh:26, hh:11, hh:56 (45 min tombe pile 32 fois dans une journée), quelle que soit l'heure d'ouverture des portes. Il colle aux relevés du 18 octobre (baissée 17:56, levée 18:26) et du 25 octobre (levée 12:26–12:41). `BRIDGE_PHASE`, `bridgeCycle`, `bridgeFirstUp` dans `index.html`. À confirmer avec une heure exacte un autre jour.

@@ -2,7 +2,7 @@
 
 **➜ En ligne : <https://pittilloni.github.io/creneau/>**
 
-Bateau ou kitesurf à Deauville et sur la Côte Fleurie, et à **Nouméa** : savoir quand sortir (portes du bassin Morny, vent, vagues, marées, bouées, spots de kite). Anciennement « Port de Deauville » (dépôt `deauville-passerelle-ecluse`, l'ancienne adresse redirige ici).
+Bateau ou kitesurf à Deauville et sur la Côte Fleurie, et à **Nouméa** ; kitesurf seul au **Brésil** (Tatajuba, Barra Grande) : savoir quand sortir (portes du bassin Morny, vent, vagues, marées, bouées, spots de kite). Anciennement « Port de Deauville » (dépôt `deauville-passerelle-ecluse`, l'ancienne adresse redirige ici).
 
 Savoir en un coup d'œil, depuis son téléphone :
 
@@ -27,16 +27,17 @@ L'app est pensée pour un **marin** (profil Bateau) ou un **pratiquant de glisse
 
 ## Régions
 
-| | Deauville (Côte Fleurie) | Nouméa |
-| --- | --- | --- |
-| Fuseau | Europe/Paris | Pacific/Noumea |
-| Bateau | portes du bassin Morny (PDF officiel), passerelle piétonne, bouées Candhis | Port Moselle, pas d'écluse : « sorties possibles » sur les heures de jour |
-| Glisse | Deauville, Trouville, Houlgate, Cabourg | Anse Vata (243°), Méridien (279°), Aquarêve (198°), Magenta (95°), Îlot Maître (110°, à confirmer), Port Moselle (265°, à confirmer) |
-| Vagues | Météo-France MFWAM | ignorées (le modèle ne voit pas la barrière de corail) : note sur le vent seul |
-| Marées | PDF Ports du Calvados / SHOM, avec coefficients | calculées sur la hauteur d'eau prévue (Open-Meteo), sans coefficient |
-| Urgence | 196 (CROSS), VHF 16 | 16 (COSS NC), VHF 16 ; météo VHF 65/66 |
+| | Deauville (Côte Fleurie) | Nouméa | Brésil (Ceará, Piauí) |
+| --- | --- | --- | --- |
+| Fuseau | Europe/Paris | Pacific/Noumea | America/Fortaleza |
+| Bateau | portes du bassin Morny (PDF officiel), passerelle piétonne, bouées Candhis | Port Moselle, pas d'écluse : « sorties possibles » sur les heures de jour | aucun : région glisse seule (`kiteOnly`), le choix Bateau / Glisse est masqué |
+| Glisse | Deauville, Trouville, Houlgate, Cabourg | Anse Vata (243°), Méridien (279°), Aquarêve (198°), Magenta (95°), Îlot Maître (110°, à confirmer), Port Moselle (265°, à confirmer) | Tatajuba (355°), Barra Grande (0°) : orientation calculée sur le trait de côte OpenStreetMap, à confirmer sur place |
+| Vagues | Météo-France MFWAM | ignorées (le modèle ne voit pas la barrière de corail) : note sur le vent seul | Météo-France MFWAM |
+| Marées | PDF Ports du Calvados / SHOM, avec coefficients | calculées sur la hauteur d'eau prévue (Open-Meteo), sans coefficient | calculées comme à Nouméa, au spot choisi (`tidePlace`) |
+| Urgence | 196 (CROSS), VHF 16 | 16 (COSS NC), VHF 16 ; météo VHF 65/66 | 193 (pompiers, sauvetage en mer), 185 (Marine), VHF 16 |
+| Windguru | — | — | lien « Comparer avec Windguru » sur la carte du spot (`wg` dans `SPOTS`) et dans les sources |
 
-**Une seule zone par téléphone** : déduite du fuseau horaire (`ZONES`). Un téléphone réglé sur Nouméa ne voit que Nouméa, les autres que Deauville ; aucune localisation n'est demandée. Pour forcer : ouvrir le lien avec `?zone=nc`, `?zone=dv`, ou `?zone=toutes` pour voir les deux (réglage gardé sur le téléphone).
+**Une seule zone par téléphone** : déduite du fuseau horaire (`ZONES`). Un téléphone réglé sur Nouméa ne voit que Nouméa, sur un fuseau brésilien que le Brésil, les autres que Deauville ; aucune localisation n'est demandée. Pour forcer : ouvrir le lien avec `?zone=nc`, `?zone=br`, `?zone=dv`, ou `?zone=toutes` pour voir les deux (réglage gardé sur le téléphone).
 
 **Clubs** : bouton « Rejoindre un club » de l'onglet Conseils (code = clé de `CLUBS`), ou lien d'invitation `?club=<id>` (gardé sur le téléphone, `?club=aucun` pour le retirer). Sur iPhone, le lien n'atteint pas l'app de l'écran d'accueil (stockage séparé de Safari) : passer par le bouton. Chaque club de `CLUBS` a une zone, des supports avec une consigne par niveau (`max:{deb:[vent, rafales, vagues], conf:[…]}` : au-delà, la note bateau plafonne à « Déconseillé », à 3 nd près à « Prudence » ; voilure conseillée seulement pour un `keel`, habitable), choisis via la pastille de l'en-tête (`support`, `niveau`). Le club a aussi un sigle et une couleur (`short`, `color`) pour le bandeau de l'en-tête, qui ouvre la fiche club (licence FFVoile, `licence` : numéro et année). Démo des cours : `cours` du club (semaine type), carte « Cours du club » dans l'onglet Calendrier, rappel « Votre prochain cours » dans Maintenant, inscriptions locales (`inscriptions`) et un contact prérempli dans la fiche de sortie. Seul l'exemple fictif `ycp` (Yacht Club des Planches, alias `demo`) existe : un vrai club n'est ajouté qu'avec son accord. Champs facultatifs : `burgee` (couleurs du guidon), `info` (lieu, accueil, mail, VHF), `actus`.
 
@@ -65,6 +66,7 @@ Voir [ROADMAP.md](ROADMAP.md) pour ce qui est fait et ce qui reste à faire, et 
 | Vagues et houle | **Météo-France**, modèle de vagues MFWAM | API marine [Open-Meteo](https://open-meteo.com/en/docs/marine-weather-api) |
 | Lever / coucher du soleil | Open-Meteo | idem |
 | Vent consolidé | Météo-France (compte double), ECMWF, ICON (DWD), UKMO (Met Office), GFS (NOAA) | Open-Meteo, un seul appel `models=…` ; médiane par heure (`attachModels` dans `index.html`) |
+| Windguru (Brésil) | [Tatajuba](https://www.windguru.cz/1076319), [station de la lagune](https://www.windguru.cz/station/16378), [Barra Grande](https://www.windguru.cz/122798) | **Lien seulement** : Windguru n'a pas d'API publique (son API interne répond 401 sans compte) ; ses modèles (GFS, ICON, ECMWF…) sont déjà dans le vent consolidé |
 | Vagues mesurées (bouées 07609 et 07611) | **Candhis** — Port du Havre et Cerema, Licence Ouverte Etalab — [candhis.cerema.fr](https://candhis.cerema.fr/) | Page publique relevée toutes les 30 min par GitHub Actions (`tools/bouees.py`), publiée sur la branche `donnees` (`bouees.json`) |
 
 Liens de vérification affichés sur la page : [bulletin météo marine Météo-France](https://meteofrance.com/meteo-marine), [marées SHOM de Deauville](https://maree.shom.fr/harbor/DEAUVILLE).
