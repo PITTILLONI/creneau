@@ -39,7 +39,7 @@ Adresses à surveiller (sources anciennes ou indirectes) : Cabourg (fiche office
 
 | Structure | Lieu | Canal | Statut |
 |---|---|---|---|
-| Voiles et Galets | Étretat | formulaire voilesetgalets.com/contact.html | |
+| Voiles et Galets | Étretat | formulaire voilesetgalets.com/contact.html | **envoyé le 14/11** (texte « lettre », présentation jointe) |
 | Voiles de Nacre (Ride'o) | Langrune-sur-Mer | formulaire / 02 31 96 77 84 | |
 | Kite-R Évolution | Merville-Franceville | Yumping seulement → téléphone ou passage | |
 | EdV Courseulles | Courseulles-sur-Mer | 02 31 37 92 59 | |
