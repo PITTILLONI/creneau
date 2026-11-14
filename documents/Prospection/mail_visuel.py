@@ -123,6 +123,41 @@ RELANCES = [
      "au club"),
 ]
 
+# ---- Version « comme la présentation » (14 novembre) : sections du PDF rendues en images nettes,
+# texte personnel au-dessus, offre et signature en dessous. Remplace mail() et relance().
+BASE = "https://pittilloni.github.io/creneau/club/"
+
+def img(nom, alt, mb=22):
+    return (f'<img src="{BASE}{nom}" width="600" alt="{H.escape(alt)}" '
+            f'style="display:block;width:100%;max-width:600px;height:auto;border:0;margin:0 0 {mb}px">')
+
+def offre_pdf():
+    return f'''<table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="background:{BG};border-radius:12px;margin:6px 0 20px">
+<tr><td style="padding:20px 22px;font-family:{FONT};color:{INK}">
+<p style="margin:0 0 8px;font-size:19px;font-weight:bold">La proposition : rodage offert</p>
+<p style="margin:0;font-size:15px;line-height:1.55;color:{MUTE}"><b style="color:{INK}">Offert</b> jusqu'à ce que « Prévenu en un geste » tourne chez vous, deux mois au plus, sans engagement. En place en six semaines : vos couleurs et vos consignes dès la première. Construit avec vos moniteurs, puis bilan ensemble.</p>
+</td></tr></table>'''
+
+def mail(appel, variante, accroche, planb):
+    e = H.escape
+    intro = (p(e(appel))
+             + p("Je suis Antoine Pittilloni, marin et kitesurfeur à Deauville. Je développe <b>Crén'eau</b>, "
+                 "l'app qui dit quand aller sur l'eau : vent, mer, marée, plage par plage.")
+             + p(e(accroche))
+             + p("Je cherche <b>quelques clubs et écoles pilotes pour 2027</b> : l'app réglée pour votre structure, à vos couleurs. En deux images :", mb=26))
+    lieu = "à l'école" if variante == "glisse" else "au club"
+    return cadre(intro
+                 + img("mail-presentation-1.png", "Le vent change, la séance aussi. Et tout le monde est prévenu. Séances notées, plan B, tout le monde prévenu.", 30)
+                 + img("mail-presentation-2.png", "Prévenu en un geste : décaler ou basculer la séance, qui vient, les parents dans la boucle, vos consignes appliquées.")
+                 + offre_pdf() + signature(lieu))
+
+def relance(appel, texte, lieu):
+    return cadre(p(H.escape(appel)) + "".join(p(t) for t in texte)
+                 + img("mail-presentation-1.png", "Le vent change, la séance aussi. Et tout le monde est prévenu.", 30)
+                 + img("mail-presentation-2.png", "Prévenu en un geste.")
+                 + offre_pdf() + signature(lieu))
+
+
 if __name__ == "__main__":
     from vague1 import objet
     os.makedirs(os.path.join(ICI, "mails"), exist_ok=True)
@@ -139,3 +174,4 @@ if __name__ == "__main__":
         index.append({"cle": "relance-" + cle, "a": a, "objet": obj, "html": f, "pdf": os.path.join(docs, pdf)})
     json.dump(index, open(os.path.join(ICI, "mails", "index.json"), "w"), ensure_ascii=False, indent=1)
     print(len(index), "mails visuels générés")
+
