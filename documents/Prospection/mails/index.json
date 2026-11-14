@@ -1,0 +1,74 @@
+[
+ {
+  "cle": "kiteparadise",
+  "a": "contact@kiteparadise.fr",
+  "objet": "Kite Paradise : vos élèves prévenus en un geste, vos séances gardées",
+  "corps": "/Users/antoine/deauville-passerelle-ecluse/documents/Prospection/mails/kiteparadise.txt"
+ },
+ {
+  "cle": "fiftykite",
+  "a": "fifty.kite@gmail.com",
+  "objet": "Fifty Kite : vos élèves prévenus en un geste, vos séances gardées",
+  "corps": "/Users/antoine/deauville-passerelle-ecluse/documents/Prospection/mails/fiftykite.txt"
+ },
+ {
+  "cle": "northshore",
+  "a": "northshoreaccueil@gmail.com",
+  "objet": "North Shore : vos élèves prévenus en un geste, vos séances gardées",
+  "corps": "/Users/antoine/deauville-passerelle-ecluse/documents/Prospection/mails/northshore.txt"
+ },
+ {
+  "cle": "cotentinsurf",
+  "a": "cotentinsurfclub@orange.fr",
+  "objet": "Cotentin Surf Club : vos élèves prévenus en un geste, vos séances gardées",
+  "corps": "/Users/antoine/deauville-passerelle-ecluse/documents/Prospection/mails/cotentinsurf.txt"
+ },
+ {
+  "cle": "lyc",
+  "a": "infos@lyc.asso.fr",
+  "objet": "Luc Yacht Club : vos stagiaires prévenus, vos séances gardées",
+  "corps": "/Users/antoine/deauville-passerelle-ecluse/documents/Prospection/mails/lyc.txt"
+ },
+ {
+  "cle": "cano",
+  "a": "cano@ville-ouistreham.fr",
+  "objet": "CANO Ouistreham : vos stagiaires prévenus, vos séances gardées",
+  "corps": "/Users/antoine/deauville-passerelle-ecluse/documents/Prospection/mails/cano.txt"
+ },
+ {
+  "cle": "ocean",
+  "a": "contact.ocean14@gmail.com",
+  "objet": "Océan : vos stagiaires prévenus, vos séances gardées",
+  "corps": "/Users/antoine/deauville-passerelle-ecluse/documents/Prospection/mails/ocean.txt"
+ },
+ {
+  "cle": "dives",
+  "a": "polenautique@normandiecabourgpaysdauge.fr",
+  "objet": "École de voile de Port Guillaume : vos stagiaires prévenus, vos séances gardées",
+  "corps": "/Users/antoine/deauville-passerelle-ecluse/documents/Prospection/mails/dives.txt"
+ },
+ {
+  "cle": "cabourg",
+  "a": "guillaumeboulard13@yahoo.fr",
+  "objet": "École de voile de Cabourg : vos stagiaires prévenus, vos séances gardées",
+  "corps": "/Users/antoine/deauville-passerelle-ecluse/documents/Prospection/mails/cabourg.txt"
+ },
+ {
+  "cle": "carteret",
+  "a": "cnbcarteret@gmail.com",
+  "objet": "Club Nautique de Barneville-Carteret : vos stagiaires prévenus, vos séances gardées",
+  "corps": "/Users/antoine/deauville-passerelle-ecluse/documents/Prospection/mails/carteret.txt"
+ },
+ {
+  "cle": "8milles",
+  "a": "contact@8millesnautic.com",
+  "objet": "8 Milles Nautic : vos stagiaires prévenus, vos séances gardées",
+  "corps": "/Users/antoine/deauville-passerelle-ecluse/documents/Prospection/mails/8milles.txt"
+ },
+ {
+  "cle": "dieppe",
+  "a": "contact@cvdieppe.fr",
+  "objet": "Cercle de la Voile de Dieppe : vos stagiaires prévenus, vos séances gardées",
+  "corps": "/Users/antoine/deauville-passerelle-ecluse/documents/Prospection/mails/dieppe.txt"
+ }
+]
