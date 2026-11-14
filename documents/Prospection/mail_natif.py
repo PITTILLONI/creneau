@@ -30,15 +30,22 @@ def pill(txt, fg, bg):
             f'font-weight:bold;color:{fg};white-space:nowrap">{txt}</td></tr></table>')
 
 def cols(cells, gap=10, valign="top"):
-    n = len(cells); w = f"{100 // n}%"
+    """cells : chaînes HTML, ou cartes (tuple ("carte", contenu, fond, marge)).
+    Les cartes sont des cellules d'une même rangée : même hauteur garantie dans tous les clients mail."""
+    n = len(cells); w = f"{(100 - (n - 1) * 2) // n}%"
     tds = []
-    for i, c in enumerate(cells):
-        pl = 0 if i == 0 else gap // 2; pr = 0 if i == n - 1 else gap // 2
-        tds.append(f'<td width="{w}" valign="{valign}" height="100%" style="padding:0 {pr}px 0 {pl}px;height:100%">{c}</td>')
-    return f'<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" height="1" style="height:1px"><tr>{"".join(tds)}</tr></table>'
+    for k, c in enumerate(cells):
+        if k:
+            tds.append(f'<td width="2%" style="font-size:0;line-height:0">&nbsp;</td>')
+        if isinstance(c, tuple):
+            _, inner, bg, pad = c
+            tds.append(f'<td width="{w}" valign="top" bgcolor="{bg}" style="background:{bg};border-radius:12px;padding:{pad}px">{inner}</td>')
+        else:
+            tds.append(f'<td width="{w}" valign="{valign}">{c}</td>')
+    return f'<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%"><tr>{"".join(tds)}</tr></table>'
 
 def carte(titre, texte, bg=CARD):
-    return table(t(titre, 15, INK, "bold", 6, 1.3) + t(texte, 14, INK2, lh=1.45), bg, 16, 0, 12, h='height="100%"')
+    return ("carte", t(titre, 15, INK, "bold", 6, 1.3) + t(texte, 14, INK2, lh=1.45), bg, 16)
 
 # ---------- maquette de l'app, en HTML ----------
 def maquette(v):
@@ -87,6 +94,16 @@ def point(titre, txt):
             f'<td width="4" style="background:{BLUE};border-radius:2px;font-size:0">&nbsp;</td>'
             f'<td style="padding:0 0 0 12px">{t(titre, 14, INK, "bold", 3, 1.3)}{t(txt, 13, INK2, lh=1.45)}</td></tr></table>')
 
+def surmesure(v):
+    club = "l'école" if v == "glisse" else "le club"
+    vos = "vos cours, vos niveaux" if v == "glisse" else "vos supports, vos groupes d'âge"
+    titre = (t("Fait pour vous, et vite", 22, INK, "bold", 4, 1.3)
+             + t(f"Crén'eau Club n'est pas un logiciel à apprendre : c'est l'app qui s'adapte à {club}.", 14, INK2, mb=14))
+    c1 = carte("Vos besoins d'abord", f"On part de votre façon de travailler : {vos}, vos consignes. On garde ce qui marche.", "#ffffff")
+    c2 = carte("En ligne dans la semaine", "Je développe l'app moi-même : ce que vos moniteurs demandent le lundi tourne dans les jours qui suivent.", "#ffffff")
+    c3 = carte("Un seul interlocuteur", "Un marin de la côte, joignable directement, que vous croisez sur l'eau. Pas de service client.", "#ffffff")
+    return table(titre + cols([c1, c2, c3]), BLUE_SOFT, 20, 0, 16)
+
 def mail(nom, appel, v, accroche, planb):
     club = "l'école" if v == "glisse" else "le club"
     inscrits = "les élèves" if v == "glisse" else "stagiaires et parents"
@@ -98,7 +115,7 @@ def mail(nom, appel, v, accroche, planb):
              + t("Je suis Antoine Pittilloni, marin et kitesurfeur à Deauville. Je développe <b>Crén'eau</b>, "
                  "l'app qui dit quand aller sur l'eau : vent, mer, marée, plage par plage.", mb=14)
              + t(e(accroche), mb=14)
-             + t("Je cherche <b>quelques clubs et écoles pilotes pour 2027</b>. Voici l'idée en une minute.", mb=30))
+             + t("Je cherche <b>quelques clubs et écoles pilotes pour 2027</b>, pour leur construire une app <b>sur mesure, à partir de leurs besoins</b>. Voici l'idée en une minute.", mb=30))
     titre = (t("Le vent change, la séance aussi.", 30, INK, "800", 0, 1.08, "letter-spacing:-.02em")
              + t("Et tout le monde est prévenu.", 30, BLUE, "800", 14, 1.08, "letter-spacing:-.02em")
              + f'<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 26px"><tr>'
@@ -107,7 +124,7 @@ def mail(nom, appel, v, accroche, planb):
     piliers = cols([
         carte("Tout au même endroit", "Vent, mer, marée, séances, inscriptions et reports. Fini les SMS un par un."),
         carte("Prévenu en un geste", f"Le moniteur décale ou bascule la séance : {inscrits} le savent dans la minute."),
-        carte(f"Fait pour {club}", "Votre spot et ses vents, vos supports, vos consignes par niveau, vos couleurs."),
+        carte(f"Fait pour {club}", "Réglée sur vos besoins : votre spot, vos consignes, vos couleurs."),
     ])
     prevenu = (f'<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 4px"><tr>'
                f'<td style="font-family:{F};font-size:22px;font-weight:bold;color:{INK};padding-right:10px">Prévenu en un geste</td>'
@@ -121,13 +138,13 @@ def mail(nom, appel, v, accroche, planb):
                  + point("Qui vient, d'un coup d'œil", "Chacun confirme ; la place libre repart vers la liste d'attente.")
                  + point("Vos consignes appliquées", "Limites de vent, rafales, mer et marée, par support et par niveau.")
                  + '</td></tr></table>')
-    etape = lambda p, titre, txt, bg=CARD: table(p + t(titre, 14, INK, "bold", 3, 1.3, "margin-top:8px") + t(txt, 13, INK2, lh=1.4), bg, 14, 0, 12, h='height="100%"')
+    etape = lambda p, titre, txt, bg=CARD: ("carte", p + t(titre, 14, INK, "bold", 3, 1.3, "margin-top:8px") + t(txt, 13, INK2, lh=1.4), bg, 14)
     plan = (t("En route en six semaines", 22, INK, "bold", 4, 1.3)
             + t("Comptées à partir de votre accord. Ce qui est prêt arrive dès la première.", 14, INK2, mb=14)
-            + cols([etape(pill("Semaine 1", GREEN, GREEN_SOFT), "L'app à vos couleurs", "Votre spot, vos activités et leurs consignes."),
-                    etape(pill("Semaine 3", AMBER, AMBER_SOFT), "Séances et inscriptions", "Places, liste d'attente, inscrits côté moniteur.")])
+            + cols([etape(pill("Semaine&nbsp;1", GREEN, GREEN_SOFT), "L'app à vos couleurs", "Votre spot, vos activités et leurs consignes."),
+                    etape(pill("Semaine&nbsp;3", AMBER, AMBER_SOFT), "Séances et inscriptions", "Places, liste d'attente, inscrits côté moniteur.")])
             + '<div style="height:10px;line-height:10px;font-size:0">&nbsp;</div>'
-            + cols([etape(pill("Semaine 6", "#ffffff", BLUE), "Prévenu en un geste", "Séance décalée ou basculée : tout le monde averti.", BLUE_SOFT),
+            + cols([etape(pill("Semaine&nbsp;6", "#ffffff", BLUE), "Prévenu en un geste", "Séance décalée ou basculée : tout le monde averti.", BLUE_SOFT),
                     etape(pill("Ensuite", BLUE, "#ffffff"), "Avec vous", "Plan B entre activités, réservation et paiement si vous le souhaitez.")]))
     offre = table(t("La proposition : rodage offert", 19, INK, "bold", 8, 1.3)
                   + t("<b>Offert</b> jusqu'à ce que « Prévenu en un geste » tourne chez vous, deux mois au plus. "
@@ -137,7 +154,7 @@ def mail(nom, appel, v, accroche, planb):
     fin = (t(f"La présentation complète est jointe (3 pages). <b>Le plus parlant : 20 minutes {lieu}</b> pour vous montrer l'app, quand cela vous arrange.", mb=16)
            + t(f"Bien à vous,<br><b>Antoine Pittilloni</b><br><span style=\"color:{MUTE}\">06 67 72 47 07 · antoine.pittilloni@gmail.com</span>"))
     sp = lambda h: f'<div style="height:{h}px;line-height:{h}px;font-size:0">&nbsp;</div>'
-    corps = entete + intro + titre + piliers + sp(36) + prevenu + sp(30) + plan + sp(26) + offre + sp(24) + fin
+    corps = entete + intro + titre + piliers + sp(36) + prevenu + sp(30) + surmesure(v) + sp(30) + plan + sp(26) + offre + sp(24) + fin
     return ('<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"></head>'
             '<body style="margin:0;padding:0;background:#ffffff">'
             '<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%"><tr><td align="center" style="padding:16px">'
@@ -153,9 +170,9 @@ def relance(nom, appel, textes, v, lieu):
     corps += '<div style="height:16px;font-size:0">&nbsp;</div>'
     corps += (t("Le vent change, la séance aussi.", 30, INK, "800", 0, 1.08, "letter-spacing:-.02em")
               + t("Et tout le monde est prévenu.", 30, BLUE, "800", 22, 1.08, "letter-spacing:-.02em"))
-    corps += cols([carte("Tout au même endroit", "Vent, mer, marée, séances, inscriptions et reports."),
-                   carte("Prévenu en un geste", "Le moniteur décale ou bascule la séance, tout le monde le sait dans la minute."),
-                   carte(f"Fait pour {nom}", "Votre spot, vos supports, vos consignes, vos couleurs.")])
+    corps += cols([carte("Tout au même endroit", "Vent, mer, marée, séances, inscriptions et reports au même endroit."),
+                   carte("Prévenu en un geste", "Séance décalée ou basculée : tout le monde le sait dans la minute."),
+                   carte(f"Fait pour {nom}", "Réglée sur vos besoins. Demandé le lundi, en ligne dans la semaine.")])
     corps += '<div style="height:22px;font-size:0">&nbsp;</div>'
     corps += table(t("La proposition : rodage offert", 19, INK, "bold", 8, 1.3)
                    + t("<b>Offert</b> jusqu'à ce que « Prévenu en un geste » tourne chez vous, deux mois au plus. Sans engagement.", 15, INK2), CARD, 20, 0, 14)
