@@ -184,6 +184,130 @@ def relance(nom, appel, textes, v, lieu):
             '</td></tr></table></body></html>')
 
 
+
+# ======================= Version 3 (14 nov.) =======================
+# Positionnement : l'app de l'école de voile et de ses licenciés = conditions en temps réel + communication facile.
+# Accroche perte/gain en gros titre, maquette simplifiée (un écran), pas de « Bientôt », pas de frise.
+
+def maquette_simple(v):
+    if v == "glisse":
+        qui, cond, seance, msg, conf = ("Votre école", [("Vent", "11 nd", "ouest"), ("Rafales", "15 nd", ""), ("Marée", "haute", "14:20")],
+            "Kite initiation · 14:00", "Pas assez de vent pour le kite : on passe en wing à 14 h 30, matériel fourni.",
+            "4 élèves prévenus · 4 confirmés")
+    else:
+        qui, cond, seance, msg, conf = ("Votre club", [("Vent", "22 nd", "ouest"), ("Mer", "1,6 m", "formée"), ("Marée", "basse", "11:10")],
+            "Catamaran ados · 10:00", "Trop de mer pour les cata ce matin : on part en char à voile à 10 h 30.",
+            "8 licenciés et parents prévenus · 7 confirmés")
+    barre = (f'<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="margin:0 0 10px"><tr>'
+             f'<td bgcolor="{NAVY}" style="background:{NAVY};border-radius:10px;padding:9px 12px;font-family:{F};font-size:13px;font-weight:bold;color:#fff">{qui}</td></tr></table>')
+    tds = []
+    for k, (lab, val, sub) in enumerate(cond):
+        if k:
+            tds.append('<td width="3%" style="font-size:0">&nbsp;</td>')
+        tds.append(f'<td width="31%" bgcolor="#ffffff" style="background:#fff;border-radius:10px;padding:8px 8px 7px">'
+                   + t(lab, 10, MUTE, "bold", 2, 1.2) + t(val, 16, INK, "bold", 1, 1.15) + t(sub or "&nbsp;", 10, MUTE, lh=1.2) + '</td>')
+    direct = (t(f'<span style="color:{GREEN}">●</span>&nbsp;En direct', 11, INK, "bold", 6, 1.2)
+              + f'<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="margin:0 0 12px"><tr>{"".join(tds)}</tr></table>')
+    message = (f'<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%"><tr>'
+               f'<td bgcolor="#ffffff" style="background:#fff;border-radius:12px;padding:11px 12px">'
+               + t(seance, 11, MUTE, "bold", 4, 1.2)
+               + t(msg, 13, INK, "bold", 8, 1.35)
+               + t(f'<span style="color:{GREEN}">✓</span>&nbsp;{conf}', 12, GREEN, "bold", 0, 1.3)
+               + '</td></tr></table>')
+    ecran = barre + direct + message
+    return (f'<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%"><tr>'
+            f'<td bgcolor="{INK}" style="background:{INK};border-radius:26px;padding:7px">'
+            f'<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%"><tr>'
+            f'<td bgcolor="{CARD}" style="background:{CARD};border-radius:20px;padding:12px 10px 14px">{ecran}</td></tr></table>'
+            f'</td></tr></table>')
+
+def valeur(titre, txt):
+    return (f'<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="margin:0 0 16px"><tr>'
+            f'<td width="4" bgcolor="{BLUE}" style="background:{BLUE};font-size:0">&nbsp;</td>'
+            f'<td style="padding:0 0 0 12px">{t(titre, 15, INK, "bold", 3, 1.3)}{t(txt, 14, INK2, lh=1.45)}</td></tr></table>')
+
+def entete():
+    return (f'<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="margin:0 0 26px"><tr>'
+            f'<td style="font-family:{F};font-size:16px;font-weight:bold;color:{INK}"><span style="color:{BLUE}">C</span>&nbsp;Crén\'eau Club</td>'
+            f'<td align="right" style="font-family:{F};font-size:12px;color:{MUTE}">Pilotes 2027 · côte normande</td></tr></table>')
+
+def accroche_titre(v):
+    if v == "glisse":
+        a, b = "Une séance annulée, c'est des appels un par un et une journée perdue.", "Avec Crén'eau, c'est un message."
+    else:
+        a, b = "Une séance annulée, c'est vingt coups de fil et une matinée perdue.", "Avec Crén'eau, c'est un message."
+    return (t(a, 28, INK, "800", 4, 1.12, "letter-spacing:-.02em")
+            + t(b, 28, BLUE, "800", 16, 1.12, "letter-spacing:-.02em"))
+
+def positionnement(nom, v):
+    qui = "votre école et de vos élèves" if v == "glisse" else "votre école de voile et de vos licenciés"
+    return (t(f"<b>Crén'eau Club</b>, c'est l'app de {qui} : les conditions en temps réel, "
+              "et toute la communication en un geste.", 16, INK, mb=12, lh=1.5)
+            + f'<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 26px"><tr>'
+              f'<td width="22" valign="middle"><div style="height:3px;line-height:3px;font-size:0;background:{GREEN}">&nbsp;</div></td>'
+              f'<td style="padding-left:10px;font-family:{F};font-size:15px;font-weight:bold;color:{INK}">Sur mesure pour {e(nom)}.</td></tr></table>')
+
+def bloc_valeur(v, planb):
+    lic = "vos élèves" if v == "glisse" else "vos licenciés et leurs parents"
+    droite = (valeur("Les conditions en temps réel", f"Vent, rafales, mer et marée sur votre plan d'eau, notés selon vos consignes. {lic.capitalize()} voient si « ça sort », sans appeler.")
+              + valeur("Tout le monde prévenu en un geste", f"Séance décalée, annulée ou changée d'activité : {lic} le savent dans la minute, avec la raison, et confirment.")
+              + (valeur("Moins de séances perdues", e(planb)) if planb else valeur("Sur mesure, et vite", "Demandé le lundi, en ligne dans la semaine.")))
+    return (f'<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%"><tr>'
+            f'<td width="44%" valign="top">{maquette_simple(v)}</td><td width="5%" style="font-size:0">&nbsp;</td>'
+            f'<td valign="top" style="padding-top:2px">{droite}</td></tr></table>')
+
+def offre3():
+    return (f'<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%"><tr>'
+            f'<td bgcolor="{CARD}" style="background:{CARD};border-radius:14px;padding:20px 22px">'
+            + t("La proposition : deux mois offerts", 19, INK, "bold", 8, 1.3)
+            + t("On règle l'app avec vous sur vos vrais besoins, vos moniteurs l'utilisent, et on fait le bilan ensemble. "
+                "<b>Sans engagement.</b>", 15, INK2, lh=1.5)
+            + '</td></tr></table>')
+
+def page(corps):
+    return ('<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"></head>'
+            '<body style="margin:0;padding:0;background:#ffffff">'
+            '<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%"><tr><td align="center" style="padding:16px">'
+            f'<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="600" style="width:600px;max-width:100%"><tr><td align="left">{corps}</td></tr></table>'
+            '</td></tr></table></body></html>')
+
+def sp(h):
+    return f'<div style="height:{h}px;line-height:{h}px;font-size:0">&nbsp;</div>'
+
+def accroche_lettre(v):
+    if v == "glisse":
+        a = "Une séance annulée à cause du vent, c'est des appels un par un, des élèves déçus et une journée perdue."
+    else:
+        a = "Une séance annulée à cause de la mer, c'est vingt coups de fil aux parents, des licenciés déçus et une matinée perdue."
+    return (t(a, 21, INK, "bold", 6, 1.3, "letter-spacing:-.01em")
+            + t("Avec Crén'eau, c'est un message, et souvent la séance est sauvée.", 21, BLUE, "bold", 24, 1.3, "letter-spacing:-.01em"))
+
+def mail(nom, appel, v, accroche, planb):
+    lieu = "à l'école" if v == "glisse" else "au club"
+    lic = "vos élèves" if v == "glisse" else "vos licenciés"
+    corps = (t(e(appel), mb=18)
+             + accroche_lettre(v)
+             + t("Je m'appelle Antoine Pittilloni, je navigue et je ride sur la côte normande, et je développe "
+                 f"<b>Crén'eau</b> : l'app de votre école et de {lic}, avec les conditions en temps réel "
+                 "et toute la communication en un geste.", mb=14)
+             + t(e(accroche), mb=24)
+             + bloc_valeur(v, planb) + sp(10)
+             + t("<b>Et c'est fait pour vous.</b> On part de votre façon de travailler : vos activités, vos consignes, vos couleurs. "
+                 "Je développe l'app moi-même, donc ce que vos moniteurs me demandent le lundi tourne dans la semaine. "
+                 "Et vous avez un interlocuteur que vous croisez sur la plage, pas un service client.", mb=14)
+             + t(f"Je cherche quelques clubs pilotes pour 2027 : <b>deux mois offerts</b> pour la régler avec vous, "
+                 "sans engagement, puis on fait le bilan ensemble.", mb=14)
+             + t(f"Le plus simple serait de vous la montrer en 20 minutes {lieu}, quand cela vous arrange. "
+                 "Je joins une présentation de 3 pages si vous voulez y jeter un œil avant.", mb=18)
+             + t(f'Bien à vous,<br><b>Antoine Pittilloni</b><br><span style="color:{MUTE}">06 67 72 47 07 · antoine.pittilloni@gmail.com</span>'))
+    return page(corps)
+
+def relance(nom, appel, textes, v, lieu):
+    corps = (t(e(appel), mb=14) + "".join(t(x, mb=14) for x in textes) + sp(8)
+             + accroche_lettre(v) + bloc_valeur(v, "") + sp(10)
+             + t(f'Bien à vous,<br><b>Antoine Pittilloni</b><br><span style="color:{MUTE}">06 67 72 47 07 · antoine.pittilloni@gmail.com</span>'))
+    return page(corps)
+
 if __name__ == "__main__":
     os.makedirs(os.path.join(ICI, "mails"), exist_ok=True)
     generique = os.path.join(ICI, "Présentation Crén'eau Club (générique).pdf")
@@ -191,7 +315,7 @@ if __name__ == "__main__":
     for cle, nom, a, appel, v, acc, pb in ECOLES:
         f = os.path.join(ICI, "mails", cle + ".html")
         open(f, "w").write(mail(nom, appel, v, acc, pb))
-        index.append({"cle": cle, "a": a, "objet": objet(nom, v), "html": f, "pdf": generique})
+        index.append({"cle": cle, "a": a, "objet": f"{nom} : quand la météo annule une séance", "html": f, "pdf": generique})
     from mail_visuel import RELANCES
     noms = {"menhir": ("Le Menhir", "glisse"), "cnth": ("le CNTH", "voile"), "pnvb": ("le PNVB", "voile")}
     docs = os.path.dirname(ICI)
