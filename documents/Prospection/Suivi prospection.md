@@ -2,7 +2,7 @@
 
 Vague 1, côte normande (Granville → Le Tréport), lancée le 14 novembre 2026. Offre : **rodage offert, sans engagement, bilan à deux mois** ; aucun prix annoncé.
 
-- Mails : **mail visuel** (même design que celui du 23 octobre) généré par `mail_visuel.py` à partir des accroches de `vague1.py`, posés en **brouillons Gmail** (antoine.pittilloni@gmail.com) par `brouillon.applescript`, avec la présentation générique jointe. Antoine relit et envoie.
+- Mails : **mail en HTML natif** (la présentation reproduite en blocs, aucune image) généré par `mail_natif.py` à partir des accroches de `vague1.py`, posés en **brouillons Gmail** (antoine.pittilloni@gmail.com) par `brouillon.applescript`, avec la présentation générique jointe. Antoine relit et envoie.
 - Envoyer **10 à 15 par jour** au maximum, depuis Gmail, pour ne pas être classé en spam.
 - Relancer **une fois**, 10 à 15 jours après, si pas de réponse. Puis appel.
 - Présentation : `Présentation Crén'eau Club (générique).pdf` (source `docs/premium/club-generique/presentation-club.html`).
