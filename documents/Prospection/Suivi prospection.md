@@ -7,31 +7,31 @@ Vague 1, côte normande (Granville → Le Tréport), lancée le 14 novembre 2026
 - Relancer **une fois**, 10 à 15 jours après, si pas de réponse. Puis appel.
 - Présentation : `Présentation Crén'eau Club (générique).pdf` (source `docs/premium/club-generique/presentation-club.html`).
 
-## Déjà contactés (23 octobre, depuis l'adresse United Heroes) : relance en brouillon
+## Déjà contactés (23 octobre, depuis l'adresse United Heroes) : relancés le 14 novembre
 
 | Structure | Contact | Statut |
 |---|---|---|
-| Le Menhir Normandie Kite (Cabourg) | quentin@lemenhir.com | pas de réponse → relance prête |
-| CNTH (Trouville) | cnth@cnth.org | pas de réponse → relance prête |
-| PNVB (Villers-Blonville) | contact.pnvb@gmail.com | pas de réponse → relance prête |
+| Le Menhir Normandie Kite (Cabourg) | quentin@lemenhir.com | relance envoyée le 14/11 (Gmail perso) |
+| CNTH (Trouville) | cnth@cnth.org | relance envoyée le 14/11 (Gmail perso) |
+| PNVB (Villers-Blonville) | contact.pnvb@gmail.com | relance envoyée le 14/11 (Gmail perso) |
 | DYC (Deauville) | par le moniteur, de vive voix | à faire |
 
-## Vague 1 : par e-mail (brouillons prêts)
+## Vague 1 : par e-mail (envoyée le 14 novembre, 12 h 15 – 12 h 21)
 
 | Structure | Lieu | Activités | E-mail | Variante | Envoyé | Réponse |
 |---|---|---|---|---|---|---|
-| Kite Paradise | Houlgate | kite, foil, wake, paddle géant | contact@kiteparadise.fr | glisse | | |
-| Fifty Kite (David) | Jullouville | kite, wing, foil | fifty.kite@gmail.com | glisse | | |
-| North Shore | Trouville | surf, paddle | northshoreaccueil@gmail.com | glisse | | |
-| Cotentin Surf Club | Siouville | surf | cotentinsurfclub@orange.fr | glisse | | |
-| Luc Yacht Club | Luc-sur-Mer | voile, char, wing, moussaillons | infos@lyc.asso.fr | voile | | |
-| CANO | Ouistreham | centre nautique municipal | cano@ville-ouistreham.fr | voile | | |
-| Océan | Ouistreham, Colleville, Lion | voile, char à voile | contact.ocean14@gmail.com | voile | | |
-| École de voile de Port Guillaume | Dives-sur-Mer | voile | polenautique@normandiecabourgpaysdauge.fr | voile | | |
-| École de voile de Cabourg (Guillaume) | Cabourg | cata, planche, paddle | guillaumeboulard13@yahoo.fr | voile | | |
-| CN Barneville-Carteret | Barneville-Carteret | optimist, cata, planche, windfoil | cnbcarteret@gmail.com | voile | | |
-| 8 Milles Nautic (4 bases) | Granville, Jullouville, Bréhal, Bréville | voile, char, wing, kite | contact@8millesnautic.com | voile | | |
-| Cercle de la Voile de Dieppe | Dieppe | optimist, dériveur, habitable | contact@cvdieppe.fr | voile | | |
+| Kite Paradise | Houlgate | kite, foil, wake, paddle géant | contact@kiteparadise.fr | glisse | 14/11 | |
+| Fifty Kite (David) | Jullouville | kite, wing, foil | fifty.kite@gmail.com | glisse | 14/11 | |
+| North Shore | Trouville | surf, paddle | northshoreaccueil@gmail.com | glisse | 14/11 | |
+| Cotentin Surf Club | Siouville | surf | cotentinsurfclub@orange.fr | glisse | 14/11 | |
+| Luc Yacht Club | Luc-sur-Mer | voile, char, wing, moussaillons | infos@lyc.asso.fr | voile | 14/11 | |
+| CANO | Ouistreham | centre nautique municipal | cano@ville-ouistreham.fr | voile | 14/11 | |
+| Océan | Ouistreham, Colleville, Lion | voile, char à voile | contact.ocean14@gmail.com | voile | 14/11 | |
+| École de voile de Port Guillaume | Dives-sur-Mer | voile | polenautique@normandiecabourgpaysdauge.fr | voile | 14/11 | |
+| École de voile de Cabourg (Guillaume) | Cabourg | cata, planche, paddle | guillaumeboulard13@yahoo.fr | voile | 14/11 | |
+| CN Barneville-Carteret | Barneville-Carteret | optimist, cata, planche, windfoil | cnbcarteret@gmail.com | voile | 14/11 | |
+| 8 Milles Nautic (4 bases) | Granville, Jullouville, Bréhal, Bréville | voile, char, wing, kite | contact@8millesnautic.com | voile | 14/11 | |
+| Cercle de la Voile de Dieppe | Dieppe | optimist, dériveur, habitable | contact@cvdieppe.fr | voile | 14/11 | |
 
 Adresses à surveiller (sources anciennes ou indirectes) : Cabourg (fiche office de tourisme), Océan (fiche bénévolat), Port Guillaume (fiche office de tourisme).
 
@@ -56,3 +56,8 @@ Adresses à surveiller (sources anciennes ou indirectes) : Cabourg (fiche office
 
 - « Prévenu en un geste » et le plan B ne sont pas encore construits : si plusieurs pilotes signent, le chantier serveur + notifications démarre cet hiver (plan en 6 semaines annoncé).
 - Hors Deauville, chaque spot se règle sur place (consignes, orientation, marée) : c'est l'argument « sur mesure », et le travail de la semaine 1.
+
+## Prochaines étapes
+
+- **24-28 novembre** : relance unique des structures sans réponse (court, même fil), puis appel.
+- Appeler les structures sans e-mail (tableau « formulaire ou téléphone »).
