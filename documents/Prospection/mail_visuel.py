@@ -56,6 +56,18 @@ def cadre(contenu):
 TITRE = (f'<p style="margin:0;font-family:{FONT};font-size:22px;line-height:1.25;color:{INK}"><b>Le vent change, la séance aussi.</b></p>'
          f'<p style="margin:0 0 16px;font-family:{FONT};font-size:22px;line-height:1.25;color:{BLUE}"><b>Et tout le monde est prévenu.</b></p>')
 
+IMG = "https://pittilloni.github.io/creneau/club/maquettes-mail.png"
+
+def maquettes():
+    def cap(t, d, bientot=False):
+        b = f' <b style="color:{BLUE}">Bientôt</b>' if bientot else ""
+        return f'''<td width="33%" valign="top" style="padding:8px 6px 0;font-family:{FONT};font-size:13px;line-height:1.4;color:{MUTE}">
+<b style="color:{INK};font-size:14px">{t}</b><br>{d}{b}</td>'''
+    return f'''<table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="margin:0 0 18px">
+<tr><td colspan="3"><img src="{IMG}" width="600" alt="L'app Crén'eau Club : séances notées, plan B, tout le monde prévenu" style="display:block;width:100%;max-width:600px;height:auto;border:0"></td></tr>
+<tr>{cap("Vos séances notées", "Chaque séance comparée à vos consignes : vent, rafales, mer.")}{cap("Un plan B", "Trop de mer pour le cata ? L'app montre ce qui marche.", True)}{cap("Tout le monde prévenu", "Inscrits et parents le savent dans la minute.", True)}</tr>
+</table>'''
+
 def mail(appel, variante, accroche, planb):
     e = H.escape
     intro = (p(e(appel))
@@ -85,10 +97,10 @@ def mail(appel, variante, accroche, planb):
             ("Garder leur séance", "Un plan B plutôt qu'une matinée perdue."),
             ("Revenir naviguer", "Après le stage, l'app reste : vent, mer, marée, combinaison conseillée.")])
         lieu = "au club"
-    return cadre(intro + TITRE + a + b + frise() + offre() + signature(lieu))
+    return cadre(intro + TITRE + maquettes() + a + b + frise() + offre() + signature(lieu))
 
 def relance(appel, texte, lieu):
-    return cadre(p(H.escape(appel)) + "".join(p(t) for t in texte) + TITRE + offre() + signature(lieu))
+    return cadre(p(H.escape(appel)) + "".join(p(t) for t in texte) + TITRE + maquettes() + offre() + signature(lieu))
 
 RELANCES = [
     ("menhir", "quentin@lemenhir.com", "Re : Crén'eau Club pour Le Menhir",
